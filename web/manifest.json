@@ -3,11 +3,22 @@
     "short_name": "focus",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
+    "background_color": "#ffffff",
+    "theme_color": "#4285f4",
     "description": "A new Flutter project.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
+    "content_security_policy": {
+        "content_security_policy": {
+            "extension_pages": "script-src 'self' ; object-src 'self'"
+        }
+    },
+    "chrome_url_overrides": {
+        "newtab": "index.html"
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
     "icons": [
         {
             "src": "icons/Icon-192.png",
