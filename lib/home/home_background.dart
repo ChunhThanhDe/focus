@@ -1,10 +1,10 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:focus/home/ui/texture_painter.dart';
-import 'package:focus/resources/colors.dart';
-import 'package:focus/utils/custom_observer.dart';
-import 'package:focus/utils/utils.dart';
+import 'ui/texture_painter.dart';
+import '../resources/colors.dart';
+import '../utils/custom_observer.dart';
+import '../utils/utils.dart';
 import 'package:provider/provider.dart';
 
 import 'background_store.dart';
@@ -48,7 +48,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
           decoration: BoxDecoration(gradient: backgroundGradient),
           // foregroundDecoration: BoxDecoration(
           //   color: (store.invert ? Colors.white : AppColors.tint)
-          //       .withOpacity(store.tint / 100),
+          //       .withValues(alpha:store.tint / 100),
           // ),
           child: Stack(
             fit: StackFit.expand,
@@ -81,8 +81,8 @@ class _HomeBackgroundState extends State<HomeBackground> {
                       duration: const Duration(milliseconds: 500),
                       curve: Curves.easeOut,
                       decoration: BoxDecoration(
-                        color: (store.invert ? Colors.white : AppColors.tint).withOpacity(
-                          store.tint / 100,
+                        color: (store.invert ? Colors.white : AppColors.tint).withValues(
+                          alpha: store.tint / 100,
                         ),
                       ),
                     );
@@ -95,7 +95,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
                   builder: (context) {
                     if (!store.texture) return const SizedBox.shrink();
                     return CustomPaint(
-                      painter: TexturePainter(color: store.foregroundColor.withOpacity(0.4)),
+                      painter: TexturePainter(color: store.foregroundColor.withValues(alpha: 0.4)),
                     );
                   },
                 ),

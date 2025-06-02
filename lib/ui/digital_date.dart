@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:focus/home/model/widget_settings.dart';
-import 'package:focus/home/ui/digital_clock.dart';
-import 'package:focus/home/widget_store.dart';
+import '../home/model/widget_settings.dart';
+import '../home/ui/digital_clock.dart';
+import '../home/widget_store.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 

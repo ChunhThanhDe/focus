@@ -138,7 +138,7 @@ class _TextInputState extends State<TextInput> {
               contentPadding:
                   widget.contentPadding ?? const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
               filled: true,
-              fillColor: widget.fillColor ?? Colors.grey.withOpacity(0.05),
+              fillColor: widget.fillColor ?? Colors.grey.withValues(alpha: 0.05),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 1),
                 borderRadius: BorderRadius.circular(4),
@@ -146,7 +146,9 @@ class _TextInputState extends State<TextInput> {
               border: OutlineInputBorder(
                 borderSide: BorderSide(
                   color:
-                      widget.showInitialBorder ? Colors.grey.withOpacity(0.15) : Colors.transparent,
+                      widget.showInitialBorder
+                          ? Colors.grey.withValues(alpha: 0.15)
+                          : Colors.transparent,
                   width: 1,
                 ),
                 borderRadius: BorderRadius.circular(4),
@@ -154,7 +156,9 @@ class _TextInputState extends State<TextInput> {
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                   color:
-                      widget.showInitialBorder ? Colors.grey.withOpacity(0.15) : Colors.transparent,
+                      widget.showInitialBorder
+                          ? Colors.grey.withValues(alpha: 0.15)
+                          : Colors.transparent,
                   width: 1,
                 ),
                 borderRadius: BorderRadius.circular(4),

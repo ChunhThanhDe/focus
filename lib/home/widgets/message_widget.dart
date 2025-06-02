@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:focus/home/background_store.dart';
-import 'package:focus/home/widget_store.dart';
-import 'package:focus/utils/custom_observer.dart';
-import 'package:focus/utils/extensions.dart';
+import '../background_store.dart';
+import '../widget_store.dart';
+import '../../utils/custom_observer.dart';
+import '../../utils/extensions.dart';
 import 'package:provider/provider.dart';
 
 class MessageWidget extends StatelessWidget {

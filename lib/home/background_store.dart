@@ -5,18 +5,18 @@ import 'dart:math' hide log;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:focus/backend/backend_service.dart';
-import 'package:focus/home/model/background_settings.dart';
-import 'package:focus/home/model/color_gradient.dart';
-import 'package:focus/home/model/flat_color.dart';
-import 'package:focus/resources/color_gradients.dart';
-import 'package:focus/resources/flat_colors.dart';
-import 'package:focus/resources/storage_keys.dart';
-import 'package:focus/resources/unsplash_sources.dart';
-import 'package:focus/utils/extensions.dart';
-import 'package:focus/utils/storage_manager.dart';
-import 'package:focus/utils/universal/io.dart';
-import 'package:focus/utils/utils.dart';
+import '../backend/backend_service.dart';
+import 'model/background_settings.dart';
+import 'model/color_gradient.dart';
+import 'model/flat_color.dart';
+import '../resources/color_gradients.dart';
+import '../resources/flat_colors.dart';
+import '../resources/storage_keys.dart';
+import '../resources/unsplash_sources.dart';
+import '../utils/extensions.dart';
+import '../utils/storage_manager.dart';
+import '../utils/universal/io.dart';
+import '../utils/utils.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -310,9 +310,7 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
     if (nextUpdateTime == null) return;
 
     // ignore: avoid_print
-    print(
-      'Next Background change at ${DateFormat('dd/MM/yyyy hh:mm:ss a').format(nextUpdateTime)}',
-    );
+    log('Next Background change at ${DateFormat('dd/MM/yyyy hh:mm:ss a').format(nextUpdateTime)}');
   }
 
   /// Fetches a new image from unsplash and sets it as the current image.
@@ -610,7 +608,7 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
     image ??= _imageIndex == 0 ? _image1 : _image2;
     if (image == null) {
       // ignore: avoid_print
-      print('No image url found');
+      log('No image url found');
       return;
     }
 

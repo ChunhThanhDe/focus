@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:focus/home/model/widget_settings.dart';
-import 'package:focus/home/ui/alignment_control.dart';
-import 'package:focus/home/ui/custom_dropdown.dart';
-import 'package:focus/home/ui/custom_slider.dart';
-import 'package:focus/home/ui/text_input.dart';
-import 'package:focus/home/widget_store.dart';
-import 'package:focus/resources/fonts.dart';
-import 'package:focus/utils/custom_observer.dart';
-import 'package:focus/utils/extensions.dart';
+import '../../home/model/widget_settings.dart';
+import '../../home/ui/alignment_control.dart';
+import '../../home/ui/custom_dropdown.dart';
+import '../../home/ui/custom_slider.dart';
+import '../../home/ui/text_input.dart';
+import '../../home/widget_store.dart';
+import '../../resources/fonts.dart';
+import '../../utils/custom_observer.dart';
+import '../../utils/extensions.dart';
 import 'package:provider/provider.dart';
 
 class DigitalDateWidgetSettingsView extends StatefulWidget {

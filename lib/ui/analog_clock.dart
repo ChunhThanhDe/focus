@@ -132,7 +132,7 @@ class AnalogClockPainter extends CustomPainter {
 
     final Paint paint =
         Paint()
-          ..color = secondHandColor ?? color?.withOpacity(0.4) ?? Colors.red
+          ..color = secondHandColor ?? color?.withValues(alpha: 0.4) ?? Colors.red
           ..style = PaintingStyle.stroke
           ..strokeCap = StrokeCap.round
           ..strokeWidth = secondHandThickness;
@@ -153,7 +153,7 @@ class AnalogClockPainter extends CustomPainter {
 
     final Paint paint =
         Paint()
-          ..color = minuteHandColor ?? color?.withOpacity(0.6) ?? Colors.grey
+          ..color = minuteHandColor ?? color?.withValues(alpha: 0.6) ?? Colors.grey
           ..style = PaintingStyle.stroke
           ..strokeCap = StrokeCap.round
           ..strokeWidth = minuteHandThickness;
@@ -172,7 +172,7 @@ class AnalogClockPainter extends CustomPainter {
 
     final Paint paint =
         Paint()
-          ..color = hourHandColor ?? color?.withOpacity(1) ?? Colors.black
+          ..color = hourHandColor ?? color?.withValues(alpha: 1) ?? Colors.black
           ..style = PaintingStyle.stroke
           ..strokeCap = StrokeCap.round
           ..strokeWidth = hourHandThickness;

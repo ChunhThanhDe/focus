@@ -4,12 +4,12 @@ import 'dart:ui';
 
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:focus/home/model/background_settings.dart';
-import 'package:focus/home/model/color_gradient.dart';
-import 'package:focus/home/model/flat_color.dart';
-import 'package:focus/resources/color_gradients.dart';
-import 'package:focus/resources/flat_colors.dart';
-import 'package:focus/utils/extensions.dart';
+import '../home/model/background_settings.dart';
+import '../home/model/color_gradient.dart';
+import '../home/model/flat_color.dart';
+import '../resources/color_gradients.dart';
+import '../resources/flat_colors.dart';
+import 'extensions.dart';
 
 /// Finds a [ColorGradient] by its [name] from the [ColorGradients] list.
 ColorGradient? findGradientByName(String name) => ColorGradients.gradients[name];

@@ -86,18 +86,13 @@ class MessageBannerView extends StatelessWidget {
           if (showIcon) ...[
             if (iconOverride != null)
               IconTheme(
-                data: Theme.of(context).iconTheme.copyWith(
-                      color: getContentColor(),
-                      size: iconSize ?? 18,
-                    ),
+                data: Theme.of(
+                  context,
+                ).iconTheme.copyWith(color: getContentColor(), size: iconSize ?? 18),
                 child: iconOverride!,
               )
             else
-              Icon(
-                type.icon,
-                color: getContentColor(),
-                size: iconSize ?? 18,
-              ),
+              Icon(type.icon, color: getContentColor(), size: iconSize ?? 18),
             const SizedBox(width: 10),
           ],
           if (dismissible)
@@ -105,14 +100,8 @@ class MessageBannerView extends StatelessWidget {
               child: Text(
                 message,
                 maxLines: maxLines,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(
-                      color: getContentColor(),
-                      height: 1,
-                      fontSize: 13,
-                    )
+                style: Theme.of(context).textTheme.bodyLarge!
+                    .copyWith(color: getContentColor(), height: 1, fontSize: 13)
                     .merge(textStyle),
               ),
             ),
@@ -121,14 +110,8 @@ class MessageBannerView extends StatelessWidget {
               child: Text(
                 message,
                 maxLines: maxLines,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(
-                      color: getContentColor(),
-                      height: 1,
-                      fontSize: 13,
-                    )
+                style: Theme.of(context).textTheme.bodyLarge!
+                    .copyWith(color: getContentColor(), height: 1, fontSize: 13)
                     .merge(textStyle),
               ),
             ),
@@ -140,11 +123,7 @@ class MessageBannerView extends StatelessWidget {
                 customBorder: const CircleBorder(),
                 child: Padding(
                   padding: const EdgeInsets.all(4),
-                  child: Icon(
-                    Icons.close,
-                    size: 16,
-                    color: getContentColor(),
-                  ),
+                  child: Icon(Icons.close, size: 16, color: getContentColor()),
                 ),
               ),
             ),
@@ -159,7 +138,7 @@ class MessageBannerView extends StatelessWidget {
       case MessageBannerStyle.transparent:
         return null;
       case MessageBannerStyle.semiTransparent:
-        return type.color.withOpacity(0.1);
+        return type.color.withValues(alpha: 0.1);
       case MessageBannerStyle.solid:
         return type.color;
     }

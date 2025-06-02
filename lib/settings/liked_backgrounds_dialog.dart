@@ -7,11 +7,11 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screwdriver/flutter_screwdriver.dart';
-import 'package:focus/home/background_store.dart';
-import 'package:focus/home/model/background_settings.dart';
-import 'package:focus/resources/colors.dart';
-import 'package:focus/utils/storage_manager.dart';
-import 'package:focus/utils/universal/io.dart';
+import '../home/background_store.dart';
+import '../home/model/background_settings.dart';
+import '../resources/colors.dart';
+import '../utils/storage_manager.dart';
+import '../utils/universal/io.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 
@@ -292,7 +292,7 @@ class _ItemState extends State<_Item> {
                     duration: Duration(milliseconds: hovering ? 250 : 0),
                     curve: Curves.easeInOut,
                     child: Container(
-                      color: hovering ? Colors.black.withOpacity(0.8) : Colors.transparent,
+                      color: hovering ? Colors.black.withValues(alpha: 0.8) : Colors.transparent,
                       child: Center(child: options),
                     ),
                   ),
@@ -324,7 +324,7 @@ class _DownloadIndicator extends StatelessWidget {
     return Container(
       height: 29,
       alignment: Alignment.centerLeft,
-      color: Colors.black.withOpacity(0.95),
+      color: Colors.black.withValues(alpha: 0.95),
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Row(
         children: [
@@ -413,13 +413,13 @@ class _ItemOptionButton extends StatelessWidget {
       data: IconThemeData(color: color, size: 24),
       child: Material(
         type: MaterialType.circle,
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         child: Tooltip(
           message: tooltip ?? '',
           child: InkWell(
             onTap: onPressed,
             customBorder: const CircleBorder(),
-            overlayColor: WidgetStateProperty.all(color.withOpacity(0.1)),
+            overlayColor: WidgetStateProperty.all(color.withValues(alpha: 0.1)),
             child: Padding(padding: const EdgeInsets.all(8), child: icon),
           ),
         ),
@@ -509,7 +509,7 @@ class CircularProgressPainter extends CustomPainter {
 
     final double angle = value * 360;
     final angleInRadians = angle * pi / 180;
-    canvas.drawCircle(center, radius, Paint()..color = color.withOpacity(0.1));
+    canvas.drawCircle(center, radius, Paint()..color = color.withValues(alpha: 0.1));
     canvas.drawArc(
       Rect.fromCenter(center: center, height: (radius * 2), width: (radius * 2)),
       -pi / 2,

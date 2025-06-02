@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:focus/home/model/widget_settings.dart';
-import 'package:focus/home/ui/custom_dropdown.dart';
-import 'package:focus/home/widget_store.dart';
-import 'package:focus/settings/widget_settings/analog_clock_widget_settings.dart';
-import 'package:focus/settings/widget_settings/digital_clock_widget_settings.dart';
-import 'package:focus/settings/widget_settings/digital_date_widget_settings.dart';
-import 'package:focus/settings/widget_settings/message_widget_settings.dart';
-import 'package:focus/settings/widget_settings/timer_widget_settings.dart';
-import 'package:focus/settings/widget_settings/weather_widget_settings.dart';
-import 'package:focus/utils/custom_observer.dart';
+import '../home/model/widget_settings.dart';
+import '../home/ui/custom_dropdown.dart';
+import '../home/widget_store.dart';
+import 'widget_settings/analog_clock_widget_settings.dart';
+import 'widget_settings/digital_clock_widget_settings.dart';
+import 'widget_settings/digital_date_widget_settings.dart';
+import 'widget_settings/message_widget_settings.dart';
+import 'widget_settings/timer_widget_settings.dart';
+import 'widget_settings/weather_widget_settings.dart';
+import '../utils/custom_observer.dart';
 import 'package:provider/provider.dart';
 
 class WidgetSettings extends StatelessWidget {

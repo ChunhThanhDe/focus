@@ -4,17 +4,17 @@ import 'dart:developer';
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:focus/home/model/location_response.dart';
-import 'package:focus/home/model/widget_settings.dart';
-import 'package:focus/home/ui/alignment_control.dart';
-import 'package:focus/home/ui/custom_dropdown.dart';
-import 'package:focus/home/ui/custom_slider.dart';
-import 'package:focus/home/ui/text_input.dart';
-import 'package:focus/home/widget_store.dart';
-import 'package:focus/resources/colors.dart';
-import 'package:focus/resources/fonts.dart';
-import 'package:focus/utils/custom_observer.dart';
-import 'package:focus/utils/geocoding_service.dart';
+import '../../home/model/location_response.dart';
+import '../../home/model/widget_settings.dart';
+import '../../home/ui/alignment_control.dart';
+import '../../home/ui/custom_dropdown.dart';
+import '../../home/ui/custom_slider.dart';
+import '../../home/ui/text_input.dart';
+import '../../home/widget_store.dart';
+import '../../resources/colors.dart';
+import '../../resources/fonts.dart';
+import '../../utils/custom_observer.dart';
+import '../../utils/geocoding_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
@@ -224,7 +224,7 @@ class _LocationAutoCompleteFieldState extends State<LocationAutoCompleteField> {
                     borderRadius: BorderRadius.circular(6),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: Colors.black.withValues(alpha: 0.1),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
                       ),
@@ -281,7 +281,9 @@ class _LocationAutoCompleteFieldState extends State<LocationAutoCompleteField> {
                             onTap: () {
                               onSelected(location);
                             },
-                            overlayColor: WidgetStateProperty.all(Colors.grey.withOpacity(0.15)),
+                            overlayColor: WidgetStateProperty.all(
+                              Colors.grey.withValues(alpha: 0.15),
+                            ),
                             child: Container(
                               color:
                                   selected
@@ -295,7 +297,7 @@ class _LocationAutoCompleteFieldState extends State<LocationAutoCompleteField> {
                                     decoration: BoxDecoration(
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.black.withOpacity(0.1),
+                                          color: Colors.black.withValues(alpha: 0.1),
                                           blurRadius: 10,
                                           offset: const Offset(0, 4),
                                         ),

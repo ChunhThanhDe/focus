@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:focus/resources/fonts.dart';
+import '../../resources/fonts.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'widget_settings.g.dart';

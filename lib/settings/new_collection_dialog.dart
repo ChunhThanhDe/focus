@@ -4,10 +4,10 @@ import 'dart:math' hide log;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:focus/backend/backend_service.dart';
-import 'package:focus/home/background_store.dart';
-import 'package:focus/resources/colors.dart';
-import 'package:focus/ui/text_input.dart';
+import '../backend/backend_service.dart';
+import '../home/background_store.dart';
+import '../resources/colors.dart';
+import '../ui/text_input.dart';
 import 'package:get_it/get_it.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared/shared.dart';

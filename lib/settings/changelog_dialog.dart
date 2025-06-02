@@ -6,9 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_screwdriver/flutter_screwdriver.dart';
-import 'package:focus/home/ui/gesture_detector_with_cursor.dart';
-import 'package:focus/main.dart';
-import 'package:focus/resources/colors.dart';
+import '../home/ui/gesture_detector_with_cursor.dart';
+import '../main.dart';
+import '../resources/colors.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -53,7 +53,7 @@ class _ChangelogDialogState extends State<ChangelogDialog> {
                 children: [
                   Expanded(
                     child: Text(
-                      "What's new in Pluto",
+                      "What's new in Focus",
                       style: Theme.of(
                         context,
                       ).textTheme.headlineSmall!.copyWith(fontWeight: FontWeight.w500),
@@ -138,7 +138,7 @@ class _ChangelogDialogState extends State<ChangelogDialog> {
                 child: GestureDetectorWithCursor(
                   onTap:
                       () => launchUrl(
-                        Uri.parse('https://github.com/BirjuVachhani/pluto/blob/main/CHANGELOG.md'),
+                        Uri.parse('https://github.com/ChunhThanhDe/focus/blob/main/CHANGELOG.md'),
                       ),
                   child: Hoverable(
                     builder:
@@ -168,11 +168,11 @@ class _ChangelogDialogState extends State<ChangelogDialog> {
     try {
       version = packageInfo.version;
       final response = await http.get(
-        Uri.parse('https://raw.githubusercontent.com/BirjuVachhani/pluto/$version/CHANGELOG.md'),
+        Uri.parse('https://raw.githubusercontent.com/ChunhThanhDe/focus/$version/CHANGELOG.md'),
       );
 
       final releaseResponse = await http.get(
-        Uri.parse('https://api.github.com/repos/BirjuVachhani/pluto/releases/tags/$version'),
+        Uri.parse('https://api.github.com/repos/ChunhThanhDe/focus/releases/tags/$version'),
       );
       isLoading = false;
       if (response.statusCode != 200 || releaseResponse.statusCode != 200) {

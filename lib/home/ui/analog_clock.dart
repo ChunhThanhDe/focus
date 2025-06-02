@@ -21,8 +21,7 @@ class AnalogClock extends StatefulWidget {
   State<AnalogClock> createState() => _AnalogClockState();
 }
 
-class _AnalogClockState extends State<AnalogClock>
-    with SingleTickerProviderStateMixin {
+class _AnalogClockState extends State<AnalogClock> with SingleTickerProviderStateMixin {
   late Ticker _ticker;
   late DateTime _initialTime;
   late DateTime _now;
@@ -104,8 +103,9 @@ class AnalogClockPainter extends CustomPainter {
 
     // Radius is calculated such that everything won't leak outside the viewport.
     final rect = Rect.fromCircle(
-        center: center,
-        radius: min(size.width, size.height) / 2 - dialThickness);
+      center: center,
+      radius: min(size.width, size.height) / 2 - dialThickness,
+    );
 
     _drawDial(canvas, rect, center);
     _drawHourHand(canvas, rect, center);
@@ -117,10 +117,11 @@ class AnalogClockPainter extends CustomPainter {
     // paint radius.
     final dialRadius = rect.center.dx + dialThickness / 2;
 
-    final Paint dialPaint = Paint()
-      ..color = dialColor ?? color ?? Colors.black
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = dialThickness;
+    final Paint dialPaint =
+        Paint()
+          ..color = dialColor ?? color ?? Colors.black
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = dialThickness;
 
     // paint the dialer
     canvas.drawCircle(center, dialRadius, dialPaint);
@@ -129,11 +130,12 @@ class AnalogClockPainter extends CustomPainter {
   void _drawSecondHand(Canvas canvas, Rect rect, Offset center) {
     final double radius = (rect.width / 2 * 0.9) - (secondHandThickness / 2);
 
-    final Paint paint = Paint()
-      ..color = secondHandColor ?? color?.withOpacity(0.4) ?? Colors.red
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round
-      ..strokeWidth = secondHandThickness;
+    final Paint paint =
+        Paint()
+          ..color = secondHandColor ?? color?.withValues(alpha: 0.4) ?? Colors.red
+          ..style = PaintingStyle.stroke
+          ..strokeCap = StrokeCap.round
+          ..strokeWidth = secondHandThickness;
 
     // we add 1 second to the current time because we paint the second after
     // it has passed.
@@ -147,14 +149,14 @@ class AnalogClockPainter extends CustomPainter {
 
   void _drawMinuteHand(Canvas canvas, Rect rect, Offset center) {
     final sizePercent = showSecondHand ? 0.8 : 0.85;
-    final double radius =
-        (rect.width / 2 * sizePercent) - (minuteHandThickness / 2);
+    final double radius = (rect.width / 2 * sizePercent) - (minuteHandThickness / 2);
 
-    final Paint paint = Paint()
-      ..color = minuteHandColor ?? color?.withOpacity(0.6) ?? Colors.grey
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round
-      ..strokeWidth = minuteHandThickness;
+    final Paint paint =
+        Paint()
+          ..color = minuteHandColor ?? color?.withValues(alpha: 0.6) ?? Colors.grey
+          ..style = PaintingStyle.stroke
+          ..strokeCap = StrokeCap.round
+          ..strokeWidth = minuteHandThickness;
 
     final double angle = angleAtNoon + angleOfAMinute * time.minute;
 
@@ -166,14 +168,14 @@ class AnalogClockPainter extends CustomPainter {
 
   void _drawHourHand(Canvas canvas, Rect innerRect, Offset center) {
     final sizePercent = showSecondHand ? 0.6 : 0.65;
-    final double radius =
-        (innerRect.width / 2 * sizePercent) - (hourHandThickness / 2);
+    final double radius = (innerRect.width / 2 * sizePercent) - (hourHandThickness / 2);
 
-    final Paint paint = Paint()
-      ..color = hourHandColor ?? color?.withOpacity(1) ?? Colors.black
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round
-      ..strokeWidth = hourHandThickness;
+    final Paint paint =
+        Paint()
+          ..color = hourHandColor ?? color?.withValues(alpha: 1) ?? Colors.black
+          ..style = PaintingStyle.stroke
+          ..strokeCap = StrokeCap.round
+          ..strokeWidth = hourHandThickness;
 
     final double angle = angleAtNoon + angleOfAnHour * time.hour;
 

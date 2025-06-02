@@ -1,5 +1,5 @@
 import 'package:flutter/painting.dart';
-import 'package:focus/home/model/flat_color.dart';
+import '../home/model/flat_color.dart';
 
 class FlatColors {
   const FlatColors._();

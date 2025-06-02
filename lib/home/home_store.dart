@@ -4,12 +4,12 @@ import 'dart:developer';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:focus/home/model/export_data.dart';
-import 'package:focus/home/model/widget_settings.dart';
-import 'package:focus/home/ui/message_banner/message_banner.dart';
-import 'package:focus/resources/storage_keys.dart';
-import 'package:focus/utils/storage_manager.dart';
-import 'package:focus/utils/utils.dart';
+import 'model/export_data.dart';
+import 'model/widget_settings.dart';
+import 'ui/message_banner/message_banner.dart';
+import '../resources/storage_keys.dart';
+import '../utils/storage_manager.dart';
+import '../utils/utils.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:screwdriver/screwdriver.dart';
@@ -76,7 +76,7 @@ abstract class _HomeStore with Store, LazyInitializationMixin {
     try {
       final String dataString = const JsonEncoder.withIndent('  ').convert(data.toJson());
 
-      final String fileName = 'pluto-settings-${data.createdAt.millisecondsSinceEpoch}.json';
+      final String fileName = 'focus-settings-${data.createdAt.millisecondsSinceEpoch}.json';
 
       if (kIsWeb) {
         const String mimeType = 'application/json';
@@ -139,7 +139,7 @@ abstract class _HomeStore with Store, LazyInitializationMixin {
       if (data.version != settingsVersion) {
         messageBannerController.showError(
           'Settings file contains a version that is not supported by this '
-          'version of Pluto.',
+          'version of Focus.',
         );
         return false;
       }

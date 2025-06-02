@@ -2,21 +2,21 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/version.dart' as StorageKeys;
-import 'package:focus/home/background_store.dart';
-import 'package:focus/home/home_store.dart';
-import 'package:focus/home/model/background_settings.dart';
-import 'package:focus/home/model/export_data.dart';
-import 'package:focus/home/widget_store.dart';
-import 'package:focus/resources/colors.dart';
-import 'package:focus/settings/about.dart';
-import 'package:focus/settings/adavanced_settings_dialog.dart';
-import 'package:focus/settings/background_settings_view.dart';
-import 'package:focus/settings/changelog_dialog.dart';
-import 'package:focus/settings/liked_backgrounds_dialog.dart';
-import 'package:focus/settings/widget_settings.dart';
-import 'package:focus/utils/custom_observer.dart';
-import 'package:focus/utils/dropdown_button3.dart';
-import 'package:focus/utils/storage_manager.dart';
+import '../home/background_store.dart';
+import '../home/home_store.dart';
+import '../home/model/background_settings.dart';
+import '../home/model/export_data.dart';
+import '../home/widget_store.dart';
+import '../resources/colors.dart';
+import 'about.dart';
+import 'adavanced_settings_dialog.dart';
+import 'background_settings_view.dart';
+import 'changelog_dialog.dart';
+import 'liked_backgrounds_dialog.dart';
+import 'widget_settings.dart';
+import '../utils/custom_observer.dart';
+import '../utils/dropdown_button3.dart';
+import '../utils/storage_manager.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -81,7 +81,7 @@ class _SettingsPanelContentState extends State<SettingsPanelContent>
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha: 0.1),
                   blurRadius: 20,
                   spreadRadius: 8,
                   offset: const Offset(0, 4),
@@ -325,11 +325,11 @@ class MenuButton extends StatelessWidget {
       case 'export':
         onExportSettings(context);
       case 'report':
-        launchUrl(Uri.parse('https://github.com/birjuvachhani/pluto/issues/new/choose'));
+        launchUrl(Uri.parse('https://github.com/ChunhThanhDe/focus/issues/new/choose'));
       case 'donate':
-        launchUrl(Uri.parse('https://www.buymeacoffee.com/birjuvachhani'));
+        launchUrl(Uri.parse('https://www.buymeacoffee.com/ChunhThanhDe'));
       case 'sponsor':
-        launchUrl(Uri.parse('https://github.com/sponsors/BirjuVachhani'));
+        launchUrl(Uri.parse('https://github.com/sponsors/ChunhThanhDe'));
     }
   }
 
@@ -440,7 +440,7 @@ class ResetDialog extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4),
-                            color: Colors.red.withOpacity(0.1),
+                            color: Colors.red.withValues(alpha: 0.1),
                           ),
                           child: const Row(
                             children: [

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
-import 'package:focus/home/model/widget_settings.dart';
-import 'package:focus/home/ui/alignment_control.dart';
-import 'package:focus/home/ui/custom_dropdown.dart';
-import 'package:focus/home/ui/custom_slider.dart';
-import 'package:focus/home/ui/resizable_text_input.dart';
-import 'package:focus/home/ui/text_input.dart';
-import 'package:focus/home/widget_store.dart';
-import 'package:focus/resources/fonts.dart' show FontFamilies;
-import 'package:focus/utils/custom_observer.dart';
+import '../../home/model/widget_settings.dart';
+import '../../home/ui/alignment_control.dart';
+import '../../home/ui/custom_dropdown.dart';
+import '../../home/ui/custom_slider.dart';
+import '../../home/ui/resizable_text_input.dart';
+import '../../home/ui/text_input.dart';
+import '../../home/widget_store.dart';
+import '../../resources/fonts.dart' show FontFamilies;
+import '../../utils/custom_observer.dart';
 import 'package:intl/intl.dart' as timer;
 import 'package:provider/provider.dart';
 

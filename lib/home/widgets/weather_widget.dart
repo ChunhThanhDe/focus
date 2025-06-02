@@ -2,16 +2,16 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:focus/home/background_store.dart';
-import 'package:focus/home/model/weather_info.dart';
-import 'package:focus/home/model/widget_settings.dart';
-import 'package:focus/home/widget_store.dart';
-import 'package:focus/resources/storage_keys.dart';
-import 'package:focus/utils/custom_observer.dart';
-import 'package:focus/utils/extensions.dart';
-import 'package:focus/utils/storage_manager.dart';
-import 'package:focus/utils/utils.dart';
-import 'package:focus/utils/weather_service.dart';
+import '../background_store.dart';
+import '../model/weather_info.dart';
+import '../model/widget_settings.dart';
+import '../widget_store.dart';
+import '../../resources/storage_keys.dart';
+import '../../utils/custom_observer.dart';
+import '../../utils/extensions.dart';
+import '../../utils/storage_manager.dart';
+import '../../utils/utils.dart';
+import '../../utils/weather_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -133,7 +133,7 @@ abstract class _WeatherStore with Store, LazyInitializationMixin {
     final nextUpdateTime = weatherLastUpdated.add(weatherUpdateDuration);
 
     // ignore: avoid_print
-    print('Next weather update at $nextUpdateTime');
+    log('Next weather update at $nextUpdateTime');
   }
 
   Future<WeatherInfo?> fetchWeather() async {

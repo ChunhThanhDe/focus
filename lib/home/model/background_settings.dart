@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:equatable/equatable.dart';
-import 'package:focus/resources/color_gradients.dart';
-import 'package:focus/resources/flat_colors.dart';
-import 'package:focus/resources/unsplash_sources.dart';
-import 'package:focus/utils/utils.dart';
+import '../../resources/color_gradients.dart';
+import '../../resources/flat_colors.dart';
+import '../../resources/unsplash_sources.dart';
+import '../../utils/utils.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:shared/shared.dart';
 import 'package:unsplash_client/unsplash_client.dart';

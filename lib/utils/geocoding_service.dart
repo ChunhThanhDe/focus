@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:focus/home/model/location_response.dart';
+import '../home/model/location_response.dart';
 import 'package:http/http.dart' as http;
 
 abstract class GeocodingService {

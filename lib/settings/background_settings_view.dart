@@ -1,21 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screwdriver/flutter_screwdriver.dart';
-import 'package:focus/home/background_store.dart';
-import 'package:focus/home/model/background_settings.dart';
-import 'package:focus/home/model/color_gradient.dart';
-import 'package:focus/home/model/flat_color.dart';
-import 'package:focus/home/ui/custom_dropdown.dart';
-import 'package:focus/home/ui/custom_slider.dart';
-import 'package:focus/home/ui/custom_switch.dart';
-import 'package:focus/home/ui/gesture_detector_with_cursor.dart';
-import 'package:focus/resources/color_gradients.dart';
-import 'package:focus/resources/colors.dart';
-import 'package:focus/resources/flat_colors.dart';
-import 'package:focus/resources/unsplash_sources.dart';
-import 'package:focus/settings/new_collection_dialog.dart';
-import 'package:focus/utils/custom_observer.dart';
-import 'package:focus/utils/extensions.dart';
+import '../home/background_store.dart';
+import '../home/model/background_settings.dart';
+import '../home/model/color_gradient.dart';
+import '../home/model/flat_color.dart';
+import '../home/ui/custom_dropdown.dart';
+import '../home/ui/custom_slider.dart';
+import '../home/ui/custom_switch.dart';
+import '../home/ui/gesture_detector_with_cursor.dart';
+import '../resources/color_gradients.dart';
+import '../resources/colors.dart';
+import '../resources/flat_colors.dart';
+import '../resources/unsplash_sources.dart';
+import 'new_collection_dialog.dart';
+import '../utils/custom_observer.dart';
+import '../utils/extensions.dart';
 import 'package:provider/provider.dart';
 import 'package:screwdriver/screwdriver.dart';
 import 'package:shared/shared.dart';
@@ -105,7 +105,7 @@ class _BackgroundOptions extends StatelessWidget {
                   color:
                       store.texture
                           ? Theme.of(context).colorScheme.primary
-                          : AppColors.textColor.withOpacity(0.5),
+                          : AppColors.textColor.withValues(alpha: 0.5),
                   size: 20,
                 ),
               ),
@@ -134,8 +134,8 @@ class _BackgroundOptions extends StatelessWidget {
                       ),
                       color:
                           store.isLoadingImage
-                              ? Colors.grey.withOpacity(0.5)
-                              : AppColors.textColor.withOpacity(0.5),
+                              ? Colors.grey.withValues(alpha: 0.5)
+                              : AppColors.textColor.withValues(alpha: 0.5),
                       size: 20,
                     ),
                   ),
@@ -179,7 +179,7 @@ class _ImageBackgroundOptions extends StatelessWidget {
                   color:
                       store.invert
                           ? Theme.of(context).colorScheme.primary
-                          : AppColors.textColor.withOpacity(0.5),
+                          : AppColors.textColor.withValues(alpha: 0.5),
                   size: 20,
                 ),
               ),
@@ -203,8 +203,8 @@ class _ImageBackgroundOptions extends StatelessWidget {
                   ),
                   color:
                       store.isLoadingImage
-                          ? Colors.grey.withOpacity(0.5)
-                          : AppColors.textColor.withOpacity(0.5),
+                          ? Colors.grey.withValues(alpha: 0.5)
+                          : AppColors.textColor.withValues(alpha: 0.5),
                   size: 20,
                 ),
               ),
@@ -224,8 +224,8 @@ class _ImageBackgroundOptions extends StatelessWidget {
                   Icons.download_rounded,
                   color:
                       store.isLoadingImage || store.currentImage == null
-                          ? Colors.grey.withOpacity(0.5)
-                          : AppColors.textColor.withOpacity(0.5),
+                          ? Colors.grey.withValues(alpha: 0.5)
+                          : AppColors.textColor.withValues(alpha: 0.5),
                   size: 20,
                 ),
               ),
@@ -245,8 +245,8 @@ class _ImageBackgroundOptions extends StatelessWidget {
                   Icons.open_in_new_rounded,
                   color:
                       store.isLoadingImage || store.currentImage == null
-                          ? Colors.grey.withOpacity(0.5)
-                          : AppColors.textColor.withOpacity(0.5),
+                          ? Colors.grey.withValues(alpha: 0.5)
+                          : AppColors.textColor.withValues(alpha: 0.5),
                   size: 20,
                 ),
               ),
@@ -494,7 +494,7 @@ class UnsplashSourceSettings extends StatelessWidget {
                         child: Icon(
                           Icons.explicit,
                           size: 16,
-                          color: context.colorScheme.onSurface.withOpacity(0.7),
+                          color: context.colorScheme.onSurface.withValues(alpha: 0.7),
                         ),
                       ),
                   ],

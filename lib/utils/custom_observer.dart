@@ -4,7 +4,7 @@ import 'dart:math' hide log;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:focus/main.dart';
+import '../main.dart';
 
 const List<Color> _colors = [
   Colors.red,
@@ -57,7 +57,7 @@ class CustomObserver extends StatelessWidget {
               borderOnForeground: true,
               animationDuration: Duration.zero,
               shape: RoundedRectangleBorder(
-                side: BorderSide(color: color.withOpacity(opacity), width: 4),
+                side: BorderSide(color: color.withValues(alpha: opacity), width: 4),
               ),
               child: child,
             );

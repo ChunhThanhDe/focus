@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:focus/home/model/widget_settings.dart';
-import 'package:focus/home/ui/custom_dropdown.dart';
+import '../home/model/widget_settings.dart';
+import '../home/ui/custom_dropdown.dart';
 
 class AlignmentControl extends StatelessWidget {
   final String? label;

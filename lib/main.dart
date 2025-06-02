@@ -32,12 +32,10 @@ class MyApp extends StatelessWidget {
     return DebugRender(
       debugHighlightObserverRebuild: false,
       child: MaterialApp(
-        title: 'Pluto',
+        title: 'Focus',
         debugShowCheckedModeBanner: false,
         theme: buildTheme(context),
-        home: const HomeWrapper(
-          key: ValueKey('HomeWrapper'),
-        ),
+        home: const HomeWrapper(key: ValueKey('HomeWrapper')),
       ),
     );
   }
@@ -88,42 +86,21 @@ ThemeData buildTheme(BuildContext context) {
       waitDuration: const Duration(milliseconds: 300),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       verticalOffset: 18,
-      textStyle: const TextStyle(
-        fontSize: 12,
-        color: Colors.white60,
-      ),
+      textStyle: const TextStyle(fontSize: 12, color: Colors.white60),
       decoration: ShapeDecoration(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
         color: Colors.grey.shade900,
       ),
     ),
     textTheme: const TextTheme(
-      displayLarge: TextStyle(
-        color: AppColors.textColor,
-      ),
-      displayMedium: TextStyle(
-        color: AppColors.textColor,
-      ),
-      displaySmall: TextStyle(
-        color: AppColors.textColor,
-      ),
-      headlineMedium: TextStyle(
-        color: AppColors.textColor,
-      ),
-      headlineSmall: TextStyle(
-        color: AppColors.textColor,
-      ),
-      titleLarge: TextStyle(
-        color: AppColors.textColor,
-      ),
-      bodyLarge: TextStyle(
-        color: AppColors.textColor,
-      ),
-      bodyMedium: TextStyle(
-        color: AppColors.textColor,
-      ),
+      displayLarge: TextStyle(color: AppColors.textColor),
+      displayMedium: TextStyle(color: AppColors.textColor),
+      displaySmall: TextStyle(color: AppColors.textColor),
+      headlineMedium: TextStyle(color: AppColors.textColor),
+      headlineSmall: TextStyle(color: AppColors.textColor),
+      titleLarge: TextStyle(color: AppColors.textColor),
+      bodyLarge: TextStyle(color: AppColors.textColor),
+      bodyMedium: TextStyle(color: AppColors.textColor),
     ),
   );
 }
@@ -131,11 +108,7 @@ ThemeData buildTheme(BuildContext context) {
 class DebugRender extends InheritedWidget {
   final bool debugHighlightObserverRebuild;
 
-  const DebugRender({
-    super.key,
-    this.debugHighlightObserverRebuild = false,
-    required super.child,
-  });
+  const DebugRender({super.key, this.debugHighlightObserverRebuild = false, required super.child});
 
   static DebugRender? of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<DebugRender>();

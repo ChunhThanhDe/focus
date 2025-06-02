@@ -1,12 +1,12 @@
 // import 'dart:math';
 
 import 'package:flutter/widgets.dart';
-import 'package:focus/home/background_store.dart';
-import 'package:focus/home/model/widget_settings.dart';
-import 'package:focus/home/ui/digital_date.dart';
-import 'package:focus/home/widget_store.dart';
-import 'package:focus/utils/custom_observer.dart';
-import 'package:focus/utils/extensions.dart';
+import '../background_store.dart';
+import '../model/widget_settings.dart';
+import '../ui/digital_date.dart';
+import '../widget_store.dart';
+import '../../utils/custom_observer.dart';
+import '../../utils/extensions.dart';
 import 'package:provider/provider.dart';
 
 class DigitalDateWidget extends StatelessWidget {

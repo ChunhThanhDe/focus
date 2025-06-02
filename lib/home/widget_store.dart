@@ -1,10 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:focus/home/model/widget_settings.dart';
-import 'package:focus/resources/storage_keys.dart';
-import 'package:focus/utils/storage_manager.dart';
-import 'package:focus/utils/utils.dart';
+import 'model/widget_settings.dart';
+import '../resources/storage_keys.dart';
+import '../utils/storage_manager.dart';
+import '../utils/utils.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 

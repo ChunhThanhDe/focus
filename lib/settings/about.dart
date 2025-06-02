@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:focus/home/ui/gesture_detector_with_cursor.dart';
-import 'package:focus/main.dart';
-import 'package:focus/resources/fonts.dart';
+import '../home/ui/gesture_detector_with_cursor.dart';
+import '../main.dart';
+import '../resources/fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class About extends StatelessWidget {
@@ -15,7 +15,7 @@ class About extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SizedBox(height: 24),
-        const Center(child: PlutoLogo(size: 110, animate: true)),
+        const Center(child: FocusLogo(size: 110, animate: true)),
         const SizedBox(height: 16),
         Text(
           'Plut°'.toUpperCase(),
@@ -37,7 +37,7 @@ class About extends StatelessWidget {
             letterSpacing: 2,
             fontFamily: FontFamilies.systemUI,
             fontWeight: FontWeight.w300,
-            color: Colors.white.withOpacity(0.5),
+            color: Colors.white.withValues(alpha: 0.5),
           ),
         ),
         const SizedBox(height: 48),
@@ -73,7 +73,7 @@ class About extends StatelessWidget {
             fontSize: 11,
             letterSpacing: 0.2,
             color: Theme.of(context).colorScheme.primary,
-            // color: Colors.white.withOpacity(0.5),
+            // color: Colors.white.withValues(alpha:0.5),
           ),
         ),
         const SizedBox(height: 8),
@@ -97,7 +97,7 @@ class About extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GestureDetectorWithCursor(
-              onTap: () => launchUrl(Uri.parse('https://twitter.com/birjuvachhani')),
+              onTap: () => launchUrl(Uri.parse('https://twitter.com/ChunhThanhDe')),
               child: SizedBox.square(
                 dimension: 26,
                 child: Image.asset('assets/images/ic_twitter.png'),
@@ -105,7 +105,7 @@ class About extends StatelessWidget {
             ),
             const SizedBox(width: 16),
             GestureDetectorWithCursor(
-              onTap: () => launchUrl(Uri.parse('https://github.com/birjuvachhani')),
+              onTap: () => launchUrl(Uri.parse('https://github.com/ChunhThanhDe')),
               child: SizedBox.square(
                 dimension: 26,
                 child: Image.asset('assets/images/ic_github.png', color: Colors.white),
@@ -113,7 +113,7 @@ class About extends StatelessWidget {
             ),
             const SizedBox(width: 14),
             GestureDetectorWithCursor(
-              onTap: () => launchUrl(Uri.parse('https://birju.dev')),
+              onTap: () => launchUrl(Uri.parse('https://chunhthanhde.github.io')),
               child: SizedBox.square(
                 dimension: 30,
                 child: Image.asset('assets/images/ic_globe.png'),
@@ -130,7 +130,7 @@ class About extends StatelessWidget {
             fontSize: 11,
             letterSpacing: 0.2,
             color: Theme.of(context).colorScheme.primary,
-            // color: Colors.white.withOpacity(0.5),
+            // color: Colors.white.withValues(alpha:0.5),
           ),
         ),
         const SizedBox(height: 8),
@@ -147,7 +147,7 @@ class About extends StatelessWidget {
             fontSize: 11,
             letterSpacing: 0.2,
             color: Theme.of(context).colorScheme.primary,
-            // color: Colors.white.withOpacity(0.5),
+            // color: Colors.white.withValues(alpha:0.5),
           ),
         ),
         const SizedBox(height: 8),
@@ -161,17 +161,17 @@ class About extends StatelessWidget {
   }
 }
 
-class PlutoLogo extends StatefulWidget {
+class FocusLogo extends StatefulWidget {
   final double size;
   final bool animate;
 
-  const PlutoLogo({super.key, this.size = 120, this.animate = true});
+  const FocusLogo({super.key, this.size = 120, this.animate = true});
 
   @override
-  State<PlutoLogo> createState() => _PlutoLogoState();
+  State<FocusLogo> createState() => _FocusLogoState();
 }
 
-class _PlutoLogoState extends State<PlutoLogo> with SingleTickerProviderStateMixin {
+class _FocusLogoState extends State<FocusLogo> with SingleTickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
     vsync: this,
     duration: const Duration(seconds: 20),
@@ -195,7 +195,7 @@ class _PlutoLogoState extends State<PlutoLogo> with SingleTickerProviderStateMix
   }
 
   @override
-  void didUpdateWidget(covariant PlutoLogo oldWidget) {
+  void didUpdateWidget(covariant FocusLogo oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (!oldWidget.animate && widget.animate) {
       _controller.repeat();
@@ -211,7 +211,7 @@ class _PlutoLogoState extends State<PlutoLogo> with SingleTickerProviderStateMix
         alignment: Alignment.center,
         children: [
           Positioned.fill(
-            child: Image.asset('assets/images/ic_pluto_logo_bg.png', fit: BoxFit.cover),
+            child: Image.asset('assets/images/ic_focus_logo_bg.png', fit: BoxFit.cover),
           ),
           AnimatedBuilder(
             animation: _controller,
@@ -220,7 +220,7 @@ class _PlutoLogoState extends State<PlutoLogo> with SingleTickerProviderStateMix
             },
             child: SizedBox.square(
               dimension: widget.size * 0.7,
-              child: Image.asset('assets/images/ic_pluto_planet.png', fit: BoxFit.cover),
+              child: Image.asset('assets/images/ic_focus_planet.png', fit: BoxFit.cover),
             ),
           ),
           // Shadow
@@ -232,10 +232,10 @@ class _PlutoLogoState extends State<PlutoLogo> with SingleTickerProviderStateMix
                 gradient: RadialGradient(
                   radius: 0.75,
                   colors: [
-                    Colors.black.withOpacity(0),
-                    Colors.black.withOpacity(0.2),
-                    Colors.black.withOpacity(0.5),
-                    Colors.black.withOpacity(1),
+                    Colors.black.withValues(alpha: 0),
+                    Colors.black.withValues(alpha: 0.2),
+                    Colors.black.withValues(alpha: 0.5),
+                    Colors.black.withValues(alpha: 1),
                   ],
                   stops: const [0.3, 0.5, 0.7, 1],
                   center: const Alignment(-0.4, -0.5),
@@ -246,7 +246,7 @@ class _PlutoLogoState extends State<PlutoLogo> with SingleTickerProviderStateMix
           // SizedBox.square(
           //   dimension: size * 0.7,
           //   child: Image.asset(
-          //     'assets/images/ic_pluto.png',
+          //     'assets/images/ic_focus.png',
           //     fit: BoxFit.cover,
           //   ),
           // ),

@@ -2,15 +2,15 @@ import 'dart:math' hide log;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screwdriver/flutter_screwdriver.dart';
-import 'package:focus/home/background_store.dart';
-import 'package:focus/home/model/background_settings.dart';
-import 'package:focus/home/ui/custom_dropdown.dart';
-import 'package:focus/home/ui/gesture_detector_with_cursor.dart';
-import 'package:focus/resources/colors.dart';
-import 'package:focus/resources/storage_keys.dart';
-import 'package:focus/settings/new_collection_dialog.dart';
-import 'package:focus/utils/custom_observer.dart';
-import 'package:focus/utils/storage_manager.dart';
+import '../home/background_store.dart';
+import '../home/model/background_settings.dart';
+import '../home/ui/custom_dropdown.dart';
+import '../home/ui/gesture_detector_with_cursor.dart';
+import '../resources/colors.dart';
+import '../resources/storage_keys.dart';
+import 'new_collection_dialog.dart';
+import '../utils/custom_observer.dart';
+import '../utils/storage_manager.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:screwdriver/screwdriver.dart';
@@ -178,9 +178,9 @@ class CustomCollectionsSettings extends StatelessWidget {
                     return Container(
                       color:
                           selected
-                              ? context.colorScheme.primary.withOpacity(0.1)
+                              ? context.colorScheme.primary.withValues(alpha: 0.1)
                               : hovering
-                              ? context.colorScheme.onSurface.withOpacity(0.05)
+                              ? context.colorScheme.onSurface.withValues(alpha: 0.05)
                               : null,
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                       child: Row(

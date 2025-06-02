@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:focus/home/model/background_settings.dart';
-import 'package:focus/home/model/color_gradient.dart';
-import 'package:focus/home/model/widget_settings.dart';
+import '../home/model/background_settings.dart';
+import '../home/model/color_gradient.dart';
+import '../home/model/widget_settings.dart';
 import 'package:unsplash_client/unsplash_client.dart';
 
 extension GradientExt on ColorGradient {
