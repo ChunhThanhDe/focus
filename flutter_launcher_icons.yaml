@@ -1,0 +1,6 @@
+flutter_launcher_icons:
+  web:
+    generate: true
+    image_path: "scripts/app_icon.png"        # Path to your icon file
+    background_color: "#ffffff"               # Change to your preferred background color (hex code)
+    theme_color: "#4285f4"                    # Change to your preferred theme color (hex code)
