@@ -50,7 +50,7 @@ class RestBackendService extends BackendService {
     }
 
     // If error → print error to console and throw exception
-    print(result.body);
+    log(result.body);
     throw HttpException(result.body);
   }
 }
