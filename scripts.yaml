@@ -25,7 +25,8 @@ pack:
   - flutter build web -web-renderer=canvaskit --csp --no-web-resources-cdn
     # Build web để đóng gói
   - cp LICENSE build/web           # Copy file LICENSE vào folder web
-  - cd build && zip -r pluto.zip web  # Nén thư mục web thành file zip: pluto.zip
+  - cd build && zip -r focus.zip web  # Nén thư mục web thành file zip: focus.zip
+  - cp build/focus.zip focus.zip
 
 # Sinh icon ứng dụng (dùng flutter_launcher_icons)
 app_icons: flutter pub run flutter_launcher_icons

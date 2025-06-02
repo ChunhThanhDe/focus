@@ -8,10 +8,9 @@
     "description": "A new Flutter project.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
+    "version": "0.7.0",
     "content_security_policy": {
-        "content_security_policy": {
-            "extension_pages": "script-src 'self' ; object-src 'self'"
-        }
+        "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
     },
     "chrome_url_overrides": {
         "newtab": "index.html"
