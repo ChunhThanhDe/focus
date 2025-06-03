@@ -80,7 +80,7 @@ class About extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 4),
           child: Text(
-            'Birju Vachhani'.toUpperCase(),
+            'ChunhThanhDe'.toUpperCase(),
             textAlign: TextAlign.center,
             style: const TextStyle(
               height: 1,
