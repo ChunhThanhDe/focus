@@ -18,7 +18,7 @@ class About extends StatelessWidget {
         const Center(child: FocusLogo(size: 110, animate: true)),
         const SizedBox(height: 16),
         Text(
-          'Plut°'.toUpperCase(),
+          'Focus'.toUpperCase(),
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontSize: 24,
