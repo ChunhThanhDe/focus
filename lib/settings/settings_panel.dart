@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/version.dart' as StorageKeys;
+import '../resources/storage_keys.dart';
 import '../home/background_store.dart';
 import '../home/home_store.dart';
 import '../home/model/background_settings.dart';

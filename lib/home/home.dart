@@ -23,7 +23,7 @@ import '../utils/utils.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
-import 'package:mobx/version.dart' as StorageKeys;
+import '../resources/storage_keys.dart';
 import 'package:provider/provider.dart';
 
 const bool isDevMode = String.fromEnvironment('MODE') == 'debug';
