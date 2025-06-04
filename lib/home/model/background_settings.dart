@@ -46,8 +46,8 @@ enum BackgroundRefreshRate {
   newTab('Every New Tab', Duration(days: 365)),
   minute('Every Minute', Duration(minutes: 1)),
   fiveMinute('Every 5 Minute', Duration(minutes: 5)),
-  fifteenMinute('Every 15 Minute', Duration(minutes: 5)),
-  thirtyMinute('Every 30 Minute', Duration(minutes: 5)),
+  fifteenMinute('Every 15 Minute', Duration(minutes: 15)),
+  thirtyMinute('Every 30 Minute', Duration(minutes: 30)),
   hour('Every hour', Duration(hours: 1)),
   daily('Every Day', Duration(days: 1)),
   weekly('Every Week', Duration(days: 7));
