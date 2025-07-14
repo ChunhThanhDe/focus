@@ -22,9 +22,14 @@ class DigitalClockWidget extends StatelessWidget {
         final double paddingHorizontal = (20 + settings.fontSize) * 0.5;
         final double paddingVertical = (20 + settings.fontSize) * 0.4;
         final double round = (20 + settings.fontSize) * 0.5;
-        final String format = buildFormatString(settings.format, settings.separator.value);
+        final String format = buildFormatString(
+          settings.format,
+          settings.separator.value,
+        );
         return Padding(
-          padding: EdgeInsets.all(settings.borderType == BorderType.none ? 0 : 48),
+          padding: EdgeInsets.all(
+            settings.borderType == BorderType.none ? 0 : 48,
+          ),
           child: Align(
             alignment: settings.alignment.flutterAlignment,
             child: FittedBox(
@@ -35,13 +40,13 @@ class DigitalClockWidget extends StatelessWidget {
                 ),
                 decoration: ShapeDecoration(
                   shape: RoundedRectangleBorder(
-                    borderRadius:
-                        settings.borderType == BorderType.rounded
-                            ? BorderRadius.circular(round)
-                            : BorderRadius.zero,
+                    borderRadius: settings.borderType == BorderType.rounded ? BorderRadius.circular(round) : BorderRadius.zero,
                     side:
                         settings.borderType != BorderType.none
-                            ? BorderSide(color: backgroundStore.foregroundColor, width: borderWidth)
+                            ? BorderSide(
+                              color: backgroundStore.foregroundColor,
+                              width: borderWidth,
+                            )
                             : BorderSide.none,
                   ),
                 ),

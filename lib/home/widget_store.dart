@@ -36,7 +36,10 @@ abstract class _WidgetStore with Store, LazyInitializationMixin {
   @override
   Future<void> init() async {
     type =
-        await storage.getEnum<WidgetType>(StorageKeys.widgetType, WidgetType.values) ??
+        await storage.getEnum<WidgetType>(
+          StorageKeys.widgetType,
+          WidgetType.values,
+        ) ??
         WidgetType.digitalClock;
 
     digitalClockSettings = DigitalClockWidgetSettingsStore(
@@ -87,7 +90,10 @@ abstract class _WidgetStore with Store, LazyInitializationMixin {
   @action
   Future<void> reload() async {
     type =
-        await storage.getEnum<WidgetType>(StorageKeys.widgetType, WidgetType.values) ??
+        await storage.getEnum<WidgetType>(
+          StorageKeys.widgetType,
+          WidgetType.values,
+        ) ??
         WidgetType.digitalClock;
 
     digitalClockSettings.setFrom(
@@ -149,8 +155,7 @@ abstract class _WidgetStore with Store, LazyInitializationMixin {
 }
 
 // ignore: library_private_types_in_public_api
-class DigitalClockWidgetSettingsStore = _DigitalClockWidgetSettingsStore
-    with _$DigitalClockWidgetSettingsStore;
+class DigitalClockWidgetSettingsStore = _DigitalClockWidgetSettingsStore with _$DigitalClockWidgetSettingsStore;
 
 abstract class _DigitalClockWidgetSettingsStore with Store {
   final DigitalClockWidgetSettings defaultSettings = const DigitalClockWidgetSettings();
@@ -213,8 +218,7 @@ abstract class _DigitalClockWidgetSettingsStore with Store {
 }
 
 // ignore: library_private_types_in_public_api
-class AnalogClockWidgetSettingsStore = _AnalogClockWidgetSettingsStore
-    with _$AnalogClockWidgetSettingsStore;
+class AnalogClockWidgetSettingsStore = _AnalogClockWidgetSettingsStore with _$AnalogClockWidgetSettingsStore;
 
 abstract class _AnalogClockWidgetSettingsStore with Store {
   final AnalogClockWidgetSettings defaultSettings = const AnalogClockWidgetSettings();
@@ -458,8 +462,7 @@ abstract class _WeatherWidgetSettingsStore with Store {
 }
 
 // ignore: library_private_types_in_public_api
-class DigitalDateWidgetSettingsStore = _DigitalDateWidgetSettingsStore
-    with _$DigitalDateWidgetSettingsStore;
+class DigitalDateWidgetSettingsStore = _DigitalDateWidgetSettingsStore with _$DigitalDateWidgetSettingsStore;
 
 abstract class _DigitalDateWidgetSettingsStore with Store {
   final DigitalDateWidgetSettings defaultSettings = const DigitalDateWidgetSettings();

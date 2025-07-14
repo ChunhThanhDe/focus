@@ -41,7 +41,9 @@ class DigitalClockWidgetSettingsView extends StatelessWidget {
               valueLabel: '${settings.fontSize.floor().toString()} px',
               value: settings.fontSize,
               onChanged:
-                  (value) => settings.update(() => settings.fontSize = value.floorToDouble()),
+                  (value) => settings.update(
+                    () => settings.fontSize = value.floorToDouble(),
+                  ),
             );
           },
         ),

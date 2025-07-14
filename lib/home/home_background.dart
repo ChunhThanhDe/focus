@@ -81,9 +81,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
                       duration: const Duration(milliseconds: 500),
                       curve: Curves.easeOut,
                       decoration: BoxDecoration(
-                        color: (store.invert ? Colors.white : AppColors.tint).withValues(
-                          alpha: store.tint / 100,
-                        ),
+                        color: (store.invert ? Colors.white : AppColors.tint).withValues(alpha: store.tint / 100),
                       ),
                     );
                   },
@@ -95,7 +93,9 @@ class _HomeBackgroundState extends State<HomeBackground> {
                   builder: (context) {
                     if (!store.texture) return const SizedBox.shrink();
                     return CustomPaint(
-                      painter: TexturePainter(color: store.foregroundColor.withValues(alpha: 0.4)),
+                      painter: TexturePainter(
+                        color: store.foregroundColor.withValues(alpha: 0.4),
+                      ),
                     );
                   },
                 ),
@@ -111,8 +111,7 @@ class _HomeBackgroundState extends State<HomeBackground> {
     if (store.isImageMode) return null;
     final gradient = store.gradient;
 
-    final colors =
-        store.isGradientMode ? gradient.colors : [store.color.background, store.color.background];
+    final colors = store.isGradientMode ? gradient.colors : [store.color.background, store.color.background];
 
     return LinearGradient(
       colors: colors,
@@ -161,10 +160,7 @@ class _ImageBackgroundViewState extends State<ImageBackgroundView> {
       } else {
         imageBytes1 = widget.imageBytes;
       }
-      crossFadeState =
-          crossFadeState == CrossFadeState.showFirst
-              ? CrossFadeState.showSecond
-              : CrossFadeState.showFirst;
+      crossFadeState = crossFadeState == CrossFadeState.showFirst ? CrossFadeState.showSecond : CrossFadeState.showFirst;
     }
   }
 

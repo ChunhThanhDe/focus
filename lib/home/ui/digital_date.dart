@@ -101,7 +101,11 @@ class _DigitalDateRenderer extends StatelessWidget {
                     DigitalClock(style: style, format: 'hh:mm a'),
                   ],
                 )
-                : Text(customDateString, textAlign: TextAlign.center, style: style),
+                : Text(
+                  customDateString,
+                  textAlign: TextAlign.center,
+                  style: style,
+                ),
       ),
     );
   }

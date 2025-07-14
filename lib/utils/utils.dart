@@ -25,7 +25,28 @@ mixin LazyInitializationMixin {
 ColorFilter greyscale([double value = 1]) {
   assert(value >= 0 && value <= 1);
   if (value == 0) {
-    return const ColorFilter.matrix([1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]);
+    return const ColorFilter.matrix([
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+    ]);
   }
   return ColorFilter.matrix(<double>[
     lerpDouble(1, 0.2126, value)!,
@@ -79,18 +100,20 @@ Future<Uint8List> takeScreenshot(
   ui.ImageByteFormat format = ui.ImageByteFormat.png,
 }) async {
   try {
-    final RenderObject renderObject =
-        widgetKey.currentContext?.findRenderObject() ??
-        (throw ScreenshotException('No RenderObject found'));
+    final RenderObject renderObject = widgetKey.currentContext?.findRenderObject() ?? (throw ScreenshotException('No RenderObject found'));
     if (renderObject is! RenderRepaintBoundary) {
       throw ScreenshotException('RenderObject is not a RenderRepaintBoundary');
     }
 
-    final ui.Image image = await renderObject.toImage(pixelRatio: devicePixelRatio);
+    final ui.Image image = await renderObject.toImage(
+      pixelRatio: devicePixelRatio,
+    );
     // image to Uint8List
     final ByteData? byteData = await image.toByteData(format: format);
     if (byteData == null) {
-      throw ScreenshotException('Error while taking screenshot: byteData is null');
+      throw ScreenshotException(
+        'Error while taking screenshot: byteData is null',
+      );
     }
     final Uint8List pngBytes = byteData.buffer.asUint8List();
 

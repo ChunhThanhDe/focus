@@ -3,12 +3,15 @@ import 'dart:io';
 void main(List<String> args) {
   if (args.isEmpty) {
     stderr.writeln(
-        'Usage: animated_logo_resizer.dart <input_file> <output_file> <size>');
+      'Usage: animated_logo_resizer.dart <input_file> <output_file> <size>',
+    );
     exit(0);
   }
   if (args.length != 3) {
-    stderr.writeln('Must provide required args:\n'
-        'Usage: animated_logo_resizer.dart <input_file> <output_file> <size>');
+    stderr.writeln(
+      'Must provide required args:\n'
+      'Usage: animated_logo_resizer.dart <input_file> <output_file> <size>',
+    );
     exit(1);
   }
 
@@ -32,10 +35,7 @@ void main(List<String> args) {
 
   final content = inputFile.readAsStringSync();
 
-  final String updatedContent = content
-      .replaceAll('[[SIZE]]', size.toString())
-      .replaceAll('[[CONTENT_SIZE]]', contentSize.toString())
-      .replaceAll('[[MARGIN]]', margin.toString());
+  final String updatedContent = content.replaceAll('[[SIZE]]', size.toString()).replaceAll('[[CONTENT_SIZE]]', contentSize.toString()).replaceAll('[[MARGIN]]', margin.toString());
 
   outputFile.writeAsStringSync(updatedContent);
 

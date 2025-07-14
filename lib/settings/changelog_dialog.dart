@@ -54,9 +54,7 @@ class _ChangelogDialogState extends State<ChangelogDialog> {
                   Expanded(
                     child: Text(
                       "What's new in Focus",
-                      style: Theme.of(
-                        context,
-                      ).textTheme.headlineSmall!.copyWith(fontWeight: FontWeight.w500),
+                      style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontWeight: FontWeight.w500),
                     ),
                   ),
                   Material(
@@ -72,10 +70,17 @@ class _ChangelogDialogState extends State<ChangelogDialog> {
               ),
             ),
             if (isLoading)
-              const Expanded(child: Center(child: CupertinoActivityIndicator(radius: 12))),
+              const Expanded(
+                child: Center(child: CupertinoActivityIndicator(radius: 12)),
+              ),
             if (error != null)
               Expanded(
-                child: Center(child: Text(error!, style: Theme.of(context).textTheme.bodyLarge)),
+                child: Center(
+                  child: Text(
+                    error!,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ),
               ),
             if (changelog != null) ...[
               Expanded(
@@ -90,7 +95,10 @@ class _ChangelogDialogState extends State<ChangelogDialog> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 12,
+                        ),
                         color: Theme.of(context).colorScheme.primary,
                         child: Row(
                           children: [
@@ -105,7 +113,10 @@ class _ChangelogDialogState extends State<ChangelogDialog> {
                             ),
                             Text(
                               DateFormat('dd MMMM, yyyy').format(date!),
-                              style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 13),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 13,
+                              ),
                             ),
                           ],
                         ),
@@ -113,11 +124,16 @@ class _ChangelogDialogState extends State<ChangelogDialog> {
                       Expanded(
                         child: SingleChildScrollView(
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 20,
+                            ),
                             child: Theme(
                               data: Theme.of(context).copyWith(
                                 textTheme: Theme.of(context).textTheme.copyWith(
-                                  bodyMedium: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                  bodyMedium: Theme.of(
+                                    context,
+                                  ).textTheme.bodyMedium!.copyWith(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w300,
                                   ),
@@ -138,7 +154,9 @@ class _ChangelogDialogState extends State<ChangelogDialog> {
                 child: GestureDetectorWithCursor(
                   onTap:
                       () => launchUrl(
-                        Uri.parse('https://github.com/ChunhThanhDe/focus/blob/main/CHANGELOG.md'),
+                        Uri.parse(
+                          'https://github.com/ChunhThanhDe/focus/blob/main/CHANGELOG.md',
+                        ),
                       ),
                   child: Hoverable(
                     builder:
@@ -168,11 +186,15 @@ class _ChangelogDialogState extends State<ChangelogDialog> {
     try {
       version = packageInfo.version;
       final response = await http.get(
-        Uri.parse('https://raw.githubusercontent.com/ChunhThanhDe/focus/$version/CHANGELOG.md'),
+        Uri.parse(
+          'https://raw.githubusercontent.com/ChunhThanhDe/focus/$version/CHANGELOG.md',
+        ),
       );
 
       final releaseResponse = await http.get(
-        Uri.parse('https://api.github.com/repos/ChunhThanhDe/focus/releases/tags/$version'),
+        Uri.parse(
+          'https://api.github.com/repos/ChunhThanhDe/focus/releases/tags/$version',
+        ),
       );
       isLoading = false;
       if (response.statusCode != 200 || releaseResponse.statusCode != 200) {

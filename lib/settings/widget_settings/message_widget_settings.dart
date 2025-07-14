@@ -38,7 +38,9 @@ class MessageWidgetSettingsView extends StatelessWidget {
               valueLabel: '${settings.fontSize.floor().toString()} px',
               value: settings.fontSize,
               onChanged:
-                  (value) => settings.update(() => settings.fontSize = value.floorToDouble()),
+                  (value) => settings.update(
+                    () => settings.fontSize = value.floorToDouble(),
+                  ),
             );
           },
         ),
@@ -57,7 +59,11 @@ class MessageWidgetSettingsView extends StatelessWidget {
           label: 'Message',
           initialHeight: 150,
           initialValue: settings.message,
-          onChanged: (message) => settings.update(save: false, () => settings.message = message),
+          onChanged:
+              (message) => settings.update(
+                save: false,
+                () => settings.message = message,
+              ),
           onSubmitted: (message) => settings.update(() => settings.message = message),
         ),
         const SizedBox(height: 16),

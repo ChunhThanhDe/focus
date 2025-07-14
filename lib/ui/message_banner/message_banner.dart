@@ -112,15 +112,11 @@ class _MessageBannerState extends State<MessageBanner> {
         ),
       );
     }
-    final animationDirection =
-        widget.defaultAnimationStyle == MessageBannerAnimationStyle.topToBottom ? -1 : 1;
+    final animationDirection = widget.defaultAnimationStyle == MessageBannerAnimationStyle.topToBottom ? -1 : 1;
     return TweenAnimationBuilder<double>(
       duration: const Duration(milliseconds: 200),
       curve: Curves.fastOutSlowIn,
-      tween:
-          widget.controller.showing
-              ? Tween<double>(begin: 0, end: 1)
-              : Tween<double>(begin: 1, end: 0),
+      tween: widget.controller.showing ? Tween<double>(begin: 0, end: 1) : Tween<double>(begin: 1, end: 0),
       onEnd: widget.controller._onAnimationEnd,
       builder:
           (_, value, child) =>
@@ -203,7 +199,10 @@ class MessageBannerStack extends StatefulWidget {
     this.showIcon = true,
     this.borderRadius,
     this.crossAxisAlignment = CrossAxisAlignment.center,
-  }) : assert(child != null || builder != null, 'Either child or builder cannot be null.');
+  }) : assert(
+         child != null || builder != null,
+         'Either child or builder cannot be null.',
+       );
 
   @override
   State<MessageBannerStack> createState() => _MessageBannerStackState();
@@ -234,7 +233,9 @@ class _MessageBannerStackState extends State<MessageBannerStack> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Builder(builder: (context) => widget.child ?? widget.builder!.call(context)),
+        Builder(
+          builder: (context) => widget.child ?? widget.builder!.call(context),
+        ),
         Positioned(
           left: widget.horizontalSpacing,
           right: widget.horizontalSpacing,
@@ -251,10 +252,7 @@ class _MessageBannerStackState extends State<MessageBannerStack> {
             showIcon: widget.showIcon,
             borderRadius: widget.borderRadius,
             crossAxisAlignment: widget.crossAxisAlignment,
-            defaultAnimationStyle:
-                widget.position == MessageBannerPosition.top
-                    ? MessageBannerAnimationStyle.topToBottom
-                    : MessageBannerAnimationStyle.bottomToTop,
+            defaultAnimationStyle: widget.position == MessageBannerPosition.top ? MessageBannerAnimationStyle.topToBottom : MessageBannerAnimationStyle.bottomToTop,
           ),
         ),
       ],
@@ -362,38 +360,65 @@ class MessageBannerController extends ChangeNotifier {
     bool autoHide = true,
     Duration duration = const Duration(seconds: 3),
     Widget? icon,
-  }) => showMessage(message, MessageType.info, autoHide: autoHide, duration: duration, icon: icon);
+  }) => showMessage(
+    message,
+    MessageType.info,
+    autoHide: autoHide,
+    duration: duration,
+    icon: icon,
+  );
 
   FutureOr<void> showWarning(
     String message, {
     bool autoHide = true,
     Duration duration = const Duration(seconds: 3),
     Widget? icon,
-  }) =>
-      showMessage(message, MessageType.warning, autoHide: autoHide, duration: duration, icon: icon);
+  }) => showMessage(
+    message,
+    MessageType.warning,
+    autoHide: autoHide,
+    duration: duration,
+    icon: icon,
+  );
 
   FutureOr<void> showSuccess(
     String message, {
     bool autoHide = true,
     Duration duration = const Duration(seconds: 3),
     Widget? icon,
-  }) =>
-      showMessage(message, MessageType.success, autoHide: autoHide, duration: duration, icon: icon);
+  }) => showMessage(
+    message,
+    MessageType.success,
+    autoHide: autoHide,
+    duration: duration,
+    icon: icon,
+  );
 
   FutureOr<void> showError(
     String message, {
     bool autoHide = true,
     Duration duration = const Duration(seconds: 3),
     Widget? icon,
-  }) => showMessage(message, MessageType.error, autoHide: autoHide, duration: duration, icon: icon);
+  }) => showMessage(
+    message,
+    MessageType.error,
+    autoHide: autoHide,
+    duration: duration,
+    icon: icon,
+  );
 
   FutureOr<void> showNeutral(
     String message, {
     bool autoHide = true,
     Duration duration = const Duration(seconds: 3),
     Widget? icon,
-  }) =>
-      showMessage(message, MessageType.neutral, autoHide: autoHide, duration: duration, icon: icon);
+  }) => showMessage(
+    message,
+    MessageType.neutral,
+    autoHide: autoHide,
+    duration: duration,
+    icon: icon,
+  );
 
   void _onAnimationEnd() {
     if (!showing) {

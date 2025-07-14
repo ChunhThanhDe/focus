@@ -32,9 +32,7 @@ class _NewCollectionDialogState extends State<NewCollectionDialog> {
   @override
   void initState() {
     super.initState();
-    _textStreamController.stream
-        .debounceTime(const Duration(milliseconds: 500))
-        .listen(onTextChanged);
+    _textStreamController.stream.debounceTime(const Duration(milliseconds: 500)).listen(onTextChanged);
   }
 
   @override
@@ -72,7 +70,10 @@ class _NewCollectionDialogState extends State<NewCollectionDialog> {
                         children: [
                           const Text(
                             'New Collection',
-                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                           const SizedBox(height: 6),
                           Text(
@@ -168,7 +169,10 @@ class _NewCollectionDialogState extends State<NewCollectionDialog> {
                     TextButton(
                       onPressed: () => Navigator.pop(context),
                       style: TextButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 16,
+                        ),
                       ),
                       child: const Text('Cancel'),
                     ),
@@ -176,10 +180,16 @@ class _NewCollectionDialogState extends State<NewCollectionDialog> {
                     FilledButton(
                       onPressed:
                           isValid == true
-                              ? () => Navigator.pop(context, _controller.text.trim())
+                              ? () => Navigator.pop(
+                                context,
+                                _controller.text.trim(),
+                              )
                               : null,
                       style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 16,
+                        ),
                       ),
                       child: const Text('Create'),
                     ),

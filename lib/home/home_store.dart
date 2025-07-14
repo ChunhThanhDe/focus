@@ -74,7 +74,9 @@ abstract class _HomeStore with Store, LazyInitializationMixin {
   /// Exports the current settings to a json file.
   Future<bool?> onExportSettings(ExportData data) async {
     try {
-      final String dataString = const JsonEncoder.withIndent('  ').convert(data.toJson());
+      final String dataString = const JsonEncoder.withIndent(
+        '  ',
+      ).convert(data.toJson());
 
       final String fileName = 'focus-settings-${data.createdAt.millisecondsSinceEpoch}.json';
 
@@ -102,7 +104,10 @@ abstract class _HomeStore with Store, LazyInitializationMixin {
         await file.writeAsString(dataString);
       }
 
-      messageBannerController.showNeutral('Settings exported!', icon: const Icon(Icons.done));
+      messageBannerController.showNeutral(
+        'Settings exported!',
+        icon: const Icon(Icons.done),
+      );
 
       return true;
     } catch (error, stackTrace) {
@@ -146,7 +151,10 @@ abstract class _HomeStore with Store, LazyInitializationMixin {
 
       await importDataToStorage(data);
 
-      messageBannerController.showNeutral('Settings imported!', icon: const Icon(Icons.done));
+      messageBannerController.showNeutral(
+        'Settings imported!',
+        icon: const Icon(Icons.done),
+      );
 
       return true;
     } catch (error, stackTrace) {
@@ -161,7 +169,10 @@ abstract class _HomeStore with Store, LazyInitializationMixin {
     final LocalStorageManager storage = GetIt.instance.get<LocalStorageManager>();
 
     // background settings
-    await storage.setJson(StorageKeys.backgroundSettings, data.settings.toJson());
+    await storage.setJson(
+      StorageKeys.backgroundSettings,
+      data.settings.toJson(),
+    );
 
     // cached images
     await storage.setInt(StorageKeys.imageIndex, data.imageIndex);
@@ -181,19 +192,40 @@ abstract class _HomeStore with Store, LazyInitializationMixin {
 
     // widget settings
     final widgetSettings = data.widgetSettings;
-    await storage.setEnum<WidgetType>(StorageKeys.widgetType, widgetSettings.type);
+    await storage.setEnum<WidgetType>(
+      StorageKeys.widgetType,
+      widgetSettings.type,
+    );
 
-    await storage.setJson(StorageKeys.digitalClockSettings, widgetSettings.digitalClock.toJson());
+    await storage.setJson(
+      StorageKeys.digitalClockSettings,
+      widgetSettings.digitalClock.toJson(),
+    );
 
-    await storage.setJson(StorageKeys.analogueClockSettings, widgetSettings.analogClock.toJson());
+    await storage.setJson(
+      StorageKeys.analogueClockSettings,
+      widgetSettings.analogClock.toJson(),
+    );
 
-    await storage.setJson(StorageKeys.messageSettings, widgetSettings.message.toJson());
+    await storage.setJson(
+      StorageKeys.messageSettings,
+      widgetSettings.message.toJson(),
+    );
 
-    await storage.setJson(StorageKeys.timerSettings, widgetSettings.timer.toJson());
+    await storage.setJson(
+      StorageKeys.timerSettings,
+      widgetSettings.timer.toJson(),
+    );
 
-    await storage.setJson(StorageKeys.weatherSettings, widgetSettings.weather.toJson());
+    await storage.setJson(
+      StorageKeys.weatherSettings,
+      widgetSettings.weather.toJson(),
+    );
 
-    await storage.setJson(StorageKeys.digitalDateSettings, widgetSettings.digitalDate.toJson());
+    await storage.setJson(
+      StorageKeys.digitalDateSettings,
+      widgetSettings.digitalDate.toJson(),
+    );
   }
 
   void dispose() {

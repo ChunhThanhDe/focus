@@ -5,7 +5,12 @@ class Labeled extends StatelessWidget {
   final Widget child;
   final double spacing;
 
-  const Labeled({super.key, required this.label, required this.child, this.spacing = 12});
+  const Labeled({
+    super.key,
+    required this.label,
+    required this.child,
+    this.spacing = 12,
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -17,11 +17,12 @@ enum UnsplashPhotoOrientation {
   portrait,
   squarish;
 
-  static UnsplashPhotoOrientation fromAspectRatio(double aspectRatio) => aspectRatio > 1.0
-      ? UnsplashPhotoOrientation.landscape
-      : aspectRatio < 1.0
-          ? UnsplashPhotoOrientation.portrait
-          : UnsplashPhotoOrientation.squarish;
+  static UnsplashPhotoOrientation fromAspectRatio(double aspectRatio) =>
+      aspectRatio > 1.0
+          ? UnsplashPhotoOrientation.landscape
+          : aspectRatio < 1.0
+              ? UnsplashPhotoOrientation.portrait
+              : UnsplashPhotoOrientation.squarish;
 }
 
 /// Base class for Unsplash image sources
@@ -66,7 +67,8 @@ class UnsplashRandomSource extends UnsplashSource {
       _$UnsplashRandomSourceFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$UnsplashRandomSourceToJson(this)..['type'] = type.name;
+  Map<String, dynamic> toJson() =>
+      _$UnsplashRandomSourceToJson(this)..['type'] = type.name;
 
   @override
   List<Object?> get props => [type, name];
@@ -99,7 +101,8 @@ class UnsplashCollectionSource extends UnsplashIdentifiableSource {
       _$UnsplashCollectionSourceFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$UnsplashCollectionSourceToJson(this)..['type'] = type.name;
+  Map<String, dynamic> toJson() =>
+      _$UnsplashCollectionSourceToJson(this)..['type'] = type.name;
 
   @override
   List<Object?> get props => [type, id, name];
@@ -122,7 +125,8 @@ class UnsplashUserLikesSource extends UnsplashIdentifiableSource {
       _$UnsplashUserLikesSourceFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$UnsplashUserLikesSourceToJson(this)..['type'] = type.name;
+  Map<String, dynamic> toJson() =>
+      _$UnsplashUserLikesSourceToJson(this)..['type'] = type.name;
 
   @override
   List<Object?> get props => [type, id, name];
@@ -146,7 +150,8 @@ class UnsplashTagsSource extends UnsplashRandomSource {
       _$UnsplashTagsSourceFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$UnsplashTagsSourceToJson(this)..['type'] = type.name;
+  Map<String, dynamic> toJson() =>
+      _$UnsplashTagsSourceToJson(this)..['type'] = type.name;
 
   @override
   List<Object?> get props => [type, suffix];

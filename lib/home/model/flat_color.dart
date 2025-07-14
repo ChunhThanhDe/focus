@@ -15,11 +15,7 @@ class FlatColor with EquatableMixin {
   @override
   List<Object?> get props => [name, background, foreground];
 
-  FlatColor copyWith({
-    String? name,
-    Color? background,
-    Color? foreground,
-  }) {
+  FlatColor copyWith({String? name, Color? background, Color? foreground}) {
     return FlatColor(
       name: name ?? this.name,
       background: background ?? this.background,

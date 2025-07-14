@@ -21,10 +21,7 @@ class AlignmentControl extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (label != null) ...[
-          Text(label!),
-          const SizedBox(height: 10),
-        ],
+        if (label != null) ...[Text(label!), const SizedBox(height: 10)],
         Row(
           children: [
             // AlignmentUI(

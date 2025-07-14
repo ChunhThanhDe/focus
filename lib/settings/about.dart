@@ -108,7 +108,10 @@ class About extends StatelessWidget {
               onTap: () => launchUrl(Uri.parse('https://github.com/ChunhThanhDe')),
               child: SizedBox.square(
                 dimension: 26,
-                child: Image.asset('assets/images/ic_github.png', color: Colors.white),
+                child: Image.asset(
+                  'assets/images/ic_github.png',
+                  color: Colors.white,
+                ),
               ),
             ),
             const SizedBox(width: 14),
@@ -136,7 +139,11 @@ class About extends StatelessWidget {
         const SizedBox(height: 8),
         GestureDetectorWithCursor(
           onTap: () => launchUrl(Uri.parse('https://unsplash.com')),
-          child: Image.asset('assets/images/ic_unsplash.png', height: 24, color: Colors.white),
+          child: Image.asset(
+            'assets/images/ic_unsplash.png',
+            height: 24,
+            color: Colors.white,
+          ),
         ),
         const SizedBox(height: 32),
         Text(
@@ -153,7 +160,11 @@ class About extends StatelessWidget {
         const SizedBox(height: 8),
         GestureDetectorWithCursor(
           onTap: () => launchUrl(Uri.parse('https://open-meteo.com')),
-          child: Image.asset('assets/images/ic_open_meteo.png', height: 32, color: Colors.white),
+          child: Image.asset(
+            'assets/images/ic_open_meteo.png',
+            height: 32,
+            color: Colors.white,
+          ),
         ),
         const SizedBox(height: 24),
       ],
@@ -211,16 +222,25 @@ class _FocusLogoState extends State<FocusLogo> with SingleTickerProviderStateMix
         alignment: Alignment.center,
         children: [
           Positioned.fill(
-            child: Image.asset('assets/images/ic_focus_logo_bg.png', fit: BoxFit.cover),
+            child: Image.asset(
+              'assets/images/ic_focus_logo_bg.png',
+              fit: BoxFit.cover,
+            ),
           ),
           AnimatedBuilder(
             animation: _controller,
             builder: (context, child) {
-              return Transform.rotate(angle: _controller.value * 2 * pi, child: child);
+              return Transform.rotate(
+                angle: _controller.value * 2 * pi,
+                child: child,
+              );
             },
             child: SizedBox.square(
               dimension: widget.size * 0.7,
-              child: Image.asset('assets/images/ic_focus_planet.png', fit: BoxFit.cover),
+              child: Image.asset(
+                'assets/images/ic_focus_planet.png',
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           // Shadow

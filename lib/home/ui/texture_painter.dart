@@ -21,8 +21,8 @@ class TexturePainter extends CustomPainter {
     this.spacing = 30,
     this.offset = 16,
     this.radius = 1,
-  })  : assert(spacing > 0 && spacing < double.infinity),
-        assert(radius >= 0 && radius <= double.infinity);
+  }) : assert(spacing > 0 && spacing < double.infinity),
+       assert(radius >= 0 && radius <= double.infinity);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -32,9 +32,10 @@ class TexturePainter extends CustomPainter {
     assert(width > 0 && height > 0);
     assert(width < double.infinity && height < double.infinity);
 
-    final Paint paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.fill;
+    final Paint paint =
+        Paint()
+          ..color = color
+          ..style = PaintingStyle.fill;
 
     // Calculate the number of dots that can fit in the width and height.
     final int horizontalCount = (width / spacing).ceil();
@@ -51,9 +52,5 @@ class TexturePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant TexturePainter oldDelegate) =>
-      oldDelegate.radius != radius ||
-      oldDelegate.spacing != spacing ||
-      oldDelegate.color != color ||
-      oldDelegate.offset != offset;
+  bool shouldRepaint(covariant TexturePainter oldDelegate) => oldDelegate.radius != radius || oldDelegate.spacing != spacing || oldDelegate.color != color || oldDelegate.offset != offset;
 }

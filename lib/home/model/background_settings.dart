@@ -2,14 +2,14 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:equatable/equatable.dart';
-import '../../resources/color_gradients.dart';
-import '../../resources/flat_colors.dart';
-import '../../resources/unsplash_sources.dart';
-import '../../utils/utils.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:shared/shared.dart';
 import 'package:unsplash_client/unsplash_client.dart';
 
+import '../../resources/color_gradients.dart';
+import '../../resources/flat_colors.dart';
+import '../../resources/unsplash_sources.dart';
+import '../../utils/utils.dart';
 import 'color_gradient.dart';
 import 'flat_color.dart';
 
@@ -57,8 +57,7 @@ enum BackgroundRefreshRate {
   final String label;
   final Duration duration;
 
-  bool get requiresTimer =>
-      this != BackgroundRefreshRate.never && this != BackgroundRefreshRate.newTab;
+  bool get requiresTimer => this != BackgroundRefreshRate.never && this != BackgroundRefreshRate.newTab;
 }
 
 enum ImageResolution {
@@ -156,16 +155,14 @@ class BackgroundSettings with EquatableMixin {
     );
   }
 
-  factory BackgroundSettings.fromJson(Map<String, dynamic> json) =>
-      _$BackgroundSettingsFromJson(json);
+  factory BackgroundSettings.fromJson(Map<String, dynamic> json) => _$BackgroundSettingsFromJson(json);
 
   Map<String, dynamic> toJson() => _$BackgroundSettingsToJson(this);
 }
 
 FlatColor flatColorFromJson(String name) => findColorByName(name) ?? FlatColors.minimal;
 
-ColorGradient colorGradientFromJson(String name) =>
-    findGradientByName(name) ?? ColorGradients.youtube;
+ColorGradient colorGradientFromJson(String name) => findGradientByName(name) ?? ColorGradients.youtube;
 
 String flatColorToJson(FlatColor color) => color.name;
 
@@ -181,8 +178,7 @@ class UnsplashLikedBackground extends LikedBackground implements UnsplashPhoto {
 
   UnsplashLikedBackground({required super.id, required this.photo}) : super(url: '');
 
-  factory UnsplashLikedBackground.fromJson(Map<String, dynamic> json) =>
-      _$UnsplashLikedBackgroundFromJson(json);
+  factory UnsplashLikedBackground.fromJson(Map<String, dynamic> json) => _$UnsplashLikedBackgroundFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$UnsplashLikedBackgroundToJson(this);
@@ -203,11 +199,13 @@ class UnsplashPhotoBackground extends Background implements UnsplashPhoto {
   @override
   String get url => photo.urls.raw.toString();
 
-  UnsplashPhotoBackground({required super.id, required super.bytes, required this.photo})
-    : super(url: '');
+  UnsplashPhotoBackground({
+    required super.id,
+    required super.bytes,
+    required this.photo,
+  }) : super(url: '');
 
-  factory UnsplashPhotoBackground.fromJson(Map<String, dynamic> json) =>
-      _$UnsplashPhotoBackgroundFromJson(json);
+  factory UnsplashPhotoBackground.fromJson(Map<String, dynamic> json) => _$UnsplashPhotoBackgroundFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$UnsplashPhotoBackgroundToJson(this);

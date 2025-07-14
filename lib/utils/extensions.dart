@@ -133,10 +133,7 @@ extension DateTimeExt on DateTime {
 }
 
 extension TimerFormatExt on TimerFormat {
-  bool get showsSeconds =>
-      this == TimerFormat.descriptiveWithSeconds ||
-      this == TimerFormat.seconds ||
-      this == TimerFormat.countdown;
+  bool get showsSeconds => this == TimerFormat.descriptiveWithSeconds || this == TimerFormat.seconds || this == TimerFormat.countdown;
 }
 
 extension ImageRefreshRateExt on BackgroundRefreshRate {
@@ -162,7 +159,11 @@ extension ImageRefreshRateExt on BackgroundRefreshRate {
       case BackgroundRefreshRate.weekly:
         final now = DateTime.now();
         // next monday
-        final DateTime nextMonday = DateTime(now.year, now.month, now.day + 7 - now.weekday + 1);
+        final DateTime nextMonday = DateTime(
+          now.year,
+          now.month,
+          now.day + 7 - now.weekday + 1,
+        );
         return nextMonday;
     }
   }
@@ -197,5 +198,10 @@ extension PhotoExt on Photo {
     double? devicePixelRatio,
     String fit = 'crop',
     String crop = 'entropy',
-  }) => urls.rawWith(size: size, devicePixelRatio: devicePixelRatio, fit: fit, crop: crop);
+  }) => urls.rawWith(
+    size: size,
+    devicePixelRatio: devicePixelRatio,
+    fit: fit,
+    crop: crop,
+  );
 }

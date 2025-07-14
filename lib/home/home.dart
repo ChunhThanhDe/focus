@@ -83,7 +83,10 @@ class _HomeState extends State<Home> {
   }
 
   void listenToEvents() {
-    _disposer = reaction((react) => backgroundStore.backgroundRefreshRate, onRefreshRateChanged);
+    _disposer = reaction(
+      (react) => backgroundStore.backgroundRefreshRate,
+      onRefreshRateChanged,
+    );
   }
 
   /// Start and stop timer based on the current [BackgroundRefreshRate] when
@@ -128,9 +131,16 @@ class _HomeState extends State<Home> {
                 fit: StackFit.expand,
                 alignment: Alignment.center,
                 children: [
-                  const Positioned.fill(child: RepaintBoundary(child: HomeBackground())),
-                  const Positioned.fill(child: RepaintBoundary(child: HomeWidget())),
-                  const Align(alignment: Alignment.bottomCenter, child: BottomBar()),
+                  const Positioned.fill(
+                    child: RepaintBoundary(child: HomeBackground()),
+                  ),
+                  const Positioned.fill(
+                    child: RepaintBoundary(child: HomeWidget()),
+                  ),
+                  const Align(
+                    alignment: Alignment.bottomCenter,
+                    child: BottomBar(),
+                  ),
                   const RepaintBoundary(child: SettingsPanel()),
                   Positioned(
                     bottom: 48,
@@ -141,7 +151,10 @@ class _HomeState extends State<Home> {
                       child: MessageBanner(
                         controller: store.messageBannerController,
                         maxLines: 1,
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
                         bannerStyle: MessageBannerStyle.solid,
                       ),
                     ),
@@ -169,7 +182,10 @@ class _HomeState extends State<Home> {
                       builder: (context) {
                         return Text(
                           backgroundStore.imageIndex.toString(),
-                          style: const TextStyle(color: Colors.white, fontSize: 16),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
                         );
                       },
                     ),
@@ -188,12 +204,18 @@ class _HomeState extends State<Home> {
                       children: [
                         Text(
                           '0: ${DateFormat('dd/MM/yyyy hh:mm a').format(backgroundStore.image1Time)}',
-                          style: const TextStyle(color: Colors.white, fontSize: 12),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           '1: ${DateFormat('dd/MM/yyyy hh:mm a').format(backgroundStore.image2Time)}',
-                          style: const TextStyle(color: Colors.white, fontSize: 12),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
                         ),
                       ],
                     );
@@ -228,7 +250,9 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> _shouldShowChangelog() async {
-    final String? storedVersion = await storageManager.getString(StorageKeys.version);
+    final String? storedVersion = await storageManager.getString(
+      StorageKeys.version,
+    );
     if (storedVersion == null || storedVersion != packageInfo.version) {
       log('Showing changelog dialog');
       await storageManager.setString(StorageKeys.version, packageInfo.version);
@@ -238,7 +262,10 @@ class _HomeState extends State<Home> {
         context: context,
         barrierDismissible: true,
         builder:
-            (context) => const Material(type: MaterialType.transparency, child: ChangelogDialog()),
+            (context) => const Material(
+              type: MaterialType.transparency,
+              child: ChangelogDialog(),
+            ),
       );
     }
   }

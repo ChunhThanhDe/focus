@@ -22,7 +22,9 @@ class OpenMeteoGeocodingService implements GeocodingService {
 
       if (response.statusCode == 200) {
         final decodedJson = jsonDecode(response.body);
-        final locations = List<Map<String, dynamic>>.from(decodedJson['results'] ?? []);
+        final locations = List<Map<String, dynamic>>.from(
+          decodedJson['results'] ?? [],
+        );
         return locations.map((item) => LocationResponse.fromJson(item)).toList();
       } else {
         throw Exception('Failed to load locations');

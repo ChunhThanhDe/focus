@@ -65,9 +65,7 @@ class _LikedBackgroundsDialogState extends State<LikedBackgroundsDialog> {
                       children: [
                         Text(
                           "Photos you've liked",
-                          style: Theme.of(
-                            context,
-                          ).textTheme.headlineSmall!.copyWith(fontWeight: FontWeight.w500),
+                          style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontWeight: FontWeight.w500),
                         ),
                         if (entries.isNotEmpty)
                           Text(
@@ -102,7 +100,11 @@ class _LikedBackgroundsDialogState extends State<LikedBackgroundsDialog> {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.photo_library_outlined, size: 100, color: Colors.grey.shade700),
+                      Icon(
+                        Icons.photo_library_outlined,
+                        size: 100,
+                        color: Colors.grey.shade700,
+                      ),
                       const SizedBox(height: 10),
                       const Text(
                         "You haven't liked any photos yet. Photos you like will show up here.",
@@ -155,7 +157,9 @@ class _LikedBackgroundsDialogState extends State<LikedBackgroundsDialog> {
     if (mounted) setState(() {});
   }
 
-  Future<void> onDownloadImage(MapEntry<String, LikedBackground> background) async {
+  Future<void> onDownloadImage(
+    MapEntry<String, LikedBackground> background,
+  ) async {
     if (downloadingItems[background.value.url] == DownloadState.downloading) {
       return;
     }
@@ -234,8 +238,7 @@ class _ItemState extends State<_Item> {
   void didUpdateWidget(covariant _Item oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.downloadState != oldWidget.downloadState) {
-      if (widget.downloadState == DownloadState.downloaded ||
-          widget.downloadState == DownloadState.failed) {
+      if (widget.downloadState == DownloadState.downloaded || widget.downloadState == DownloadState.failed) {
         Future.delayed(const Duration(seconds: 2), () {
           widget.onRemoveDownloadState();
         });
@@ -302,12 +305,17 @@ class _ItemState extends State<_Item> {
                   bottom: widget.downloadState != null ? 0 : -32,
                   duration: const Duration(milliseconds: 250),
                   curve: Curves.easeInOut,
-                  child: _DownloadIndicator(downloadState: widget.downloadState),
+                  child: _DownloadIndicator(
+                    downloadState: widget.downloadState,
+                  ),
                 ),
               ],
             );
           },
-          child: _NetworkImageWithStates(url: widget.entry.value.url, fit: BoxFit.cover),
+          child: _NetworkImageWithStates(
+            url: widget.entry.value.url,
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );
@@ -458,28 +466,30 @@ class _NetworkImageWithStates extends StatelessWidget {
       width: width,
       height: height,
       loadingBuilder:
-          (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) =>
-              AnimatedSwitcher(
-                duration: const Duration(milliseconds: 150),
-                child:
-                    loadingProgress == null
-                        ? SizedBox.expand(child: child)
-                        : Center(
-                          child: CustomPaint(
-                            painter: CircularProgressPainter(
-                              radius: 12,
-                              value:
-                                  loadingProgress.expectedTotalBytes != null
-                                      ? loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!
-                                      : 0,
-                            ),
-                          ),
+          (
+            BuildContext context,
+            Widget child,
+            ImageChunkEvent? loadingProgress,
+          ) => AnimatedSwitcher(
+            duration: const Duration(milliseconds: 150),
+            child:
+                loadingProgress == null
+                    ? SizedBox.expand(child: child)
+                    : Center(
+                      child: CustomPaint(
+                        painter: CircularProgressPainter(
+                          radius: 12,
+                          value: loadingProgress.expectedTotalBytes != null ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes! : 0,
                         ),
-              ),
+                      ),
+                    ),
+          ),
       errorBuilder:
-          (context, Object error, StackTrace? stackTrace) =>
-              Icon(Icons.broken_image_outlined, size: 48, color: Colors.grey.shade800),
+          (context, Object error, StackTrace? stackTrace) => Icon(
+            Icons.broken_image_outlined,
+            size: 48,
+            color: Colors.grey.shade800,
+          ),
     );
   }
 }
@@ -495,13 +505,16 @@ class CircularProgressPainter extends CustomPainter {
   final Paint arcPaint;
   final Paint strokePaint;
 
-  CircularProgressPainter({required this.radius, required this.value, this.color = Colors.white})
-    : arcPaint = Paint()..color = color,
-      strokePaint =
-          Paint()
-            ..color = color
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1;
+  CircularProgressPainter({
+    required this.radius,
+    required this.value,
+    this.color = Colors.white,
+  }) : arcPaint = Paint()..color = color,
+       strokePaint =
+           Paint()
+             ..color = color
+             ..style = PaintingStyle.stroke
+             ..strokeWidth = 1;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -509,9 +522,17 @@ class CircularProgressPainter extends CustomPainter {
 
     final double angle = value * 360;
     final angleInRadians = angle * pi / 180;
-    canvas.drawCircle(center, radius, Paint()..color = color.withValues(alpha: 0.1));
+    canvas.drawCircle(
+      center,
+      radius,
+      Paint()..color = color.withValues(alpha: 0.1),
+    );
     canvas.drawArc(
-      Rect.fromCenter(center: center, height: (radius * 2), width: (radius * 2)),
+      Rect.fromCenter(
+        center: center,
+        height: (radius * 2),
+        width: (radius * 2),
+      ),
       -pi / 2,
       angleInRadians,
       true,
@@ -523,11 +544,7 @@ class CircularProgressPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CircularProgressPainter oldDelegate) =>
-      oldDelegate.radius != radius ||
-      oldDelegate.value != value ||
-      oldDelegate.color != color ||
-      oldDelegate.arcPaint != arcPaint ||
-      oldDelegate.strokePaint != strokePaint;
+      oldDelegate.radius != radius || oldDelegate.value != value || oldDelegate.color != color || oldDelegate.arcPaint != arcPaint || oldDelegate.strokePaint != strokePaint;
 }
 
 class RotationAnglePainter extends CustomPainter {
@@ -536,7 +553,11 @@ class RotationAnglePainter extends CustomPainter {
   final Color angleArcColor;
   final Paint linePaint = Paint();
 
-  RotationAnglePainter({required this.angleArcColor, required this.lineColor, required this.angle});
+  RotationAnglePainter({
+    required this.angleArcColor,
+    required this.lineColor,
+    required this.angle,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {

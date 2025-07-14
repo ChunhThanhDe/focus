@@ -42,7 +42,9 @@ class TimerWidgetSettingsView extends StatelessWidget {
               valueLabel: '${settings.fontSize.floor().toString()} px',
               value: settings.fontSize,
               onChanged:
-                  (value) => settings.update(() => settings.fontSize = value.floorToDouble()),
+                  (value) => settings.update(
+                    () => settings.fontSize = value.floorToDouble(),
+                  ),
             );
           },
         ),
@@ -74,7 +76,11 @@ class TimerWidgetSettingsView extends StatelessWidget {
           label: 'Text Before',
           initialHeight: 50,
           initialValue: settings.textBefore,
-          onChanged: (message) => settings.update(save: false, () => settings.textBefore = message),
+          onChanged:
+              (message) => settings.update(
+                save: false,
+                () => settings.textBefore = message,
+              ),
           onSubmitted: (message) => settings.update(() => settings.textBefore = message),
         ),
         const SizedBox(height: 16),
@@ -88,7 +94,9 @@ class TimerWidgetSettingsView extends StatelessWidget {
                 textInputAction: TextInputAction.next,
                 inputFormatters: [MaskedInputFormatter('00/00/0000')],
                 hintText: 'dd/mm/yyyy',
-                initialValue: timer.DateFormat('dd/MM/yyyy').format(settings.time),
+                initialValue: timer.DateFormat(
+                  'dd/MM/yyyy',
+                ).format(settings.time),
                 contentPadding: const EdgeInsets.fromLTRB(12, 16, 12, 16),
                 onSubmitted: (value) {
                   if (value.isEmpty || value.length < 10) return false;
@@ -116,10 +124,15 @@ class TimerWidgetSettingsView extends StatelessWidget {
                 label: 'Time',
                 textStyle: const TextStyle(letterSpacing: 0.2),
                 inputFormatters: [
-                  MaskedInputFormatter('00:00 ##', allowedCharMatcher: RegExp(r'[0-9:AMP]+')),
+                  MaskedInputFormatter(
+                    '00:00 ##',
+                    allowedCharMatcher: RegExp(r'[0-9:AMP]+'),
+                  ),
                 ],
                 hintText: 'hh:mm aa',
-                initialValue: timer.DateFormat('hh:mm aa').format(settings.time),
+                initialValue: timer.DateFormat(
+                  'hh:mm aa',
+                ).format(settings.time),
                 onSubmitted: (value) {
                   if (value.isEmpty || value.length < 5) return false;
                   final tokens = value.split(':');
@@ -147,7 +160,11 @@ class TimerWidgetSettingsView extends StatelessWidget {
           label: 'Text After',
           initialHeight: 100,
           initialValue: settings.textAfter,
-          onChanged: (message) => settings.update(save: false, () => settings.textAfter = message),
+          onChanged:
+              (message) => settings.update(
+                save: false,
+                () => settings.textAfter = message,
+              ),
           onSubmitted: (message) => settings.update(() => settings.textAfter = message),
         ),
         const SizedBox(height: 16),

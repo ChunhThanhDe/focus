@@ -29,7 +29,11 @@ class BottomBar extends StatelessWidget {
               name: 'Bottom Bar Left',
               builder:
                   (context) => Padding(
-                    padding: const EdgeInsets.only(left: 24, right: 24, bottom: 16),
+                    padding: const EdgeInsets.only(
+                      left: 24,
+                      right: 24,
+                      bottom: 16,
+                    ),
                     child: Row(
                       children: [
                         Expanded(
@@ -39,12 +43,20 @@ class BottomBar extends StatelessWidget {
                             style: DefaultTextStyle.of(context).style.copyWith(
                               color:
                                   hovering
-                                      ? store.foregroundColor.withValues(alpha: 0.8)
-                                      : store.foregroundColor.withValues(alpha: 0.2),
+                                      ? store.foregroundColor.withValues(
+                                        alpha: 0.8,
+                                      )
+                                      : store.foregroundColor.withValues(
+                                        alpha: 0.2,
+                                      ),
                               decorationColor:
                                   hovering
-                                      ? store.foregroundColor.withValues(alpha: 0.8)
-                                      : store.foregroundColor.withValues(alpha: 0.2),
+                                      ? store.foregroundColor.withValues(
+                                        alpha: 0.8,
+                                      )
+                                      : store.foregroundColor.withValues(
+                                        alpha: 0.2,
+                                      ),
                               fontWeight: FontWeight.w300,
                             ),
                             child: Wrap(
@@ -58,24 +70,21 @@ class BottomBar extends StatelessWidget {
                                       background.photo.user.name,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
-                                        decoration:
-                                            hovering
-                                                ? TextDecoration.underline
-                                                : TextDecoration.none,
+                                        decoration: hovering ? TextDecoration.underline : TextDecoration.none,
                                       ),
                                     ),
                                   ),
                                   const Text(' on '),
                                   GestureDetectorWithCursor(
-                                    onTap: () => launchUrlString('https://unsplash.com'),
+                                    onTap:
+                                        () => launchUrlString(
+                                          'https://unsplash.com',
+                                        ),
                                     child: Text(
                                       'Unsplash',
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
-                                        decoration:
-                                            hovering
-                                                ? TextDecoration.underline
-                                                : TextDecoration.none,
+                                        decoration: hovering ? TextDecoration.underline : TextDecoration.none,
                                       ),
                                     ),
                                   ),
@@ -105,10 +114,10 @@ class BottomBar extends StatelessWidget {
                                         child: LinearProgressIndicator(
                                           color: store.foregroundColor,
                                           minHeight: 4,
-                                          borderRadius: BorderRadius.circular(100),
-                                          backgroundColor: store.foregroundColor.withValues(
-                                            alpha: 0.3,
+                                          borderRadius: BorderRadius.circular(
+                                            100,
                                           ),
+                                          backgroundColor: store.foregroundColor.withValues(alpha: 0.3),
                                         ),
                                       ),
                                     ),
@@ -213,8 +222,16 @@ class LinearHorizon extends StatelessWidget {
   final Widget Function(BuildContext context, bool hovering)? childBuilder;
   final bool enabled;
 
-  const LinearHorizon({super.key, this.child, this.childBuilder, this.color, this.enabled = true})
-    : assert(child != null || childBuilder != null, 'child or childBuilder must be provided');
+  const LinearHorizon({
+    super.key,
+    this.child,
+    this.childBuilder,
+    this.color,
+    this.enabled = true,
+  }) : assert(
+         child != null || childBuilder != null,
+         'child or childBuilder must be provided',
+       );
 
   @override
   Widget build(BuildContext context) {
@@ -283,7 +300,10 @@ class _SettingsButtonState extends State<SettingsButton> with SingleTickerProvid
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 200));
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
   }
 
   @override
@@ -303,7 +323,10 @@ class _SettingsButtonState extends State<SettingsButton> with SingleTickerProvid
           onExit: (_) => controller.reverse(),
           tooltip: 'Settings',
           child: AnimatedBuilder(
-            animation: CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn),
+            animation: CurvedAnimation(
+              parent: controller,
+              curve: Curves.fastOutSlowIn,
+            ),
             builder: (context, child) {
               return Transform.rotate(
                 angle: controller.value * pi / pi,
@@ -333,14 +356,16 @@ class ChangeBackgroundButton extends StatefulWidget {
   State<ChangeBackgroundButton> createState() => _ChangeBackgroundButtonState();
 }
 
-class _ChangeBackgroundButtonState extends State<ChangeBackgroundButton>
-    with SingleTickerProviderStateMixin {
+class _ChangeBackgroundButtonState extends State<ChangeBackgroundButton> with SingleTickerProviderStateMixin {
   late final AnimationController controller;
 
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 200));
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
   }
 
   @override
@@ -358,13 +383,14 @@ class _ChangeBackgroundButtonState extends State<ChangeBackgroundButton>
           onExit: (_) => controller.reverse(),
           tooltip: 'Change Background',
           child: AnimatedBuilder(
-            animation: CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn),
+            animation: CurvedAnimation(
+              parent: controller,
+              curve: Curves.fastOutSlowIn,
+            ),
             builder: (context, child) {
               return ImageIcon(
                 AssetImage(
-                  store.isLoadingImage
-                      ? 'assets/images/ic_hourglass.png'
-                      : 'assets/images/ic_fan.png',
+                  store.isLoadingImage ? 'assets/images/ic_hourglass.png' : 'assets/images/ic_fan.png',
                 ),
                 color: color.withValues(alpha: max(0.2, controller.value)),
               );
@@ -389,14 +415,16 @@ class LikeBackgroundButton extends StatefulWidget {
   State<LikeBackgroundButton> createState() => _LikeBackgroundButtonState();
 }
 
-class _LikeBackgroundButtonState extends State<LikeBackgroundButton>
-    with SingleTickerProviderStateMixin {
+class _LikeBackgroundButtonState extends State<LikeBackgroundButton> with SingleTickerProviderStateMixin {
   late final AnimationController controller;
 
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 200));
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
   }
 
   @override
@@ -421,7 +449,10 @@ class _LikeBackgroundButtonState extends State<LikeBackgroundButton>
             onExit: (_) => controller.reverse(),
             tooltip: store.isLiked ? 'Liked' : 'Like',
             child: AnimatedBuilder(
-              animation: CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn),
+              animation: CurvedAnimation(
+                parent: controller,
+                curve: Curves.fastOutSlowIn,
+              ),
               builder: (context, child) {
                 return Icon(
                   store.isLiked ? Icons.favorite_rounded : Icons.favorite_border_rounded,

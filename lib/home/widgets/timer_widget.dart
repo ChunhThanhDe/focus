@@ -47,10 +47,7 @@ class _TimerWidgetState extends State<TimerWidget> with SingleTickerProviderStat
     return CustomObserver(
       name: 'TimerWidget',
       builder: (context) {
-        final hasFixedWidth =
-            settings.textBefore.isEmpty &&
-            settings.textAfter.isEmpty &&
-            settings.format == TimerFormat.countdown;
+        final hasFixedWidth = settings.textBefore.isEmpty && settings.textAfter.isEmpty && settings.format == TimerFormat.countdown;
 
         Widget wid = Text.rich(
           buildTimerTextSpan(settings),
@@ -77,7 +74,11 @@ class _TimerWidgetState extends State<TimerWidget> with SingleTickerProviderStat
               for (final char in buildTime(settings).split(''))
                 SizedBox(
                   width: char == ':' ? settings.fontSize * 0.3 : settings.fontSize * 0.6,
-                  child: Text(char, textAlign: settings.alignment.textAlign, style: style),
+                  child: Text(
+                    char,
+                    textAlign: settings.alignment.textAlign,
+                    style: style,
+                  ),
                 ),
             ],
           );
@@ -85,7 +86,9 @@ class _TimerWidgetState extends State<TimerWidget> with SingleTickerProviderStat
 
         return Align(
           alignment: settings.alignment.flutterAlignment,
-          child: FittedBox(child: Padding(padding: const EdgeInsets.all(56), child: wid)),
+          child: FittedBox(
+            child: Padding(padding: const EdgeInsets.all(56), child: wid),
+          ),
         );
       },
     );
@@ -114,10 +117,7 @@ class _TimerWidgetState extends State<TimerWidget> with SingleTickerProviderStat
   }
 
   String buildTime(TimerWidgetSettingsStore settings) {
-    final Duration duration =
-        DateTime.now() >= settings.time
-            ? DateTime.now().difference(settings.time)
-            : settings.time.difference(DateTime.now());
+    final Duration duration = DateTime.now() >= settings.time ? DateTime.now().difference(settings.time) : settings.time.difference(DateTime.now());
     final StringBuffer buffer = StringBuffer();
     switch (settings.format) {
       case TimerFormat.seconds:
@@ -172,13 +172,21 @@ class _TimerWidgetState extends State<TimerWidget> with SingleTickerProviderStat
           if (DateTime.now() >= settings.time) {
             // past timer.
             if (DateTime.now() <
-                DateTime(DateTime.now().year, settings.time.month, settings.time.day)) {
+                DateTime(
+                  DateTime.now().year,
+                  settings.time.month,
+                  settings.time.day,
+                )) {
               years--;
             }
           } else {
             // future timer.
             if (DateTime.now() >
-                DateTime(DateTime.now().year, settings.time.month, settings.time.day)) {
+                DateTime(
+                  DateTime.now().year,
+                  settings.time.month,
+                  settings.time.day,
+                )) {
               years--;
             }
           }
@@ -203,26 +211,29 @@ class _TimerWidgetState extends State<TimerWidget> with SingleTickerProviderStat
         days = days - years * 365;
         hours = hours - days * 24 - years * 365 * 24;
         minutes = minutes - days * 24 * 60 - hours * 60 - years * 365 * 24 * 60;
-        seconds =
-            seconds -
-            days * 24 * 60 * 60 -
-            hours * 60 * 60 -
-            minutes * 60 -
-            years * 365 * 24 * 60 * 60;
+        seconds = seconds - days * 24 * 60 * 60 - hours * 60 * 60 - minutes * 60 - years * 365 * 24 * 60 * 60;
         if (years > 0) {
-          buffer.write('${formatAsNumber(years)} ${fixGrammar(years, 'year')} ');
+          buffer.write(
+            '${formatAsNumber(years)} ${fixGrammar(years, 'year')} ',
+          );
         }
         if (days > 0) {
           buffer.write('${formatAsNumber(days)} ${fixGrammar(days, 'day')} ');
         }
         if (hours > 0) {
-          buffer.write('${formatAsNumber(hours)} ${fixGrammar(hours, 'hour')} ');
+          buffer.write(
+            '${formatAsNumber(hours)} ${fixGrammar(hours, 'hour')} ',
+          );
         }
         if (minutes > 0) {
-          buffer.write('${formatAsNumber(minutes)} ${fixGrammar(minutes, 'minute')} ');
+          buffer.write(
+            '${formatAsNumber(minutes)} ${fixGrammar(minutes, 'minute')} ',
+          );
         }
         if (seconds > 0 && settings.format == TimerFormat.descriptiveWithSeconds) {
-          buffer.write('${formatAsNumber(seconds)} ${fixGrammar(seconds, 'second')}');
+          buffer.write(
+            '${formatAsNumber(seconds)} ${fixGrammar(seconds, 'second')}',
+          );
         }
         break;
     }
@@ -233,23 +244,17 @@ class _TimerWidgetState extends State<TimerWidget> with SingleTickerProviderStat
     final String value = val.toString();
     if (value.length <= 3) return value;
     final String lastThreeDigits = value.characters.takeLast(3).toString();
-    final List<String> slices =
-        value.characters
-            .skipLast(3)
-            .toString()
-            .reversed
-            .characters
-            .slices(2)
-            .map((e) => e.reversed.join())
-            .toList()
-            .reversed
-            .toList();
+    final List<String> slices = value.characters.skipLast(3).toString().reversed.characters.slices(2).map((e) => e.reversed.join()).toList().reversed.toList();
     slices.add(lastThreeDigits);
     return slices.join(',');
   }
 
   String fixGrammar(int number, String word, {bool useArticleForOne = false}) {
-    return Intl.plural(number, one: '${useArticleForOne ? 'a' : '1'} $word', other: '${word}s');
+    return Intl.plural(
+      number,
+      one: '${useArticleForOne ? 'a' : '1'} $word',
+      other: '${word}s',
+    );
   }
 
   double calculateMaxWidth(BuildContext context, TimerWidgetSettings settings) {

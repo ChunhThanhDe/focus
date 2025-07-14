@@ -7,21 +7,20 @@ part of 'weather_info.dart';
 // **************************************************************************
 
 WeatherInfo _$WeatherInfoFromJson(Map<String, dynamic> json) => WeatherInfo(
-      latitude: (json['latitude'] as num).toDouble(),
-      longitude: (json['longitude'] as num).toDouble(),
-      temperature: (json['temperature'] as num).toDouble(),
-      weatherCode: $enumDecode(_$WeatherCodeEnumMap, json['weatherCode']),
-      timestamp: dateTimeFromJson((json['timestamp'] as num).toInt()),
-    );
+  latitude: (json['latitude'] as num).toDouble(),
+  longitude: (json['longitude'] as num).toDouble(),
+  temperature: (json['temperature'] as num).toDouble(),
+  weatherCode: $enumDecode(_$WeatherCodeEnumMap, json['weatherCode']),
+  timestamp: dateTimeFromJson((json['timestamp'] as num).toInt()),
+);
 
-Map<String, dynamic> _$WeatherInfoToJson(WeatherInfo instance) =>
-    <String, dynamic>{
-      'latitude': instance.latitude,
-      'longitude': instance.longitude,
-      'temperature': instance.temperature,
-      'weatherCode': _$WeatherCodeEnumMap[instance.weatherCode]!,
-      'timestamp': dateTimeToJson(instance.timestamp),
-    };
+Map<String, dynamic> _$WeatherInfoToJson(WeatherInfo instance) => <String, dynamic>{
+  'latitude': instance.latitude,
+  'longitude': instance.longitude,
+  'temperature': instance.temperature,
+  'weatherCode': _$WeatherCodeEnumMap[instance.weatherCode]!,
+  'timestamp': dateTimeToJson(instance.timestamp),
+};
 
 const _$WeatherCodeEnumMap = {
   WeatherCode.unknown: 'unknown',

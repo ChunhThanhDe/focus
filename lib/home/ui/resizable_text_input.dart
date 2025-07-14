@@ -64,7 +64,10 @@ class _ResizableTextInputState extends State<ResizableTextInput> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (widget.label != null) ...[Text(widget.label!), const SizedBox(height: 10)],
+        if (widget.label != null) ...[
+          Text(widget.label!),
+          const SizedBox(height: 10),
+        ],
         Stack(
           children: [
             SizedBox(
@@ -75,23 +78,38 @@ class _ResizableTextInputState extends State<ResizableTextInput> {
                 onChanged: widget.onChanged,
                 expands: true,
                 maxLines: null,
-                style: const TextStyle(fontWeight: FontWeight.w300, fontSize: 13),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w300,
+                  fontSize: 13,
+                ),
                 decoration: InputDecoration(
                   isDense: true,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 16,
+                  ),
                   filled: true,
                   isCollapsed: true,
                   fillColor: Colors.grey.withValues(alpha: 0.05),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 1),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 1,
+                    ),
                     borderRadius: BorderRadius.circular(4),
                   ),
                   border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey.withValues(alpha: 0.2), width: 1),
+                    borderSide: BorderSide(
+                      color: Colors.grey.withValues(alpha: 0.2),
+                      width: 1,
+                    ),
                     borderRadius: BorderRadius.circular(4),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey.withValues(alpha: 0.15), width: 1),
+                    borderSide: BorderSide(
+                      color: Colors.grey.withValues(alpha: 0.15),
+                      width: 1,
+                    ),
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),

@@ -8,7 +8,13 @@ class DigitalClock extends StatefulWidget {
   final EdgeInsets? padding;
   final String format;
 
-  const DigitalClock({super.key, this.style, this.decoration, this.padding, this.format = 'hh:mm'});
+  const DigitalClock({
+    super.key,
+    this.style,
+    this.decoration,
+    this.padding,
+    this.format = 'hh:mm',
+  });
 
   @override
   State<DigitalClock> createState() => _DigitalClockState();

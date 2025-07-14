@@ -102,10 +102,7 @@ class _BackgroundOptions extends StatelessWidget {
                 padding: const EdgeInsets.all(8),
                 child: Icon(
                   Icons.lens_blur_rounded,
-                  color:
-                      store.texture
-                          ? Theme.of(context).colorScheme.primary
-                          : AppColors.textColor.withValues(alpha: 0.5),
+                  color: store.texture ? Theme.of(context).colorScheme.primary : AppColors.textColor.withValues(alpha: 0.5),
                   size: 20,
                 ),
               ),
@@ -128,14 +125,9 @@ class _BackgroundOptions extends StatelessWidget {
                     padding: const EdgeInsets.all(8),
                     child: ImageIcon(
                       AssetImage(
-                        store.isLoadingImage
-                            ? 'assets/images/ic_hourglass.png'
-                            : 'assets/images/ic_fan.png',
+                        store.isLoadingImage ? 'assets/images/ic_hourglass.png' : 'assets/images/ic_fan.png',
                       ),
-                      color:
-                          store.isLoadingImage
-                              ? Colors.grey.withValues(alpha: 0.5)
-                              : AppColors.textColor.withValues(alpha: 0.5),
+                      color: store.isLoadingImage ? Colors.grey.withValues(alpha: 0.5) : AppColors.textColor.withValues(alpha: 0.5),
                       size: 20,
                     ),
                   ),
@@ -176,10 +168,7 @@ class _ImageBackgroundOptions extends StatelessWidget {
                 padding: const EdgeInsets.all(8),
                 child: Icon(
                   Icons.brightness_medium_rounded,
-                  color:
-                      store.invert
-                          ? Theme.of(context).colorScheme.primary
-                          : AppColors.textColor.withValues(alpha: 0.5),
+                  color: store.invert ? Theme.of(context).colorScheme.primary : AppColors.textColor.withValues(alpha: 0.5),
                   size: 20,
                 ),
               ),
@@ -197,14 +186,9 @@ class _ImageBackgroundOptions extends StatelessWidget {
                 padding: const EdgeInsets.all(8),
                 child: ImageIcon(
                   AssetImage(
-                    store.isLoadingImage
-                        ? 'assets/images/ic_hourglass.png'
-                        : 'assets/images/ic_fan.png',
+                    store.isLoadingImage ? 'assets/images/ic_hourglass.png' : 'assets/images/ic_fan.png',
                   ),
-                  color:
-                      store.isLoadingImage
-                          ? Colors.grey.withValues(alpha: 0.5)
-                          : AppColors.textColor.withValues(alpha: 0.5),
+                  color: store.isLoadingImage ? Colors.grey.withValues(alpha: 0.5) : AppColors.textColor.withValues(alpha: 0.5),
                   size: 20,
                 ),
               ),
@@ -222,10 +206,7 @@ class _ImageBackgroundOptions extends StatelessWidget {
                 padding: const EdgeInsets.all(8),
                 child: Icon(
                   Icons.download_rounded,
-                  color:
-                      store.isLoadingImage || store.currentImage == null
-                          ? Colors.grey.withValues(alpha: 0.5)
-                          : AppColors.textColor.withValues(alpha: 0.5),
+                  color: store.isLoadingImage || store.currentImage == null ? Colors.grey.withValues(alpha: 0.5) : AppColors.textColor.withValues(alpha: 0.5),
                   size: 20,
                 ),
               ),
@@ -243,10 +224,7 @@ class _ImageBackgroundOptions extends StatelessWidget {
                 padding: const EdgeInsets.all(8),
                 child: Icon(
                   Icons.open_in_new_rounded,
-                  color:
-                      store.isLoadingImage || store.currentImage == null
-                          ? Colors.grey.withValues(alpha: 0.5)
-                          : AppColors.textColor.withValues(alpha: 0.5),
+                  color: store.isLoadingImage || store.currentImage == null ? Colors.grey.withValues(alpha: 0.5) : AppColors.textColor.withValues(alpha: 0.5),
                   size: 20,
                 ),
               ),
@@ -411,10 +389,7 @@ class _ImageSourceSelectorState extends State<_ImageSourceSelector> {
                   (context, item) => Text(
                     item.label,
                     style: TextStyle(
-                      color:
-                          item == ImageSource.userLikes && store.likedBackgrounds.isEmpty
-                              ? Colors.grey.shade400
-                              : null,
+                      color: item == ImageSource.userLikes && store.likedBackgrounds.isEmpty ? Colors.grey.shade400 : null,
                     ),
                   ),
               onSelected: (value) {
@@ -494,7 +469,9 @@ class UnsplashSourceSettings extends StatelessWidget {
                         child: Icon(
                           Icons.explicit,
                           size: 16,
-                          color: context.colorScheme.onSurface.withValues(alpha: 0.7),
+                          color: context.colorScheme.onSurface.withValues(
+                            alpha: 0.7,
+                          ),
                         ),
                       ),
                   ],
@@ -522,7 +499,9 @@ class UnsplashSourceSettings extends StatelessWidget {
               hint: 'Select a resolution',
               items:
                   ImageResolution.values
-                      .where((resolution) => resolution != ImageResolution.original)
+                      .where(
+                        (resolution) => resolution != ImageResolution.original,
+                      )
                       .toList(),
               itemBuilder:
                   (context, item) => Text.rich(
@@ -547,11 +526,17 @@ class UnsplashSourceSettings extends StatelessWidget {
     );
   }
 
-  Future<void> onCreateNewCollection(BuildContext context, BackgroundStore store) async {
+  Future<void> onCreateNewCollection(
+    BuildContext context,
+    BackgroundStore store,
+  ) async {
     final String? result = await showDialog<String>(
       context: context,
       builder:
-          (context) => Theme(data: Theme.of(context), child: NewCollectionDialog(store: store)),
+          (context) => Theme(
+            data: Theme.of(context),
+            child: NewCollectionDialog(store: store),
+          ),
     );
     if (result != null) {
       store.addNewCollection(
@@ -580,10 +565,12 @@ class ResolutionHelpButton extends StatelessWidget {
             text: 'Background images will have\nsame resolution as this window.\n',
             style: TextStyle(height: 1.3, fontSize: 13),
           ),
-          TextSpan(text: '\nNote: ', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
           TextSpan(
-            text:
-                'Higher resolution background may\ntake more time to load depending on\nyour connection.',
+            text: '\nNote: ',
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+          ),
+          TextSpan(
+            text: 'Higher resolution background may\ntake more time to load depending on\nyour connection.',
             style: TextStyle(height: 1.3, fontSize: 13),
           ),
         ],
@@ -642,7 +629,10 @@ class _ColorSelectorItem extends StatelessWidget {
           width: 24,
           height: 24,
           clipBehavior: Clip.antiAlias,
-          decoration: ShapeDecoration(shape: const CircleBorder(), color: item.background),
+          decoration: ShapeDecoration(
+            shape: const CircleBorder(),
+            color: item.background,
+          ),
         ),
         const SizedBox(width: 10),
         Expanded(child: Text(item.name)),
@@ -689,7 +679,10 @@ class _GradientSelectorItem extends StatelessWidget {
           width: 24,
           height: 24,
           clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(shape: BoxShape.circle, gradient: item.toLinearGradient()),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: item.toLinearGradient(),
+          ),
         ),
         const SizedBox(width: 10),
         Expanded(child: Text(item.name)),

@@ -64,7 +64,9 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
   Background? _image2;
 
   @readonly
-  ObservableMap<String, LikedBackground> _likedBackgrounds = ObservableMap.of({});
+  ObservableMap<String, LikedBackground> _likedBackgrounds = ObservableMap.of(
+    {},
+  );
 
   late Future initializationFuture;
 
@@ -118,7 +120,9 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
   @computed
   bool get isLiked {
     return currentImage != null &&
-        _likedBackgrounds.containsKey(StorageKeys.likedBackground(currentImage!.id));
+        _likedBackgrounds.containsKey(
+          StorageKeys.likedBackground(currentImage!.id),
+        );
   }
 
   @computed
@@ -160,13 +164,9 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
     // load image last updated time
     _imageIndex = await storage.getInt(StorageKeys.imageIndex) ?? 0;
 
-    _image1Time = await storage
-        .getInt('image1Time')
-        .then((value) => DateTime.fromMillisecondsSinceEpoch(value ?? 0));
+    _image1Time = await storage.getInt('image1Time').then((value) => DateTime.fromMillisecondsSinceEpoch(value ?? 0));
 
-    _image2Time = await storage
-        .getInt('image2Time')
-        .then((value) => DateTime.fromMillisecondsSinceEpoch(value ?? 0));
+    _image2Time = await storage.getInt('image2Time').then((value) => DateTime.fromMillisecondsSinceEpoch(value ?? 0));
 
     backgroundLastUpdated = await storage.getInt(StorageKeys.backgroundLastUpdated).then((value) {
       if (value == null) return DateTime.now();
@@ -238,7 +238,10 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
         });
       } else {
         // If images are cached, load them.
-        _image1 = await storage.getSerializableObject(StorageKeys.image1, Background.fromJson);
+        _image1 = await storage.getSerializableObject(
+          StorageKeys.image1,
+          Background.fromJson,
+        );
       }
       if (!await storage.containsKey(StorageKeys.image2)) {
         // If no images are cached, fetch new ones now and cache them.
@@ -251,7 +254,10 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
         });
       } else {
         // If images are cached, load them.
-        _image2 = await storage.getSerializableObject(StorageKeys.image2, Background.fromJson);
+        _image2 = await storage.getSerializableObject(
+          StorageKeys.image2,
+          Background.fromJson,
+        );
       }
       final future = _loadLikedBackgrounds();
       if (_imageSource == ImageSource.userLikes) {
@@ -271,7 +277,10 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
     final likedBackgrounds = <String, LikedBackground>{};
     for (final key in keys) {
       if (!key.startsWith(StorageKeys.liked)) continue;
-      final background = await storage.getSerializableObject(key, LikedBackground.fromJson);
+      final background = await storage.getSerializableObject(
+        key,
+        LikedBackground.fromJson,
+      );
       if (background == null) continue;
       likedBackgrounds[key] = background;
     }
@@ -306,11 +315,15 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
   void _logNextBackgroundChange() {
     if (!_backgroundRefreshRate.requiresTimer) return;
 
-    final DateTime? nextUpdateTime = _backgroundRefreshRate.nextUpdateTime(backgroundLastUpdated);
+    final DateTime? nextUpdateTime = _backgroundRefreshRate.nextUpdateTime(
+      backgroundLastUpdated,
+    );
     if (nextUpdateTime == null) return;
 
     // ignore: avoid_print
-    log('Next Background change at ${DateFormat('dd/MM/yyyy hh:mm:ss a').format(nextUpdateTime)}');
+    log(
+      'Next Background change at ${DateFormat('dd/MM/yyyy hh:mm:ss a').format(nextUpdateTime)}',
+    );
   }
 
   /// Fetches a new image from unsplash and sets it as the current image.
@@ -518,7 +531,9 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
   ///
   /// Returns null if the image could not be fetched.
   @action
-  Future<Background?> _loadImageFromSource({bool showLoadingBackground = false}) async {
+  Future<Background?> _loadImageFromSource({
+    bool showLoadingBackground = false,
+  }) async {
     log('loadImageFromSource');
     _isLoadingImage = true;
     // This means that only show loading image background(grey scale) when
@@ -547,14 +562,13 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
     // log('Auto Background refresh has been triggered');
     // Exit if it is not time to change the background based on the user
     // settings.
-    if (_backgroundRefreshRate.nextUpdateTime(backgroundLastUpdated)!.isAfter(DateTime.now()) ||
-        _isLoadingImage) {
+    if (_backgroundRefreshRate.nextUpdateTime(backgroundLastUpdated)!.isAfter(DateTime.now()) || _isLoadingImage) {
       // Enable this to see the remaining time in console.
 
-      final remainingTime = backgroundLastUpdated
-          .add(_backgroundRefreshRate.duration)
-          .difference(DateTime.now());
-      log('[DEBUG] Next background update in ${remainingTime.inSeconds} seconds');
+      final remainingTime = backgroundLastUpdated.add(_backgroundRefreshRate.duration).difference(DateTime.now());
+      log(
+        '[DEBUG] Next background update in ${remainingTime.inSeconds} seconds',
+      );
       return;
     }
 
@@ -628,7 +642,9 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
       case ImageSource.unsplash:
         final Photo? photo = await backendService.randomUnsplashImage(
           source: _unsplashSource,
-          orientation: UnsplashPhotoOrientation.fromAspectRatio(size.aspectRatio),
+          orientation: UnsplashPhotoOrientation.fromAspectRatio(
+            size.aspectRatio,
+          ),
         );
         if (photo == null) {
           throw Exception('Failed to fetch image from unsplash');
@@ -647,10 +663,7 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
           Random().nextInt(_likedBackgrounds.length),
         );
         log('liked background url: ${background.url}');
-        final url =
-            background is UnsplashLikedBackground
-                ? background.photo.urls.rawWith(size: size)
-                : background.url;
+        final url = background is UnsplashLikedBackground ? background.photo.urls.rawWith(size: size) : background.url;
         final bytes = await getImageBytesFromUrl(url);
         if (background is UnsplashLikedBackground) {
           return UnsplashPhotoBackground(
@@ -659,7 +672,11 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
             bytes: bytes,
           );
         }
-        return Background(url: url, id: Uri.parse(url).pathSegments.last, bytes: bytes);
+        return Background(
+          url: url,
+          id: Uri.parse(url).pathSegments.last,
+          bytes: bytes,
+        );
 
       case ImageSource.local:
         // TODO: Handle this case.

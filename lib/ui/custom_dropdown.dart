@@ -42,9 +42,10 @@ class CustomMaterialDropdown<T> extends StatelessWidget {
             value: items.contains(value) ? value : null,
             isExpanded: isExpanded,
             hint: hint != null ? Text(hint!) : null,
-            style: Theme.of(
-              context,
-            ).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w400, height: 1),
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              fontWeight: FontWeight.w400,
+              height: 1,
+            ),
             // underline: const SizedBox.shrink(),
             // dropdownColor: Colors.red,
             decoration: InputDecoration(
@@ -148,9 +149,11 @@ class CustomDropdown<T> extends StatelessWidget {
           // searchController: searchable ? searchController : null,
           buttonPadding: const EdgeInsets.only(right: 12),
           underline: const SizedBox.shrink(),
-          style: Theme.of(
-            context,
-          ).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w400, fontSize: 13, height: 1),
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+            fontWeight: FontWeight.w400,
+            fontSize: 13,
+            height: 1,
+          ),
           buttonDecoration: BoxDecoration(
             color: AppColors.borderColor.withValues(alpha: 0.25),
             borderRadius: BorderRadius.circular(4),
@@ -186,7 +189,9 @@ class CustomDropdown<T> extends StatelessWidget {
   }
 
   bool defaultSearchFn(DropdownMenuItem item, String searchValue) {
-    return item.value.toString().toLowerCase().contains(searchValue.toLowerCase());
+    return item.value.toString().toLowerCase().contains(
+      searchValue.toLowerCase(),
+    );
   }
 }
 
@@ -201,13 +206,19 @@ class SearchBar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       decoration: BoxDecoration(
         // color: Colors.white,
-        border: Border(bottom: BorderSide(color: Colors.grey.withValues(alpha: 0.5), width: 0.5)),
+        border: Border(
+          bottom: BorderSide(
+            color: Colors.grey.withValues(alpha: 0.5),
+            width: 0.5,
+          ),
+        ),
       ),
       child: TextField(
         controller: controller,
-        style: Theme.of(
-          context,
-        ).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w400, height: 1.2),
+        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+          fontWeight: FontWeight.w400,
+          height: 1.2,
+        ),
         decoration: InputDecoration(
           isDense: true,
           hintText: 'Search',
@@ -216,11 +227,17 @@ class SearchBar extends StatelessWidget {
           fillColor: AppColors.borderColor.withValues(alpha: 0.25),
           hintStyle: const TextStyle(fontSize: 13, height: 1.2),
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey.withValues(alpha: 0.3), width: 0.5),
+            borderSide: BorderSide(
+              color: Colors.grey.withValues(alpha: 0.3),
+              width: 0.5,
+            ),
             borderRadius: BorderRadius.circular(4),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey.withValues(alpha: 0.3), width: 0.5),
+            borderSide: BorderSide(
+              color: Colors.grey.withValues(alpha: 0.3),
+              width: 0.5,
+            ),
             borderRadius: BorderRadius.circular(4),
           ),
           border: OutlineInputBorder(

@@ -15,8 +15,7 @@ class OpenMeteoWeatherService extends WeatherService {
   @override
   Future<WeatherInfo?> fetchWeather(double latitude, double longitude) async {
     try {
-      final url =
-          'https://api.open-meteo.com/v1/forecast?latitude=$latitude&longitude=$longitude&current_weather=true&timezone=auto';
+      final url = 'https://api.open-meteo.com/v1/forecast?latitude=$latitude&longitude=$longitude&current_weather=true&timezone=auto';
       log('url: $url');
       final result = await http.get(Uri.parse(url));
       if (result.statusCode == 200) {
@@ -27,7 +26,9 @@ class OpenMeteoWeatherService extends WeatherService {
           longitude: longitude,
           temperature: response.currentWeather.temperature,
           timestamp: response.currentWeather.time,
-          weatherCode: WeatherCode.fromCode(response.currentWeather.weatherCode),
+          weatherCode: WeatherCode.fromCode(
+            response.currentWeather.weatherCode,
+          ),
         );
       } else {
         log('status code: ${result.statusCode}');

@@ -40,7 +40,10 @@ class RestBackendService extends BackendService {
       Uri.parse('$baseUrl/unsplash/randomImage'),
       headers: {'Content-Type': 'application/json'},
       // Request body includes source (collection/tags/random...) + orientation (landscape...)
-      body: jsonEncode({'source': source.toJson(), 'orientation': orientation.name}),
+      body: jsonEncode({
+        'source': source.toJson(),
+        'orientation': orientation.name,
+      }),
     );
 
     // If the server returns 200 → parse the response into a Photo object

@@ -20,8 +20,7 @@ class DigitalClock extends StatefulWidget {
   State<DigitalClock> createState() => _DigitalClockState();
 }
 
-class _DigitalClockState extends State<DigitalClock>
-    with SingleTickerProviderStateMixin {
+class _DigitalClockState extends State<DigitalClock> with SingleTickerProviderStateMixin {
   late Ticker _ticker;
   late DateTime _initialTime;
   late DateTime _now;
@@ -80,11 +79,7 @@ class _DigitalClockRenderer extends StatelessWidget {
       decoration: decoration ?? const BoxDecoration(),
       child: Padding(
         padding: padding ?? EdgeInsets.zero,
-        child: Text(
-          timeString,
-          textAlign: TextAlign.center,
-          style: style,
-        ),
+        child: Text(timeString, textAlign: TextAlign.center, style: style),
       ),
     );
   }

@@ -63,12 +63,12 @@ abstract class _WeatherStore with Store, LazyInitializationMixin {
     /// Whether the weather info is outdated and needs to be updated. This
     /// would be the case if the user has changed their location from settings
     /// and the weather info is still for the old location.
-    final bool locationChanged =
-        weatherInfo != null &&
-        (weatherInfo!.latitude != latitude || weatherInfo!.longitude != longitude);
+    final bool locationChanged = weatherInfo != null && (weatherInfo!.latitude != latitude || weatherInfo!.longitude != longitude);
 
     if (locationChanged) {
-      log('cached location: ${weatherInfo?.latitude}, ${weatherInfo?.longitude}');
+      log(
+        'cached location: ${weatherInfo?.latitude}, ${weatherInfo?.longitude}',
+      );
       log('current location: $latitude, $longitude');
     }
 
@@ -102,7 +102,10 @@ abstract class _WeatherStore with Store, LazyInitializationMixin {
     this.weatherLastUpdated = DateTime.now();
 
     // Update the background image.
-    storage.setInt(StorageKeys.weatherLastUpdated, this.weatherLastUpdated!.millisecondsSinceEpoch);
+    storage.setInt(
+      StorageKeys.weatherLastUpdated,
+      this.weatherLastUpdated!.millisecondsSinceEpoch,
+    );
 
     // Log next background change time.
     _logNextWeatherUpdate();
@@ -121,7 +124,10 @@ abstract class _WeatherStore with Store, LazyInitializationMixin {
 
       // save last updated time
       weatherLastUpdated = DateTime.now();
-      storage.setInt(StorageKeys.weatherLastUpdated, weatherLastUpdated!.millisecondsSinceEpoch);
+      storage.setInt(
+        StorageKeys.weatherLastUpdated,
+        weatherLastUpdated!.millisecondsSinceEpoch,
+      );
     });
   }
 
@@ -156,7 +162,11 @@ class WeatherWidgetWrapper extends StatelessWidget {
   final double latitude;
   final double longitude;
 
-  const WeatherWidgetWrapper({super.key, required this.latitude, required this.longitude});
+  const WeatherWidgetWrapper({
+    super.key,
+    required this.latitude,
+    required this.longitude,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -183,7 +193,10 @@ class _WeatherWidgetState extends State<WeatherWidget> with SingleTickerProvider
   void initState() {
     super.initState();
 
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) => store.onTimerCallback());
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (timer) => store.onTimerCallback(),
+    );
   }
 
   @override
@@ -215,7 +228,10 @@ class _WeatherWidgetState extends State<WeatherWidget> with SingleTickerProvider
     );
   }
 
-  String buildText(WeatherInfo? weatherInfo, WeatherWidgetSettingsStore settings) {
+  String buildText(
+    WeatherInfo? weatherInfo,
+    WeatherWidgetSettingsStore settings,
+  ) {
     if (weatherInfo == null) return '_ _';
     final String temperature;
     if (settings.temperatureUnit == TemperatureUnit.celsius) {

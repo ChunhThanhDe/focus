@@ -7,7 +7,12 @@ class AlignmentControl extends StatelessWidget {
   final AlignmentC alignment;
   final ValueChanged<AlignmentC> onChanged;
 
-  const AlignmentControl({super.key, this.label, required this.alignment, required this.onChanged});
+  const AlignmentControl({
+    super.key,
+    this.label,
+    required this.alignment,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +81,9 @@ class _AlignmentUIState extends State<AlignmentUI> {
             child: Container(
               width: centerBoxSize,
               height: centerBoxSize,
-              decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
+              ),
             ),
           );
         },

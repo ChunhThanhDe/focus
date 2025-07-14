@@ -16,9 +16,13 @@ class TexturePainter extends CustomPainter {
   final double offset;
   final double radius;
 
-  TexturePainter({required this.color, this.spacing = 30, this.offset = 16, this.radius = 1})
-    : assert(spacing > 0 && spacing < double.infinity),
-      assert(radius >= 0 && radius <= double.infinity);
+  TexturePainter({
+    required this.color,
+    this.spacing = 30,
+    this.offset = 16,
+    this.radius = 1,
+  }) : assert(spacing > 0 && spacing < double.infinity),
+       assert(radius >= 0 && radius <= double.infinity);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -48,9 +52,5 @@ class TexturePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant TexturePainter oldDelegate) =>
-      oldDelegate.radius != radius ||
-      oldDelegate.spacing != spacing ||
-      oldDelegate.color != color ||
-      oldDelegate.offset != offset;
+  bool shouldRepaint(covariant TexturePainter oldDelegate) => oldDelegate.radius != radius || oldDelegate.spacing != spacing || oldDelegate.color != color || oldDelegate.offset != offset;
 }

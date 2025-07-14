@@ -30,8 +30,7 @@ class CustomObserver extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = _colors[name.hashCode % _colors.length];
-    final bool debugHighlightObserverRebuild =
-        DebugRender.of(context)?.debugHighlightObserverRebuild ?? false;
+    final bool debugHighlightObserverRebuild = DebugRender.of(context)?.debugHighlightObserverRebuild ?? false;
 
     if (debugHighlightObserverRebuild) {
       log('Rebuilding Observer $name');
@@ -57,7 +56,10 @@ class CustomObserver extends StatelessWidget {
               borderOnForeground: true,
               animationDuration: Duration.zero,
               shape: RoundedRectangleBorder(
-                side: BorderSide(color: color.withValues(alpha: opacity), width: 4),
+                side: BorderSide(
+                  color: color.withValues(alpha: opacity),
+                  width: 4,
+                ),
               ),
               child: child,
             );
@@ -74,7 +76,12 @@ class LabeledObserver extends StatelessWidget {
   final String label;
   final double spacing;
 
-  const LabeledObserver({super.key, required this.builder, required this.label, this.spacing = 10});
+  const LabeledObserver({
+    super.key,
+    required this.builder,
+    required this.label,
+    this.spacing = 10,
+  });
 
   @override
   Widget build(BuildContext context) {

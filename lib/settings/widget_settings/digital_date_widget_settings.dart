@@ -50,7 +50,9 @@ class _DigitalDateWidgetSettingsViewState extends State<DigitalDateWidgetSetting
               valueLabel: '${settings.fontSize.floor().toString()} px',
               value: settings.fontSize,
               onChanged: (value) {
-                settings.update(() => settings.fontSize = value.floorToDouble());
+                settings.update(
+                  () => settings.fontSize = value.floorToDouble(),
+                );
                 // clockSettings.update(
                 //   () => clockSettings.fontSize = value.floorToDouble(),
                 // );

@@ -23,10 +23,7 @@ class UnsplashSources {
     name: 'Wallpapers',
     id: '1065976',
   );
-  static const UnsplashCollectionSource texturesAndPatterns = UnsplashCollectionSource(
-    name: 'Textures & Patterns',
-    id: '3330445',
-  );
+  static const UnsplashCollectionSource texturesAndPatterns = UnsplashCollectionSource(name: 'Textures & Patterns', id: '3330445');
   static const UnsplashCollectionSource experimental = UnsplashCollectionSource(
     name: 'Experimental',
     id: '9510092',

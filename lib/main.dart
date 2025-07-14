@@ -47,7 +47,9 @@ Future<void> initialize() async {
   final storage = await SharedPreferencesStorageManager.create();
   GetIt.instance.registerSingleton<LocalStorageManager>(storage);
   GetIt.instance.registerSingleton<WeatherService>(OpenMeteoWeatherService());
-  GetIt.instance.registerSingleton<GeocodingService>(OpenMeteoGeocodingService());
+  GetIt.instance.registerSingleton<GeocodingService>(
+    OpenMeteoGeocodingService(),
+  );
 
   await GetIt.instance.allReady();
   await loadPackageInfo();
@@ -108,7 +110,11 @@ ThemeData buildTheme(BuildContext context) {
 class DebugRender extends InheritedWidget {
   final bool debugHighlightObserverRebuild;
 
-  const DebugRender({super.key, this.debugHighlightObserverRebuild = false, required super.child});
+  const DebugRender({
+    super.key,
+    this.debugHighlightObserverRebuild = false,
+    required super.child,
+  });
 
   static DebugRender? of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<DebugRender>();

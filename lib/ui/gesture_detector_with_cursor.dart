@@ -32,14 +32,15 @@ class GestureDetectorWithCursor extends StatelessWidget {
         cursor: cursor,
         onEnter: onEnter,
         onExit: onExit,
-        child: tooltip != null
-            ? Tooltip(
-                message: tooltip,
-                waitDuration: tooltipWaitDuration,
-                preferBelow: false,
-                child: child,
-              )
-            : child,
+        child:
+            tooltip != null
+                ? Tooltip(
+                  message: tooltip,
+                  waitDuration: tooltipWaitDuration,
+                  preferBelow: false,
+                  child: child,
+                )
+                : child,
       ),
     );
   }

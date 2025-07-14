@@ -18,7 +18,9 @@ void main(List<String> args) {
 
   // parse json
   final Map<String, dynamic> decodedJson = json.decode(colorsJsonString);
-  final colorsJsonList = List<Map<String, dynamic>>.from(decodedJson['gradient']);
+  final colorsJsonList = List<Map<String, dynamic>>.from(
+    decodedJson['gradient'],
+  );
 
   // Generate
   final StringBuffer stringBuffer = StringBuffer();
@@ -34,10 +36,15 @@ void main(List<String> args) {
     final String name = item['name'].toString();
     final String variableName = parseVariableName(name);
     final String foregroundColor = parseColor(item['foreground'].toString());
-    final List<List<String>> result = parseGradientColors(item['background'].toString());
+    final List<List<String>> result = parseGradientColors(
+      item['background'].toString(),
+    );
     final List<String> colors = result[0];
     final List<String> stops = result[1];
-    assert(colors.length == 2, 'Gradient must have 2 colors ${item['background']}');
+    assert(
+      colors.length == 2,
+      'Gradient must have 2 colors ${item['background']}',
+    );
 
     stringBuffer.writeln(
       'static const ColorGradient $variableName = ColorGradient(name: \'$name\', colors: [Color(0XFF${colors[0]}), Color(0XFF${colors[1]})], begin: Alignment.topCenter, end: Alignment.bottomCenter, stops: [${stops.join(', ')}], foreground: Color(0xFF$foregroundColor),);',
@@ -49,7 +56,9 @@ void main(List<String> args) {
   // stringBuffer.writeln(
   //     '\n  static const List<ColorGradient> values = [${values.values.join(', ')}];');
 
-  stringBuffer.writeln('\n  static const Map<String, ColorGradient> gradients = {');
+  stringBuffer.writeln(
+    '\n  static const Map<String, ColorGradient> gradients = {',
+  );
   for (final entry in values.entries) {
     stringBuffer.writeln("    '${entry.key}': ${entry.value},");
   }

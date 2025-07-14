@@ -108,7 +108,10 @@ class _TextInputState extends State<TextInput> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (widget.label != null) ...[Text(widget.label!), const SizedBox(height: 10)],
+        if (widget.label != null) ...[
+          Text(widget.label!),
+          const SizedBox(height: 10),
+        ],
         SizedBox(
           width: widget.width,
           child: TextField(
@@ -135,30 +138,26 @@ class _TextInputState extends State<TextInput> {
                 color: Colors.grey,
                 fontSize: 14,
               ).merge(widget.hintStyle),
-              contentPadding:
-                  widget.contentPadding ?? const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+              contentPadding: widget.contentPadding ?? const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
               filled: true,
               fillColor: widget.fillColor ?? Colors.grey.withValues(alpha: 0.05),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 1),
+                borderSide: BorderSide(
+                  color: Theme.of(context).colorScheme.primary,
+                  width: 1,
+                ),
                 borderRadius: BorderRadius.circular(4),
               ),
               border: OutlineInputBorder(
                 borderSide: BorderSide(
-                  color:
-                      widget.showInitialBorder
-                          ? Colors.grey.withValues(alpha: 0.15)
-                          : Colors.transparent,
+                  color: widget.showInitialBorder ? Colors.grey.withValues(alpha: 0.15) : Colors.transparent,
                   width: 1,
                 ),
                 borderRadius: BorderRadius.circular(4),
               ),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(
-                  color:
-                      widget.showInitialBorder
-                          ? Colors.grey.withValues(alpha: 0.15)
-                          : Colors.transparent,
+                  color: widget.showInitialBorder ? Colors.grey.withValues(alpha: 0.15) : Colors.transparent,
                   width: 1,
                 ),
                 borderRadius: BorderRadius.circular(4),

@@ -43,7 +43,10 @@ abstract class LocalStorageManager {
 
   Future<bool> setBoolean(String key, bool value);
 
-  Future<T?> getSerializableObject<T>(String key, T Function(Map<String, dynamic> json) fromJson);
+  Future<T?> getSerializableObject<T>(
+    String key,
+    T Function(Map<String, dynamic> json) fromJson,
+  );
 
   Future<Uint8List?> getBase64(String key);
 
@@ -60,7 +63,9 @@ class SharedPreferencesStorageManager extends LocalStorageManager {
   final SharedPreferences prefs;
 
   static Future<SharedPreferencesStorageManager> create() async {
-    return SharedPreferencesStorageManager._(await SharedPreferences.getInstance());
+    return SharedPreferencesStorageManager._(
+      await SharedPreferences.getInstance(),
+    );
   }
 
   @override
@@ -78,12 +83,10 @@ class SharedPreferencesStorageManager extends LocalStorageManager {
   }
 
   @override
-  Future<bool> setJson(String key, Map<String, dynamic> value) =>
-      prefs.setString(key, json.encode(value));
+  Future<bool> setJson(String key, Map<String, dynamic> value) => prefs.setString(key, json.encode(value));
 
   @override
-  Future<bool> setJsonArray(String key, List<dynamic> value) async =>
-      prefs.setString(key, json.encode(value));
+  Future<bool> setJsonArray(String key, List<dynamic> value) async => prefs.setString(key, json.encode(value));
 
   @override
   Future<bool> clearKey(String key) => prefs.remove(key);
@@ -116,7 +119,9 @@ class SharedPreferencesStorageManager extends LocalStorageManager {
 
   @override
   Future<void> clear({Iterable<String> except = const []}) async {
-    final Iterable<String> keys = prefs.getKeys().where((key) => !except.contains(key));
+    final Iterable<String> keys = prefs.getKeys().where(
+      (key) => !except.contains(key),
+    );
     for (final key in keys) {
       await prefs.remove(key);
     }
