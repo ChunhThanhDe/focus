@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+
 import '../../resources/colors.dart';
 
+/// CustomSlider is a customizable slider widget.
+///
+/// This widget displays a labeled slider with an optional value label next to it.
+/// The minimum and maximum values, as well as the slider's current value, can be set via parameters.
+/// The appearance of the slider can be customized, and its value changes are reported via the [onChanged] callback.
 class CustomSlider extends StatelessWidget {
   final ValueChanged<double> onChanged;
   final double value;
@@ -71,6 +77,10 @@ class CustomSlider extends StatelessWidget {
   }
 }
 
+/// RectangleThumbShape is a custom slider thumb (the draggable part) in the shape of a rectangle.
+///
+/// You can specify the width and height of the thumb.
+/// This class customizes the appearance of the slider's thumb by drawing a colored rectangle
 class RectangleThumbShape extends SliderComponentShape {
   final double width;
   final double height;

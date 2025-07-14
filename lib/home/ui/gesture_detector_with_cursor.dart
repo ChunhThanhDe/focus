@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+/// GestureDetectorWithCursor is a widget that combines gesture detection, mouse cursor customization,
+/// and optional tooltip display for its child widget.
+///
+/// This widget is especially useful for desktop and web apps, where mouse interaction and tooltips enhance user experience.
 class GestureDetectorWithCursor extends StatelessWidget {
   final VoidCallback? onTap;
   final Widget child;

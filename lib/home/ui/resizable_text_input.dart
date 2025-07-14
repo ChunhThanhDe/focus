@@ -2,6 +2,14 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+/// ResizableTextInput is a customizable multi-line text field that users can resize vertically.
+///
+/// Features:
+/// - Displays a multi-line text input area.
+/// - Users can drag a handle at the bottom right to adjust the height of the text box.
+/// - Supports external [TextEditingController] or creates its own if none provided.
+/// - Notifies parent widgets of changes via [onChanged] and [onSubmitted] callbacks.
+/// - Optionally displays a label above the input.
 class ResizableTextInput extends StatefulWidget {
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;

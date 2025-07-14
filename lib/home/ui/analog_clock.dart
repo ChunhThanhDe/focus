@@ -3,6 +3,14 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
+/// AnalogClock is a widget that displays a real-time analog clock.
+///
+/// - [radius]: The radius of the clock face.
+/// - [color]: Optional base color for the clock.
+/// - [showSecondsHand]: Whether to display the seconds hand.
+/// - [secondHandColor]: Optional color for the seconds hand.
+///
+/// This widget uses a Ticker to update the time and triggers repaints only when the minute or (optionally) second changes.
 class AnalogClock extends StatefulWidget {
   final double radius;
   final Color? color;
@@ -21,6 +29,7 @@ class AnalogClock extends StatefulWidget {
   State<AnalogClock> createState() => _AnalogClockState();
 }
 
+/// State for [AnalogClock] which handles time updates via a Ticker.
 class _AnalogClockState extends State<AnalogClock> with SingleTickerProviderStateMixin {
   late Ticker _ticker;
   late DateTime _initialTime;
@@ -33,6 +42,7 @@ class _AnalogClockState extends State<AnalogClock> with SingleTickerProviderStat
     _ticker = createTicker((elapsed) {
       final newTime = _initialTime.add(elapsed);
       // rebuild only if seconds changes instead of every frame
+      // Only update the widget if the second or minute has changed (for performance)
       if (_now.second != newTime.second && widget.showSecondsHand) {
         setState(() => _now = newTime);
       } else if (_now.minute != newTime.minute) {
@@ -65,6 +75,11 @@ class _AnalogClockState extends State<AnalogClock> with SingleTickerProviderStat
 }
 
 /// If [color] is provided then it will be used to paint everything.
+///
+/// [AnalogClockPainter] draws the analog clock on a canvas.
+///
+/// It draws the dial, the hour hand, minute hand, and (optionally) the seconds hand.
+/// The hands are calculated based on the provided [time]
 class AnalogClockPainter extends CustomPainter {
   final DateTime time;
   final Color? dialColor;
@@ -185,6 +200,7 @@ class AnalogClockPainter extends CustomPainter {
     canvas.drawLine(center, Offset(x, y), paint);
   }
 
+  /// Determines when the painter should repaint (e.g. when the time or color change
   @override
   bool shouldRepaint(covariant AnalogClockPainter oldDelegate) =>
       oldDelegate.time != time ||

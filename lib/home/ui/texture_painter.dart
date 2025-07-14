@@ -1,15 +1,13 @@
 import 'package:flutter/widgets.dart';
 
-/// A painter that paints a grid with dots.
-/// [color] defines color of the dots.
-/// [Spacing] defines space between two dot centers. Simply distance between
-/// 2 dots.
-/// [radius] defines the radius of a dot.
-/// [offset] defines from where to start printing the grid.
+/// Paints a grid of dots for use as a decorative texture or background.
 ///
-/// Note that this painter must only be used in a constrained area.
-/// Meaning, either the parent must have a finite size or the painter must be
-/// provided with a finite size otherwise the painter will throw an exception.
+/// - [color]: The color of the dots.
+/// - [spacing]: The distance between the centers of two adjacent dots.
+/// - [radius]: The radius of each dot.
+/// - [offset]: The starting offset for the grid on both axes.
+///
+/// **Note:** This painter should only be used in a bounded area (finite size).
 class TexturePainter extends CustomPainter {
   final Color color;
   final double spacing;
@@ -26,31 +24,35 @@ class TexturePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final double width = size.width - offset;
-    final double height = size.height - offset;
+    // Calculate drawable area after applying the offset
+    final double drawableWidth = size.width - offset;
+    final double drawableHeight = size.height - offset;
 
-    assert(width > 0 && height > 0);
-    assert(width < double.infinity && height < double.infinity);
+    // Ensure the area is valid and finite
+    assert(drawableWidth > 0 && drawableWidth < double.infinity);
+    assert(drawableHeight > 0 && drawableHeight < double.infinity);
 
-    final Paint paint =
+    final paint =
         Paint()
           ..color = color
           ..style = PaintingStyle.fill;
 
-    // Calculate the number of dots that can fit in the width and height.
-    final int horizontalCount = (width / spacing).ceil();
-    final int verticalCount = (height / spacing).ceil();
+    // Number of dots that fit horizontally and vertically
+    final int columns = (drawableWidth / spacing).ceil();
+    final int rows = (drawableHeight / spacing).ceil();
 
-    for (int line = 0; line < verticalCount; line++) {
-      for (int column = 0; column < horizontalCount; column++) {
-        final double x = (column * spacing) + offset;
-        final double y = (line * spacing) + offset;
-
+    // Draw the dots grid
+    for (int row = 0; row < rows; row++) {
+      for (int col = 0; col < columns; col++) {
+        final double x = (col * spacing) + offset;
+        final double y = (row * spacing) + offset;
         canvas.drawCircle(Offset(x, y), radius, paint);
       }
     }
   }
 
   @override
-  bool shouldRepaint(covariant TexturePainter oldDelegate) => oldDelegate.radius != radius || oldDelegate.spacing != spacing || oldDelegate.color != color || oldDelegate.offset != offset;
+  bool shouldRepaint(covariant TexturePainter oldDelegate) {
+    return radius != oldDelegate.radius || spacing != oldDelegate.spacing || color != oldDelegate.color || offset != oldDelegate.offset;
+  }
 }

@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+
 import '../../resources/colors.dart';
 import '../../utils/dropdown_button3.dart';
 
-/// Flutter's default dropdown.
+/// CustomMaterialDropdown is a wrapper for Flutter's default DropdownButtonFormField.
+///
+/// This widget displays a label (optional) and a dropdown menu.
+/// It allows customization of item appearance, selected item appearance, expansion,
+/// placeholder text (hint), item height, and supports a callback when a value is selected.
 class CustomMaterialDropdown<T> extends StatelessWidget {
   final List<T> items;
   final ValueChanged<T> onSelected;

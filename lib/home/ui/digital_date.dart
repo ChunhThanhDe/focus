@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import '../model/widget_settings.dart';
-import '../widget_store.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
+
+import '../model/widget_settings.dart';
+import '../widget_store.dart';
 import 'digital_clock.dart';
 
+/// DigitalDate is a widget that displays the current date (and optionally, the current time) in a digital format.
+///
+/// - The appearance and layout can be customized with text style, decoration, padding, and date format.
+/// - The date is updated in real time and will refresh only when the displayed date changes.
 class DigitalDate extends StatefulWidget {
   final TextStyle? style;
   final Decoration? decoration;
@@ -66,6 +71,10 @@ class _DigitalDateState extends State<DigitalDate> with SingleTickerProviderStat
   }
 }
 
+/// _DigitalDateRenderer handles the display of the formatted date (and time if needed).
+///
+/// - Uses [intl.DateFormat] for formatting.
+/// - Can display both date and digital clock (time) in a row or just the custom-formatted date, based on settings.
 class _DigitalDateRenderer extends StatelessWidget {
   final DateTime date;
   final TextStyle? style;
