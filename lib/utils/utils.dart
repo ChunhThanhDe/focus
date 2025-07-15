@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+
 import '../home/model/background_settings.dart';
 import '../home/model/color_gradient.dart';
 import '../home/model/flat_color.dart';

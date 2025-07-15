@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screwdriver/flutter_screwdriver.dart';
+import 'package:provider/provider.dart';
+import 'package:screwdriver/screwdriver.dart';
+import 'package:shared/shared.dart';
+
 import '../home/background_store.dart';
 import '../home/model/background_settings.dart';
 import '../home/model/color_gradient.dart';
@@ -13,12 +17,9 @@ import '../resources/color_gradients.dart';
 import '../resources/colors.dart';
 import '../resources/flat_colors.dart';
 import '../resources/unsplash_sources.dart';
-import 'new_collection_dialog.dart';
 import '../utils/custom_observer.dart';
 import '../utils/extensions.dart';
-import 'package:provider/provider.dart';
-import 'package:screwdriver/screwdriver.dart';
-import 'package:shared/shared.dart';
+import 'new_collection_dialog.dart';
 
 class BackgroundSettingsView extends StatelessWidget {
   const BackgroundSettingsView({super.key});

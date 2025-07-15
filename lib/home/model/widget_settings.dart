@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
-import '../../resources/fonts.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import '../../resources/fonts.dart';
 
 part 'widget_settings.g.dart';
 

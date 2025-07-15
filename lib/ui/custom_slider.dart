@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../resources/colors.dart';
 
 class CustomSlider extends StatelessWidget {

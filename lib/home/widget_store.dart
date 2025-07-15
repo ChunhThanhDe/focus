@@ -1,12 +1,13 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'model/widget_settings.dart';
+import 'package:get_it/get_it.dart';
+import 'package:mobx/mobx.dart';
+
 import '../resources/storage_keys.dart';
 import '../utils/storage_manager.dart';
 import '../utils/utils.dart';
-import 'package:get_it/get_it.dart';
-import 'package:mobx/mobx.dart';
+import 'model/widget_settings.dart';
 
 part 'widget_store.g.dart';
 

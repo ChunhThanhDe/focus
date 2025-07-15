@@ -6,12 +6,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_screwdriver/flutter_screwdriver.dart';
-import '../home/ui/gesture_detector_with_cursor.dart';
-import '../main.dart';
-import '../resources/colors.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../home/ui/gesture_detector_with_cursor.dart';
+import '../main.dart';
+import '../resources/colors.dart';
 
 class ChangelogDialog extends StatefulWidget {
   const ChangelogDialog({super.key});

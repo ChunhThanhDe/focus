@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import '../background_store.dart';
-import '../widget_store.dart';
+import 'package:provider/provider.dart';
+
 import '../../utils/custom_observer.dart';
 import '../../utils/extensions.dart';
-import 'package:provider/provider.dart';
+import '../background_store.dart';
+import '../widget_store.dart';
 
 class MessageWidget extends StatelessWidget {
   const MessageWidget({super.key});

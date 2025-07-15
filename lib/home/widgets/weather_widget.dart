@@ -2,19 +2,20 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import '../background_store.dart';
-import '../model/weather_info.dart';
-import '../model/widget_settings.dart';
-import '../widget_store.dart';
+import 'package:get_it/get_it.dart';
+import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
+
 import '../../resources/storage_keys.dart';
 import '../../utils/custom_observer.dart';
 import '../../utils/extensions.dart';
 import '../../utils/storage_manager.dart';
 import '../../utils/utils.dart';
 import '../../utils/weather_service.dart';
-import 'package:get_it/get_it.dart';
-import 'package:mobx/mobx.dart';
-import 'package:provider/provider.dart';
+import '../background_store.dart';
+import '../model/weather_info.dart';
+import '../model/widget_settings.dart';
+import '../widget_store.dart';
 
 part 'weather_widget.g.dart';
 

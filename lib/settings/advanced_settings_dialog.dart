@@ -2,19 +2,20 @@ import 'dart:math' hide log;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screwdriver/flutter_screwdriver.dart';
+import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
+import 'package:screwdriver/screwdriver.dart';
+import 'package:shared/shared.dart';
+
 import '../home/background_store.dart';
 import '../home/model/background_settings.dart';
 import '../home/ui/custom_dropdown.dart';
 import '../home/ui/gesture_detector_with_cursor.dart';
 import '../resources/colors.dart';
 import '../resources/storage_keys.dart';
-import 'new_collection_dialog.dart';
 import '../utils/custom_observer.dart';
 import '../utils/storage_manager.dart';
-import 'package:get_it/get_it.dart';
-import 'package:provider/provider.dart';
-import 'package:screwdriver/screwdriver.dart';
-import 'package:shared/shared.dart';
+import 'new_collection_dialog.dart';
 
 class AdvancedSettingsDialog extends StatefulWidget {
   const AdvancedSettingsDialog({super.key});

@@ -14,6 +14,7 @@ class GestureDetectorWithCursor extends StatelessWidget {
   final MouseCursor cursor;
   final Duration? tooltipWaitDuration;
   final HitTestBehavior behavior;
+  final bool enableHoverEffect;
 
   const GestureDetectorWithCursor({
     super.key,
@@ -25,27 +26,58 @@ class GestureDetectorWithCursor extends StatelessWidget {
     this.cursor = SystemMouseCursors.click,
     this.tooltipWaitDuration,
     this.behavior = HitTestBehavior.opaque,
+    this.enableHoverEffect = true,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: MouseRegion(
-        cursor: cursor,
-        onEnter: onEnter,
-        onExit: onExit,
-        child:
-            tooltip != null
-                ? Tooltip(
-                  message: tooltip,
-                  waitDuration: tooltipWaitDuration,
-                  preferBelow: false,
-                  child: child,
-                )
-                : child,
+    Widget content =
+        enableHoverEffect
+            ? InkWell(
+              onTap: onTap,
+              borderRadius: BorderRadius.circular(8),
+              hoverColor: Theme.of(context).colorScheme.primary.withOpacity(0.05),
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              child: child,
+            )
+            : GestureDetector(
+              onTap: onTap,
+              behavior: behavior,
+              child: child,
+            );
+
+    content = MouseRegion(
+      cursor: cursor,
+      onEnter: onEnter,
+      onExit: onExit,
+      child: Focus(
+        canRequestFocus: true,
+        child: Shortcuts(
+          shortcuts: {
+            LogicalKeySet(LogicalKeyboardKey.enter): const ActivateIntent(),
+            LogicalKeySet(LogicalKeyboardKey.space): const ActivateIntent(),
+          },
+          child: Actions(
+            actions: {
+              ActivateIntent: CallbackAction<ActivateIntent>(
+                onInvoke: (intent) => onTap?.call(),
+              ),
+            },
+            child: content,
+          ),
+        ),
       ),
     );
+
+    if (tooltip != null) {
+      return Tooltip(
+        message: tooltip!,
+        waitDuration: tooltipWaitDuration ?? const Duration(milliseconds: 300),
+        child: content,
+      );
+    }
+
+    return content;
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../resources/colors.dart';
-import '../../utils/dropdown_button3.dart';
 
 /// CustomMaterialDropdown is a wrapper for Flutter's default DropdownButtonFormField.
 ///
@@ -34,30 +33,29 @@ class CustomMaterialDropdown<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (label != null) Text(label!),
-        if (label != null) const SizedBox(height: 10),
-        SizedBox(
-          height: itemHeight,
+        if (label != null) ...[
+          Text(label!, style: theme.textTheme.labelMedium),
+          const SizedBox(height: 8),
+        ],
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surfaceVariant.withOpacity(0.15),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: theme.dividerColor.withOpacity(0.3)),
+          ),
           child: DropdownButtonFormField<T?>(
             value: items.contains(value) ? value : null,
             isExpanded: isExpanded,
             hint: hint != null ? Text(hint!) : null,
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-              fontWeight: FontWeight.w400,
-              height: 1,
-            ),
-            // underline: const SizedBox.shrink(),
-            // dropdownColor: Colors.red,
+            style: theme.textTheme.bodyLarge,
             decoration: InputDecoration(
               border: InputBorder.none,
-              filled: true,
-              fillColor: Colors.grey.withValues(alpha: 0.15),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 12),
             ),
             menuMaxHeight: 700,
             icon: const Icon(Icons.keyboard_arrow_down_rounded, size: 18),
@@ -82,8 +80,7 @@ class CustomMaterialDropdown<T> extends StatelessWidget {
                     )
                     .toList(),
             onChanged: (mode) {
-              if (mode == null) return;
-              onSelected(mode);
+              if (mode != null) onSelected(mode);
             },
           ),
         ),
@@ -120,82 +117,61 @@ class CustomDropdown<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (label != null) Text(label!),
-        if (label != null) const SizedBox(height: 10),
-        CustomDropdownButton<T>(
-          value: value == null || items.contains(value) ? value : null,
-          hint: Text(hint ?? 'Select'),
-          isExpanded: isExpanded,
-          barrierDismissible: true,
-          offset: const Offset(0, -4),
-          itemHeight: itemHeight,
-          buttonHeight: 44,
-          dropdownOverButton: false,
-          buttonElevation: 0,
-          dropdownMaxHeight: dropdownMaxHeight,
-          scrollbarThickness: 4,
-          dropdownElevation: 2,
-          selectedItemHighlightColor: Theme.of(context).colorScheme.primary,
-          dropdownPadding: EdgeInsets.zero,
-          // searchInnerWidget: searchable
-          //     ? SearchBar(controller: searchController)
-          //     : null,
-          // onMenuStateChange: (isOpen) {
-          //   if (!isOpen) searchController.clear();
-          // },
-          // searchMatchFn: searchable
-          //     ? searchMatchFn ?? defaultSearchFn
-          //     : null,
-          // searchController: searchable ? searchController : null,
-          buttonPadding: const EdgeInsets.only(right: 12),
-          underline: const SizedBox.shrink(),
-          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-            fontWeight: FontWeight.w400,
-            fontSize: 13,
-            height: 1,
+        if (label != null) ...[
+          Text(label!, style: theme.textTheme.labelMedium),
+          const SizedBox(height: 8),
+        ],
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surfaceVariant.withOpacity(0.15),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: theme.dividerColor.withOpacity(0.3)),
           ),
-          buttonDecoration: BoxDecoration(
-            color: AppColors.borderColor.withValues(alpha: 0.25),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          dropdownDecoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(6),
-            color: AppColors.dropdownOverlayColor,
-          ),
-          icon: const Icon(Icons.keyboard_arrow_down_rounded, size: 20),
-          itemBuilder:
-              (context, item) => CustomDropdownMenuItem<T>(
-                value: item,
-                alignment: Alignment.centerLeft,
-                child: itemBuilder?.call(context, item) ?? Text(item.toString()),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton<T>(
+                value: items.contains(value) ? value : null,
+                isExpanded: isExpanded,
+                icon: const Icon(Icons.expand_more_rounded),
+                style: theme.textTheme.bodyLarge,
+                hint: hint != null ? Text(hint!) : null,
+                borderRadius: BorderRadius.circular(12),
+                dropdownColor: theme.colorScheme.surface,
+                menuMaxHeight: dropdownMaxHeight,
+                items:
+                    items.map((item) {
+                      return DropdownMenuItem<T>(
+                        value: item,
+                        alignment: Alignment.centerLeft,
+                        child: itemBuilder?.call(context, item) ?? Text(item.toString()),
+                      );
+                    }).toList(),
+                selectedItemBuilder:
+                    selectedItemBuilder != null
+                        ? (context) =>
+                            items
+                                .map(
+                                  (item) => Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: selectedItemBuilder!(context, item),
+                                  ),
+                                )
+                                .toList()
+                        : null,
+                onChanged: (selected) {
+                  if (selected != null) onSelected(selected);
+                },
               ),
-          items: items,
-          selectedItemBuilder:
-              selectedItemBuilder != null
-                  ? (context, item) => CustomDropdownMenuItem<T>(
-                    value: item,
-                    alignment: Alignment.centerLeft,
-                    child: selectedItemBuilder!(context, item),
-                  )
-                  : null,
-          onChanged: (value) {
-            if (value == null) return;
-            if (value == this.value) return;
-            onSelected(value);
-          },
+            ),
+          ),
         ),
       ],
-    );
-  }
-
-  bool defaultSearchFn(DropdownMenuItem item, String searchValue) {
-    return item.value.toString().toLowerCase().contains(
-      searchValue.toLowerCase(),
     );
   }
 }

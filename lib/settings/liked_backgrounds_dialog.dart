@@ -7,13 +7,14 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screwdriver/flutter_screwdriver.dart';
+import 'package:get_it/get_it.dart';
+import 'package:http/http.dart' as http;
+
 import '../home/background_store.dart';
 import '../home/model/background_settings.dart';
 import '../resources/colors.dart';
 import '../utils/storage_manager.dart';
 import '../utils/universal/io.dart';
-import 'package:get_it/get_it.dart';
-import 'package:http/http.dart' as http;
 
 enum DownloadState {
   downloading,

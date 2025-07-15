@@ -5,18 +5,6 @@ import 'dart:math' hide log;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../backend/backend_service.dart';
-import 'model/background_settings.dart';
-import 'model/color_gradient.dart';
-import 'model/flat_color.dart';
-import '../resources/color_gradients.dart';
-import '../resources/flat_colors.dart';
-import '../resources/storage_keys.dart';
-import '../resources/unsplash_sources.dart';
-import '../utils/extensions.dart';
-import '../utils/storage_manager.dart';
-import '../utils/universal/io.dart';
-import '../utils/utils.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -25,6 +13,19 @@ import 'package:screwdriver/screwdriver.dart';
 import 'package:shared/shared.dart';
 import 'package:unsplash_client/unsplash_client.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../backend/backend_service.dart';
+import '../resources/color_gradients.dart';
+import '../resources/flat_colors.dart';
+import '../resources/storage_keys.dart';
+import '../resources/unsplash_sources.dart';
+import '../utils/extensions.dart';
+import '../utils/storage_manager.dart';
+import '../utils/universal/io.dart';
+import '../utils/utils.dart';
+import 'model/background_settings.dart';
+import 'model/color_gradient.dart';
+import 'model/flat_color.dart';
 
 part 'background_store.g.dart';
 

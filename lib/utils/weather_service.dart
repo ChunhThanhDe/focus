@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:http/http.dart' as http;
+
 import '../home/model/weather_info.dart';
 import '../home/model/weather_response.dart';
-import 'package:http/http.dart' as http;
 
 abstract class WeatherService {
   Future<WeatherInfo?> fetchWeather(double latitude, double longitude);

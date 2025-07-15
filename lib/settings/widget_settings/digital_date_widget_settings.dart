@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import '../../home/model/widget_settings.dart';
 import '../../home/ui/alignment_control.dart';
 import '../../home/ui/custom_dropdown.dart';
@@ -8,7 +10,6 @@ import '../../home/widget_store.dart';
 import '../../resources/fonts.dart';
 import '../../utils/custom_observer.dart';
 import '../../utils/extensions.dart';
-import 'package:provider/provider.dart';
 
 class DigitalDateWidgetSettingsView extends StatefulWidget {
   const DigitalDateWidgetSettingsView({super.key});

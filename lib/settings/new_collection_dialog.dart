@@ -4,14 +4,15 @@ import 'dart:math' hide log;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../backend/backend_service.dart';
-import '../home/background_store.dart';
-import '../resources/colors.dart';
-import '../ui/text_input.dart';
 import 'package:get_it/get_it.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared/shared.dart';
 import 'package:unsplash_client/unsplash_client.dart';
+
+import '../backend/backend_service.dart';
+import '../home/background_store.dart';
+import '../resources/colors.dart';
+import '../ui/text_input.dart';
 
 class NewCollectionDialog extends StatefulWidget {
   final BackgroundStore store;

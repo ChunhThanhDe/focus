@@ -1,4 +1,5 @@
 import 'package:flutter/painting.dart';
+
 import '../home/model/flat_color.dart';
 
 class FlatColors {

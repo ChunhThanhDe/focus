@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import '../home/ui/gesture_detector_with_cursor.dart';
 
 class CustomSwitch extends StatelessWidget {

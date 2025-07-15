@@ -1,13 +1,14 @@
 // import 'dart:math';
 
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
+
+import '../../utils/custom_observer.dart';
+import '../../utils/extensions.dart';
 import '../background_store.dart';
 import '../model/widget_settings.dart';
 import '../ui/digital_date.dart';
 import '../widget_store.dart';
-import '../../utils/custom_observer.dart';
-import '../../utils/extensions.dart';
-import 'package:provider/provider.dart';
 
 class DigitalDateWidget extends StatelessWidget {
   const DigitalDateWidget({super.key});

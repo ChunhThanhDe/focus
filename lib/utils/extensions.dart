@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:unsplash_client/unsplash_client.dart';
+
 import '../home/model/background_settings.dart';
 import '../home/model/color_gradient.dart';
 import '../home/model/widget_settings.dart';
-import 'package:unsplash_client/unsplash_client.dart';
 
 extension GradientExt on ColorGradient {
   LinearGradient toLinearGradient() {

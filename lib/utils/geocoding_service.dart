@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import '../home/model/location_response.dart';
 import 'package:http/http.dart' as http;
+
+import '../home/model/location_response.dart';
 
 abstract class GeocodingService {
   Future<List<LocationResponse>> fetchLocations(String query);

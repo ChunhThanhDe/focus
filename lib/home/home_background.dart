@@ -1,13 +1,13 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'ui/texture_painter.dart';
+import 'package:provider/provider.dart';
+
 import '../resources/colors.dart';
 import '../utils/custom_observer.dart';
 import '../utils/utils.dart';
-import 'package:provider/provider.dart';
-
 import 'background_store.dart';
+import 'ui/texture_painter.dart';
 
 class HomeBackground extends StatefulWidget {
   const HomeBackground({super.key});

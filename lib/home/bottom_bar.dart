@@ -2,14 +2,14 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screwdriver/flutter_screwdriver.dart';
-import 'model/background_settings.dart';
-import 'ui/gesture_detector_with_cursor.dart';
-import '../utils/custom_observer.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../utils/custom_observer.dart';
 import 'background_store.dart';
 import 'home_store.dart';
+import 'model/background_settings.dart';
+import 'ui/gesture_detector_with_cursor.dart';
 
 class BottomBar extends StatelessWidget {
   const BottomBar({super.key});

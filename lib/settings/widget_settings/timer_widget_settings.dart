@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
+import 'package:intl/intl.dart' as timer;
+import 'package:provider/provider.dart';
+
 import '../../home/model/widget_settings.dart';
 import '../../home/ui/alignment_control.dart';
 import '../../home/ui/custom_dropdown.dart';
@@ -9,8 +12,6 @@ import '../../home/ui/text_input.dart';
 import '../../home/widget_store.dart';
 import '../../resources/fonts.dart' show FontFamilies;
 import '../../utils/custom_observer.dart';
-import 'package:intl/intl.dart' as timer;
-import 'package:provider/provider.dart';
 
 class TimerWidgetSettingsView extends StatelessWidget {
   const TimerWidgetSettingsView({super.key});

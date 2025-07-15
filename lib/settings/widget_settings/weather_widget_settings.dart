@@ -4,6 +4,9 @@ import 'dart:developer';
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
+
 import '../../home/model/location_response.dart';
 import '../../home/model/widget_settings.dart';
 import '../../home/ui/alignment_control.dart';
@@ -15,8 +18,6 @@ import '../../resources/colors.dart';
 import '../../resources/fonts.dart';
 import '../../utils/custom_observer.dart';
 import '../../utils/geocoding_service.dart';
-import 'package:get_it/get_it.dart';
-import 'package:provider/provider.dart';
 
 class WeatherWidgetSettingsView extends StatelessWidget {
   const WeatherWidgetSettingsView({super.key});
