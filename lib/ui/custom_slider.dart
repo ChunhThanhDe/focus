@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../resources/colors.dart';
 
+/// CustomSlider is a customizable slider widget.
+///
+/// This widget displays a labeled slider with an optional value label next to it.
+/// The minimum and maximum values, as well as the slider's current value, can be set via parameters.
+/// The appearance of the slider can be customized, and its value changes are reported via the [onChanged] callback.
 class CustomSlider extends StatelessWidget {
   final ValueChanged<double> onChanged;
   final double value;
@@ -22,87 +26,55 @@ class CustomSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        if (label != null) ...[Text(label!), const SizedBox(height: 12)],
-        Row(
-          children: [
-            Expanded(
-              child: SliderTheme(
-                data: const SliderThemeData(
-                  thumbShape: RectangleThumbShape(),
-                  overlayShape: RectangleThumbShape(),
-                  trackHeight: 4,
-                  trackShape: RectangularSliderTrackShape(),
-                ),
-                child: Slider(
-                  value: value,
-                  min: min ?? 0,
-                  max: max ?? 100,
-                  activeColor: Theme.of(context).colorScheme.primary,
-                  inactiveColor: Colors.white.withValues(alpha: 0.1),
-                  onChanged: onChanged,
-                ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            if (valueLabel != null)
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 6,
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.borderColor.withValues(alpha: 0.5),
-                  borderRadius: BorderRadius.circular(4),
-                  // border: Border.all(color: Colors.grey.shade300),
-                ),
-                child: Text(
-                  valueLabel!,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(height: 1.2),
-                ),
-              ),
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (label != null) ...[
+            Text(label!, style: theme.textTheme.labelMedium),
+            const SizedBox(height: 8),
           ],
-        ),
-      ],
-    );
-  }
-}
-
-class RectangleThumbShape extends SliderComponentShape {
-  final double width;
-  final double height;
-
-  const RectangleThumbShape({this.width = 10, this.height = 22});
-
-  @override
-  Size getPreferredSize(bool isEnabled, bool isDiscrete) => Size(width, height);
-
-  @override
-  void paint(
-    PaintingContext context,
-    Offset center, {
-    required Animation<double> activationAnimation,
-    required Animation<double> enableAnimation,
-    required bool isDiscrete,
-    required TextPainter labelPainter,
-    required RenderBox parentBox,
-    required SliderThemeData sliderTheme,
-    required TextDirection textDirection,
-    required double value,
-    required double textScaleFactor,
-    required Size sizeWithOverflow,
-  }) {
-    assert(sliderTheme.thumbColor != null);
-
-    final Canvas canvas = context.canvas;
-    final topLeft = center.translate(-width / 2, -height / 2);
-    canvas.drawRect(
-      topLeft & Size(width, height),
-      Paint()..color = sliderTheme.thumbColor!,
+          Row(
+            children: [
+              Expanded(
+                child: SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 10),
+                    trackHeight: 6,
+                    activeTrackColor: theme.colorScheme.primary.withOpacity(0.9),
+                    inactiveTrackColor: theme.colorScheme.surfaceVariant.withOpacity(0.4),
+                    overlayColor: theme.colorScheme.primary.withOpacity(0.2),
+                    overlayShape: const RoundSliderOverlayShape(overlayRadius: 18),
+                  ),
+                  child: Slider(
+                    value: value,
+                    min: min ?? 0,
+                    max: max ?? 100,
+                    onChanged: onChanged,
+                  ),
+                ),
+              ),
+              if (valueLabel != null) ...[
+                const SizedBox(width: 16),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.primary.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    valueLabel!,
+                    style: theme.textTheme.labelSmall,
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

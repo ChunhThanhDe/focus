@@ -3,6 +3,14 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
+/// AnalogClock is a widget that displays a real-time analog clock.
+///
+/// - [radius]: The radius of the clock face.
+/// - [color]: Optional base color for the clock.
+/// - [showSecondsHand]: Whether to display the seconds hand.
+/// - [secondHandColor]: Optional color for the seconds hand.
+///
+/// This widget uses a Ticker to update the time and triggers repaints only when the minute or (optionally) second changes.
 class AnalogClock extends StatefulWidget {
   final double radius;
   final Color? color;
@@ -21,6 +29,7 @@ class AnalogClock extends StatefulWidget {
   State<AnalogClock> createState() => _AnalogClockState();
 }
 
+/// State for [AnalogClock] which handles time updates via a Ticker.
 class _AnalogClockState extends State<AnalogClock> with SingleTickerProviderStateMixin {
   late Ticker _ticker;
   late DateTime _initialTime;
@@ -33,6 +42,7 @@ class _AnalogClockState extends State<AnalogClock> with SingleTickerProviderStat
     _ticker = createTicker((elapsed) {
       final newTime = _initialTime.add(elapsed);
       // rebuild only if seconds changes instead of every frame
+      // Only update the widget if the second or minute has changed (for performance)
       if (_now.second != newTime.second && widget.showSecondsHand) {
         setState(() => _now = newTime);
       } else if (_now.minute != newTime.minute) {
@@ -52,6 +62,7 @@ class _AnalogClockState extends State<AnalogClock> with SingleTickerProviderStat
           color: widget.color,
           secondHandColor: widget.secondHandColor,
           showSecondHand: widget.showSecondsHand,
+          radius: widget.radius,
         ),
       ),
     );
@@ -65,6 +76,11 @@ class _AnalogClockState extends State<AnalogClock> with SingleTickerProviderStat
 }
 
 /// If [color] is provided then it will be used to paint everything.
+///
+/// [AnalogClockPainter] draws the analog clock on a canvas.
+///
+/// It draws the dial, the hour hand, minute hand, and (optionally) the seconds hand.
+/// The hands are calculated based on the provided [time]
 class AnalogClockPainter extends CustomPainter {
   final DateTime time;
   final Color? dialColor;
@@ -77,6 +93,7 @@ class AnalogClockPainter extends CustomPainter {
   final double minuteHandThickness;
   final double hourHandThickness;
   final double dialThickness;
+  final double radius;
 
   static const double angleAtNoon = -pi / 2; // in radians.
   static const double angleOfASecond = 2 * pi / 60; // in radians.
@@ -85,6 +102,7 @@ class AnalogClockPainter extends CustomPainter {
 
   AnalogClockPainter({
     required this.time,
+    required this.radius,
     this.color,
     this.dialColor,
     this.hourHandColor,
@@ -101,88 +119,162 @@ class AnalogClockPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final Offset center = Offset(size.width / 2, size.height / 2);
 
-    // Radius is calculated such that everything won't leak outside the viewport.
     final rect = Rect.fromCircle(
       center: center,
-      radius: min(size.width, size.height) / 2 - dialThickness,
+      radius: radius - dynamicStroke(dialThickness, 0.5),
     );
 
     _drawDial(canvas, rect, center);
     _drawHourHand(canvas, rect, center);
     _drawMinuteHand(canvas, rect, center);
     if (showSecondHand) _drawSecondHand(canvas, rect, center);
+
+    _drawCenterDot(canvas, center);
+    _drawOuterDots(canvas, center, rect);
   }
 
-  void _drawDial(Canvas canvas, Rect rect, Offset center) {
-    // paint radius.
-    final dialRadius = rect.center.dx + dialThickness / 2;
+  double dynamicStroke(double base, double factor) => base + factor * (radius / 100);
 
+  void _drawDial(Canvas canvas, Rect rect, Offset center) {
+    final dialRadius = rect.center.dx + dynamicStroke(dialThickness, 0.5) / 2;
+
+    final double offset = dynamicStroke(2, 0.5);
+
+    // Viền sáng phía trên bên trái
+    final Paint topLightPaint =
+        Paint()
+          ..color = Colors.white.withOpacity(0.5)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = dynamicStroke(dialThickness, 0.5)
+          ..isAntiAlias = true;
+
+    // Viền tối phía dưới bên phải
+    final Paint bottomShadowPaint =
+        Paint()
+          ..color = Colors.black.withOpacity(0.3)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = dynamicStroke(dialThickness, 0.5)
+          ..isAntiAlias = true;
+
+    // Vẽ viền tối lệch xuống phải
+    canvas.save();
+    canvas.translate(offset, offset);
+    canvas.drawCircle(center, dialRadius, bottomShadowPaint);
+    canvas.restore();
+
+    // Vẽ viền sáng lệch lên trên trái
+    canvas.save();
+    canvas.translate(-offset, -offset);
+    canvas.drawCircle(center, dialRadius, topLightPaint);
+    canvas.restore();
+
+    // Vẽ viền chính ở giữa (giữ nguyên màu viền)
     final Paint dialPaint =
         Paint()
-          ..color = dialColor ?? color ?? Colors.black
+          ..color = dialColor ?? color ?? Colors.white
           ..style = PaintingStyle.stroke
-          ..strokeWidth = dialThickness;
+          ..strokeWidth = dynamicStroke(dialThickness, 0.5)
+          ..isAntiAlias = true;
 
-    // paint the dialer
     canvas.drawCircle(center, dialRadius, dialPaint);
   }
 
   void _drawSecondHand(Canvas canvas, Rect rect, Offset center) {
-    final double radius = (rect.width / 2 * 0.9) - (secondHandThickness / 2);
+    final double padding = dynamicStroke(8, 2.0);
+    final double handLength = (rect.width / 2 * 0.9) - padding;
+
+    final double angle = angleAtNoon + angleOfASecond * (time.second + 1);
 
     final Paint paint =
         Paint()
-          ..color = secondHandColor ?? color?.withValues(alpha: 0.4) ?? Colors.red
+          ..color = secondHandColor ?? color?.withOpacity(0.4) ?? Colors.red
           ..style = PaintingStyle.stroke
           ..strokeCap = StrokeCap.round
-          ..strokeWidth = secondHandThickness;
+          ..strokeWidth = dynamicStroke(secondHandThickness, 0.5)
+          ..isAntiAlias = true;
 
-    // we add 1 second to the current time because we paint the second after
-    // it has passed.
-    final double angle = angleAtNoon + angleOfASecond * (time.second + 1);
-
-    final double x = center.dx + (radius * cos(angle));
-    final double y = center.dy + (radius * sin(angle));
+    final double x = center.dx + (handLength * cos(angle));
+    final double y = center.dy + (handLength * sin(angle));
 
     canvas.drawLine(center, Offset(x, y), paint);
   }
 
   void _drawMinuteHand(Canvas canvas, Rect rect, Offset center) {
     final sizePercent = showSecondHand ? 0.8 : 0.85;
-    final double radius = (rect.width / 2 * sizePercent) - (minuteHandThickness / 2);
-
-    final Paint paint =
-        Paint()
-          ..color = minuteHandColor ?? color?.withValues(alpha: 0.6) ?? Colors.grey
-          ..style = PaintingStyle.stroke
-          ..strokeCap = StrokeCap.round
-          ..strokeWidth = minuteHandThickness;
+    final double padding = dynamicStroke(8, 2.0);
+    final double handLength = (rect.width / 2 * sizePercent) - padding;
 
     final double angle = angleAtNoon + angleOfAMinute * time.minute;
 
-    final double x = center.dx + (radius * cos(angle));
-    final double y = center.dy + (radius * sin(angle));
+    final Paint paint =
+        Paint()
+          ..color = minuteHandColor ?? color?.withOpacity(0.6) ?? Colors.grey
+          ..style = PaintingStyle.stroke
+          ..strokeCap = StrokeCap.round
+          ..strokeWidth = dynamicStroke(minuteHandThickness, 1.2)
+          ..isAntiAlias = true;
+
+    final double x = center.dx + (handLength * cos(angle));
+    final double y = center.dy + (handLength * sin(angle));
 
     canvas.drawLine(center, Offset(x, y), paint);
   }
 
-  void _drawHourHand(Canvas canvas, Rect innerRect, Offset center) {
+  void _drawHourHand(Canvas canvas, Rect rect, Offset center) {
     final sizePercent = showSecondHand ? 0.6 : 0.65;
-    final double radius = (innerRect.width / 2 * sizePercent) - (hourHandThickness / 2);
+    final double padding = dynamicStroke(8, 2.0);
+    final double handLength = (rect.width / 2 * sizePercent) - padding;
+
+    final double angle = angleAtNoon + angleOfAnHour * time.hour + angleOfAMinute * (time.minute / 60);
 
     final Paint paint =
         Paint()
-          ..color = hourHandColor ?? color?.withValues(alpha: 1) ?? Colors.black
+          ..color = hourHandColor ?? color ?? Colors.black
           ..style = PaintingStyle.stroke
           ..strokeCap = StrokeCap.round
-          ..strokeWidth = hourHandThickness;
+          ..strokeWidth = dynamicStroke(hourHandThickness, 1.5)
+          ..isAntiAlias = true;
 
-    final double angle = angleAtNoon + angleOfAnHour * time.hour;
-
-    final double x = center.dx + (radius * cos(angle));
-    final double y = center.dy + (radius * sin(angle));
+    final double x = center.dx + (handLength * cos(angle));
+    final double y = center.dy + (handLength * sin(angle));
 
     canvas.drawLine(center, Offset(x, y), paint);
+  }
+
+  void _drawCenterDot(Canvas canvas, Offset center) {
+    final double dotSize = dynamicStroke(10, 1.0); // To hơn và tỉ lệ với radius
+
+    final Paint dotPaint =
+        Paint()
+          ..color = color ?? Colors.white
+          ..style = PaintingStyle.fill;
+
+    canvas.drawCircle(center, dotSize / 2, dotPaint);
+  }
+
+  void _drawOuterDots(Canvas canvas, Offset center, Rect rect) {
+    final double baseDotRadius = dynamicStroke(2, 0.3);
+    final double bigDotRadius = dynamicStroke(4, 0.6);
+
+    final double outerRadius = rect.width / 2 * 0.95;
+
+    final Paint dotPaint =
+        Paint()
+          ..color = color ?? Colors.white
+          ..style = PaintingStyle.fill;
+
+    for (int i = 0; i < 12; i++) {
+      final double angle = (2 * pi / 12) * i - pi / 2;
+      final Offset dotCenter = Offset(
+        center.dx + outerRadius * cos(angle),
+        center.dy + outerRadius * sin(angle),
+      );
+
+      final bool isMainDot = i % 3 == 0; // 12h, 3h, 6h, 9h
+      final double currentDotRadius = isMainDot ? bigDotRadius : baseDotRadius;
+
+      canvas.drawCircle(dotCenter, currentDotRadius / 2, dotPaint);
+    }
   }
 
   @override
@@ -197,5 +289,6 @@ class AnalogClockPainter extends CustomPainter {
       oldDelegate.secondHandThickness != secondHandThickness ||
       oldDelegate.minuteHandThickness != minuteHandThickness ||
       oldDelegate.hourHandThickness != hourHandThickness ||
-      oldDelegate.dialThickness != dialThickness;
+      oldDelegate.dialThickness != dialThickness ||
+      oldDelegate.radius != radius;
 }

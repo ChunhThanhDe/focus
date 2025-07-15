@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../home/model/widget_settings.dart';
-import '../home/ui/custom_dropdown.dart';
+import 'custom_dropdown.dart';
 
+/// A widget that allows the user to control and select an alignment value.
+///
+/// Displays an optional label and a dropdown menu to pick from available alignments.
+/// (Can be extended to show a visual alignment selector.)
 class AlignmentControl extends StatelessWidget {
   final String? label;
   final AlignmentC alignment;
@@ -21,6 +25,7 @@ class AlignmentControl extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        // Show label above the control if provided
         if (label != null) ...[Text(label!), const SizedBox(height: 10)],
         Row(
           children: [
@@ -30,6 +35,8 @@ class AlignmentControl extends StatelessWidget {
             //   onChanged: onChanged,
             // ),
             // const SizedBox(width: 16),
+
+            // Dropdown menu for selecting alignment value
             Expanded(
               child: CustomDropdown<AlignmentC>(
                 key: ValueKey(alignment),
@@ -48,6 +55,10 @@ class AlignmentControl extends StatelessWidget {
   }
 }
 
+/// A widget for visually displaying the alignment box.
+///
+/// Currently shows a bordered square with a smaller center box,
+/// can be extended for interactive alignment selection.
 class AlignmentUI extends StatefulWidget {
   final double size;
   final AlignmentC alignment;

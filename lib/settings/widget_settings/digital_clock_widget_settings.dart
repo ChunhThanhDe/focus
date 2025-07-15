@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../home/model/widget_settings.dart';
-import '../../home/ui/alignment_control.dart';
-import '../../home/ui/custom_dropdown.dart';
-import '../../home/ui/custom_slider.dart';
+import '../../ui/alignment_control.dart';
+import '../../ui/custom_dropdown.dart';
+import '../../ui/custom_slider.dart';
 import '../../home/widget_store.dart';
 import '../../resources/fonts.dart';
 import '../../utils/custom_observer.dart';

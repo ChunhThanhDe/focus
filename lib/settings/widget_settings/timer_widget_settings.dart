@@ -4,11 +4,11 @@ import 'package:intl/intl.dart' as timer;
 import 'package:provider/provider.dart';
 
 import '../../home/model/widget_settings.dart';
-import '../../home/ui/alignment_control.dart';
-import '../../home/ui/custom_dropdown.dart';
-import '../../home/ui/custom_slider.dart';
-import '../../home/ui/resizable_text_input.dart';
-import '../../home/ui/text_input.dart';
+import '../../ui/alignment_control.dart';
+import '../../ui/custom_dropdown.dart';
+import '../../ui/custom_slider.dart';
+import '../../ui/resizable_text_input.dart';
+import '../../ui/text_input.dart';
 import '../../home/widget_store.dart';
 import '../../resources/fonts.dart' show FontFamilies;
 import '../../utils/custom_observer.dart';

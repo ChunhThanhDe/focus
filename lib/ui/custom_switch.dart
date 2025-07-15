@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../home/ui/gesture_detector_with_cursor.dart';
+import 'gesture_detector_with_cursor.dart';
 
 class CustomSwitch extends StatelessWidget {
   final String label;
@@ -17,24 +16,23 @@ class CustomSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Padding(
-      padding: const EdgeInsets.only(top: 8),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
       child: GestureDetectorWithCursor(
         onTap: () => onChanged(!value),
         child: Row(
           children: [
-            Expanded(child: Text(label)),
-            const SizedBox(height: 10),
-            Transform.translate(
-              offset: const Offset(7, 0),
-              child: Transform.scale(
-                scale: 0.8,
-                child: CupertinoSwitch(
-                  value: value,
-                  activeColor: Theme.of(context).colorScheme.primary,
-                  onChanged: onChanged,
-                ),
+            Expanded(
+              child: Text(
+                label,
+                style: theme.textTheme.bodyLarge,
               ),
+            ),
+            Switch.adaptive(
+              value: value,
+              onChanged: onChanged,
             ),
           ],
         ),

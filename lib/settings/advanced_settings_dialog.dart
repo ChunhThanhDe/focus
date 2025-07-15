@@ -9,8 +9,8 @@ import 'package:shared/shared.dart';
 
 import '../home/background_store.dart';
 import '../home/model/background_settings.dart';
-import '../home/ui/custom_dropdown.dart';
-import '../home/ui/gesture_detector_with_cursor.dart';
+import '../ui/custom_dropdown.dart';
+import '../ui/gesture_detector_with_cursor.dart';
 import '../resources/colors.dart';
 import '../resources/storage_keys.dart';
 import '../utils/custom_observer.dart';

@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../home/ui/gesture_detector_with_cursor.dart';
+import '../ui/gesture_detector_with_cursor.dart';
 import '../main.dart';
 import '../resources/fonts.dart';
 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../home/ui/alignment_control.dart';
-import '../../home/ui/custom_dropdown.dart';
-import '../../home/ui/custom_slider.dart';
-import '../../home/ui/resizable_text_input.dart';
+import '../../ui/alignment_control.dart';
+import '../../ui/custom_dropdown.dart';
+import '../../ui/custom_slider.dart';
+import '../../ui/resizable_text_input.dart';
 import '../../home/widget_store.dart';
 import '../../resources/fonts.dart';
 import '../../utils/custom_observer.dart';

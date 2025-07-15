@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../home/ui/gesture_detector_with_cursor.dart';
+import '../ui/gesture_detector_with_cursor.dart';
 import '../main.dart';
 import '../resources/colors.dart';
 

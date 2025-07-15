@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
 
+/// DigitalClock is a widget that displays the current time in a digital (text) format.
+///
+/// You can customize the text style, decoration, padding, and time format.
+/// The widget automatically updates every second to keep the displayed time accurate.
 class DigitalClock extends StatefulWidget {
   final TextStyle? style;
   final Decoration? decoration;
@@ -57,6 +61,10 @@ class _DigitalClockState extends State<DigitalClock> with SingleTickerProviderSt
   }
 }
 
+/// _DigitalClockRenderer builds the styled digital clock display from the current time.
+///
+/// It uses [DateFormat] to format the [time] and wraps the result in a decorated box
+/// with optional padding and styling.
 class _DigitalClockRenderer extends StatelessWidget {
   final DateTime time;
   final TextStyle? style;
