@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../utils/custom_observer.dart';
 import '../../utils/extensions.dart';
 import '../background_store.dart';
-import '../ui/analog_clock.dart';
+import '../../ui/analog_clock.dart';
 import '../widget_store.dart';
 
 class AnalogClockWidget extends StatelessWidget {

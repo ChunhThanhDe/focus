@@ -23,8 +23,8 @@ import 'home_background.dart';
 import 'home_store.dart';
 import 'home_widget.dart';
 import 'model/background_settings.dart';
-import 'ui/message_banner/message_banner.dart';
-import 'ui/message_banner/message_view.dart';
+import '../ui/message_banner/message_banner.dart';
+import '../ui/message_banner/message_view.dart';
 import 'widget_store.dart';
 
 const bool isDevMode = String.fromEnvironment('MODE') == 'debug';

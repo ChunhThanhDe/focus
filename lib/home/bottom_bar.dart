@@ -9,7 +9,7 @@ import '../utils/custom_observer.dart';
 import 'background_store.dart';
 import 'home_store.dart';
 import 'model/background_settings.dart';
-import 'ui/gesture_detector_with_cursor.dart';
+import '../ui/gesture_detector_with_cursor.dart';
 
 class BottomBar extends StatelessWidget {
   const BottomBar({super.key});

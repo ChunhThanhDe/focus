@@ -16,7 +16,7 @@ import '../utils/utils.dart';
 import 'background_store.dart';
 import 'model/export_data.dart';
 import 'model/widget_settings.dart';
-import 'ui/message_banner/message_banner.dart';
+import '../ui/message_banner/message_banner.dart';
 
 part 'home_store.g.dart';
 
