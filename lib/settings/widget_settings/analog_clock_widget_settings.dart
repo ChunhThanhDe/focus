@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../../ui/alignment_control.dart';
 import '../../ui/custom_slider.dart';
@@ -17,7 +18,7 @@ class AnalogClockWidgetSettingsView extends StatelessWidget {
       children: [
         const SizedBox(height: 16),
         LabeledObserver(
-          label: 'Radius',
+          label: 'settings.widget.radius'.tr(),
           builder: (context) {
             return CustomSlider(
               min: 10,
@@ -30,7 +31,7 @@ class AnalogClockWidgetSettingsView extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         LabeledObserver(
-          label: 'Position',
+          label: 'common.position'.tr(),
           builder: (context) {
             return AlignmentControl(
               alignment: settings.alignment,
@@ -43,7 +44,7 @@ class AnalogClockWidgetSettingsView extends StatelessWidget {
           name: 'Show seconds',
           builder: (context) {
             return CustomSwitch(
-              label: 'Show seconds',
+              label: 'settings.widget.showSeconds'.tr(),
               value: settings.showSecondsHand,
               onChanged: (value) => settings.update(() => settings.showSecondsHand = value),
             );
@@ -54,7 +55,7 @@ class AnalogClockWidgetSettingsView extends StatelessWidget {
           name: 'Colored Second Hand',
           builder: (context) {
             return CustomSwitch(
-              label: 'Colored Second Hand',
+              label: 'settings.widget.coloredSecondHand'.tr(),
               value: settings.coloredSecondHand,
               onChanged: (value) => settings.update(() => settings.coloredSecondHand = value),
             );

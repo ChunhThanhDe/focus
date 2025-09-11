@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../../home/model/widget_settings.dart';
 import '../../ui/alignment_control.dart';
@@ -8,7 +9,8 @@ import '../../ui/custom_slider.dart';
 import '../../home/widget_store.dart';
 import '../../resources/fonts.dart';
 import '../../utils/custom_observer.dart';
-import '../../utils/extensions.dart';
+
+import '../../utils/enum_extensions.dart';
 
 class DigitalClockWidgetSettingsView extends StatelessWidget {
   const DigitalClockWidgetSettingsView({super.key});
@@ -22,7 +24,7 @@ class DigitalClockWidgetSettingsView extends StatelessWidget {
       children: [
         const SizedBox(height: 16),
         LabeledObserver(
-          label: 'Font',
+          label: 'common.font'.tr(),
           builder: (context) {
             return CustomDropdown<String>(
               isExpanded: true,
@@ -34,7 +36,7 @@ class DigitalClockWidgetSettingsView extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         LabeledObserver(
-          label: 'Font size',
+          label: 'common.fontSize'.tr(),
           builder: (context) {
             return CustomSlider(
               min: 10,
@@ -50,7 +52,7 @@ class DigitalClockWidgetSettingsView extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         LabeledObserver(
-          label: 'Position',
+          label: 'common.position'.tr(),
           builder: (context) {
             return AlignmentControl(
               alignment: settings.alignment,
@@ -60,33 +62,33 @@ class DigitalClockWidgetSettingsView extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         LabeledObserver(
-          label: 'Border',
+          label: 'common.border'.tr(),
           builder: (context) {
             return CustomDropdown<BorderType>(
               isExpanded: true,
               value: settings.borderType,
               items: BorderType.values,
-              itemBuilder: (context, type) => Text(type.name.capitalize()),
+              itemBuilder: (context, type) => Text(type.label),
               onSelected: (value) => settings.update(() => settings.borderType = value),
             );
           },
         ),
         const SizedBox(height: 16),
         LabeledObserver(
-          label: 'Separator',
+          label: 'common.separator'.tr(),
           builder: (context) {
             return CustomDropdown<Separator>(
               isExpanded: true,
               value: settings.separator,
               items: Separator.values,
-              itemBuilder: (context, type) => Text(type.name.capitalize()),
+              itemBuilder: (context, type) => Text(type.label),
               onSelected: (value) => settings.update(() => settings.separator = value),
             );
           },
         ),
         const SizedBox(height: 16),
         LabeledObserver(
-          label: 'Format',
+          label: 'common.format'.tr(),
           builder: (context) {
             return CustomDropdown<ClockFormat>(
               isExpanded: true,

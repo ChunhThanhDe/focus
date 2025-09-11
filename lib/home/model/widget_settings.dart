@@ -6,30 +6,22 @@ import '../../resources/fonts.dart';
 part 'widget_settings.g.dart';
 
 enum WidgetType {
-  none('Nothing'),
-  digitalClock('Digital Clock'),
-  analogClock('Analog Clock'),
-  text('Message'),
-  timer('Timer'),
-  weather('Weather'),
-  digitalDate('Date & Time');
+  none,
+  digitalClock,
+  analogClock,
+  text,
+  timer,
+  weather,
+  digitalDate;
   // calendar('Calendar');
-
-  const WidgetType(this.label);
-
-  final String label;
 }
 
 enum BorderType { none, solid, rounded }
 
 enum ClockFormat {
-  twelveHour('12 Hours'),
-  twelveHoursWithAmPm('12 Hours with AM / PM'),
-  twentyFourHour('24 Hours');
-
-  const ClockFormat(this.label);
-
-  final String label;
+  twelveHour,
+  twelveHoursWithAmPm,
+  twentyFourHour;
 }
 
 enum DateFormat {
@@ -83,19 +75,15 @@ enum DateSeparator {
 }
 
 enum AlignmentC {
-  topLeft('Top Left'),
-  topCenter('Top Center'),
-  topRight('Top Right'),
-  centerLeft('Center Left'),
-  center('Center'),
-  centerRight('Center Right'),
-  bottomLeft('Bottom Left'),
-  bottomCenter('Bottom Center'),
-  bottomRight('Bottom Right');
-
-  const AlignmentC(this.label);
-
-  final String label;
+  topLeft,
+  topCenter,
+  topRight,
+  centerLeft,
+  center,
+  centerRight,
+  bottomLeft,
+  bottomCenter,
+  bottomRight;
 }
 
 abstract class BaseWidgetSettings with EquatableMixin {

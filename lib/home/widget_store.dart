@@ -3,11 +3,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:easy_localization/easy_localization.dart' hide DateFormat;
 
 import '../resources/storage_keys.dart';
 import '../utils/storage_manager.dart';
-import '../utils/utils.dart';
 import 'model/widget_settings.dart';
+import '../utils/utils.dart';
 
 part 'widget_store.g.dart';
 
@@ -284,7 +285,7 @@ abstract class _MessageWidgetSettingsStore with Store {
   @observable
   late String fontFamily = defaultSettings.fontFamily;
   @observable
-  late String message = defaultSettings.message;
+  late String message = 'defaults.message'.tr();
   @observable
   late AlignmentC alignment = defaultSettings.alignment;
 

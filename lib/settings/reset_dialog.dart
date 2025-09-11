@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../resources/colors.dart';
 
@@ -90,7 +91,7 @@ class ResetDialog extends StatelessWidget {
                       backgroundColor: Colors.grey.shade900,
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                     ),
-                    child: const Text('Cancel'),
+                    child: Text('common.cancel'.tr()),
                   ),
                   const SizedBox(width: 14),
                   ElevatedButton(
@@ -102,7 +103,7 @@ class ResetDialog extends StatelessWidget {
                       backgroundColor: Colors.red,
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                     ),
-                    child: const Text('Yes, Reset!'),
+                    child: Text('settings.dialog.reset.yesReset'.tr()),
                   ),
                 ],
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../../ui/alignment_control.dart';
 import '../../ui/custom_dropdown.dart';
@@ -19,7 +20,7 @@ class MessageWidgetSettingsView extends StatelessWidget {
       children: [
         const SizedBox(height: 16),
         LabeledObserver(
-          label: 'Font',
+          label: 'common.font'.tr(),
           builder: (context) {
             return CustomDropdown<String>(
               isExpanded: true,
@@ -31,7 +32,7 @@ class MessageWidgetSettingsView extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         LabeledObserver(
-          label: 'Font size',
+          label: 'common.fontSize'.tr(),
           builder: (context) {
             return CustomSlider(
               min: 10,
@@ -47,7 +48,7 @@ class MessageWidgetSettingsView extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         LabeledObserver(
-          label: 'Position',
+          label: 'common.position'.tr(),
           builder: (context) {
             return AlignmentControl(
               alignment: settings.alignment,
@@ -57,7 +58,7 @@ class MessageWidgetSettingsView extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         ResizableTextInput(
-          label: 'Message',
+          label: 'common.message'.tr(),
           initialHeight: 150,
           initialValue: settings.message,
           onChanged:

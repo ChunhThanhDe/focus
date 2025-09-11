@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../home/background_store.dart';
 import '../home/home_store.dart';
@@ -20,16 +21,16 @@ import 'reset_dialog.dart';
 class MenuButton extends StatelessWidget {
   const MenuButton({super.key});
 
-  static const Map<String, String> options = {
-    'liked_backgrounds': 'View liked photos',
-    'import': 'Import Settings',
-    'export': 'Export Settings',
-    'advanced': 'Advanced Settings',
-    'changelog': "See what's new",
-    'donate': 'Donate',
-    'sponsor': 'Become a sponsor',
-    'report': 'Report an issue',
-    'reset': 'Reset to default',
+  static Map<String, String> get options => {
+    'liked_backgrounds': 'settings.menu.likedBackgrounds'.tr(),
+    'import': 'settings.menu.import'.tr(),
+    'export': 'settings.menu.export'.tr(),
+    'advanced': 'settings.menu.advanced'.tr(),
+    'changelog': 'settings.menu.changelog'.tr(),
+    'donate': 'settings.menu.donate'.tr(),
+    'sponsor': 'settings.menu.sponsor'.tr(),
+    'report': 'settings.menu.report'.tr(),
+    'reset': 'settings.menu.reset'.tr(),
   };
 
   @override

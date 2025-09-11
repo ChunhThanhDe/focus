@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart' hide DateFormat;
 
 import '../../home/model/widget_settings.dart';
 import '../../ui/alignment_control.dart';
@@ -9,7 +10,8 @@ import '../../ui/text_input.dart';
 import '../../home/widget_store.dart';
 import '../../resources/fonts.dart';
 import '../../utils/custom_observer.dart';
-import '../../utils/extensions.dart';
+
+import '../../utils/enum_extensions.dart';
 
 class DigitalDateWidgetSettingsView extends StatefulWidget {
   const DigitalDateWidgetSettingsView({super.key});
@@ -82,7 +84,7 @@ class _DigitalDateWidgetSettingsViewState extends State<DigitalDateWidgetSetting
               isExpanded: true,
               value: settings.borderType,
               items: BorderType.values,
-              itemBuilder: (context, type) => Text(type.name.capitalize()),
+              itemBuilder: (context, type) => Text(type.label),
               onSelected: (value) {
                 settings.update(() {
                   settings.borderType = value;
@@ -100,7 +102,7 @@ class _DigitalDateWidgetSettingsViewState extends State<DigitalDateWidgetSetting
               isExpanded: true,
               value: settings.separator,
               items: DateSeparator.values,
-              itemBuilder: (context, type) => Text(type.name.capitalize()),
+              itemBuilder: (context, type) => Text(type.label),
               onSelected: (value) {
                 settings.update(() => settings.separator = value);
                 setState(() {});
@@ -119,12 +121,12 @@ class _DigitalDateWidgetSettingsViewState extends State<DigitalDateWidgetSetting
                   isExpanded: true,
                   value: settings.format,
                   items: DateFormat.values,
-                  itemBuilder: (context, type) => Text(type.prettify(settings.separator.value)),
+                  itemBuilder: (context, type) => Text(type.label),
                   onSelected: (value) => settings.update(() => settings.format = value),
                 ),
                 if (settings.format == DateFormat.custom) ...[
                   const SizedBox(height: 16),
-                  const Text('Template'),
+                  Text('common.template'.tr()),
                   const SizedBox(height: 10),
                   TextInput(
                     initialValue: settings.customFormat,

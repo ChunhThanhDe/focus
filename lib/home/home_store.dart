@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -96,7 +97,7 @@ abstract class _HomeStore with Store, LazyInitializationMixin {
           allowedExtensions: ['json'],
           initialDirectory: 'Downloads',
           fileName: fileName,
-          dialogTitle: 'Save File',
+          dialogTitle: 'common.saveFile'.tr(),
         );
         if (path == null) return null;
         final file = io.File(path);

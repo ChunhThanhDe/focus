@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
@@ -242,7 +242,7 @@ class _HomeState extends State<Home> {
     /// Show native save file dialog on desktop.
     final String? path = await FilePicker.platform.saveFile(
       type: FileType.image,
-      dialogTitle: 'Save Image',
+      dialogTitle: 'common.saveImage'.tr(),
       fileName: fileName,
     );
     if (path == null) return;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:intl/intl.dart' as timer;
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../../home/model/widget_settings.dart';
 import '../../ui/alignment_control.dart';
@@ -13,6 +14,7 @@ import '../../home/widget_store.dart';
 import '../../resources/fonts.dart' show FontFamilies;
 import '../../utils/custom_observer.dart';
 
+
 class TimerWidgetSettingsView extends StatelessWidget {
   const TimerWidgetSettingsView({super.key});
 
@@ -23,7 +25,7 @@ class TimerWidgetSettingsView extends StatelessWidget {
       children: [
         const SizedBox(height: 16),
         LabeledObserver(
-          label: 'Font',
+          label: 'common.font'.tr(),
           builder: (context) {
             return CustomDropdown<String>(
               isExpanded: true,
@@ -35,7 +37,7 @@ class TimerWidgetSettingsView extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         LabeledObserver(
-          label: 'Font size',
+          label: 'common.fontSize'.tr(),
           builder: (context) {
             return CustomSlider(
               min: 10,
@@ -51,7 +53,7 @@ class TimerWidgetSettingsView extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         LabeledObserver(
-          label: 'Position',
+          label: 'common.position'.tr(),
           builder: (context) {
             return AlignmentControl(
               alignment: settings.alignment,
@@ -61,7 +63,7 @@ class TimerWidgetSettingsView extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         LabeledObserver(
-          label: 'Format',
+          label: 'common.format'.tr(),
           builder: (context) {
             return CustomDropdown<TimerFormat>(
               isExpanded: true,
@@ -74,7 +76,7 @@ class TimerWidgetSettingsView extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         ResizableTextInput(
-          label: 'Text Before',
+          label: 'settings.widget.textBefore'.tr(),
           initialHeight: 50,
           initialValue: settings.textBefore,
           onChanged:
@@ -90,7 +92,7 @@ class TimerWidgetSettingsView extends StatelessWidget {
             SizedBox(
               width: 114,
               child: TextInput(
-                label: 'Date',
+                label: 'settings.widget.date'.tr(),
                 textStyle: const TextStyle(letterSpacing: 0.8),
                 textInputAction: TextInputAction.next,
                 inputFormatters: [MaskedInputFormatter('00/00/0000')],
@@ -122,7 +124,7 @@ class TimerWidgetSettingsView extends StatelessWidget {
             SizedBox(
               width: 96,
               child: TextInput(
-                label: 'Time',
+                label: 'settings.widget.time'.tr(),
                 textStyle: const TextStyle(letterSpacing: 0.2),
                 inputFormatters: [
                   MaskedInputFormatter(
@@ -158,7 +160,7 @@ class TimerWidgetSettingsView extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         ResizableTextInput(
-          label: 'Text After',
+          label: 'settings.widget.textAfter'.tr(),
           initialHeight: 100,
           initialValue: settings.textAfter,
           onChanged:

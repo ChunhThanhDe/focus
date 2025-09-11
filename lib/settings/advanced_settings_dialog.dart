@@ -1,6 +1,7 @@
 import 'dart:math' hide log;
 
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screwdriver/flutter_screwdriver.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
@@ -125,8 +126,8 @@ class _ImageDownloadQualitySettingState extends State<ImageDownloadQualitySettin
       children: [
         CustomDropdown<ImageResolution>(
           value: resolution,
-          label: 'Image Download Quality',
-          hint: 'Select duration',
+          label: 'settings.widget.imageDownloadQuality'.tr(),
+          hint: 'settings.background.selectDuration'.tr(),
           isExpanded: true,
           items: ImageResolution.values,
           itemBuilder: (context, item) => Text(item.label),
@@ -154,7 +155,7 @@ class CustomCollectionsSettings extends StatelessWidget {
       children: [
         Row(
           children: [
-            const Text('Custom Collections'),
+            Text('settings.dialog.customCollections'.tr()),
             const Spacer(),
             GestureDetectorWithCursor(
               onTap: () => onCreateNewCollection(context, store),

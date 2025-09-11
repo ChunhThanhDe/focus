@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../home/model/widget_settings.dart';
 import '../ui/custom_dropdown.dart';
 import '../home/widget_store.dart';
 import '../utils/custom_observer.dart';
+import '../utils/enum_extensions.dart';
 import 'widget_settings/analog_clock_widget_settings.dart';
 import 'widget_settings/digital_clock_widget_settings.dart';
 import 'widget_settings/digital_date_widget_settings.dart';
@@ -27,13 +29,13 @@ class WidgetSettings extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             LabeledObserver(
-              label: 'Widget',
+              label: 'common.widget'.tr(),
               builder: (context) {
                 return CustomDropdown<WidgetType>(
                   value: store.type,
                   isExpanded: true,
                   items: WidgetType.values,
-                  itemBuilder: (context, item) => Text(item.label),
+                  itemBuilder: (context, item) => Text(item.localizedLabel),
                   onSelected: (type) => store.setType(type),
                 );
               },

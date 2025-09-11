@@ -2,12 +2,12 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:math' hide log;
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 import 'package:screwdriver/screwdriver.dart';
 import 'package:shared/shared.dart';
@@ -610,7 +610,7 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
     /// Show native save file dialog on desktop.
     final String? path = await FilePicker.platform.saveFile(
       type: FileType.image,
-      dialogTitle: 'Save Image',
+      dialogTitle: 'common.saveImage'.tr(),
       fileName: fileName,
     );
     if (path == null) return;

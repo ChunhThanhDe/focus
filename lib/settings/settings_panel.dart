@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
 
 import '../home/home_store.dart';
@@ -99,7 +100,7 @@ class _SettingsPanelContentState extends State<SettingsPanelContent> with Single
                   child: Row(
                     children: [
                       Expanded(
-                        child: Text('Settings', style: Theme.of(context).textTheme.titleMedium),
+                        child: Text('common.settings'.tr(), style: Theme.of(context).textTheme.titleMedium),
                       ),
                       const MenuButton(),
                       Material(
@@ -162,10 +163,10 @@ class _SettingsPanelContentState extends State<SettingsPanelContent> with Single
                             ),
                           ),
                         ),
-                        tabs: const [
-                          Tab(text: 'Background'),
-                          Tab(text: 'Widget'),
-                          Tab(text: 'About'),
+                        tabs: [
+                          Tab(text: 'settings.panel.background'.tr()),
+                          Tab(text: 'settings.panel.widget'.tr()),
+                          Tab(text: 'settings.panel.about'.tr()),
                         ],
                         onTap: (index) => homeStore.setTabIndex(index),
                       ),

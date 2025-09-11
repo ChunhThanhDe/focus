@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screwdriver/flutter_screwdriver.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -63,7 +64,7 @@ class BottomBar extends StatelessWidget {
                               direction: Axis.horizontal,
                               children: [
                                 if (store.currentImage case UnsplashPhoto background) ...[
-                                  const Text('Photo by '),
+                                  Text('home.photoBy'.tr()),
                                   GestureDetectorWithCursor(
                                     onTap: () => onUnsplashUserLinkTap(background),
                                     child: Text(
@@ -74,7 +75,7 @@ class BottomBar extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  const Text(' on '),
+                                  Text('home.on'.tr()),
                                   GestureDetectorWithCursor(
                                     onTap:
                                         () => launchUrlString(

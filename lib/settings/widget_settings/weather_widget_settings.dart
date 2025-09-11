@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -19,6 +20,7 @@ import '../../resources/fonts.dart';
 import '../../utils/custom_observer.dart';
 import '../../utils/geocoding_service.dart';
 
+
 class WeatherWidgetSettingsView extends StatelessWidget {
   const WeatherWidgetSettingsView({super.key});
 
@@ -29,7 +31,7 @@ class WeatherWidgetSettingsView extends StatelessWidget {
       children: [
         const SizedBox(height: 16),
         LabeledObserver(
-          label: 'Font',
+          label: 'common.font'.tr(),
           builder: (context) {
             return CustomDropdown<String>(
               isExpanded: true,
@@ -41,7 +43,7 @@ class WeatherWidgetSettingsView extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         LabeledObserver(
-          label: 'Font size',
+          label: 'common.fontSize'.tr(),
           builder: (context) {
             return CustomSlider(
               min: 10,
@@ -57,7 +59,7 @@ class WeatherWidgetSettingsView extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         LabeledObserver(
-          label: 'Position',
+          label: 'common.position'.tr(),
           builder: (context) {
             return AlignmentControl(
               alignment: settings.alignment,
@@ -67,7 +69,7 @@ class WeatherWidgetSettingsView extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         LabeledObserver(
-          label: 'Format',
+          label: 'common.format'.tr(),
           builder: (context) {
             return CustomDropdown<WeatherFormat>(
               isExpanded: true,
@@ -80,7 +82,7 @@ class WeatherWidgetSettingsView extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         LabeledObserver(
-          label: 'Location (city)',
+          label: 'settings.weather.location'.tr(),
           builder: (context) {
             return LocationAutoCompleteField(
               key: ValueKey(settings.location),
@@ -96,7 +98,7 @@ class WeatherWidgetSettingsView extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         LabeledObserver(
-          label: 'Temperature unit',
+          label: 'settings.weather.temperatureUnit'.tr(),
           builder: (context) {
             return CustomDropdown<TemperatureUnit>(
               isExpanded: true,

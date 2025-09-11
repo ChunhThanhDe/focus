@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 /// CustomSlider is a customizable slider widget.
 ///
 /// This widget displays a labeled slider with an optional value label next to it.
@@ -67,7 +66,7 @@ class CustomSlider extends StatelessWidget {
                   ),
                   child: Text(
                     valueLabel!,
-                    style: theme.textTheme.labelSmall,
+                    style: theme.textTheme.labelMedium,
                   ),
                 ),
               ],

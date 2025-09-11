@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screwdriver/flutter_screwdriver.dart';
 import 'package:provider/provider.dart';
 import 'package:screwdriver/screwdriver.dart';
@@ -49,11 +50,11 @@ class BackgroundSettingsView extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             LabeledObserver(
-              label: 'Auto Refresh Background',
+              label: 'settings.background.autoRefresh'.tr(),
               builder: (context) {
                 return CustomDropdown<BackgroundRefreshRate>(
                   value: store.backgroundRefreshRate,
-                  hint: 'Select duration',
+                  hint: 'settings.background.selectDuration'.tr(),
                   isExpanded: true,
                   items: BackgroundRefreshRate.values,
                   itemBuilder: (context, item) => Text(item.label),
@@ -63,7 +64,7 @@ class BackgroundSettingsView extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             LabeledObserver(
-              label: 'Tint',
+              label: 'settings.background.tint'.tr(),
               builder:
                   (context) => CustomSlider(
                     value: store.tint,
@@ -247,7 +248,7 @@ class BackgroundModeSelector extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text('Background Mode'),
+        Text('settings.background.mode'.tr()),
         const SizedBox(height: 10),
         CupertinoTheme(
           data: CupertinoThemeData(
@@ -309,7 +310,7 @@ class ImageSettings extends StatelessWidget {
           name: 'B&W Filter',
           builder: (context) {
             return CustomSwitch(
-              label: 'Black & White Filter',
+              label: 'settings.background.blackWhiteFilter'.tr(),
               value: store.greyScale,
               onChanged: (value) {
                 store.setGreyScale(value);
@@ -340,7 +341,7 @@ class _ImageSourceSelectorState extends State<_ImageSourceSelector> {
       children: [
         Row(
           children: [
-            const Text('Source'),
+            Text('settings.background.source'.tr()),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(right: 6),
@@ -383,7 +384,7 @@ class _ImageSourceSelectorState extends State<_ImageSourceSelector> {
             return CustomDropdown<ImageSource>(
               value: store.imageSource,
               // label: 'Source',
-              hint: 'Select source',
+              hint: 'settings.background.selectSource'.tr(),
               isExpanded: true,
               items: ImageSource.values.where((source) => source != ImageSource.local).toList(),
               itemBuilder:
@@ -428,7 +429,7 @@ class UnsplashSourceSettings extends StatelessWidget {
       children: [
         Row(
           children: [
-            const Text('Background Collection', style: TextStyle(height: 1)),
+            Text('settings.background.collection'.tr(), style: const TextStyle(height: 1)),
             const SizedBox(width: 6),
             CustomObserver(
               name: 'Add Collection',
@@ -454,7 +455,7 @@ class UnsplashSourceSettings extends StatelessWidget {
           builder: (context) {
             return CustomDropdown<UnsplashSource>(
               value: store.unsplashSource,
-              hint: 'Select a collection',
+              hint: 'settings.background.selectCollection'.tr(),
               isExpanded: true,
               items: [...store.customSources, ...UnsplashSources.sources],
               itemBuilder: (context, item) {
@@ -483,9 +484,9 @@ class UnsplashSourceSettings extends StatelessWidget {
           },
         ),
         const SizedBox(height: 16),
-        const Row(
+        Row(
           children: [
-            Expanded(child: Text('Resolution')),
+            Expanded(child: Text('settings.background.resolution'.tr())),
             ResolutionHelpButton(),
             SizedBox(width: 4),
           ],
@@ -497,7 +498,7 @@ class UnsplashSourceSettings extends StatelessWidget {
             return CustomDropdown<ImageResolution>(
               value: store.imageResolution,
               isExpanded: true,
-              hint: 'Select a resolution',
+              hint: 'settings.background.selectResolution'.tr(),
               items:
                   ImageResolution.values
                       .where(
@@ -604,8 +605,8 @@ class _ColorSelector extends StatelessWidget {
         if (!store.isColorMode) return const SizedBox.shrink();
         return CustomDropdown<FlatColor>(
           value: store.color,
-          label: 'Color',
-          hint: 'Select a color',
+          label: 'settings.background.color'.tr(),
+              hint: 'settings.background.selectColor'.tr(),
           isExpanded: true,
           itemHeight: 40,
           items: FlatColors.colors.values.toList(),
@@ -654,8 +655,8 @@ class _GradientSelector extends StatelessWidget {
         if (!store.isGradientMode) return const SizedBox.shrink();
         return CustomDropdown<ColorGradient>(
           value: store.gradient,
-          label: 'Gradient',
-          hint: 'Select a gradient',
+          label: 'settings.background.gradient'.tr(),
+              hint: 'settings.background.selectGradient'.tr(),
           isExpanded: true,
           itemHeight: 40,
           items: ColorGradients.gradients.values.toList(),

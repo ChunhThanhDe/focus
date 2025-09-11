@@ -4,6 +4,7 @@ import 'dart:math' hide log;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:get_it/get_it.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared/shared.dart';
@@ -100,7 +101,7 @@ class _NewCollectionDialogState extends State<NewCollectionDialog> {
                           const SizedBox(height: 24),
                           TextInput(
                             controller: _controller,
-                            hintText: 'Keywords',
+                            hintText: 'settings.dialog.newCollection.keywords'.tr(),
                             onChanged: (value) {
                               if (isValid != null || value.trim().isEmpty) {
                                 setState(() => isValid = null);
@@ -175,7 +176,7 @@ class _NewCollectionDialogState extends State<NewCollectionDialog> {
                           vertical: 16,
                         ),
                       ),
-                      child: const Text('Cancel'),
+                      child: Text('common.cancel'.tr()),
                     ),
                     const SizedBox(width: 12),
                     FilledButton(
@@ -192,7 +193,7 @@ class _NewCollectionDialogState extends State<NewCollectionDialog> {
                           vertical: 16,
                         ),
                       ),
-                      child: const Text('Create'),
+                      child: Text('common.create'.tr()),
                     ),
                   ],
                 ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../home/model/widget_settings.dart';
+import '../utils/enum_extensions.dart';
 import 'custom_dropdown.dart';
 
 /// A widget that allows the user to control and select an alignment value.
