@@ -44,33 +44,72 @@ class MenuButton extends StatelessWidget {
         child: CustomDropdownButton<MapEntry<String, String>>(
           items: options.entries.toList(),
           underline: const SizedBox.shrink(),
-          dropdownWidth: 200,
+          dropdownWidth: 220,
           dropdownDirection: DropdownDirection.left,
           dropdownOverButton: false,
-          scrollbarThickness: 4,
+          scrollbarThickness: 6,
           focusColor: Theme.of(context).colorScheme.primary,
-          dropdownElevation: 2,
-          // dropdownPadding: EdgeInsets.zero,
-          itemHeight: 32,
+          dropdownElevation: 8,
+          dropdownPadding: const EdgeInsets.symmetric(vertical: 6),
+          itemHeight: 40,
           onChanged: (value) {
             if (value == null) return;
             onSelected(context, value.key);
           },
           dropdownDecoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(6),
+            borderRadius: BorderRadius.circular(12),
             color: AppColors.dropdownOverlayColor,
+            border: Border.all(
+              color: AppColors.borderColor.withOpacity(0.6),
+              width: 1,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.3),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+                spreadRadius: 0,
+              ),
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 6,
+                offset: const Offset(0, 2),
+                spreadRadius: 0,
+              ),
+            ],
           ),
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-            fontWeight: FontWeight.w400,
-            height: 1,
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+            fontWeight: FontWeight.w500,
+            height: 1.2,
+            color: AppColors.textColor,
           ),
           itemBuilder:
               (context, item) => CustomDropdownMenuItem<MapEntry<String, String>>(
                 value: item,
-                hoverBackgroundColor: item.key == 'reset' ? Colors.red : null,
-                hoverTextColor: item.key == 'reset' ? Colors.white : null,
-                textColor: item.key == 'reset' ? Colors.red : null,
-                child: Text(item.value),
+                hoverBackgroundColor: item.key == 'reset' ? Colors.red.withOpacity(0.15) : AppColors.borderColor.withOpacity(0.4),
+                hoverTextColor: item.key == 'reset' ? Colors.red.shade300 : AppColors.textColor,
+                textColor: item.key == 'reset' ? Colors.red.shade400 : AppColors.textColor,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 6),
+                  child: Row(
+                    children: [
+                      Icon(
+                        _getIconForMenuItem(item.key),
+                        size: 16,
+                        color: item.key == 'reset' ? Colors.red.shade400 : AppColors.textColor.withOpacity(0.8),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          item.value,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
           childBuilder:
               (ctx, item, onTap) => Theme(
@@ -85,6 +124,31 @@ class MenuButton extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  IconData _getIconForMenuItem(String key) {
+    switch (key) {
+      case 'changelog':
+        return Icons.article_outlined;
+      case 'liked_backgrounds':
+        return Icons.favorite_outline;
+      case 'reset':
+        return Icons.refresh_outlined;
+      case 'import':
+        return Icons.file_download_outlined;
+      case 'export':
+        return Icons.file_upload_outlined;
+      case 'report':
+        return Icons.bug_report_outlined;
+      case 'donate':
+        return Icons.favorite;
+      case 'sponsor':
+        return Icons.star_outline;
+      case 'advanced':
+        return Icons.tune_outlined;
+      default:
+        return Icons.settings_outlined;
+    }
   }
 
   void onSelected(BuildContext context, String value) {
