@@ -1,0 +1,40 @@
+{
+  "name": "focus-chrome-extension",
+  "version": "1.0.0",
+  "description": "Chrome extension integration for Focus app - News Feed Eradicator functionality",
+  "main": "dist/background/service-worker.js",
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts",
+    "clean": "rimraf dist"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.246",
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-replace": "^5.0.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "rollup": "^4.0.0",
+    "rollup-plugin-copy": "^3.4.0",
+    "typescript": "^5.4.5",
+    "tslib": "^2.6.0",
+    "rimraf": "^5.0.0",
+    "eslint": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0"
+  },
+  "dependencies": {
+    "webextension-polyfill": "^0.10.0"
+  },
+  "keywords": [
+    "chrome-extension",
+    "news-feed-eradicator",
+    "focus",
+    "productivity",
+    "social-media"
+  ],
+  "author": "Focus Team",
+  "license": "MIT"
+}
