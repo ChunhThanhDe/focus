@@ -179,7 +179,8 @@ mixin _$BackgroundStore on _BackgroundStore, Store {
   }
 
   @override
-  ObservableMap<String, LikedBackground> get _likedBackgrounds => likedBackgrounds;
+  ObservableMap<String, LikedBackground> get _likedBackgrounds =>
+      likedBackgrounds;
 
   @override
   set _likedBackgrounds(ObservableMap<String, LikedBackground> value) {

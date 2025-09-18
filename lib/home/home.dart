@@ -17,6 +17,7 @@ import '../utils/custom_observer.dart';
 import '../utils/storage_manager.dart';
 import '../utils/universal/io.dart';
 import '../utils/utils.dart';
+import '../chrome_extension/stores/extension_store.dart';
 import 'background_store.dart';
 import 'bottom_bar.dart';
 import 'home_background.dart';
@@ -64,6 +65,7 @@ class _HomeState extends State<Home> {
   late final HomeStore store = context.read<HomeStore>();
 
   late final LocalStorageManager storageManager = GetIt.instance.get<LocalStorageManager>();
+  late final ExtensionStore extensionStore = GetIt.instance.get<ExtensionStore>();
 
   ReactionDisposer? _disposer;
 
@@ -80,6 +82,8 @@ class _HomeState extends State<Home> {
       if (!backgroundStore.backgroundRefreshRate.requiresTimer) return;
       startTimer();
     });
+    // Initialize Chrome extension store
+    extensionStore.initialize();
     _shouldShowChangelog();
   }
 

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../home/home_store.dart';
 import '../resources/colors.dart';
 import '../utils/custom_observer.dart';
+import '../chrome_extension/widgets/extension_settings_view.dart';
 import 'about.dart';
 import 'background_settings_view.dart';
 import 'menu_button.dart';
@@ -63,7 +64,7 @@ class _SettingsPanelContentState extends State<SettingsPanelContent> with Single
   void initState() {
     super.initState();
     homeStore.tabController = TabController(
-      length: 3,
+      length: 4,
       vsync: this,
       initialIndex: homeStore.currentTabIndex,
     );
@@ -166,6 +167,7 @@ class _SettingsPanelContentState extends State<SettingsPanelContent> with Single
                         tabs: [
                           Tab(text: 'settings.panel.background'.tr()),
                           Tab(text: 'settings.panel.widget'.tr()),
+                          Tab(text: 'Chrome Extension'),
                           Tab(text: 'settings.panel.about'.tr()),
                         ],
                         onTap: (index) => homeStore.setTabIndex(index),
@@ -192,6 +194,8 @@ class _SettingsPanelContentState extends State<SettingsPanelContent> with Single
                               case 1:
                                 return const WidgetSettings();
                               case 2:
+                                return const ExtensionSettingsView();
+                              case 3:
                                 return const About();
                               default:
                                 return const SizedBox.shrink();
