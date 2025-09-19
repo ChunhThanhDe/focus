@@ -1,0 +1,37 @@
+{
+  "name": "focus-chrome-extension",
+  "version": "1.0.0",
+  "description": "Flutter-powered new tab with social media feed cleaner",
+  "scripts": {
+    "build:flutter": "flutter build web --csp --no-web-resources-cdn",
+    "build:ts": "cd feed-focus && npm install && npx rollup -c",
+    "copy:newtab": "node scripts/copy-flutter-web.js",
+    "copy:social": "node scripts/copy-social-bundle.js",
+    "build:ext": "npm run build:flutter && npm run copy:newtab && npm run build:ts && npm run copy:social && npm run copy:icons",
+    "copy:icons": "node scripts/copy-icons.js",
+    "clean:ext": "rimraf extension/newtab/* extension/social_cleaner/* extension/icons/*",
+    "dev:flutter": "flutter run -d chrome --web-port 8080",
+    "dev:ts": "cd feed-focus && npm run dev",
+    "install:deps": "npm install && cd feed-focus && npm install"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.5"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "."
+  },
+  "keywords": [
+    "chrome-extension",
+    "flutter",
+    "typescript",
+    "new-tab",
+    "social-media",
+    "productivity"
+  ],
+  "author": "Focus Extension Team",
+  "license": "MIT"
+}

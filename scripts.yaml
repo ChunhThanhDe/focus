@@ -13,8 +13,8 @@ clean:
 build:
   - $deps                  # Cài lại dependency
   - $update_version        # Tự động cập nhật version trong project
-  - flutter build web --web-renderer=canvaskit --csp --no-web-resources-cdn --dart-define="MODE=debug"
-    # Build web với trình render `canvaskit`, không dùng CDN, định nghĩa biến môi trường là debug
+  - flutter build web --csp --no-web-resources-cdn --dart-define="MODE=debug"
+    # Build web với CSP, không dùng CDN, định nghĩa biến môi trường là debug
   - rm -rf build/extension # Xoá folder cũ nếu có (phòng trường hợp trước đó có build extension)
   - mv build/web build/extension  # Đổi tên thư mục build/web thành build/extension
 
@@ -22,9 +22,9 @@ build:
 pack:
   - $deps                          # Cài lại dependency
   - $update_version                # Cập nhật version
-  - flutter build web -web-renderer=canvaskit --csp --no-web-resources-cdn
+  - flutter build web --csp --no-web-resources-cdn
     # Build web để đóng gói
-  - cp LICENSE build/web           # Copy file LICENSE vào folder web
+  - cp LICENSE build/web           # Copy file LICENSE vào folder web (nếu có)
   - cd build && zip -r focus.zip web  # Nén thư mục web thành file zip: focus.zip
   - cp build/focus.zip focus.zip
 

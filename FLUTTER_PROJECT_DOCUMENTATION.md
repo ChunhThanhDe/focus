@@ -207,7 +207,7 @@ fvm flutter pub run build_runner build --delete-conflicting-outputs
 fvm flutter run -d chrome --dart-define="SERVER=local" --dart-define="MODE=debug"
 
 # Build for development
-fvm flutter build web --web-renderer=canvaskit --csp --no-web-resources-cdn --dart-define="MODE=debug"
+fvm flutter build web --csp --no-web-resources-cdn --dart-define="MODE=debug"
 ```
 
 ### Production Build
@@ -217,7 +217,7 @@ fvm flutter clean
 fvm flutter pub get
 
 # Production web build
-fvm flutter build web --web-renderer=canvaskit --csp --no-web-resources-cdn --release
+fvm flutter build web --csp --no-web-resources-cdn --release
 
 # Using scripts (recommended)
 fvm flutter pub run scripts:build  # Development build
@@ -225,10 +225,11 @@ fvm flutter pub run scripts:pack   # Production package
 ```
 
 ### Build Configuration
-- **Web Renderer**: CanvasKit for better performance
 - **CSP**: Content Security Policy compliance
 - **No CDN**: Self-contained build without external dependencies
 - **Environment Variables**: `SERVER=local|production`, `MODE=debug|release`
+
+**Note**: The `--web-renderer` option has been deprecated in Flutter 3.8+. The default renderer is now used automatically.
 
 ## Extension Packaging (MV3)
 
@@ -265,7 +266,7 @@ build/web/ (or build/extension/)
 ```
 
 ### Packaging Steps
-1. **Build Flutter Web**: `fvm flutter build web --release`
+1. **Build Flutter Web**: `fvm flutter build web --csp --no-web-resources-cdn --release`
 2. **Copy Manifest**: Ensure `manifest.json` is in build output
 3. **Verify Structure**: Check all required files are present
 4. **Test Locally**: Load unpacked extension for testing
@@ -273,29 +274,69 @@ build/web/ (or build/extension/)
 
 ### Build Script Integration
 ```bash
-# Automated packaging
+# Automated packaging (updated for Flutter 3.8+)
 fvm flutter pub run scripts:build  # Creates build/extension/
 fvm flutter pub run scripts:pack   # Creates focus.zip
+
+# Manual packaging (Windows PowerShell)
+fvm flutter build web --csp --no-web-resources-cdn --release
+Compress-Archive -Path build/web/* -DestinationPath focus.zip -Force
 ```
 
 ## Chrome Load Guide
 
-### Loading Unpacked Extension
+### Method 1: Using Existing Extension Folder (Recommended)
 1. **Open Chrome Extensions**:
    - Navigate to `chrome://extensions/`
    - Enable "Developer mode" (top-right toggle)
 
 2. **Load Extension**:
    - Click "Load unpacked"
-   - Select the `build/web/` or `build/extension/` folder
-   - Extension should appear in the list
+   - Select the `d:\vscode\focus\extension` folder
+   - Extension should appear in the list with "Focus - News Feed Eradicator" name
 
-3. **Test New Tab**:
+### Method 2: Using Fresh Build
+1. **Build the Extension**:
+   ```bash
+   fvm flutter build web --csp --no-web-resources-cdn --release
+   ```
+
+2. **Prepare Extension Folder**:
+   - Copy `manifest.json` from `extension/` to `build/web/`
+   - Copy `icons/` folder from `extension/` to `build/web/`
+   - Copy any additional extension files as needed
+
+3. **Load Extension**:
+   - Navigate to `chrome://extensions/`
+   - Enable "Developer mode"
+   - Click "Load unpacked"
+   - Select the `build/web/` folder
+
+### Method 3: Using ZIP Package
+1. **Create Package**:
+   ```bash
+   # Build and package
+   fvm flutter build web --csp --no-web-resources-cdn --release
+   Compress-Archive -Path build/web/* -DestinationPath focus.zip -Force
+   ```
+
+2. **Install from ZIP**:
+   - Extract `focus.zip` to a folder
+   - Copy extension files (manifest.json, icons) to extracted folder
+   - Load unpacked extension from the combined folder
+
+### Verification Steps
+1. **Test New Tab**:
    - Open a new tab
    - Focus extension should load as the new tab page
    - Verify all widgets and settings work correctly
 
-4. **Debug Issues**:
+2. **Check Extension Status**:
+   - Extension should show as "Enabled" in chrome://extensions/
+   - No error messages should appear
+   - Extension icon should be visible
+
+3. **Debug Issues**:
    - Open Developer Tools (F12) on new tab
    - Check Console for JavaScript errors
    - Verify network requests to backend services
@@ -305,12 +346,15 @@ The extension requires minimal permissions:
 - **New Tab Override**: Replace default new tab page
 - **Storage**: Save user settings locally
 - **Network Access**: Fetch background images and weather data
+- **Host Permissions**: Access to social media sites for content cleaning
 
 ### Development Workflow
 1. **Make Code Changes**: Edit Flutter source files
-2. **Rebuild**: Run build command
+2. **Rebuild**: Run `fvm flutter build web --csp --no-web-resources-cdn`
 3. **Reload Extension**: Click reload button in chrome://extensions/
 4. **Test**: Open new tab to verify changes
+
+**Note**: For development, use Method 1 with the existing extension folder for fastest iteration.
 
 ## Troubleshooting / TODO
 
