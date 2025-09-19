@@ -1,69 +1,64 @@
 {
   "manifest_version": 3,
-  "name": "Focus - New Tab & Social Cleaner",
-  "version": "1.0.0",
-  "description": "Beautiful Flutter-powered new tab with social media feed cleaner",
+  "name": "Focus - Unified Extension",
+  "version": "2.0.0",
+  "description": "A unified extension combining Focus new tab with social media feed cleaner",
+  
+  "permissions": [
+    "storage",
+    "scripting",
+    "tabs"
+  ],
+  
+  "optional_host_permissions": [
+    "http://www.facebook.com/*",
+    "https://www.facebook.com/*",
+    "http://web.facebook.com/*",
+    "https://web.facebook.com/*",
+    "http://twitter.com/*",
+    "https://twitter.com/*",
+    "http://x.com/*",
+    "https://x.com/*",
+    "https://www.reddit.com/*",
+    "http://www.reddit.com/*",
+    "https://old.reddit.com/*",
+    "http://old.reddit.com/*",
+    "https://news.ycombinator.com/*",
+    "http://www.linkedin.com/*",
+    "https://www.linkedin.com/*",
+    "https://www.youtube.com/*",
+    "https://www.github.com/*",
+    "https://github.com/*",
+    "http://www.instagram.com/*",
+    "https://www.instagram.com/*"
+  ],
   
   "chrome_url_overrides": {
-    "newtab": "newtab/index.html"
+    "newtab": "index.html"
+  },
+  
+  "background": {
+    "service_worker": "background.js"
   },
   
   "content_scripts": [
     {
       "matches": [
-        "https://www.facebook.com/*",
-        "https://facebook.com/*",
-        "https://web.facebook.com/*",
-        "https://www.instagram.com/*",
-        "https://instagram.com/*",
-        "https://www.twitter.com/*",
-        "https://twitter.com/*",
-        "https://x.com/*",
-        "https://www.reddit.com/*",
-        "https://reddit.com/*",
-        "https://old.reddit.com/*",
-        "https://news.ycombinator.com/*",
-        "https://www.linkedin.com/*",
-        "https://linkedin.com/*",
-        "https://www.youtube.com/*",
-        "https://youtube.com/*",
-        "https://github.com/*",
-        "https://www.github.com/*"
+        "*://*.facebook.com/*",
+        "*://*.instagram.com/*",
+        "*://*.twitter.com/*",
+        "*://*.x.com/*",
+        "*://*.reddit.com/*",
+        "*://*.linkedin.com/*",
+        "*://*.youtube.com/*",
+        "*://*.github.com/*",
+        "*://news.ycombinator.com/*"
       ],
-      "js": ["social_cleaner/content.js"],
-      "run_at": "document_start",
-      "all_frames": false
+      "js": ["social_cleaner/content_unified.js"],
+      "css": ["social_cleaner/eradicate.css"],
+      "run_at": "document_start"
     }
   ],
-  
-  "host_permissions": [
-    "https://www.facebook.com/*",
-    "https://facebook.com/*",
-    "https://web.facebook.com/*",
-    "https://www.instagram.com/*",
-    "https://instagram.com/*",
-    "https://www.twitter.com/*",
-    "https://twitter.com/*",
-    "https://x.com/*",
-    "https://www.reddit.com/*",
-    "https://reddit.com/*",
-    "https://old.reddit.com/*",
-    "https://news.ycombinator.com/*",
-    "https://www.linkedin.com/*",
-    "https://linkedin.com/*",
-    "https://www.youtube.com/*",
-    "https://youtube.com/*",
-    "https://github.com/*",
-    "https://www.github.com/*"
-  ],
-  
-  "permissions": [
-    "storage"
-  ],
-  
-  "content_security_policy": {
-    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'; worker-src 'self'"
-  },
   
   "icons": {
     "16": "icons/16.png",
@@ -71,12 +66,7 @@
     "128": "icons/128.png"
   },
   
-  "action": {
-    "default_icon": {
-      "16": "icons/16.png",
-      "48": "icons/48.png",
-      "128": "icons/128.png"
-    },
-    "default_title": "Focus - New Tab & Social Cleaner"
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
   }
 }

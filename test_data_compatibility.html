@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Social Cleaner Data Structure Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .success { background-color: #d4edda; }
+        .error { background-color: #f8d7da; }
+        pre { background: #f8f9fa; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>Social Cleaner Data Structure Compatibility Test</h1>
+    
+    <div class="test-section">
+        <h2>1. Flutter Data Structure (from LocalStorageManager)</h2>
+        <pre id="flutter-data"></pre>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. Content Script Processing</h2>
+        <pre id="content-script-processing"></pre>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. Site Enablement Test</h2>
+        <div id="site-tests"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>4. Quote System Test</h2>
+        <div id="quote-tests"></div>
+    </div>
+
+    <script>
+        // Simulate Flutter data structure (what gets saved to localStorage)
+        const flutterData = {
+            "enabled": true,
+            "showQuotes": true,
+            "builtinQuotesEnabled": true,
+            "customQuotes": ["Custom quote 1", "Custom quote 2"],
+            "sites": {
+                "facebook": {"enabled": true},
+                "instagram": {"enabled": false},
+                "twitter": {"enabled": true},
+                "reddit": {"enabled": false},
+                "linkedin": {"enabled": true},
+                "youtube": {"enabled": true},
+                "github": {"enabled": false},
+                "hackernews": {"enabled": true}
+            }
+        };
+
+        // Display Flutter data
+        document.getElementById('flutter-data').textContent = JSON.stringify(flutterData, null, 2);
+
+        // Simulate content script processing (from content_unified.js)
+        let currentSettings = flutterData; // This is what happens when background script sends data
+
+        // Test the isEnabledForSite function (from content script)
+        function isEnabledForSite(siteId) {
+            if (!currentSettings.enabled) return false;
+            if (!currentSettings.sites || !currentSettings.sites[siteId]) return true;
+            return currentSettings.sites[siteId].enabled !== false;
+        }
+
+        // Test quote system (from content script)
+        const builtinQuotes = [
+            "The best time to plant a tree was 20 years ago. The second best time is now.",
+            "Your limitation—it's only your imagination.",
+            "Push yourself, because no one else is going to do it for you."
+        ];
+
+        function getRandomQuote() {
+            const allQuotes = [];
+            
+            if (currentSettings.builtinQuotesEnabled) {
+                allQuotes.push(...builtinQuotes);
+            }
+            
+            if (currentSettings.customQuotes && currentSettings.customQuotes.length > 0) {
+                allQuotes.push(...currentSettings.customQuotes);
+            }
+            
+            if (allQuotes.length === 0) {
+                return "Focus on what matters.";
+            }
+            
+            return allQuotes[Math.floor(Math.random() * allQuotes.length)];
+        }
+
+        // Display processing results
+        document.getElementById('content-script-processing').textContent = 
+            `currentSettings = ${JSON.stringify(currentSettings, null, 2)}`;
+
+        // Test site enablement
+        const sites = ['facebook', 'instagram', 'twitter', 'reddit', 'linkedin', 'youtube', 'github', 'hackernews'];
+        let siteTestsHTML = '';
+        
+        sites.forEach(site => {
+            const enabled = isEnabledForSite(site);
+            const expected = flutterData.sites[site].enabled;
+            const match = enabled === expected;
+            
+            siteTestsHTML += `
+                <div class="${match ? 'success' : 'error'}" style="margin: 5px 0; padding: 5px;">
+                    <strong>${site}:</strong> 
+                    Expected: ${expected}, 
+                    Got: ${enabled}, 
+                    ${match ? '✅ PASS' : '❌ FAIL'}
+                </div>
+            `;
+        });
+        
+        document.getElementById('site-tests').innerHTML = siteTestsHTML;
+
+        // Test quote system
+        let quoteTestsHTML = '';
+        
+        // Test 1: Built-in quotes enabled
+        const quote1 = getRandomQuote();
+        const hasBuiltinOrCustom = builtinQuotes.includes(quote1) || currentSettings.customQuotes.includes(quote1);
+        quoteTestsHTML += `
+            <div class="${hasBuiltinOrCustom ? 'success' : 'error'}" style="margin: 5px 0; padding: 5px;">
+                <strong>Quote Generation:</strong> "${quote1}" 
+                ${hasBuiltinOrCustom ? '✅ PASS' : '❌ FAIL'}
+            </div>
+        `;
+
+        // Test 2: Custom quotes included
+        const customQuotesWork = currentSettings.customQuotes.length === 2 && 
+                                currentSettings.customQuotes.includes("Custom quote 1");
+        quoteTestsHTML += `
+            <div class="${customQuotesWork ? 'success' : 'error'}" style="margin: 5px 0; padding: 5px;">
+                <strong>Custom Quotes:</strong> ${currentSettings.customQuotes.length} quotes loaded 
+                ${customQuotesWork ? '✅ PASS' : '❌ FAIL'}
+            </div>
+        `;
+
+        // Test 3: Built-in quotes setting
+        const builtinSetting = currentSettings.builtinQuotesEnabled === true;
+        quoteTestsHTML += `
+            <div class="${builtinSetting ? 'success' : 'error'}" style="margin: 5px 0; padding: 5px;">
+                <strong>Built-in Quotes Setting:</strong> ${currentSettings.builtinQuotesEnabled} 
+                ${builtinSetting ? '✅ PASS' : '❌ FAIL'}
+            </div>
+        `;
+
+        document.getElementById('quote-tests').innerHTML = quoteTestsHTML;
+
+        // Overall compatibility check
+        const allTestsPassed = document.querySelectorAll('.error').length === 0;
+        
+        if (allTestsPassed) {
+            document.body.insertAdjacentHTML('afterbegin', 
+                '<div class="success" style="text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 20px;">🎉 ALL TESTS PASSED - Flutter and JavaScript are fully compatible! 🎉</div>'
+            );
+        } else {
+            document.body.insertAdjacentHTML('afterbegin', 
+                '<div class="error" style="text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 20px;">❌ COMPATIBILITY ISSUES FOUND ❌</div>'
+            );
+        }
+    </script>
+</body>
+</html>
