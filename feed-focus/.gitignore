@@ -1,0 +1,16 @@
+.DS_Store
+.*.swp
+*.zip
+.idea/*
+.vscode
+local/*
+
+dump.rdb
+
+node_modules
+
+browsers/firefox/news-feed-eradicator.xpi
+
+dist
+build
+typings
