@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_screwdriver/flutter_screwdriver.dart';
 
 import '../ui/custom_switch.dart';
 import '../ui/text_input.dart';
@@ -49,10 +47,10 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
                 label: 'Enable social feed cleaning',
               ),
             ),
-            
+
             if (store.enabled) ...[
               const SizedBox(height: 24),
-              
+
               // Quote settings
               _buildSection(
                 title: 'Quote Settings',
@@ -64,7 +62,7 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
                       onChanged: (value) => store.updateShowQuotes(value),
                       label: 'Show inspirational quotes',
                     ),
-                    
+
                     if (store.showQuotes) ...[
                       const SizedBox(height: 16),
                       CustomSwitch(
@@ -72,16 +70,16 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
                         onChanged: (value) => store.updateBuiltinQuotesEnabled(value),
                         label: 'Use built-in quotes',
                       ),
-                      
+
                       const SizedBox(height: 16),
                       _buildCustomQuotesSection(),
                     ],
                   ],
                 ),
               ),
-              
+
               const SizedBox(height: 24),
-              
+
               // Site-specific settings
               _buildSection(
                 title: 'Site Settings',
@@ -99,9 +97,9 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
                   ],
                 ),
               ),
-              
+
               const SizedBox(height: 24),
-              
+
               // Reset button
               _buildSection(
                 title: 'Reset',
@@ -174,19 +172,19 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
           ),
         ),
         const SizedBox(height: 8),
-        
+
         // Add quote input
         Row(
           children: [
             Expanded(
-                child: TextInput(
-                  controller: _customQuoteController,
-                  hintText: 'Enter your custom quote...',
-                  onSubmitted: (value) async {
-                    _addCustomQuote();
-                  },
-                ),
+              child: TextInput(
+                controller: _customQuoteController,
+                hintText: 'Enter your custom quote...',
+                onSubmitted: (value) async {
+                  _addCustomQuote();
+                },
               ),
+            ),
             const SizedBox(width: 8),
             GestureDetectorWithCursor(
               onTap: () => _addCustomQuote(),
@@ -205,9 +203,9 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
             ),
           ],
         ),
-        
+
         const SizedBox(height: 12),
-        
+
         // Custom quotes list
         if (store.customQuotes.isNotEmpty) ...[
           Container(
@@ -277,26 +275,27 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
   void _showResetDialog() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Reset Settings'),
-        content: const Text(
-          'Are you sure you want to reset all social cleaner settings to their default values? This action cannot be undone.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancel'),
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Reset Settings'),
+            content: const Text(
+              'Are you sure you want to reset all social cleaner settings to their default values? This action cannot be undone.',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  store.resetSettings();
+                  Navigator.of(context).pop();
+                },
+                style: TextButton.styleFrom(foregroundColor: Colors.red),
+                child: const Text('Reset'),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () {
-              store.resetSettings();
-              Navigator.of(context).pop();
-            },
-            style: TextButton.styleFrom(foregroundColor: Colors.red),
-            child: const Text('Reset'),
-          ),
-        ],
-      ),
     );
   }
 }
