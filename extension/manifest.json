@@ -1,64 +1,54 @@
 {
   "manifest_version": 3,
-  "name": "Focus - Unified Extension",
-  "version": "2.0.0",
-  "description": "A unified extension combining Focus new tab with social media feed cleaner",
-  
-  "permissions": [
-    "storage",
-    "scripting",
-    "tabs"
-  ],
-  
-  "optional_host_permissions": [
-    "http://www.facebook.com/*",
-    "https://www.facebook.com/*",
-    "http://web.facebook.com/*",
-    "https://web.facebook.com/*",
-    "http://twitter.com/*",
-    "https://twitter.com/*",
-    "http://x.com/*",
-    "https://x.com/*",
-    "https://www.reddit.com/*",
-    "http://www.reddit.com/*",
-    "https://old.reddit.com/*",
-    "http://old.reddit.com/*",
-    "https://news.ycombinator.com/*",
-    "http://www.linkedin.com/*",
-    "https://www.linkedin.com/*",
-    "https://www.youtube.com/*",
-    "https://www.github.com/*",
-    "https://github.com/*",
-    "http://www.instagram.com/*",
-    "https://www.instagram.com/*"
-  ],
+  "name": "Focus - New Tab & Social Feed Cleaner",
+  "version": "1.0.0",
+  "description": "Replace your new tab with a beautiful Flutter focus app and clean social media feeds with inspiring quotes",
   
   "chrome_url_overrides": {
-    "newtab": "index.html"
-  },
-  
-  "background": {
-    "service_worker": "background.js"
+    "newtab": "newtab/index.html"
   },
   
   "content_scripts": [
     {
       "matches": [
-        "*://*.facebook.com/*",
-        "*://*.instagram.com/*",
-        "*://*.twitter.com/*",
-        "*://*.x.com/*",
-        "*://*.reddit.com/*",
-        "*://*.linkedin.com/*",
-        "*://*.youtube.com/*",
-        "*://*.github.com/*",
-        "*://news.ycombinator.com/*"
+        "https://www.facebook.com/*",
+        "https://web.facebook.com/*",
+        "https://www.instagram.com/*",
+        "https://twitter.com/*",
+        "https://x.com/*",
+        "https://www.reddit.com/*",
+        "https://old.reddit.com/*",
+        "https://www.linkedin.com/*",
+        "https://www.youtube.com/*",
+        "https://github.com/*",
+        "https://news.ycombinator.com/*"
       ],
-      "js": ["social_cleaner/content_unified.js"],
-      "css": ["social_cleaner/eradicate.css"],
+      "js": ["social_cleaner/content.js"],
       "run_at": "document_start"
     }
   ],
+  
+  "host_permissions": [
+    "https://www.facebook.com/*",
+    "https://web.facebook.com/*",
+    "https://www.instagram.com/*",
+    "https://twitter.com/*",
+    "https://x.com/*",
+    "https://www.reddit.com/*",
+    "https://old.reddit.com/*",
+    "https://www.linkedin.com/*",
+    "https://www.youtube.com/*",
+    "https://github.com/*",
+    "https://news.ycombinator.com/*"
+  ],
+  
+  "permissions": [
+    "storage"
+  ],
+  
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'; worker-src 'self'; base-uri 'none'; connect-src 'self' https://pluto-510516922464.asia-south1.run.app https://images.unsplash.com https://api.open-meteo.com https://geocoding-api.open-meteo.com https://api.github.com https://raw.githubusercontent.com https://fonts.gstatic.com; img-src 'self' data: blob: https://images.unsplash.com https://raw.githubusercontent.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com"
+  },
   
   "icons": {
     "16": "icons/16.png",
@@ -66,7 +56,13 @@
     "128": "icons/128.png"
   },
   
-  "content_security_policy": {
-    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+  "action": {
+    "default_popup": "newtab/index.html",
+    "default_title": "Focus",
+    "default_icon": {
+      "16": "icons/16.png",
+      "48": "icons/48.png",
+      "128": "icons/128.png"
+    }
   }
 }
