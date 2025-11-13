@@ -14,8 +14,9 @@
     "dev": "npm run build:flutter && npm run copy:newtab && npm run dev:ts"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^25.0.7",
-    "@rollup/plugin-replace": "^5.0.5",
+    "@rollup/plugin-commonjs": "^25.0.8",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-replace": "^5.0.7",
     "@rollup/plugin-typescript": "^11.1.6",
     "rimraf": "^5.0.5",
     "rollup": "^4.9.6",

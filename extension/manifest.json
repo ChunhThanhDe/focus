@@ -23,10 +23,13 @@
         "https://github.com/*",
         "https://news.ycombinator.com/*"
       ],
-      "js": ["social_cleaner/content.js"],
+      "js": ["social_cleaner/content_unified.js"],
       "run_at": "document_start"
     }
   ],
+  "background": {
+    "service_worker": "background.js"
+  },
   
   "host_permissions": [
     "https://www.facebook.com/*",

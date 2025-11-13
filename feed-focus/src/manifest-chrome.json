@@ -4,7 +4,7 @@
 	"description": "Eradicate social media noise by replacing your entire news feed with an inspiring quote",
 	"manifest_version": 3,
 	"permissions": ["storage", "scripting"],
-	"optional_host_permissions": [
+	"host_permissions": [
 		"http://www.facebook.com/*",
 		"https://www.facebook.com/*",
 		"http://web.facebook.com/*",
