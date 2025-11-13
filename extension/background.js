@@ -21,37 +21,13 @@ const defaultSettings = {
   }
 };
 
-// Load settings from LocalStorageManager (same pattern as widgets)
+// Load settings from chrome.storage.local (canonical store)
 async function loadSettings() {
   try {
-    // Try to get settings from localStorage using the same key as Flutter
-    const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
-    if (tabs.length > 0) {
-      try {
-        // Ask content script to get settings from LocalStorageManager
-        const response = await chrome.tabs.sendMessage(tabs[0].id, {
-          action: 'getLocalStorageSettings',
-          key: 'socialCleanerSettings'
-        });
-        
-        if (response && response.settings) {
-          console.log('Loaded settings from LocalStorageManager:', response.settings);
-          return convertFlutterToBackgroundFormat(response.settings);
-        }
-      } catch (error) {
-        console.log('Could not get settings from content script, trying Chrome storage fallback');
-      }
-    }
-
-    // Fallback: try Chrome storage for backward compatibility
     const result = await chrome.storage.local.get('socialCleanerSettings');
-    if (result.socialCleanerSettings) {
-      console.log('Loaded settings from Chrome storage (fallback):', result.socialCleanerSettings);
+    if (result && result.socialCleanerSettings) {
       return result.socialCleanerSettings;
     }
-
-    // If no settings found anywhere, return defaults
-    console.log('No settings found, using defaults');
     return defaultSettings;
   } catch (error) {
     console.error('Error loading settings:', error);
@@ -86,14 +62,7 @@ async function saveSettings(settings) {
     await chrome.storage.local.set({ socialCleanerSettings: settings });
     console.log('Settings saved to Chrome storage');
     
-    // Also save to localStorage for Flutter SharedPreferences compatibility
-    try {
-      const localStorageKey = 'flutter.social_cleaner_settings';
-      localStorage.setItem(localStorageKey, JSON.stringify(settings));
-      console.log('Settings also saved to localStorage for Flutter compatibility');
-    } catch (localStorageError) {
-      console.warn('Could not save to localStorage:', localStorageError);
-    }
+    // Do not use window.localStorage in MV3 service workers
     
     // Notify all content scripts about settings update
     const tabs = await chrome.tabs.query({});

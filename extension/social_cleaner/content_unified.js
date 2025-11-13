@@ -180,6 +180,23 @@
 
   // Create quote container
   function createQuoteContainer(quote) {
+    const isDark = (() => {
+      try {
+        const mql = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+        if (mql && typeof mql.matches === 'boolean') return mql.matches;
+        const bg = getComputedStyle(document.body || document.documentElement).backgroundColor;
+        const m = bg && bg.match(/rgba?\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)/);
+        if (m) {
+          const r = parseInt(m[1], 10), g = parseInt(m[2], 10), b = parseInt(m[3], 10);
+          const luminance = (0.2126*r + 0.7152*g + 0.0722*b)/255;
+          return luminance < 0.5;
+        }
+      } catch (_) {}
+      return false;
+    })();
+
+    const textColor = isDark ? '#e5e5e5' : '#1a1a1a';
+    const subTextColor = isDark ? '#a1a1a1' : '#666';
     const container = document.createElement('div');
     container.id = 'nfe-container';
     container.style.cssText = `
@@ -197,7 +214,7 @@
     quoteElement.style.cssText = `
       font-size: 24px;
       line-height: 1.4;
-      color: #1a1a1a;
+      color: ${textColor};
       max-width: 600px;
       margin-bottom: 16px;
       font-weight: 300;
@@ -207,7 +224,7 @@
     const attribution = document.createElement('div');
     attribution.style.cssText = `
       font-size: 14px;
-      color: #666;
+      color: ${subTextColor};
       font-style: italic;
     `;
     attribution.textContent = '— Focus Extension';
@@ -251,7 +268,7 @@
       removeQuoteContainer();
       const style = document.getElementById('nfe-styles');
       if (style) style.remove();
-      document.documentElement.removeAttribute('data-nfe-enabled');
+      document.documentElement.setAttribute('data-nfe-enabled', 'false');
       return;
     }
     

@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'dart:js_util' as js_util;
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
@@ -189,9 +191,24 @@ abstract class _SocialCleanerStore with Store {
       final settings = _toJson();
       await storage.setJson(StorageKeys.socialCleanerSettings, settings);
       log('Social Cleaner settings saved to storage');
+      _notifyBackground(settings);
     } catch (e) {
       log('Error saving social cleaner settings: $e');
     }
+  }
+
+  void _notifyBackground(Map<String, dynamic> settings) {
+    try {
+      if (!kIsWeb) return;
+      final chrome = js_util.getProperty(js_util.globalThis, 'chrome');
+      if (chrome == null) return;
+      final runtime = js_util.getProperty(chrome, 'runtime');
+      final message = {
+        'action': 'updateSocialCleanerSettings',
+        'settings': settings,
+      };
+      js_util.callMethod(runtime, 'sendMessage', [js_util.jsify(message)]);
+    } catch (_) {}
   }
 
   Map<String, dynamic> getCurrentSettings() {
