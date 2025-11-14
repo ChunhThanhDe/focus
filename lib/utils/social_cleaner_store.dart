@@ -1,8 +1,14 @@
+/*
+ * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
+ * @ Created: 2025-11-12 11:09:32
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ */
+
 import 'dart:developer';
+// ignore: avoid_web_libraries_in_flutter
 import 'dart:js_util' as js_util;
 import 'package:flutter/foundation.dart';
 
-import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
@@ -52,7 +58,7 @@ abstract class _SocialCleanerStore with Store {
         StorageKeys.socialCleanerSettings,
         (json) => json,
       );
-      
+
       if (data != null) {
         _updateFromJson(data);
         log('Social Cleaner settings loaded from storage');
@@ -147,12 +153,12 @@ abstract class _SocialCleanerStore with Store {
     enabled = json['enabled'] ?? true;
     showQuotes = json['showQuotes'] ?? true;
     builtinQuotesEnabled = json['builtinQuotesEnabled'] ?? true;
-    
+
     customQuotes.clear();
     if (json['customQuotes'] is List) {
       customQuotes.addAll((json['customQuotes'] as List).cast<String>());
     }
-    
+
     siteSettings.clear();
     if (json['sites'] is Map) {
       final sites = json['sites'] as Map<String, dynamic>;
@@ -162,7 +168,7 @@ abstract class _SocialCleanerStore with Store {
         }
       }
     }
-    
+
     // Ensure all default sites are present
     for (final entry in _defaultSiteSettings.entries) {
       if (!siteSettings.containsKey(entry.key)) {

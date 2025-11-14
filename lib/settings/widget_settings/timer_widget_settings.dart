@@ -1,3 +1,9 @@
+/*
+ * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
+ * @ Created: 2025-11-12 11:01:44
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ */
+
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:intl/intl.dart' as timer;
@@ -13,7 +19,6 @@ import '../../ui/text_input.dart';
 import '../../home/widget_store.dart';
 import '../../resources/fonts.dart' show FontFamilies;
 import '../../utils/custom_observer.dart';
-
 
 class TimerWidgetSettingsView extends StatelessWidget {
   const TimerWidgetSettingsView({super.key});

@@ -1,3 +1,9 @@
+/*
+ * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
+ * @ Created: 2025-11-12 11:01:44
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ */
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -606,7 +612,7 @@ class _ColorSelector extends StatelessWidget {
         return CustomDropdown<FlatColor>(
           value: store.color,
           label: 'settings.background.color'.tr(),
-              hint: 'settings.background.selectColor'.tr(),
+          hint: 'settings.background.selectColor'.tr(),
           isExpanded: true,
           itemHeight: 40,
           items: FlatColors.colors.values.toList(),
@@ -656,7 +662,7 @@ class _GradientSelector extends StatelessWidget {
         return CustomDropdown<ColorGradient>(
           value: store.gradient,
           label: 'settings.background.gradient'.tr(),
-              hint: 'settings.background.selectGradient'.tr(),
+          hint: 'settings.background.selectGradient'.tr(),
           isExpanded: true,
           itemHeight: 40,
           items: ColorGradients.gradients.values.toList(),

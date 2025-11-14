@@ -1,3 +1,9 @@
+/*
+ * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
+ * @ Created: 2025-11-12 11:01:44
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ */
+
 import 'dart:async';
 import 'dart:developer';
 
@@ -19,7 +25,6 @@ import '../../resources/colors.dart';
 import '../../resources/fonts.dart';
 import '../../utils/custom_observer.dart';
 import '../../utils/geocoding_service.dart';
-
 
 class WeatherWidgetSettingsView extends StatelessWidget {
   const WeatherWidgetSettingsView({super.key});
