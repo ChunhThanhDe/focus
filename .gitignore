@@ -110,9 +110,7 @@ extension/social_cleaner/eradicate.css
 extension/icons/icon*.png
 
 # News Feed Focus TypeScript project
-feed-focus/build/
-feed-focus/dist/
-feed-focus/typings/
+feed-focus-reference/
 
 # Server build artifacts
 server/build/
