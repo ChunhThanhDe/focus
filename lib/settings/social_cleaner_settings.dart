@@ -188,6 +188,7 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
                 hintText: 'Enter your custom quote...',
                 onSubmitted: (value) async {
                   _addCustomQuote();
+                  return null;
                 },
               ),
             ),
