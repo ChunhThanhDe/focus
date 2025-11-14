@@ -7,7 +7,8 @@ const path = require('path');
  * Copy extension icons to extension/icons/
  */
 
-const sourceDir = path.join(__dirname, '..', 'feed-focus', 'assets');
+// Use Flutter-built asset as icon source (keeps consistent branding)
+const sourceDir = path.join(__dirname, '..', 'extension', 'assets', 'assets', 'images');
 const targetDir = path.join(__dirname, '..', 'extension', 'icons');
 
 function main() {
@@ -24,10 +25,13 @@ function main() {
   }
   
   // Icon mapping: source filename → target filename
+  // Single source icon; copy to all target sizes without resizing
+  // Chrome will downscale as needed. For production, consider pre-sizing.
+  const iconSource = 'ic_focus.png';
   const iconMappings = {
-    'icon16.png': '16.png',
-    'icon48.png': '48.png',
-    'icon128.png': '128.png'
+    [iconSource]: '16.png',
+    [iconSource]: '48.png',
+    [iconSource]: '128.png'
   };
   
   let copiedCount = 0;

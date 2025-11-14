@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Focus - New Tab & Social Feed Cleaner",
-  "version": "1.0.0",
-  "description": "Replace your new tab with a beautiful Flutter focus app and clean social media feeds with inspiring quotes",
+  "name": "Focus to your Taget",
+  "version": "1.0.3",
+  "description": "Focus New Tab and cleaner social media feeds with quotes",
   
   "chrome_url_overrides": {
     "newtab": "newtab/index.html"
