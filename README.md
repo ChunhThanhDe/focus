@@ -21,21 +21,12 @@ focus/
 │  └─ resources/                  # Constants, keys
 │     └─ storage_keys.dart        # Keys for persisted settings (e.g., social_cleaner_settings)
 │
-├─ feed-focus/                    # Legacy News Feed Eradicator TS implementation (reference)
-│  ├─ src/                        # Background store, content entry, site logic
-│  │  ├─ intercept.ts             # Original content entry (not used by unified content script)
-│  │  ├─ background/service-worker.ts # Original MV2/MV3 background store
-│  │  └─ sites/*.ts               # Per‑site handlers/selectors
-│  └─ rollup.config.js            # Legacy bundling for TS modules
-│
 ├─ scripts/                       # Build, copy, and utility scripts
 │  ├─ copy-flutter-web.js         # Copies Flutter build into extension/newtab
-│  ├─ copy-social-bundle.js       # Copies TS bundle if using legacy approach
 │  └─ generators/*                # Dev helpers (colors, gradients)
 │
 ├─ assets/                        # Flutter assets (fonts, images, translations)
 ├─ package.json                   # Node build scripts for extension TS+copy flow
-├─ rollup.config.js               # Rollup config for TS bundling (legacy modular code)
 ├─ pubspec.yaml                   # Flutter/Dart dependencies and assets
 ├─ analysis_options.yaml          # Flutter lints
 ```
@@ -82,7 +73,7 @@ focus/
 - `lib/utils/social_cleaner_store.dart:189` — `_save()` writes settings and `_notifyBackground(settings)` sends updates.
 
 ### External Dependencies
-- Node: Rollup, `fs-extra` for build/copy.
+- Node: `fs-extra` for build/copy.
 - Flutter/Dart packages: `shared_preferences`, `provider`, `mobx`, `flutter_mobx`, `intl`, etc. See `pubspec.yaml`.
 - Chrome APIs: `chrome.scripting`, `chrome.runtime`, `chrome.storage`, `chrome.tabs` (MV3).
 
@@ -103,22 +94,20 @@ flutter pub get
 
 ### Build (Production)
 ```bash
-# Build Flutter web and copy into extension/newtab, then bundle TS
+# Build Flutter web and copy into extension/newtab
 npm run build:ext
 # or individually
-npm run build:flutter && npm run copy:newtab && npm run build:ts
+npm run build:flutter && npm run copy:newtab
 ```
 
 ### Development
 ```bash
-# One-shot Flutter build then watch TS bundling
+# One-shot Flutter build and copy for local testing
 npm run dev
 
 # If you edit Flutter code frequently, run:
 flutter build web --release --csp --no-web-resources-cdn
 npm run copy:newtab
-# then keep TS watcher on:
-rollup -c -w  # optional: only needed if working on legacy TS in feed-focus/
 ```
 
 ### Load the Extension
@@ -144,9 +133,6 @@ rollup -c -w  # optional: only needed if working on legacy TS in feed-focus/
 ```bash
 # Flutter analyzer
 fvm flutter analyze  # or: flutter analyze
-
-# TypeScript bundle check
-npm run build:ts
 ```
 
 ## 4. Additional Information
@@ -165,11 +151,9 @@ npm run build:ts
 - Follow code style and linting:
 ```bash
 flutter analyze
-npm run build:ts
 ```
-- Keep TypeScript strict and avoid `any` in new code.
 - Do not commit API keys or secrets.
-- For larger changes, update `docs/` and this README if structure or workflows change.
+- For larger changes, update this README if structure or workflows change.
 
 ---
 

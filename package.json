@@ -7,24 +7,10 @@
   "scripts": {
     "build:flutter": "flutter build web --release --csp --no-web-resources-cdn",
     "copy:newtab": "node scripts/copy-flutter-web.js",
-    "build:ts": "rollup -c",
-    "build:ext": "npm run build:flutter && npm run copy:newtab && npm run build:ts",
-    "clean:ext": "rimraf extension/newtab/* extension/social_cleaner/*",
-    "dev:ts": "rollup -c -w",
-    "dev": "npm run build:flutter && npm run copy:newtab && npm run dev:ts"
+    "build:ext": "npm run build:flutter && npm run copy:newtab",
+    "dev": "npm run build:flutter && npm run copy:newtab"
   },
-  "devDependencies": {
-    "@rollup/plugin-commonjs": "^25.0.8",
-    "@rollup/plugin-node-resolve": "^16.0.3",
-    "@rollup/plugin-replace": "^5.0.7",
-    "@rollup/plugin-typescript": "^11.1.6",
-    "rimraf": "^5.0.5",
-    "rollup": "^4.9.6",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-string": "^3.0.0",
-    "tslib": "^2.8.1",
-    "typescript": "^5.4.5"
-  },
+  "devDependencies": {},
   "dependencies": {
     "fs-extra": "^11.2.0"
   }

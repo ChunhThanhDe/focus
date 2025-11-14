@@ -39,16 +39,23 @@
     facebook: {
       name: 'Facebook',
       selectors: [
+        'div[role="feed"]',
         '#ssrb_feed_start + div',
         '[data-pagelet=MainFeed]',
         'div[aria-label=Gaming][role=main]',
         'div.x1hc1fzr.x1unhpq9.x6o7n8i'
       ],
       css: `
-        html:not([data-nfe-enabled='false']) [data-pagelet="MainFeed"] > :not(#nfe-container) {
+        html[data-nfe-enabled='true'] [data-pagelet="MainFeed"] > :not(#nfe-container) {
           display: none !important;
         }
-        html:not([data-nfe-enabled='false']) #ssrb_feed_start + div > :not(#nfe-container) {
+        html[data-nfe-enabled='true'] #ssrb_feed_start + div > :not(#nfe-container) {
+          display: none !important;
+        }
+        html[data-nfe-enabled='true'] div[role="feed"] > :not(#nfe-container) {
+          display: none !important;
+        }
+        html[data-nfe-enabled='true'] div.x1hc1fzr.x1unhpq9.x6o7n8i > :not(#nfe-container) {
           display: none !important;
         }
       `
@@ -59,6 +66,11 @@
       css: `
         html:not([data-nfe-enabled='false']) main > :not(#nfe-container) {
           display: none !important;
+        }
+        html:not([data-nfe-enabled='false']) main > #nfe-container {
+          width: 100% !important;
+          font-size: 24px !important;
+          padding: 128px !important;
         }
       `
     },
@@ -74,6 +86,15 @@
         }
         html:not([data-nfe-enabled='false']) div[data-testid="primaryColumn"] > div:last-child > div:nth-child(4) > :not(#nfe-container) {
           display: none !important;
+        }
+        html:not([data-nfe-enabled='false']) div[data-testid="primaryColumn"] > div:last-child > div:last-child {
+          opacity: 0 !important;
+          pointer-events: none !important;
+        }
+        [data-testid='sidebarColumn'] [role='region'] {
+          opacity: 0 !important;
+          pointer-events: none !important;
+          height: 0 !important;
         }
       `
     },
@@ -99,6 +120,11 @@
           pointer-events: none !important;
           height: 0 !important;
         }
+        aside.scaffold-layout__aside > div:nth-child(2) {
+          opacity: 0 !important;
+          pointer-events: none !important;
+          height: 0 !important;
+        }
       `
     },
     youtube: {
@@ -119,6 +145,22 @@
       css: `
         html:not([data-nfe-enabled='false']) .js-recent-activity-container > :not(#nfe-container) {
           display: none !important;
+        }
+        html:not([data-nfe-enabled='false']) aside[aria-label='Account'] + div div[role='contentinfo'],
+        html:not([data-nfe-enabled='false']) aside[aria-label='Account'] + div aside[aria-label='Explore'] {
+          opacity: 0 !important;
+          pointer-events: none !important;
+          height: 0 !important;
+          overflow-y: hidden !important;
+        }
+        html:not([data-nfe-enabled='false']) aside[aria-label='Account'] + div #dashboard-feed-frame > :not(#nfe-container) {
+          display: none !important;
+        }
+        html:not([data-nfe-enabled='false']) aside[aria-label='Account'] + div aside[aria-label='Explore'] {
+          width: 0 !important;
+        }
+        html:not([data-nfe-enabled='false']) aside[aria-label='Account'] + div > [class*='d-'][class*='-flex'] > :first-child {
+          width: 100% !important;
         }
       `
     }
@@ -219,7 +261,7 @@
       margin-bottom: 16px;
       font-weight: 300;
     `;
-    quoteElement.textContent = quote;
+    quoteElement.textContent = `“${quote}”`;
     
     const attribution = document.createElement('div');
     attribution.style.cssText = `
