@@ -248,7 +248,8 @@
       justify-content: center;
       padding: 64px 32px;
       text-align: center;
-      min-height: 300px;
+      width: 100%;
+      min-height: 60vh;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     `;
     
