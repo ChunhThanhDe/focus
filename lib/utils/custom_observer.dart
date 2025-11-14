@@ -95,7 +95,7 @@ class LabeledObserver extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(label),
+        Text(label, style: Theme.of(context).textTheme.bodyMedium),
         SizedBox(height: spacing),
         CustomObserver(name: label, builder: builder),
       ],

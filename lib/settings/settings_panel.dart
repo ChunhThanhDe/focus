@@ -107,7 +107,10 @@ class _SettingsPanelContentState extends State<SettingsPanelContent> with Single
                   child: Row(
                     children: [
                       Expanded(
-                        child: Text('common.settings'.tr(), style: Theme.of(context).textTheme.titleMedium),
+                        child: Text(
+                          'common.settings'.tr(),
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
+                        ),
                       ),
                       const MenuButton(),
                       Material(
@@ -145,7 +148,7 @@ class _SettingsPanelContentState extends State<SettingsPanelContent> with Single
                         isScrollable: true,
                         unselectedLabelColor: AppColors.textColor,
                         tabAlignment: TabAlignment.start,
-                        labelStyle: const TextStyle(fontWeight: FontWeight.w300),
+                        labelStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400),
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         labelPadding: const EdgeInsets.symmetric(horizontal: 24),
                         dividerColor: Colors.transparent,

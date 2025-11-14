@@ -45,7 +45,7 @@ class CustomMaterialDropdown<T> extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (label != null) ...[
-          Text(label!, style: theme.textTheme.labelMedium),
+          Text(label!, style: theme.textTheme.bodyMedium),
           const SizedBox(height: 8),
         ],
         DecoratedBox(
@@ -129,7 +129,7 @@ class CustomDropdown<T> extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (label != null) ...[
-          Text(label!, style: theme.textTheme.labelMedium),
+          Text(label!, style: theme.textTheme.bodyMedium),
           const SizedBox(height: 8),
         ],
         DecoratedBox(

@@ -10,6 +10,7 @@ import 'package:dart_style/dart_style.dart';
 import 'package:characters/characters.dart';
 import 'package:pub_semver/pub_semver.dart';
 
+// ignore: unintended_html_in_doc_comment
 /// Run command: dart color_generator.dart <input.json> <output.dart>
 /// Full command to run from project root:
 ///

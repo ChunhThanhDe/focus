@@ -76,7 +76,7 @@ class BackgroundSettingsView extends StatelessWidget {
                     value: store.tint,
                     min: 0,
                     max: 100,
-                    valueLabel: '${store.tint.floor().toString()} %',
+                    valueLabel: '${store.tint.floor()}%',
                     onChanged: (value) => store.setTint(value),
                   ),
             ),
@@ -275,7 +275,7 @@ class BackgroundModeSelector extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Text(
                           mode.label,
-                          style: const TextStyle(fontWeight: FontWeight.w400),
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400),
                         ),
                       ),
                   },
@@ -355,12 +355,11 @@ class _ImageSourceSelectorState extends State<_ImageSourceSelector> {
                   name: 'Image Source Header',
                   builder: (context) {
                     if (showError) {
-                      return const Text(
+                      return Text(
                         'Please like few backgrounds first! ',
                         textAlign: TextAlign.end,
-                        style: TextStyle(
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Colors.red,
-                          fontSize: 13,
                           fontWeight: FontWeight.w400,
                         ),
                       );
@@ -371,8 +370,7 @@ class _ImageSourceSelectorState extends State<_ImageSourceSelector> {
                     return Text(
                       '${store.likedBackgrounds.length} liked',
                       textAlign: TextAlign.end,
-                      style: TextStyle(
-                        fontSize: 12,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: Colors.grey.shade400,
                         fontWeight: FontWeight.w400,
                       ),
@@ -435,7 +433,7 @@ class UnsplashSourceSettings extends StatelessWidget {
       children: [
         Row(
           children: [
-            Text('settings.background.collection'.tr(), style: const TextStyle(height: 1)),
+            Text('settings.background.collection'.tr(), style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1)),
             const SizedBox(width: 6),
             CustomObserver(
               name: 'Add Collection',
@@ -562,24 +560,24 @@ class ResolutionHelpButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Tooltip(
       padding: const EdgeInsets.all(14),
-      richMessage: const TextSpan(
+      richMessage: TextSpan(
         text: '',
         children: [
           TextSpan(
             text: 'Auto Mode: ',
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
           ),
           TextSpan(
             text: 'Background images will have\nsame resolution as this window.\n',
-            style: TextStyle(height: 1.3, fontSize: 13),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.3),
           ),
           TextSpan(
             text: '\nNote: ',
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
           ),
           TextSpan(
             text: 'Higher resolution background may\ntake more time to load depending on\nyour connection.',
-            style: TextStyle(height: 1.3, fontSize: 13),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.3),
           ),
         ],
       ),

@@ -142,8 +142,7 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
       children: [
         Text(
           title,
-          style: const TextStyle(
-            fontSize: 16,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
             fontWeight: FontWeight.w600,
             color: AppColors.textColor,
           ),
@@ -169,10 +168,9 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Custom Quotes',
-          style: TextStyle(
-            fontSize: 14,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.w500,
             color: AppColors.textColor,
           ),
@@ -237,7 +235,7 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
                       Expanded(
                         child: Text(
                           quote,
-                          style: const TextStyle(fontSize: 13),
+                          style: Theme.of(context).textTheme.bodyMedium,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -260,8 +258,7 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
         ] else ...[
           Text(
             'No custom quotes added yet.',
-            style: TextStyle(
-              fontSize: 12,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: AppColors.textColor.withValues(alpha: 0.6),
               fontStyle: FontStyle.italic,
             ),

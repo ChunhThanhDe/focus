@@ -39,7 +39,7 @@ class CustomSlider extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (label != null) ...[
-            Text(label!, style: theme.textTheme.labelMedium),
+            Text(label!, style: theme.textTheme.bodyMedium),
             const SizedBox(height: 8),
           ],
           Row(
@@ -72,7 +72,7 @@ class CustomSlider extends StatelessWidget {
                   ),
                   child: Text(
                     valueLabel!,
-                    style: theme.textTheme.labelMedium,
+                    style: theme.textTheme.bodyMedium,
                   ),
                 ),
               ],
