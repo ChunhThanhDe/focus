@@ -84,7 +84,7 @@ class _SettingsPanelContentState extends State<SettingsPanelContent> with Single
       children: [
         Flexible(
           child: Container(
-            width: 360,
+            width: 400,
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
               color: AppColors.settingsPanelBackgroundColor,
@@ -137,7 +137,7 @@ class _SettingsPanelContentState extends State<SettingsPanelContent> with Single
                       ),
                     ),
                     SizedBox(
-                      width: 360,
+                      width: 400,
                       child: TabBar(
                         controller: homeStore.tabController,
                         // unselectedLabelColor: Colors.black,
