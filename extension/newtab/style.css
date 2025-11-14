@@ -1,6 +1,4 @@
-html {
-    -webkit-text-size-adjust: 100%;
-}
+/* removed text-size-adjust for broader compatibility */
 
 body {
     background-color: #111111;

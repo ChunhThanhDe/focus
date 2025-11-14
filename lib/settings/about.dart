@@ -48,15 +48,38 @@ class About extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 48),
-        Text(
-          'Made with love ❤️ in',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontWeight: FontWeight.w300,
-            fontSize: 11,
-            letterSpacing: 0.2,
-            color: Theme.of(context).colorScheme.primary,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Made with love',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.w300,
+                fontSize: 11,
+                letterSpacing: 0.2,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+            const SizedBox(width: 6),
+            Icon(
+              Icons.favorite,
+              size: 14,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            const SizedBox(width: 6),
+            Text(
+              'in',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.w300,
+                fontSize: 11,
+                letterSpacing: 0.2,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: 6),
         GestureDetectorWithCursor(
