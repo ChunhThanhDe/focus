@@ -1,3 +1,9 @@
+/*
+ * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
+ * @ Created: 2025-11-12 11:01:44
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ */
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -140,7 +146,7 @@ class AnalogClockPainter extends CustomPainter {
 
     final double offset = dynamicStroke(2, 0.5);
 
-    // Viền sáng phía trên bên trái
+    // Highlight border on the top-left
     final Paint topLightPaint =
         Paint()
           ..color = Colors.white.withOpacity(0.5)
@@ -148,7 +154,7 @@ class AnalogClockPainter extends CustomPainter {
           ..strokeWidth = dynamicStroke(dialThickness, 0.5)
           ..isAntiAlias = true;
 
-    // Viền tối phía dưới bên phải
+    // Shadow border on the bottom-right
     final Paint bottomShadowPaint =
         Paint()
           ..color = Colors.black.withOpacity(0.3)
@@ -156,19 +162,19 @@ class AnalogClockPainter extends CustomPainter {
           ..strokeWidth = dynamicStroke(dialThickness, 0.5)
           ..isAntiAlias = true;
 
-    // Vẽ viền tối lệch xuống phải
+    // Draw shadow border shifted down-right
     canvas.save();
     canvas.translate(offset, offset);
     canvas.drawCircle(center, dialRadius, bottomShadowPaint);
     canvas.restore();
 
-    // Vẽ viền sáng lệch lên trên trái
+    // Draw highlight border shifted up-left
     canvas.save();
     canvas.translate(-offset, -offset);
     canvas.drawCircle(center, dialRadius, topLightPaint);
     canvas.restore();
 
-    // Vẽ viền chính ở giữa (giữ nguyên màu viền)
+    // Draw main middle border (keep base color)
     final Paint dialPaint =
         Paint()
           ..color = dialColor ?? color ?? Colors.white
@@ -242,7 +248,7 @@ class AnalogClockPainter extends CustomPainter {
   }
 
   void _drawCenterDot(Canvas canvas, Offset center) {
-    final double dotSize = dynamicStroke(10, 1.0); // To hơn và tỉ lệ với radius
+    final double dotSize = dynamicStroke(10, 1.0); // Larger and proportional to radius
 
     final Paint dotPaint =
         Paint()

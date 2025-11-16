@@ -1,3 +1,9 @@
+/*
+ * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
+ * @ Created: 2025-11-12 11:01:44
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ */
+
 import 'dart:developer';
 import 'dart:math' hide log;
 
@@ -89,7 +95,7 @@ class LabeledObserver extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(label),
+        Text(label, style: Theme.of(context).textTheme.bodyMedium),
         SizedBox(height: spacing),
         CustomObserver(name: label, builder: builder),
       ],

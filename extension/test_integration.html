@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Social Cleaner Integration Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        button { padding: 10px 15px; margin: 5px; cursor: pointer; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 3px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>Social Cleaner Storage Integration Test</h1>
+    
+    <div class="test-section">
+        <h3>Test 1: Save Settings via Flutter (localStorage)</h3>
+        <button onclick="saveToLocalStorage()">Save Test Settings to localStorage</button>
+        <div id="localStorage-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Test 2: Read Settings via Background Script</h3>
+        <button onclick="readViaBackground()">Read Settings via Background Script</button>
+        <div id="background-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Test 3: Save Settings via Background Script</h3>
+        <button onclick="saveViaBackground()">Save Settings via Background Script</button>
+        <div id="background-save-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Test 4: Verify Cross-Storage Sync</h3>
+        <button onclick="verifyCrossSync()">Verify Both Storages Have Same Data</button>
+        <div id="cross-sync-result"></div>
+    </div>
+
+    <script>
+        // Test settings object
+        const testSettings = {
+            enabled: true,
+            showQuotes: true,
+            builtinQuotesEnabled: false,
+            customQuotes: ["Test quote from integration test"],
+            sites: {
+                facebook: { enabled: true },
+                instagram: { enabled: false },
+                twitter: { enabled: true },
+                reddit: { enabled: true },
+                linkedin: { enabled: false },
+                youtube: { enabled: true },
+                github: { enabled: true },
+                hackernews: { enabled: false }
+            }
+        };
+
+        // Test 1: Save to localStorage (simulating Flutter SharedPreferences)
+        function saveToLocalStorage() {
+            try {
+                const key = 'flutter.social_cleaner_settings';
+                localStorage.setItem(key, JSON.stringify(testSettings));
+                document.getElementById('localStorage-result').innerHTML = 
+                    '<div class="success">✅ Successfully saved to localStorage</div>' +
+                    '<pre>' + JSON.stringify(testSettings, null, 2) + '</pre>';
+            } catch (error) {
+                document.getElementById('localStorage-result').innerHTML = 
+                    '<div class="error">❌ Error saving to localStorage: ' + error.message + '</div>';
+            }
+        }
+
+        // Test 2: Read via background script
+        function readViaBackground() {
+            chrome.runtime.sendMessage({ action: 'getSocialCleanerSettings' }, (response) => {
+                if (chrome.runtime.lastError) {
+                    document.getElementById('background-result').innerHTML = 
+                        '<div class="error">❌ Error reading via background: ' + chrome.runtime.lastError.message + '</div>';
+                } else {
+                    document.getElementById('background-result').innerHTML = 
+                        '<div class="success">✅ Successfully read via background script</div>' +
+                        '<pre>' + JSON.stringify(response, null, 2) + '</pre>';
+                }
+            });
+        }
+
+        // Test 3: Save via background script
+        function saveViaBackground() {
+            const modifiedSettings = {
+                ...testSettings,
+                customQuotes: ["Quote saved via background script"],
+                sites: {
+                    ...testSettings.sites,
+                    instagram: { enabled: true } // Toggle Instagram
+                }
+            };
+
+            chrome.runtime.sendMessage({ 
+                action: 'updateSocialCleanerSettings', 
+                settings: modifiedSettings 
+            }, (response) => {
+                if (chrome.runtime.lastError) {
+                    document.getElementById('background-save-result').innerHTML = 
+                        '<div class="error">❌ Error saving via background: ' + chrome.runtime.lastError.message + '</div>';
+                } else {
+                    document.getElementById('background-save-result').innerHTML = 
+                        '<div class="success">✅ Successfully saved via background script</div>' +
+                        '<pre>' + JSON.stringify(response, null, 2) + '</pre>';
+                }
+            });
+        }
+
+        // Test 4: Verify both storages have the same data
+        function verifyCrossSync() {
+            // Get from localStorage
+            const localStorageKey = 'flutter.social_cleaner_settings';
+            const localStorageData = localStorage.getItem(localStorageKey);
+            
+            // Get from Chrome storage
+            chrome.storage.local.get(['socialCleanerSettings'], (chromeResult) => {
+                const resultDiv = document.getElementById('cross-sync-result');
+                
+                if (chrome.runtime.lastError) {
+                    resultDiv.innerHTML = '<div class="error">❌ Error reading Chrome storage: ' + chrome.runtime.lastError.message + '</div>';
+                    return;
+                }
+
+                try {
+                    const localData = localStorageData ? JSON.parse(localStorageData) : null;
+                    const chromeData = chromeResult.socialCleanerSettings;
+                    
+                    const comparison = {
+                        localStorage: localData,
+                        chromeStorage: chromeData,
+                        areEqual: JSON.stringify(localData) === JSON.stringify(chromeData)
+                    };
+                    
+                    const statusClass = comparison.areEqual ? 'success' : 'error';
+                    const statusIcon = comparison.areEqual ? '✅' : '❌';
+                    
+                    resultDiv.innerHTML = 
+                        `<div class="${statusClass}">${statusIcon} Cross-storage sync ${comparison.areEqual ? 'successful' : 'failed'}</div>` +
+                        '<pre>' + JSON.stringify(comparison, null, 2) + '</pre>';
+                        
+                } catch (error) {
+                    resultDiv.innerHTML = '<div class="error">❌ Error comparing storages: ' + error.message + '</div>';
+                }
+            });
+        }
+
+        // Auto-run basic test on page load
+        window.addEventListener('load', () => {
+            console.log('Integration test page loaded');
+            console.log('Chrome extension APIs available:', {
+                runtime: !!chrome.runtime,
+                storage: !!chrome.storage,
+                localStorage: !!localStorage
+            });
+        });
+    </script>
+</body>
+</html>

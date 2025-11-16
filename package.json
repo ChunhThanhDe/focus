@@ -1,0 +1,18 @@
+{
+  "name": "focus-extension",
+  "version": "1.0.2",
+  "type": "module",
+  "description": "Chrome extension combining Flutter newtab and social media cleaner",
+  "private": true,
+  "scripts": {
+    "build:flutter": "flutter build web --release --csp --no-web-resources-cdn",
+    "copy:newtab": "node scripts/copy-flutter-web.js",
+    "copy:icons": "node scripts/copy-icons.js",
+    "build:ext": "npm run build:flutter && npm run copy:newtab && npm run copy:icons",
+    "dev": "npm run build:flutter && npm run copy:newtab && npm run copy:icons"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "fs-extra": "^11.2.0"
+  }
+}

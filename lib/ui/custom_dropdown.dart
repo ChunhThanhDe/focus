@@ -1,3 +1,9 @@
+/*
+ * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
+ * @ Created: 2025-11-12 11:01:44
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ */
+
 import 'package:flutter/material.dart';
 
 import '../resources/colors.dart';
@@ -39,7 +45,7 @@ class CustomMaterialDropdown<T> extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (label != null) ...[
-          Text(label!, style: theme.textTheme.labelMedium),
+          Text(label!, style: theme.textTheme.bodyMedium),
           const SizedBox(height: 8),
         ],
         DecoratedBox(
@@ -123,7 +129,7 @@ class CustomDropdown<T> extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (label != null) ...[
-          Text(label!, style: theme.textTheme.labelMedium),
+          Text(label!, style: theme.textTheme.bodyMedium),
           const SizedBox(height: 8),
         ],
         DecoratedBox(

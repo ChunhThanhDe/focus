@@ -1,3 +1,9 @@
+/*
+ * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
+ * @ Created: 2025-11-12 11:01:44
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ */
+
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -18,6 +24,12 @@ Future<String?> getRedirectionUrl(String url) async {
   // Send the request and receive the response
   var response = await client.send(request);
 
-  // Return the 'location' header if there is a redirection
-  return response.headers['location'];
+  // Check if the response status code is a redirection (3xx)
+  if (response.statusCode >= 300 && response.statusCode < 400) {
+    // Return the 'location' header if there is a redirection
+    return response.headers['location'];
+  }
+
+  // If not a redirection, return null
+  return null;
 }

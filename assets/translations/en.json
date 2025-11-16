@@ -44,7 +44,9 @@
       "note": "\nNote: ",
       "noteDescription": "Higher resolution background may\ntake more time to load depending on\nyour connection.",
       "selectColor": "Select a color",
-      "selectGradient": "Select a gradient"
+      "selectGradient": "Select a gradient",
+      "color": "Color",
+      "gradient": "Gradient"
     },
     "widget": {
       "label": "Widget",

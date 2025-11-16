@@ -44,7 +44,9 @@
       "note": "\nLưu Ý: ",
       "noteDescription": "Hình nền có độ phân giải cao hơn có thể\nmất nhiều thời gian tải hơn tùy thuộc vào\nkết nối của bạn.",
       "selectColor": "Chọn màu sắc",
-      "selectGradient": "Chọn gradient"
+      "selectGradient": "Chọn gradient",
+      "color": "Màu sắc",
+      "gradient": "Gradient"
     },
     "widget": {
       "label": "Tiện Ích",

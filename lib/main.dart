@@ -1,3 +1,9 @@
+/*
+ * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
+ * @ Created: 2025-11-12 11:09:32
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ */
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -88,18 +94,18 @@ Future<BackendService> getBackend() async => RestBackendService();
 ThemeData buildTheme(BuildContext context) {
   return ThemeData(
     colorScheme: ColorScheme.fromSeed(
-      seedColor: Colors.redAccent, // Màu vàng từ logo
+      seedColor: Colors.redAccent, // Accent color from logo
       brightness: Brightness.dark,
-      primary: Colors.amber, // Hồng tâm nổi bật
-      secondary: Colors.cyanAccent, // Mũi tên năng động
+      primary: Colors.amber, // Prominent focal color
+      secondary: Colors.cyanAccent, // Dynamic arrow accent
       surface: const Color(0xFF1E1E1E),
       background: const Color(0xFF121212),
     ),
     useMaterial3: true,
     scaffoldBackgroundColor: const Color(0xFF121212),
     dividerColor: Colors.white.withOpacity(0.1),
-    hoverColor: Colors.amber.withOpacity(0.05), // Hiệu ứng hover nhẹ
-    focusColor: Colors.amber.withOpacity(0.1), // Hiệu ứng focus
+    hoverColor: Colors.amber.withOpacity(0.05), // Subtle hover effect
+    focusColor: Colors.amber.withOpacity(0.1), // Focus effect
     splashFactory: InkRipple.splashFactory,
     scrollbarTheme: ScrollbarThemeData(
       thickness: WidgetStateProperty.all(4),

@@ -1,7 +1,3 @@
-## Colors Generator scripts
-
-These colors are taken from [minim](https://github.com/avinayak/minim/blob/master/src/settings/colors.js) js file.
-
 ## Steps
 
 1. Update the `colors.js` file with the one from the Github link above.

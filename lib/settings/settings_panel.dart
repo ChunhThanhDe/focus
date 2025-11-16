@@ -1,3 +1,9 @@
+/*
+ * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
+ * @ Created: 2025-11-12 11:09:32
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ */
+
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +15,7 @@ import '../chrome_extension/widgets/extension_settings_view.dart';
 import 'about.dart';
 import 'background_settings_view.dart';
 import 'menu_button.dart';
+import 'social_cleaner_settings.dart';
 import 'widget_settings.dart';
 
 class SettingsPanel extends StatelessWidget {
@@ -78,7 +85,7 @@ class _SettingsPanelContentState extends State<SettingsPanelContent> with Single
       children: [
         Flexible(
           child: Container(
-            width: 360,
+            width: 400,
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
               color: AppColors.settingsPanelBackgroundColor,
@@ -101,7 +108,10 @@ class _SettingsPanelContentState extends State<SettingsPanelContent> with Single
                   child: Row(
                     children: [
                       Expanded(
-                        child: Text('common.settings'.tr(), style: Theme.of(context).textTheme.titleMedium),
+                        child: Text(
+                          'common.settings'.tr(),
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
+                        ),
                       ),
                       const MenuButton(),
                       Material(
@@ -131,7 +141,7 @@ class _SettingsPanelContentState extends State<SettingsPanelContent> with Single
                       ),
                     ),
                     SizedBox(
-                      width: 360,
+                      width: 400,
                       child: TabBar(
                         controller: homeStore.tabController,
                         // unselectedLabelColor: Colors.black,
@@ -139,7 +149,7 @@ class _SettingsPanelContentState extends State<SettingsPanelContent> with Single
                         isScrollable: true,
                         unselectedLabelColor: AppColors.textColor,
                         tabAlignment: TabAlignment.start,
-                        labelStyle: const TextStyle(fontWeight: FontWeight.w300),
+                        labelStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400),
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         labelPadding: const EdgeInsets.symmetric(horizontal: 24),
                         dividerColor: Colors.transparent,

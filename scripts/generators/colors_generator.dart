@@ -1,9 +1,16 @@
+/*
+ * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
+ * @ Created: 2025-11-12 11:01:44
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ */
+
 import 'dart:convert';
 import 'dart:io';
 import 'package:dart_style/dart_style.dart';
 import 'package:characters/characters.dart';
 import 'package:pub_semver/pub_semver.dart';
 
+// ignore: unintended_html_in_doc_comment
 /// Run command: dart color_generator.dart <input.json> <output.dart>
 /// Full command to run from project root:
 ///
