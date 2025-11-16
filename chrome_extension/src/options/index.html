@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Focus - Extension Options</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    #flutter-container {
+      width: 100%;
+      min-height: 100vh;
+    }
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #666;
+      font-size: 16px;
+    }
+    .loading::after {
+      content: '';
+      width: 20px;
+      height: 20px;
+      margin-left: 10px;
+      border: 2px solid #f3f3f3;
+      border-top: 2px solid #666;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div id="flutter-container">
+    <div class="loading">Loading Extension Settings</div>
+  </div>
+  
+  <!-- Flutter Web Integration -->
+  <script>
+    // Set up Flutter web environment for Chrome extension
+    window.flutterConfiguration = {
+      assetBase: chrome.runtime.getURL('flutter/'),
+      canvasKitBaseUrl: chrome.runtime.getURL('flutter/canvaskit/'),
+    };
+    
+    // Load Flutter app
+    const script = document.createElement('script');
+    script.src = chrome.runtime.getURL('flutter/main.dart.js');
+    script.onload = () => {
+      // Initialize Flutter app with options page context
+      window.isOptionsPage = true;
+      
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: null,
+        },
+        onEntrypointLoaded: function(engineInitializer) {
+          engineInitializer.initializeEngine().then(function(appRunner) {
+            appRunner.runApp();
+          });
+        }
+      });
+    };
+    document.head.appendChild(script);
+  </script>
+</body>
+</html>
