@@ -58,6 +58,15 @@
         html[data-nfe-enabled='true'] div.x1hc1fzr.x1unhpq9.x6o7n8i > :not(#nfe-container) {
           display: none !important;
         }
+        html[data-nfe-enabled='true'] [data-pagelet="Reels"] > :not(#nfe-container) {
+          display: none !important;
+        }
+        html[data-nfe-enabled='true'] div[aria-label="Reels"] > :not(#nfe-container) {
+          display: none !important;
+        }
+        html[data-nfe-enabled='true'] div[role="main"] > :not(#nfe-container) {
+          display: none !important;
+        }
       `
     },
     instagram: {
@@ -71,6 +80,9 @@
           width: 100% !important;
           font-size: 24px !important;
           padding: 128px !important;
+        }
+        html[data-nfe-enabled='true'] section > :not(#nfe-container) {
+          display: none !important;
         }
       `
     },
@@ -106,7 +118,13 @@
         'div[data-click-id="body"]'
       ],
       css: `
-        html:not([data-nfe-enabled='false']) div[data-testid="subreddit-posts"] > :not(#nfe-container) {
+        html[data-nfe-enabled='true'] div[data-testid="subreddit-posts"] > :not(#nfe-container) {
+          display: none !important;
+        }
+        html[data-nfe-enabled='true'] .ListingLayout-outerContainer .Post {
+          display: none !important;
+        }
+        html[data-nfe-enabled='true'] [data-testid="post-container"] {
           display: none !important;
         }
       `
@@ -143,25 +161,67 @@
         '.js-recent-activity-container'
       ],
       css: `
-        html:not([data-nfe-enabled='false']) .js-recent-activity-container > :not(#nfe-container) {
+        html[data-nfe-enabled='true'] .js-recent-activity-container > :not(#nfe-container) {
           display: none !important;
         }
-        html:not([data-nfe-enabled='false']) aside[aria-label='Account'] + div div[role='contentinfo'],
-        html:not([data-nfe-enabled='false']) aside[aria-label='Account'] + div aside[aria-label='Explore'] {
+        html[data-nfe-enabled='true'] aside[aria-label='Account'] + div div[role='contentinfo'],
+        html[data-nfe-enabled='true'] aside[aria-label='Account'] + div aside[aria-label='Explore'] {
           opacity: 0 !important;
           pointer-events: none !important;
           height: 0 !important;
           overflow-y: hidden !important;
         }
-        html:not([data-nfe-enabled='false']) aside[aria-label='Account'] + div #dashboard-feed-frame > :not(#nfe-container) {
+        html[data-nfe-enabled='true'] aside[aria-label='Account'] + div #dashboard-feed-frame {
           display: none !important;
         }
-        html:not([data-nfe-enabled='false']) aside[aria-label='Account'] + div aside[aria-label='Explore'] {
+        html[data-nfe-enabled='true'] aside[aria-label='Account'] + div #dashboard-feed {
+          display: none !important;
+        }
+        html[data-nfe-enabled='true'] aside[aria-label='Account'] + div [data-target="dashboard.feedContainer"] > :not(#nfe-container) {
+          display: none !important;
+        }
+        html[data-nfe-enabled='true'] aside[aria-label='Account'] + div [data-repository-hovercards-enabled] > :not(#nfe-container) {
+          display: none !important;
+        }
+        html[data-nfe-enabled='true'] aside[aria-label='Account'] + div [data-hpc] > :not(#nfe-container) {
+          display: none !important;
+        }
+        html[data-nfe-enabled='true'] aside[aria-label='Account'] + div aside[aria-label='Explore'] {
           width: 0 !important;
         }
-        html:not([data-nfe-enabled='false']) aside[aria-label='Account'] + div > [class*='d-'][class*='-flex'] > :first-child {
+        html[data-nfe-enabled='true'] aside[aria-label='Account'] + div > [class*='d-'][class*='-flex'] > :first-child {
           width: 100% !important;
         }
+      `
+    },
+    tiktok: {
+      name: 'TikTok',
+      selectors: [
+        'div[data-e2e="recommend-list"]',
+        'div[data-e2e="video-feed"]',
+        'div[data-e2e="scroll-list"]',
+        'main'
+      ],
+      css: `
+        html[data-nfe-enabled='true'] div[data-e2e="recommend-list"] > :not(#nfe-container) { display: none !important; }
+        html[data-nfe-enabled='true'] div[data-e2e="video-feed"] > :not(#nfe-container) { display: none !important; }
+        html[data-nfe-enabled='true'] div[data-e2e="scroll-list"] > :not(#nfe-container) { display: none !important; }
+        html[data-nfe-enabled='true'] main > :not(#nfe-container) { display: none !important; }
+      `
+    },
+    shopee: {
+      name: 'Shopee',
+      selectors: [
+        'main',
+        '.home-page',
+        '.shopee-page-wrapper',
+        '.shopee-search-item-result__items'
+      ],
+      css: `
+        html[data-nfe-enabled='true'] main > :not(#nfe-container) { display: none !important; }
+        html[data-nfe-enabled='true'] .home-page > :not(#nfe-container) { display: none !important; }
+        html[data-nfe-enabled='true'] .shopee-page-wrapper > :not(#nfe-container) { display: none !important; }
+        html[data-nfe-enabled='true'] .shopee-search-item-result__items > * { display: none !important; }
       `
     }
   };
@@ -169,13 +229,20 @@
   // Get current site
   function getCurrentSite() {
     const hostname = window.location.hostname;
-    if (hostname.includes('facebook.com')) return 'facebook';
-    if (hostname.includes('instagram.com')) return 'instagram';
+    const path = window.location.pathname || '';
+    if (hostname.includes('facebook.com')) {
+      return 'facebook';
+    }
+    if (hostname.includes('instagram.com')) {
+      return 'instagram';
+    }
     if (hostname.includes('twitter.com') || hostname.includes('x.com')) return 'twitter';
     if (hostname.includes('reddit.com')) return 'reddit';
     if (hostname.includes('linkedin.com')) return 'linkedin';
     if (hostname.includes('youtube.com')) return 'youtube';
+    if (hostname.includes('tiktok.com')) return 'tiktok';
     if (hostname.includes('github.com')) return 'github';
+    if (hostname.includes('shopee.vn') || hostname.includes('shopee.com')) return 'shopee';
     if (hostname.includes('news.ycombinator.com')) return 'hackernews';
     return null;
   }

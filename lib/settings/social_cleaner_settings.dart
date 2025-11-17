@@ -94,11 +94,13 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
                   children: [
                     _buildSiteToggle('Facebook', 'facebook'),
                     _buildSiteToggle('Instagram', 'instagram'),
+                    _buildSiteToggle('TikTok', 'tiktok'),
                     _buildSiteToggle('Twitter/X', 'twitter'),
                     _buildSiteToggle('Reddit', 'reddit'),
                     _buildSiteToggle('LinkedIn', 'linkedin'),
                     _buildSiteToggle('YouTube', 'youtube'),
                     _buildSiteToggle('GitHub', 'github'),
+                    _buildSiteToggle('Shopee', 'shopee'),
                     _buildSiteToggle('Hacker News', 'hackernews'),
                   ],
                 ),

@@ -12,12 +12,14 @@ const defaultSettings = {
   sites: {
     facebook: { enabled: true },
     instagram: { enabled: true },
+    tiktok: { enabled: true },
     twitter: { enabled: true },
     reddit: { enabled: true },
     linkedin: { enabled: true },
     youtube: { enabled: true },
     github: { enabled: true },
-    hackernews: { enabled: true }
+    hackernews: { enabled: true },
+    shopee: { enabled: true }
   }
 };
 
@@ -45,12 +47,14 @@ function convertFlutterToBackgroundFormat(flutterSettings) {
     sites: flutterSettings.sites || {
       facebook: { enabled: true },
       instagram: { enabled: true },
+      tiktok: { enabled: true },
       twitter: { enabled: true },
       reddit: { enabled: true },
       linkedin: { enabled: true },
       youtube: { enabled: true },
       github: { enabled: true },
-      hackernews: { enabled: true }
+      hackernews: { enabled: true },
+      shopee: { enabled: true }
     }
   };
 }

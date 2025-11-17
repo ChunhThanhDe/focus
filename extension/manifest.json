@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Focus to your Taget",
-  "version": "1.0.3",
+  "version": "1.0.7",
   "description": "Focus New Tab and cleaner social media feeds with quotes",
   
   "chrome_url_overrides": {
@@ -14,6 +14,7 @@
         "https://www.facebook.com/*",
         "https://web.facebook.com/*",
         "https://www.instagram.com/*",
+        "https://www.tiktok.com/*",
         "https://twitter.com/*",
         "https://x.com/*",
         "https://www.reddit.com/*",
@@ -21,7 +22,9 @@
         "https://www.linkedin.com/*",
         "https://www.youtube.com/*",
         "https://github.com/*",
-        "https://news.ycombinator.com/*"
+        "https://news.ycombinator.com/*",
+        "https://shopee.vn/*",
+        "https://shopee.com/*"
       ],
       "js": ["social_cleaner/content_unified.js"],
       "run_at": "document_start"
@@ -35,6 +38,7 @@
     "https://www.facebook.com/*",
     "https://web.facebook.com/*",
     "https://www.instagram.com/*",
+    "https://www.tiktok.com/*",
     "https://twitter.com/*",
     "https://x.com/*",
     "https://www.reddit.com/*",
@@ -42,7 +46,9 @@
     "https://www.linkedin.com/*",
     "https://www.youtube.com/*",
     "https://github.com/*",
-    "https://news.ycombinator.com/*"
+    "https://news.ycombinator.com/*",
+    "https://shopee.vn/*",
+    "https://shopee.com/*"
   ],
   
   "permissions": [

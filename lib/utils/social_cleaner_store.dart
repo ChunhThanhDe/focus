@@ -42,12 +42,14 @@ abstract class _SocialCleanerStore with Store {
   final Map<String, bool> _defaultSiteSettings = {
     'facebook': true,
     'instagram': true,
+    'tiktok': true,
     'twitter': true,
     'reddit': true,
     'linkedin': true,
     'youtube': true,
     'github': true,
     'hackernews': true,
+    'shopee': true,
   };
 
   @action
