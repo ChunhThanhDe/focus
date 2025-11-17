@@ -11,7 +11,6 @@ import 'package:provider/provider.dart';
 import '../home/home_store.dart';
 import '../resources/colors.dart';
 import '../utils/custom_observer.dart';
-import '../chrome_extension/widgets/extension_settings_view.dart';
 import 'about.dart';
 import 'background_settings_view.dart';
 import 'menu_button.dart';
@@ -177,7 +176,7 @@ class _SettingsPanelContentState extends State<SettingsPanelContent> with Single
                         tabs: [
                           Tab(text: 'settings.panel.background'.tr()),
                           Tab(text: 'settings.panel.widget'.tr()),
-                          Tab(text: 'Chrome Extension'),
+                          Tab(text: 'Social Cleaner'),
                           Tab(text: 'settings.panel.about'.tr()),
                         ],
                         onTap: (index) => homeStore.setTabIndex(index),
@@ -204,7 +203,7 @@ class _SettingsPanelContentState extends State<SettingsPanelContent> with Single
                               case 1:
                                 return const WidgetSettings();
                               case 2:
-                                return const ExtensionSettingsView();
+                                return const SocialCleanerSettings();
                               case 3:
                                 return const About();
                               default:

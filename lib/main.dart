@@ -11,8 +11,6 @@ import 'package:easy_localization/easy_localization.dart';
 
 import 'backend/backend_service.dart';
 import 'backend/rest_backend_service.dart';
-import 'chrome_extension/services/extension_service.dart';
-import 'chrome_extension/stores/extension_store.dart';
 import 'home/home.dart';
 import 'utils/geocoding_service.dart';
 import 'utils/storage_manager.dart';
@@ -67,13 +65,6 @@ Future<void> initialize() async {
   GetIt.instance.registerSingleton<WeatherService>(OpenMeteoWeatherService());
   GetIt.instance.registerSingleton<GeocodingService>(
     OpenMeteoGeocodingService(),
-  );
-  
-  // Register Chrome extension services
-  final extensionService = ExtensionService();
-  GetIt.instance.registerSingleton<ExtensionService>(extensionService);
-  GetIt.instance.registerSingleton<ExtensionStore>(
-    ExtensionStore(extensionService, storage),
   );
 
   await GetIt.instance.allReady();
