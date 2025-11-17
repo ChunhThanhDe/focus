@@ -105,6 +105,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         showQuotes: request.settings.showQuotes,
         builtinQuotesEnabled: request.settings.builtinQuotesEnabled,
         customQuotes: request.settings.customQuotes || [],
+        builtinQuotesLang: request.settings.builtinQuotesLang || 'en',
+        builtinQuotesEn: request.settings.builtinQuotesEn || [],
+        builtinQuotesVi: request.settings.builtinQuotesVi || [],
         sites: {}
       };
       

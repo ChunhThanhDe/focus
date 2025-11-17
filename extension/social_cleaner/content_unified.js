@@ -10,29 +10,13 @@
     showQuotes: true,
     builtinQuotesEnabled: true,
     customQuotes: [],
-    sites: {}
+    sites: {},
+    builtinQuotesLang: 'en',
+    builtinQuotesEn: [],
+    builtinQuotesVi: []
   };
 
-  // Built-in quotes (subset for performance)
-  const builtinQuotes = [
-    "The best time to plant a tree was 20 years ago. The second best time is now.",
-    "Your limitation—it's only your imagination.",
-    "Push yourself, because no one else is going to do it for you.",
-    "Great things never come from comfort zones.",
-    "Dream it. Wish it. Do it.",
-    "Success doesn't just find you. You have to go out and get it.",
-    "The harder you work for something, the greater you'll feel when you achieve it.",
-    "Dream bigger. Do bigger.",
-    "Don't stop when you're tired. Stop when you're done.",
-    "Wake up with determination. Go to bed with satisfaction.",
-    "Do something today that your future self will thank you for.",
-    "Little things make big days.",
-    "It's going to be hard, but hard does not mean impossible.",
-    "Don't wait for opportunity. Create it.",
-    "Sometimes we're tested not to show our weaknesses, but to discover our strengths.",
-    "The key to success is to focus on goals, not obstacles.",
-    "Dream it. Believe it. Build it."
-  ];
+  const builtinQuotes = [];
 
   // Site configurations
   const sites = {
@@ -252,19 +236,21 @@
   // Get random quote
   function getRandomQuote() {
     const allQuotes = [];
-    
     if (currentSettings.builtinQuotesEnabled) {
-      allQuotes.push(...builtinQuotes);
+      const lang = currentSettings.builtinQuotesLang === 'vi' ? 'vi' : 'en';
+      const list = lang === 'vi' ? currentSettings.builtinQuotesVi : currentSettings.builtinQuotesEn;
+      if (Array.isArray(list) && list.length > 0) {
+        allQuotes.push(...list);
+      } else {
+        allQuotes.push(...builtinQuotes);
+      }
     }
-    
     if (currentSettings.customQuotes && currentSettings.customQuotes.length > 0) {
       allQuotes.push(...currentSettings.customQuotes);
     }
-    
     if (allQuotes.length === 0) {
       return "Focus on what matters.";
     }
-    
     return allQuotes[Math.floor(Math.random() * allQuotes.length)];
   }
 
