@@ -71,12 +71,17 @@
     },
     instagram: {
       name: 'Instagram',
-      selectors: ['main'],
+      selectors: ['main', 'section'],
       css: `
         html:not([data-nfe-enabled='false']) main > :not(#nfe-container) {
           display: none !important;
         }
         html:not([data-nfe-enabled='false']) main > #nfe-container {
+          width: 100% !important;
+          font-size: 24px !important;
+          padding: 128px !important;
+        }
+        html:not([data-nfe-enabled='false']) section > #nfe-container {
           width: 100% !important;
           font-size: 24px !important;
           padding: 128px !important;
@@ -288,7 +293,7 @@
   }
 
   // Create quote container
-  function createQuoteContainer(quote) {
+  function createQuoteContainer(quote, asOverlay) {
     const isDark = (() => {
       try {
         const mql = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
@@ -319,6 +324,16 @@
       min-height: 60vh;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     `;
+    if (asOverlay) {
+      container.style.position = 'fixed';
+      container.style.top = '50%';
+      container.style.left = '50%';
+      container.style.transform = 'translate(-50%, -50%)';
+      container.style.zIndex = '2147483647';
+      container.style.pointerEvents = 'none';
+      container.style.minHeight = '0';
+      container.style.maxWidth = '80%';
+    }
     
     const quoteElement = document.createElement('div');
     quoteElement.style.cssText = `
@@ -353,6 +368,14 @@
     }
   }
 
+  function isElementVisible(el) {
+    if (!el) return false;
+    const style = window.getComputedStyle(el);
+    if (style.display === 'none' || style.visibility === 'hidden' || parseFloat(style.opacity) === 0) return false;
+    const rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+
   // Inject quote into feed
   function injectQuote(targetElement) {
     if (!currentSettings.showQuotes) return;
@@ -360,14 +383,25 @@
     removeQuoteContainer();
     
     const quote = getRandomQuote();
-    const container = createQuoteContainer(quote);
-    
-    // Insert as first child
+    const container = createQuoteContainer(quote, false);
     if (targetElement.firstChild) {
       targetElement.insertBefore(container, targetElement.firstChild);
     } else {
       targetElement.appendChild(container);
     }
+    if (!isElementVisible(container)) {
+      removeQuoteContainer();
+      const overlay = createQuoteContainer(quote, true);
+      document.body.appendChild(overlay);
+    }
+  }
+
+  function injectOverlayQuote() {
+    if (!currentSettings.showQuotes) return;
+    removeQuoteContainer();
+    const quote = getRandomQuote();
+    const overlay = createQuoteContainer(quote, true);
+    document.body.appendChild(overlay);
   }
 
   // Main eradication function
@@ -400,6 +434,8 @@
     
     if (targetElement && !document.getElementById('nfe-container')) {
       injectQuote(targetElement);
+    } else if (!targetElement && !document.getElementById('nfe-container')) {
+      injectOverlayQuote();
     }
   }
 
