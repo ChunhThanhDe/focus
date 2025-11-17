@@ -76,16 +76,6 @@
         html:not([data-nfe-enabled='false']) main > :not(#nfe-container) {
           display: none !important;
         }
-        html:not([data-nfe-enabled='false']) main > #nfe-container {
-          width: 100% !important;
-          font-size: 24px !important;
-          padding: 128px !important;
-        }
-        html:not([data-nfe-enabled='false']) section > #nfe-container {
-          width: 100% !important;
-          font-size: 24px !important;
-          padding: 128px !important;
-        }
         html[data-nfe-enabled='true'] section > :not(#nfe-container) {
           display: none !important;
         }
@@ -311,17 +301,23 @@
 
     const textColor = isDark ? '#e5e5e5' : '#1a1a1a';
     const subTextColor = isDark ? '#a1a1a1' : '#666';
+    const cardBg = isDark ? '#111827' : '#ffffff';
+    const cardBorder = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
+    const shadow = isDark ? '0 10px 30px rgba(0,0,0,0.45)' : '0 10px 30px rgba(0,0,0,0.12)';
+    const accent = isDark ? '#60a5fa' : '#2563eb';
+
     const container = document.createElement('div');
     container.id = 'nfe-container';
     container.style.cssText = `
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 64px 32px;
-      text-align: center;
-      width: 100%;
-      min-height: 60vh;
+      display: block;
+      margin: 32px auto;
+      width: min(92%, 760px);
+      padding: 20px 24px;
+      border-radius: 12px;
+      background: ${cardBg};
+      border: 1px solid ${cardBorder};
+      box-shadow: ${shadow};
+      color: ${textColor};
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     `;
     if (asOverlay) {
@@ -331,30 +327,69 @@
       container.style.transform = 'translate(-50%, -50%)';
       container.style.zIndex = '2147483647';
       container.style.pointerEvents = 'none';
-      container.style.minHeight = '0';
-      container.style.maxWidth = '80%';
+      container.style.margin = '0';
+      container.style.width = 'min(88%, 720px)';
     }
     
-    const quoteElement = document.createElement('div');
-    quoteElement.style.cssText = `
-      font-size: 24px;
-      line-height: 1.4;
+    const parts = (() => {
+      const raw = String(quote || '').trim();
+      const seps = [' — ', ' – ', ' - ', ' | '];
+      for (const s of seps) {
+        const idx = raw.indexOf(s);
+        if (idx > 0) {
+          return { text: raw.slice(0, idx).trim(), author: raw.slice(idx + s.length).trim() };
+        }
+      }
+      return { text: raw, author: '' };
+    })();
+
+    const quoteRow = document.createElement('div');
+    quoteRow.style.cssText = `
+      display: block;
+      font-size: 20px;
+      line-height: 1.6;
+      font-weight: 400;
       color: ${textColor};
-      max-width: 600px;
-      margin-bottom: 16px;
-      font-weight: 300;
     `;
-    quoteElement.textContent = `“${quote}”`;
-    
+
+    const open = document.createElement('span');
+    open.style.cssText = `color: ${accent}; font-size: 22px; margin-right: 4px;`;
+    open.textContent = '“';
+
+    const body = document.createElement('span');
+    body.textContent = parts.text;
+
+    const close = document.createElement('span');
+    close.style.cssText = `color: ${accent}; font-size: 22px; margin-left: 4px;`;
+    close.textContent = '”';
+
+    quoteRow.appendChild(open);
+    quoteRow.appendChild(body);
+    quoteRow.appendChild(close);
+
     const attribution = document.createElement('div');
     attribution.style.cssText = `
+      display: block;
+      text-align: right;
+      margin-top: 12px;
       font-size: 14px;
       color: ${subTextColor};
       font-style: italic;
     `;
-    attribution.textContent = '— Focus Extension';
-    
-    container.appendChild(quoteElement);
+    if (parts.author) {
+      const a = document.createElement('a');
+      a.href = `https://www.google.com/search?q=${encodeURIComponent(parts.author + ' quote')}`;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.style.cssText = `color: ${accent}; text-decoration: none;`;
+      a.textContent = parts.author;
+      attribution.textContent = '— ';
+      attribution.appendChild(a);
+    } else {
+      attribution.textContent = '— Focus Extension';
+    }
+
+    container.appendChild(quoteRow);
     container.appendChild(attribution);
     
     return container;
