@@ -16,8 +16,8 @@ const defaultSettings = {
     twitter: { enabled: true },
     reddit: { enabled: true },
     linkedin: { enabled: true },
-    youtube: { enabled: true },
-    github: { enabled: true },
+    youtube: { enabled: false },
+    github: { enabled: false },
     hackernews: { enabled: true },
     shopee: { enabled: true }
   }
@@ -51,8 +51,8 @@ function convertFlutterToBackgroundFormat(flutterSettings) {
       twitter: { enabled: true },
       reddit: { enabled: true },
       linkedin: { enabled: true },
-      youtube: { enabled: true },
-      github: { enabled: true },
+      youtube: { enabled: false },
+      github: { enabled: false },
       hackernews: { enabled: true },
       shopee: { enabled: true }
     }
