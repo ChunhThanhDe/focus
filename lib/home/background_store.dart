@@ -40,14 +40,16 @@ class TodoTask {
   final String id;
   final String text;
   final bool completed;
+  final String? remindTime;
 
-  const TodoTask({required this.id, required this.text, this.completed = false});
+  const TodoTask({required this.id, required this.text, this.completed = false, this.remindTime});
 
-  TodoTask copyWith({String? id, String? text, bool? completed}) {
+  TodoTask copyWith({String? id, String? text, bool? completed, String? remindTime}) {
     return TodoTask(
       id: id ?? this.id,
       text: text ?? this.text,
       completed: completed ?? this.completed,
+      remindTime: remindTime ?? this.remindTime,
     );
   }
 
@@ -55,6 +57,7 @@ class TodoTask {
     'id': id,
     'text': text,
     'completed': completed,
+    'remindTime': remindTime,
   };
 
   static TodoTask fromJson(Map<String, dynamic> json) {
@@ -62,6 +65,7 @@ class TodoTask {
       id: json['id'] ?? '',
       text: json['text'] ?? '',
       completed: json['completed'] ?? false,
+      remindTime: json['remindTime'] as String?,
     );
   }
 }
@@ -582,6 +586,34 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
   }
 
   @action
+  void addTodos(List<String> texts) {
+    final items = texts.map((e) => e.trim()).where((e) => e.isNotEmpty).map((t) => TodoTask(id: DateTime.now().millisecondsSinceEpoch.toString(), text: t)).toList();
+    for (final item in items.reversed) {
+      _todoTasks.insert(0, item);
+    }
+    _saveTodo();
+  }
+
+  @action
+  void addTodoBelow(String afterId, {String text = ''}) {
+    final int index = _todoTasks.indexWhere((e) => e.id == afterId);
+    if (index < 0) return;
+    final item = TodoTask(id: DateTime.now().millisecondsSinceEpoch.toString(), text: text);
+    _todoTasks.insert(index + 1, item);
+    _saveTodo();
+  }
+
+  @action
+  void reorderTodo(int oldIndex, int newIndex) {
+    if (oldIndex < 0 || oldIndex >= _todoTasks.length) return;
+    if (newIndex < 0 || newIndex > _todoTasks.length) return;
+    if (oldIndex < newIndex) newIndex -= 1;
+    final item = _todoTasks.removeAt(oldIndex);
+    _todoTasks.insert(newIndex, item);
+    _saveTodo();
+  }
+
+  @action
   void toggleTodo(String id, bool completed) {
     final int index = _todoTasks.indexWhere((e) => e.id == id);
     if (index < 0) return;
@@ -596,11 +628,50 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
   }
 
   @action
+  void clearCompletedTodos() {
+    _todoTasks.removeWhere((e) => e.completed);
+    _saveTodo();
+  }
+
+  @action
   void scheduleTodoReminderMinutes(int minutes) {
     final int m = minutes < 1 ? 1 : minutes;
     _todoReminderAt = DateTime.now().add(Duration(minutes: m));
     _saveTodo();
     _notifyScheduleTodoReminder(m);
+  }
+
+  @action
+  void setTodoRemindTime(String id, String time) {
+    final int index = _todoTasks.indexWhere((e) => e.id == id);
+    if (index < 0) return;
+    _todoTasks[index] = _todoTasks[index].copyWith(remindTime: time);
+    _saveTodo();
+  }
+
+  int _minutesUntilNextTimeOfDay(String hhmm) {
+    final parts = hhmm.split(':');
+    if (parts.length != 2) return 0;
+    final int? h = int.tryParse(parts[0]);
+    final int? m = int.tryParse(parts[1]);
+    if (h == null || m == null) return 0;
+    final now = DateTime.now();
+    var candidate = DateTime(now.year, now.month, now.day, h, m);
+    if (!candidate.isAfter(now)) candidate = candidate.add(const Duration(days: 1));
+    return candidate.difference(now).inMinutes;
+  }
+
+  @action
+  void scheduleTaskReminderFromTime(String id) {
+    final task = _todoTasks.firstWhereOrNull((e) => e.id == id);
+    if (task == null) return;
+    final String? time = task.remindTime;
+    if (time == null || time.isEmpty) return;
+    final minutes = _minutesUntilNextTimeOfDay(time);
+    final int m = minutes < 1 ? 1 : minutes;
+    _todoReminderAt = DateTime.now().add(Duration(minutes: m));
+    _saveTodo();
+    _notifyScheduleTaskReminder(task.text, m);
   }
 
   @action
@@ -623,6 +694,21 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
       if (chrome == null) return;
       final runtime = js_util.getProperty(chrome, 'runtime');
       final String title = _todoTasks.firstWhereOrNull((e) => !e.completed)?.text ?? 'Todo Reminder';
+      final message = {
+        'action': 'todoScheduleReminder',
+        'minutes': minutes,
+        'title': title,
+      };
+      js_util.callMethod(runtime, 'sendMessage', [js_util.jsify(message)]);
+    } catch (_) {}
+  }
+
+  void _notifyScheduleTaskReminder(String title, int minutes) {
+    try {
+      if (!kIsWeb) return;
+      final chrome = js_util.getProperty(js_util.globalThis, 'chrome');
+      if (chrome == null) return;
+      final runtime = js_util.getProperty(chrome, 'runtime');
       final message = {
         'action': 'todoScheduleReminder',
         'minutes': minutes,

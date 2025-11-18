@@ -185,6 +185,8 @@ chrome.alarms.onAlarm.addListener((alarm) => {
   });
 });
 
+
+
 // Initialize extension
 chrome.runtime.onInstalled.addListener(() => {
   console.log('Focus extension installed');
