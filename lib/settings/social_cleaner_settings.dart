@@ -116,21 +116,33 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
-                      color: Colors.red.withValues(alpha: 0.1),
+                      color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(6),
-                      border: Border.all(color: Colors.red.withValues(alpha: 0.3)),
+                      border: Border.all(color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3)),
                     ),
-                    child: const Text(
-                      'Reset to defaults',
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                      ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.restore_rounded,
+                          size: 16,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Reset to defaults',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
+              const SizedBox(height: 16),
             ],
           ],
         );
@@ -290,6 +302,7 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(),
+                style: TextButton.styleFrom(foregroundColor: Colors.white70),
                 child: const Text('Cancel'),
               ),
               TextButton(
@@ -297,7 +310,7 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
                   store.resetSettings();
                   Navigator.of(context).pop();
                 },
-                style: TextButton.styleFrom(foregroundColor: Colors.red),
+                style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.primary),
                 child: const Text('Reset'),
               ),
             ],
