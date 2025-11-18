@@ -23,18 +23,18 @@ class About extends StatelessWidget {
         const Center(child: FocusLogo(size: 160, animate: false)),
         const SizedBox(height: 15),
         Text(
-          'Focus To Your Target'.toUpperCase(),
+          'Focus Your Target'.toUpperCase(),
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.w800,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 1.2,
           ),
         ),
         const SizedBox(height: 11),
         Text(
           'v${packageInfo.version}'.toUpperCase(),
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 16,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
             letterSpacing: 2,
             fontWeight: FontWeight.w400,
             color: Colors.white.withValues(alpha: 0.65),
@@ -48,9 +48,8 @@ class About extends StatelessWidget {
             Text(
               'Made with love',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 18,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                fontWeight: FontWeight.w500,
                 letterSpacing: 0.25,
                 color: Theme.of(context).colorScheme.primary,
               ),
@@ -65,9 +64,8 @@ class About extends StatelessWidget {
             Text(
               'in',
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 fontWeight: FontWeight.w400,
-                fontSize: 18,
                 letterSpacing: 0.25,
                 color: Theme.of(context).colorScheme.primary,
               ),
@@ -91,12 +89,10 @@ class About extends StatelessWidget {
         Text(
           'Developed by',
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontWeight: FontWeight.w400,
-            fontSize: 18,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            fontWeight: FontWeight.w500,
             letterSpacing: 0.2,
             color: Theme.of(context).colorScheme.primary,
-            // color: Colors.white.withValues(alpha:0.5),
           ),
         ),
         const SizedBox(height: 8),
@@ -105,12 +101,11 @@ class About extends StatelessWidget {
           child: Text(
             'ChunhThanhDe'.toUpperCase(),
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
               height: 1,
-              fontSize: 18,
-              fontFamily: FontFamilies.systemUI,
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w700,
               letterSpacing: 2,
+              fontFamily: FontFamilies.systemUI,
             ),
           ),
         ),
@@ -151,9 +146,8 @@ class About extends StatelessWidget {
         Text(
           'Backgrounds by',
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontWeight: FontWeight.w400,
-            fontSize: 18,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            fontWeight: FontWeight.w500,
             letterSpacing: 0.25,
             color: Theme.of(context).colorScheme.primary,
           ),
@@ -171,9 +165,8 @@ class About extends StatelessWidget {
         Text(
           'Weather & Geocoding API by',
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontWeight: FontWeight.w400,
-            fontSize: 18,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            fontWeight: FontWeight.w500,
             letterSpacing: 0.25,
             color: Theme.of(context).colorScheme.primary,
           ),
