@@ -19,22 +19,16 @@ class About extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const SizedBox(height: 24),
-        const Center(child: FocusLogo(size: 250, animate: false)),
         const SizedBox(height: 16),
-        Text(
-          'Focus'.toUpperCase(),
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        const Center(child: FocusLogo(size: 180, animate: false)),
+        const SizedBox(height: 16),
+        Text('Focus'.toUpperCase(), textAlign: TextAlign.center, style: Theme.of(context).textTheme.titleLarge),
         const SizedBox(height: 12),
         Text(
           'v${packageInfo.version}'.toUpperCase(),
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 16,
             letterSpacing: 2,
             fontFamily: FontFamilies.systemUI,
             fontWeight: FontWeight.w400,
@@ -51,7 +45,7 @@ class About extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.w400,
-                fontSize: 22,
+                fontSize: 18,
                 letterSpacing: 0.25,
                 color: Theme.of(context).colorScheme.primary,
               ),
@@ -59,7 +53,7 @@ class About extends StatelessWidget {
             const SizedBox(width: 6),
             Icon(
               Icons.favorite,
-              size: 22,
+              size: 20,
               color: Theme.of(context).colorScheme.primary,
             ),
             const SizedBox(width: 6),
@@ -68,7 +62,7 @@ class About extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.w400,
-                fontSize: 13,
+                fontSize: 18,
                 letterSpacing: 0.25,
                 color: Theme.of(context).colorScheme.primary,
               ),
@@ -88,13 +82,13 @@ class About extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 32),
+        const SizedBox(height: 48),
         Text(
           'Developed by',
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontWeight: FontWeight.w300,
-            fontSize: 22,
+            fontWeight: FontWeight.w400,
+            fontSize: 18,
             letterSpacing: 0.2,
             color: Theme.of(context).colorScheme.primary,
             // color: Colors.white.withValues(alpha:0.5),
@@ -108,7 +102,7 @@ class About extends StatelessWidget {
             textAlign: TextAlign.center,
             style: const TextStyle(
               height: 1,
-              fontSize: 23,
+              fontSize: 18,
               fontFamily: FontFamilies.systemUI,
               letterSpacing: 2,
             ),
@@ -147,13 +141,13 @@ class About extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 32),
+        const SizedBox(height: 48),
         Text(
           'Backgrounds by',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontWeight: FontWeight.w400,
-            fontSize: 22,
+            fontSize: 18,
             letterSpacing: 0.25,
             color: Theme.of(context).colorScheme.primary,
           ),
@@ -167,13 +161,13 @@ class About extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        const SizedBox(height: 32),
+        const SizedBox(height: 48),
         Text(
           'Weather & Geocoding API by',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontWeight: FontWeight.w400,
-            fontSize: 22,
+            fontSize: 18,
             letterSpacing: 0.25,
             color: Theme.of(context).colorScheme.primary,
           ),
@@ -187,7 +181,7 @@ class About extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: 48),
       ],
     );
   }
@@ -210,7 +204,10 @@ class _FocusLogoState extends State<FocusLogo> {
       dimension: widget.size,
       child: Center(
         child: SizedBox.square(
-          dimension: widget.size * 0.6,
+          // Constrain the logo to 80% of the outer square to create
+          // balanced padding around it while keeping the image centered.
+          // This avoids edge-to-edge rendering and maintains visual harmony.
+          dimension: widget.size * 0.8,
           child: Image.asset(
             'assets/images/ic_focus.png',
             fit: BoxFit.contain,
