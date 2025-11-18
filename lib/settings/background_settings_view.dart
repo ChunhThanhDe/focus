@@ -264,7 +264,7 @@ class BackgroundModeSelector extends StatelessWidget {
           ),
           child: CustomObserver(
             name: 'BackgroundModeSelector',
-          builder:
+            builder:
                 (context) => CupertinoSegmentedControl<BackgroundMode>(
                   padding: EdgeInsets.zero,
                   groupValue: store.mode,
@@ -277,9 +277,7 @@ class BackgroundModeSelector extends StatelessWidget {
                           mode.label,
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w400,
-                            color: store.mode == mode
-                                ? Colors.black.withOpacity(0.9)
-                                : AppColors.textColor.withOpacity(0.7),
+                            color: store.mode == mode ? Colors.black.withOpacity(0.9) : AppColors.textColor.withOpacity(0.7),
                           ),
                         ),
                       ),

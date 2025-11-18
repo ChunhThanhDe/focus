@@ -372,7 +372,7 @@
       attribution.textContent = '— ';
       attribution.appendChild(a);
     } else {
-      attribution.textContent = '— Focus Extension';
+      attribution.textContent = '— Focus to Your Target';
     }
 
     container.appendChild(quoteRow);

@@ -331,8 +331,9 @@ class _LocationAutoCompleteFieldState extends State<LocationAutoCompleteField> {
                                         ),
                                       ],
                                     ),
-                                    child: Image.network(
-                                      getFlagUrl(location.countryCode),
+                                    child: Image.asset(
+                                      getFlagAssetPath(location.countryCode),
+                                      package: 'flutter_multi_formatter',
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -405,8 +406,8 @@ class _LocationAutoCompleteFieldState extends State<LocationAutoCompleteField> {
     return components.join(', ');
   }
 
-  String getFlagUrl(String countryCode) {
-    return 'https://flagsapi.com/$countryCode/flat/64.png';
+  String getFlagAssetPath(String countryCode) {
+    return 'flags/png/${countryCode.toLowerCase()}.png';
   }
 }
 
