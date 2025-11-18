@@ -1,3 +1,9 @@
+/**
+ * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
+ * @ Created: 2025-11-18 18:21:32
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ */
+
 // Unified content script for Focus extension
 // Removes social media feeds and injects quotes based on settings from Flutter UI
 
@@ -312,7 +318,7 @@
       container.style.left = '50%';
       container.style.transform = 'translate(-50%, -50%)';
       container.style.zIndex = '2147483647';
-      container.style.pointerEvents = 'none';
+      container.style.pointerEvents = 'auto';
       container.style.margin = '0';
       container.style.width = 'min(88%, 720px)';
     }
@@ -377,7 +383,43 @@
 
     container.appendChild(quoteRow);
     container.appendChild(attribution);
-    
+
+    // Subtle quick unlock link
+    const quick = document.createElement('div');
+    quick.style.cssText = `
+      margin-top: 8px;
+      font-size: 11px;
+      color: ${subTextColor};
+      opacity: 0.35;
+    `;
+    const link = document.createElement('a');
+    link.href = '#';
+    link.textContent = 'Allow briefly (5 min)';
+    link.style.cssText = `color: ${accent}; text-decoration: none; cursor: pointer; opacity: 0.55;`;
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const siteId = getCurrentSite();
+      if (!siteId) return;
+      try {
+        chrome.runtime.sendMessage({ action: 'scheduleSiteLock', siteId: siteId, minutes: 5 });
+      } catch (_) {}
+      // Immediate local disable
+      try {
+        currentSettings.sites = currentSettings.sites || {};
+        currentSettings.sites[siteId] = { enabled: false };
+      } catch (_) {}
+      removeQuoteContainer();
+      const styleEl = document.getElementById('nfe-styles');
+      if (styleEl) styleEl.remove();
+      document.documentElement.setAttribute('data-nfe-enabled', 'false');
+    });
+    quick.appendChild(link);
+    container.appendChild(quick);
+
+    // Hover reveal
+    container.addEventListener('mouseenter', () => { quick.style.opacity = '0.65'; });
+    container.addEventListener('mouseleave', () => { quick.style.opacity = '0.35'; });
+
     return container;
   }
 

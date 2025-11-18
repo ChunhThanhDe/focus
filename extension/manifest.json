@@ -50,7 +50,8 @@
     "https://shopee.com/*"
   ],
   "permissions": [
-    "storage"
+    "storage",
+    "alarms"
   ],
   "content_security_policy": {
     "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'; worker-src 'self'; base-uri 'none'; connect-src 'self' https://pluto-510516922464.asia-south1.run.app https://images.unsplash.com https://api.open-meteo.com https://geocoding-api.open-meteo.com https://api.github.com https://raw.githubusercontent.com https://fonts.gstatic.com; img-src 'self' data: blob: https://images.unsplash.com https://raw.githubusercontent.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com"

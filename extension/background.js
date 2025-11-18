@@ -123,11 +123,40 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         sendResponse({ success: true });
       });
       return true; // Keep message channel open for async response
+    
+    case 'scheduleSiteLock': {
+      const siteId = request.siteId;
+      const minutes = Number(request.minutes || 0);
+      loadSettings().then((settings) => {
+        settings.sites = settings.sites || {};
+        settings.sites[siteId] = { enabled: false };
+        saveSettings(settings).then(() => {
+          if (minutes > 0) {
+            chrome.alarms.create(`lock:${siteId}`, { delayInMinutes: Math.max(0.1, minutes) });
+          }
+          sendResponse({ success: true });
+        });
+      });
+      return true; // Keep message channel open for async response
+    }
       
     default:
       console.log('Unknown action:', request.action);
       sendResponse({ error: 'Unknown action' });
   }
+});
+
+// Re-lock site when alarm fires
+chrome.alarms.onAlarm.addListener((alarm) => {
+  if (!alarm || !alarm.name || !alarm.name.startsWith('lock:')) return;
+  const siteId = alarm.name.replace('lock:', '');
+  loadSettings().then((settings) => {
+    settings.sites = settings.sites || {};
+    const site = settings.sites[siteId] || { enabled: true };
+    site.enabled = true;
+    settings.sites[siteId] = site;
+    saveSettings(settings);
+  });
 });
 
 // Initialize extension
