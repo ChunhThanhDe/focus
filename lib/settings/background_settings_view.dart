@@ -55,19 +55,47 @@ class BackgroundSettingsView extends StatelessWidget {
               },
             ),
             const SizedBox(height: 16),
-            LabeledObserver(
-              label: 'settings.background.autoRefresh'.tr(),
-              builder: (context) {
-                return CustomDropdown<BackgroundRefreshRate>(
-                  value: store.backgroundRefreshRate,
-                  hint: 'settings.background.selectDuration'.tr(),
-                  isExpanded: true,
-                  items: BackgroundRefreshRate.values,
-                  itemBuilder: (context, item) => Text(item.label),
-                  onSelected: (value) => store.setImageRefreshRate(value),
-                );
-              },
-            ),
+            if (!store.mode.isTodo)
+              LabeledObserver(
+                label: 'settings.background.autoRefresh'.tr(),
+                builder: (context) {
+                  return CustomDropdown<BackgroundRefreshRate>(
+                    value: store.backgroundRefreshRate,
+                    hint: 'settings.background.selectDuration'.tr(),
+                    isExpanded: true,
+                    items: BackgroundRefreshRate.values,
+                    itemBuilder: (context, item) => Text(item.label),
+                    onSelected: (value) => store.setImageRefreshRate(value),
+                  );
+                },
+              ),
+            if (store.mode.isTodo)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  CustomObserver(
+                    name: 'Todo 24h Toggle',
+                    builder: (context) {
+                      return CustomSwitch(
+                        label: 'Use 24h Time Format',
+                        value: store.use24HourTodo,
+                        onChanged: (value) => store.setTodo24hFormat(value),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  CustomObserver(
+                    name: 'Todo Dark Mode Toggle',
+                    builder: (context) {
+                      return CustomSwitch(
+                        label: 'Todo Dark Mode',
+                        value: store.todoDarkMode,
+                        onChanged: (value) => store.setTodoDarkMode(value),
+                      );
+                    },
+                  ),
+                ],
+              ),
             const SizedBox(height: 16),
             LabeledObserver(
               label: 'settings.background.tint'.tr(),
@@ -120,7 +148,7 @@ class _BackgroundOptions extends StatelessWidget {
         CustomObserver(
           name: 'Change Background',
           builder: (context) {
-            if (store.mode.isImage) return const SizedBox.shrink();
+            if (store.mode.isImage || store.mode.isTodo) return const SizedBox.shrink();
 
             return Row(
               mainAxisSize: MainAxisSize.min,

@@ -212,6 +212,8 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
       _todoTasks = ObservableList.of(items.map((e) => TodoTask.fromJson((e as Map).cast<String, dynamic>())).toList());
       final int? ts = todoData['reminderAt'] as int?;
       _todoReminderAt = ts != null && ts > 0 ? DateTime.fromMillisecondsSinceEpoch(ts) : null;
+      _use24HourTodo = (todoData['use24HourTodo'] as bool?) ?? true;
+      _todoDarkMode = (todoData['todoDarkMode'] as bool?) ?? false;
     }
 
     // load image last updated time
@@ -575,6 +577,10 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
 
   @readonly
   DateTime? _todoReminderAt;
+  @readonly
+  bool _use24HourTodo = true;
+  @readonly
+  bool _todoDarkMode = false;
 
   @action
   void addTodo(String text) {
@@ -630,6 +636,12 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
   @action
   void clearCompletedTodos() {
     _todoTasks.removeWhere((e) => e.completed);
+    _saveTodo();
+  }
+
+  @action
+  void clearAllTodos() {
+    _todoTasks.clear();
     _saveTodo();
   }
 
@@ -722,8 +734,22 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
     final Map<String, dynamic> data = {
       'tasks': _todoTasks.map((e) => e.toJson()).toList(),
       'reminderAt': _todoReminderAt?.millisecondsSinceEpoch,
+      'use24HourTodo': _use24HourTodo,
+      'todoDarkMode': _todoDarkMode,
     };
     await storage.setJson(StorageKeys.todoSettings, data);
+  }
+
+  @action
+  void setTodo24hFormat(bool value) {
+    _use24HourTodo = value;
+    _saveTodo();
+  }
+
+  @action
+  void setTodoDarkMode(bool value) {
+    _todoDarkMode = value;
+    _saveTodo();
   }
 
   /// This retrieves the original url for unsplash image as Unsplash source API
