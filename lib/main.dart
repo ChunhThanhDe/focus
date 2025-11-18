@@ -98,6 +98,23 @@ ThemeData buildTheme(BuildContext context) {
     hoverColor: Colors.amber.withOpacity(0.05), // Subtle hover effect
     focusColor: Colors.amber.withOpacity(0.1), // Focus effect
     splashFactory: InkRipple.splashFactory,
+    switchTheme: SwitchThemeData(
+      thumbColor: MaterialStateProperty.resolveWith(
+        (states) => states.contains(MaterialState.selected)
+            ? Colors.amber
+            : Colors.white70,
+      ),
+      trackColor: MaterialStateProperty.resolveWith(
+        (states) => states.contains(MaterialState.selected)
+            ? Colors.amber.withOpacity(0.6)
+            : Colors.white24,
+      ),
+      trackOutlineColor: MaterialStateProperty.resolveWith(
+        (states) => states.contains(MaterialState.selected)
+            ? Colors.amber.withOpacity(0.8)
+            : Colors.white30,
+      ),
+    ),
     scrollbarTheme: ScrollbarThemeData(
       thickness: WidgetStateProperty.all(4),
       thumbVisibility: WidgetStateProperty.all(true),
