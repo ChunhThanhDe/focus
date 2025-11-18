@@ -20,17 +20,22 @@ class About extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SizedBox(height: 16),
-        const Center(child: FocusLogo(size: 180, animate: false)),
-        const SizedBox(height: 16),
-        Text('Focus'.toUpperCase(), textAlign: TextAlign.center, style: Theme.of(context).textTheme.titleLarge),
-        const SizedBox(height: 12),
+        const Center(child: FocusLogo(size: 160, animate: false)),
+        const SizedBox(height: 15),
+        Text(
+          'Focus To Your Target'.toUpperCase(),
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+        const SizedBox(height: 11),
         Text(
           'v${packageInfo.version}'.toUpperCase(),
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 16,
             letterSpacing: 2,
-            fontFamily: FontFamilies.systemUI,
             fontWeight: FontWeight.w400,
             color: Colors.white.withValues(alpha: 0.65),
           ),
@@ -104,6 +109,7 @@ class About extends StatelessWidget {
               height: 1,
               fontSize: 18,
               fontFamily: FontFamilies.systemUI,
+              fontWeight: FontWeight.w800,
               letterSpacing: 2,
             ),
           ),
@@ -114,10 +120,10 @@ class About extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GestureDetectorWithCursor(
-              onTap: () => launchUrl(Uri.parse('https://twitter.com/ChunhThanhDe')),
+              onTap: () => launchUrl(Uri.parse('https://www.youtube.com/@CHUNGCINE?sub_confirmation=1')),
               child: SizedBox.square(
-                dimension: 32,
-                child: Image.asset('assets/images/ic_twitter.png'),
+                dimension: 34,
+                child: Image.asset('assets/images/ic_youtube.png'),
               ),
             ),
             const SizedBox(width: 16),
@@ -135,8 +141,8 @@ class About extends StatelessWidget {
             GestureDetectorWithCursor(
               onTap: () => launchUrl(Uri.parse('https://chunhthanhde.github.io')),
               child: SizedBox.square(
-                dimension: 34,
-                child: Image.asset('assets/images/ic_globe.png'),
+                dimension: 32,
+                child: Image.asset('assets/images/ic_website.png'),
               ),
             ),
           ],

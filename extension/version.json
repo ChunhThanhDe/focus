@@ -1,1 +1,6 @@
-{"app_name":"focus","version":"0.7.0","build_number":"20","package_name":"focus"}
+{
+  "app_name": "Focus to your Target",
+  "version": "1.0.7",
+  "build_number": "",
+  "package_name": "focus"
+}
