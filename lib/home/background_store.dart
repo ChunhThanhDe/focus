@@ -7,6 +7,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:math' hide log;
+import 'dart:js_util' as js_util;
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
@@ -34,6 +35,36 @@ import 'model/color_gradient.dart';
 import 'model/flat_color.dart';
 
 part 'background_store.g.dart';
+
+class TodoTask {
+  final String id;
+  final String text;
+  final bool completed;
+
+  const TodoTask({required this.id, required this.text, this.completed = false});
+
+  TodoTask copyWith({String? id, String? text, bool? completed}) {
+    return TodoTask(
+      id: id ?? this.id,
+      text: text ?? this.text,
+      completed: completed ?? this.completed,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'text': text,
+    'completed': completed,
+  };
+
+  static TodoTask fromJson(Map<String, dynamic> json) {
+    return TodoTask(
+      id: json['id'] ?? '',
+      text: json['text'] ?? '',
+      completed: json['completed'] ?? false,
+    );
+  }
+}
 
 /// Version of the settings. This is exported with settings and used to
 /// determine if the settings are compatible with the current version of the
@@ -141,6 +172,9 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
   @computed
   bool get isImageMode => _mode.isImage;
 
+  @computed
+  bool get isTodoMode => _mode.isTodo;
+
   /// Latest background change time.
   late DateTime backgroundLastUpdated;
 
@@ -167,6 +201,14 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
     _backgroundRefreshRate = settings.imageRefreshRate;
     _imageResolution = settings.imageResolution;
     _customSources = ObservableList.of(settings.customSources);
+
+    final todoData = await storage.getJson(StorageKeys.todoSettings);
+    if (todoData != null) {
+      final List<dynamic> items = (todoData['tasks'] as List?) ?? [];
+      _todoTasks = ObservableList.of(items.map((e) => TodoTask.fromJson((e as Map).cast<String, dynamic>())).toList());
+      final int? ts = todoData['reminderAt'] as int?;
+      _todoReminderAt = ts != null && ts > 0 ? DateTime.fromMillisecondsSinceEpoch(ts) : null;
+    }
 
     // load image last updated time
     _imageIndex = await storage.getInt(StorageKeys.imageIndex) ?? 0;
@@ -223,6 +265,8 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
           _image2Time = DateTime.now();
           storage.setInt('image2Time', _image2Time.millisecondsSinceEpoch);
         }
+        break;
+      case BackgroundMode.todo:
         break;
     }
   }
@@ -399,6 +443,8 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
           });
         }
         break;
+      case BackgroundMode.todo:
+        break;
     }
   }
 
@@ -503,7 +549,7 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
   /// Retrieves the foreground color based on the current settings.
   @computed
   Color get foregroundColor {
-    if (_mode.isColor) return _color.foreground;
+    if (_mode.isColor || _mode.isTodo) return _color.foreground;
     if (_mode.isGradient) return _gradient.foreground;
     // Return black(inverted) foreground color for image mode when
     // invert is true.
@@ -518,6 +564,80 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
     if (!_mode.isImage) return null;
     final image = _imageIndex == 0 ? _image1 : _image2;
     return image;
+  }
+
+  @readonly
+  ObservableList<TodoTask> _todoTasks = ObservableList.of([]);
+
+  @readonly
+  DateTime? _todoReminderAt;
+
+  @action
+  void addTodo(String text) {
+    final t = text.trim();
+    if (t.isEmpty) return;
+    final item = TodoTask(id: DateTime.now().millisecondsSinceEpoch.toString(), text: t);
+    _todoTasks.insert(0, item);
+    _saveTodo();
+  }
+
+  @action
+  void toggleTodo(String id, bool completed) {
+    final int index = _todoTasks.indexWhere((e) => e.id == id);
+    if (index < 0) return;
+    _todoTasks[index] = _todoTasks[index].copyWith(completed: completed);
+    _saveTodo();
+  }
+
+  @action
+  void removeTodo(String id) {
+    _todoTasks.removeWhere((e) => e.id == id);
+    _saveTodo();
+  }
+
+  @action
+  void scheduleTodoReminderMinutes(int minutes) {
+    final int m = minutes < 1 ? 1 : minutes;
+    _todoReminderAt = DateTime.now().add(Duration(minutes: m));
+    _saveTodo();
+    _notifyScheduleTodoReminder(m);
+  }
+
+  @action
+  void updateTodoText(String id, String text) {
+    final int index = _todoTasks.indexWhere((e) => e.id == id);
+    if (index < 0) return;
+    final t = text.trim();
+    if (t.isEmpty) {
+      _todoTasks.removeAt(index);
+    } else {
+      _todoTasks[index] = _todoTasks[index].copyWith(text: t);
+    }
+    _saveTodo();
+  }
+
+  void _notifyScheduleTodoReminder(int minutes) {
+    try {
+      if (!kIsWeb) return;
+      final chrome = js_util.getProperty(js_util.globalThis, 'chrome');
+      if (chrome == null) return;
+      final runtime = js_util.getProperty(chrome, 'runtime');
+      final String title = _todoTasks.firstWhereOrNull((e) => !e.completed)?.text ?? 'Todo Reminder';
+      final message = {
+        'action': 'todoScheduleReminder',
+        'minutes': minutes,
+        'title': title,
+      };
+      js_util.callMethod(runtime, 'sendMessage', [js_util.jsify(message)]);
+    } catch (_) {}
+  }
+
+  Future<void> _saveTodo() async {
+    final Map<String, dynamic> data = {
+      'tasks': _todoTasks.map((e) => e.toJson()).toList(),
+      'reminderAt': _todoReminderAt?.millisecondsSinceEpoch,
+    };
+    await storage.setJson(StorageKeys.todoSettings, data);
   }
 
   /// This retrieves the original url for unsplash image as Unsplash source API

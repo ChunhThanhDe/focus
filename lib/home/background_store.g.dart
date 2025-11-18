@@ -45,6 +45,15 @@ mixin _$BackgroundStore on _BackgroundStore, Store {
             name: '_BackgroundStore.isImageMode',
           ))
           .value;
+  Computed<bool>? _$isTodoModeComputed;
+
+  @override
+  bool get isTodoMode =>
+      (_$isTodoModeComputed ??= Computed<bool>(
+            () => super.isTodoMode,
+            name: '_BackgroundStore.isTodoMode',
+          ))
+          .value;
   Computed<Color>? _$foregroundColorComputed;
 
   @override
@@ -179,8 +188,7 @@ mixin _$BackgroundStore on _BackgroundStore, Store {
   }
 
   @override
-  ObservableMap<String, LikedBackground> get _likedBackgrounds =>
-      likedBackgrounds;
+  ObservableMap<String, LikedBackground> get _likedBackgrounds => likedBackgrounds;
 
   @override
   set _likedBackgrounds(ObservableMap<String, LikedBackground> value) {
@@ -493,6 +501,46 @@ mixin _$BackgroundStore on _BackgroundStore, Store {
     });
   }
 
+  late final _$_todoTasksAtom = Atom(
+    name: '_BackgroundStore._todoTasks',
+    context: context,
+  );
+
+  ObservableList<TodoTask> get todoTasks {
+    _$_todoTasksAtom.reportRead();
+    return super._todoTasks;
+  }
+
+  @override
+  ObservableList<TodoTask> get _todoTasks => todoTasks;
+
+  @override
+  set _todoTasks(ObservableList<TodoTask> value) {
+    _$_todoTasksAtom.reportWrite(value, super._todoTasks, () {
+      super._todoTasks = value;
+    });
+  }
+
+  late final _$_todoReminderAtAtom = Atom(
+    name: '_BackgroundStore._todoReminderAt',
+    context: context,
+  );
+
+  DateTime? get todoReminderAt {
+    _$_todoReminderAtAtom.reportRead();
+    return super._todoReminderAt;
+  }
+
+  @override
+  DateTime? get _todoReminderAt => todoReminderAt;
+
+  @override
+  set _todoReminderAt(DateTime? value) {
+    _$_todoReminderAtAtom.reportWrite(value, super._todoReminderAt, () {
+      super._todoReminderAt = value;
+    });
+  }
+
   late final _$initializeImagesAsyncAction = AsyncAction(
     '_BackgroundStore.initializeImages',
     context: context,
@@ -733,6 +781,54 @@ mixin _$BackgroundStore on _BackgroundStore, Store {
   }
 
   @override
+  void addTodo(String text) {
+    final _$actionInfo = _$_BackgroundStoreActionController.startAction(
+      name: '_BackgroundStore.addTodo',
+    );
+    try {
+      return super.addTodo(text);
+    } finally {
+      _$_BackgroundStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void toggleTodo(String id, bool completed) {
+    final _$actionInfo = _$_BackgroundStoreActionController.startAction(
+      name: '_BackgroundStore.toggleTodo',
+    );
+    try {
+      return super.toggleTodo(id, completed);
+    } finally {
+      _$_BackgroundStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void removeTodo(String id) {
+    final _$actionInfo = _$_BackgroundStoreActionController.startAction(
+      name: '_BackgroundStore.removeTodo',
+    );
+    try {
+      return super.removeTodo(id);
+    } finally {
+      _$_BackgroundStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void scheduleTodoReminderMinutes(int minutes) {
+    final _$actionInfo = _$_BackgroundStoreActionController.startAction(
+      name: '_BackgroundStore.scheduleTodoReminderMinutes',
+    );
+    try {
+      return super.scheduleTodoReminderMinutes(minutes);
+    } finally {
+      _$_BackgroundStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void addNewCollection(UnsplashSource source, {bool setAsCurrent = false}) {
     final _$actionInfo = _$_BackgroundStoreActionController.startAction(
       name: '_BackgroundStore.addNewCollection',
@@ -763,6 +859,7 @@ isLiked: ${isLiked},
 isColorMode: ${isColorMode},
 isGradientMode: ${isGradientMode},
 isImageMode: ${isImageMode},
+isTodoMode: ${isTodoMode},
 foregroundColor: ${foregroundColor},
 currentImage: ${currentImage}
     ''';

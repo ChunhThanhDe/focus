@@ -139,6 +139,15 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       });
       return true; // Keep message channel open for async response
     }
+    case 'todoScheduleReminder': {
+      const minutes = Number(request.minutes || 0);
+      const title = String(request.title || 'Todo Reminder');
+      chrome.storage.local.set({ todoReminderTitle: title }).then(() => {
+        chrome.alarms.create('todo:reminder', { delayInMinutes: Math.max(0.1, minutes) });
+        sendResponse({ success: true });
+      });
+      return true;
+    }
       
     default:
       console.log('Unknown action:', request.action);
@@ -156,6 +165,23 @@ chrome.alarms.onAlarm.addListener((alarm) => {
     site.enabled = true;
     settings.sites[siteId] = site;
     saveSettings(settings);
+  });
+});
+
+chrome.alarms.onAlarm.addListener((alarm) => {
+  if (!alarm || !alarm.name || alarm.name !== 'todo:reminder') return;
+  chrome.storage.local.get('todoReminderTitle').then((result) => {
+    const title = result.todoReminderTitle || 'Todo Reminder';
+    try {
+      chrome.notifications.create({
+        type: 'basic',
+        iconUrl: 'icons/128.png',
+        title: title,
+        message: 'It\'s time to do your task.'
+      });
+    } catch (error) {
+      console.error('Failed to create notification', error);
+    }
   });
 });
 

@@ -100,19 +100,13 @@ ThemeData buildTheme(BuildContext context) {
     splashFactory: InkRipple.splashFactory,
     switchTheme: SwitchThemeData(
       thumbColor: MaterialStateProperty.resolveWith(
-        (states) => states.contains(MaterialState.selected)
-            ? Colors.amber
-            : Colors.white70,
+        (states) => states.contains(MaterialState.selected) ? Colors.amber : Colors.white70,
       ),
       trackColor: MaterialStateProperty.resolveWith(
-        (states) => states.contains(MaterialState.selected)
-            ? Colors.amber.withOpacity(0.6)
-            : Colors.white24,
+        (states) => states.contains(MaterialState.selected) ? Colors.amber.withOpacity(0.6) : Colors.white24,
       ),
       trackOutlineColor: MaterialStateProperty.resolveWith(
-        (states) => states.contains(MaterialState.selected)
-            ? Colors.amber.withOpacity(0.8)
-            : Colors.white30,
+        (states) => states.contains(MaterialState.selected) ? Colors.amber.withOpacity(0.8) : Colors.white30,
       ),
     ),
     scrollbarTheme: ScrollbarThemeData(
