@@ -11,7 +11,7 @@ dependencies:
   shelf: ^1.4.2
   shelf_router: ^1.1.4
   http: ^1.2.2
-  unsplash_client: ^2.2.0
+  unsplash_client: ^3.0.0
   equatable: ^2.0.7
   json_annotation: ^4.9.0
   shared:

@@ -15,7 +15,7 @@ import 'package:unsplash_client/unsplash_client.dart';
 import 'backend_service.dart';
 
 // Backup server URL (Cloud Run Asia region)
-const String cloudRunUrl = 'https://pluto-510516922464.asia-south1.run.app';
+const String cloudRunUrl = 'https://focus-server-471257737108.asia-south1.run.app';
 
 // Class implementing backend as RESTful API
 class RestBackendService extends BackendService {
