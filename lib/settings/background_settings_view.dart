@@ -637,7 +637,7 @@ class _ColorSelector extends StatelessWidget {
     return CustomObserver(
       name: 'ColorSelector',
       builder: (context) {
-        if (!store.isColorMode) return const SizedBox.shrink();
+        if (!store.isColorMode && !store.mode.isTodo) return const SizedBox.shrink();
         return CustomDropdown<FlatColor>(
           value: store.color,
           label: 'settings.background.color'.tr(),

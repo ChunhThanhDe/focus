@@ -2,6 +2,13 @@
   "flat": [
     {
       "background": [
+        "#FFC107"
+      ],
+      "foreground": "#fff",
+      "name": "Focus Theme"
+    },
+    {
+      "background": [
         "#ffffff"
       ],
       "foreground": "#111",

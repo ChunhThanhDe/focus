@@ -22,10 +22,10 @@ import 'flat_color.dart';
 part 'background_settings.g.dart';
 
 enum BackgroundMode {
+  todo('Todo'),
   color('Color'),
   gradient('Gradient'),
-  image('Image'),
-  todo('Todo');
+  image('Image');
 
   const BackgroundMode(this.label);
 
