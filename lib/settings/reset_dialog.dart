@@ -43,19 +43,14 @@ class ResetDialog extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Reset to default settings?',
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                        Text(
+                          'settings.dialog.reset.title'.tr(),
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith(color: AppColors.textColor, fontWeight: FontWeight.w600),
                         ),
                         const SizedBox(height: 6),
-                        const Text(
-                          'Are you sure you want to reset all settings to default? This cannot be reversed.',
-                          style: TextStyle(
-                            fontSize: 14,
-                            height: 1.4,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.grey,
-                          ),
+                        Text(
+                          'settings.dialog.reset.description'.tr(),
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.textColor.withValues(alpha: 0.7), height: 1.4),
                         ),
                         const SizedBox(height: 16),
                         Container(
@@ -64,14 +59,14 @@ class ResetDialog extends StatelessWidget {
                             borderRadius: BorderRadius.circular(4),
                             color: Colors.red.withValues(alpha: 0.1),
                           ),
-                          child: const Row(
+                          child: Row(
                             children: [
-                              Icon(Icons.info_outline_rounded, color: Colors.red, size: 16),
-                              SizedBox(width: 8),
+                              const Icon(Icons.info_outline_rounded, color: Colors.red, size: 16),
+                              const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
-                                  'Note that this will also clear your liked photos!',
-                                  style: TextStyle(color: Colors.red, fontWeight: FontWeight.w400),
+                                  'settings.dialog.reset.note'.tr(),
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.red),
                                 ),
                               ),
                             ],
@@ -84,7 +79,7 @@ class ResetDialog extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            const Divider(height: 1),
+            Divider(height: 1, color: AppColors.borderColor),
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),

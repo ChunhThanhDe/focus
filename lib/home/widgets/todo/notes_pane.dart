@@ -1,8 +1,15 @@
+/*
+ * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
+ * @ Created: 2025-11-19 20:30:51
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ */
+
 import 'dart:async';
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart' hide TextInput;
 import 'package:get_it/get_it.dart';
 
@@ -47,10 +54,10 @@ class NotesPaneState extends State<NotesPane> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.black.withOpacity(0.06),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(18),
         border: Border.all(color: widget.color.withOpacity(0.15)),
       ),
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -59,7 +66,7 @@ class NotesPaneState extends State<NotesPane> {
               SizedBox(width: 4),
               Expanded(
                 child: Text(
-                  'Notes',
+                  'todo.notes'.tr(),
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: widget.color, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -67,12 +74,12 @@ class NotesPaneState extends State<NotesPane> {
                 onPressed: () async {
                   await _saveNotes();
                 },
-                child: Text('Save', style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: widget.color.withOpacity(0.9), fontWeight: FontWeight.bold)),
+                child: Text('todo.save'.tr(), style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: widget.color.withOpacity(0.9), fontWeight: FontWeight.bold)),
               ),
               const SizedBox(width: 8),
               TextButton(
                 onPressed: () => _handlePaste(),
-                child: Text('Paste', style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: widget.color.withOpacity(0.9), fontWeight: FontWeight.bold)),
+                child: Text('todo.paste'.tr(), style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: widget.color.withOpacity(0.9), fontWeight: FontWeight.bold)),
               ),
               const SizedBox(width: 8),
               TextButton(
@@ -80,7 +87,7 @@ class NotesPaneState extends State<NotesPane> {
                   _noteController.clear();
                   setState(() {});
                 },
-                child: Text('Clear', style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: widget.color.withOpacity(0.9), fontWeight: FontWeight.bold)),
+                child: Text('todo.clear'.tr(), style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: widget.color.withOpacity(0.9), fontWeight: FontWeight.bold)),
               ),
               SizedBox(width: 4),
             ],
@@ -99,7 +106,7 @@ class NotesPaneState extends State<NotesPane> {
                     minLines: 24,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color),
                     decoration: InputDecoration(
-                      hintText: 'Write or paste…',
+                      hintText: 'todo.writeOrPaste'.tr(),
                       hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color.withOpacity(0.5)),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       filled: true,

@@ -26,6 +26,7 @@ import '../resources/flat_colors.dart';
 import '../resources/unsplash_sources.dart';
 import '../utils/custom_observer.dart';
 import '../utils/extensions.dart';
+import '../utils/enum_extensions.dart';
 import 'new_collection_dialog.dart';
 
 class BackgroundSettingsView extends StatelessWidget {
@@ -64,7 +65,7 @@ class BackgroundSettingsView extends StatelessWidget {
                     hint: 'settings.background.selectDuration'.tr(),
                     isExpanded: true,
                     items: BackgroundRefreshRate.values,
-                    itemBuilder: (context, item) => Text(item.label),
+                    itemBuilder: (context, item) => Text(item.localizedLabel),
                     onSelected: (value) => store.setImageRefreshRate(value),
                   );
                 },
@@ -77,7 +78,7 @@ class BackgroundSettingsView extends StatelessWidget {
                     name: 'Todo 24h Toggle',
                     builder: (context) {
                       return CustomSwitch(
-                        label: 'Use 24h Time Format',
+                        label: 'settings.todo.use24h'.tr(),
                         value: store.use24HourTodo,
                         onChanged: (value) => store.setTodo24hFormat(value),
                       );
@@ -88,7 +89,7 @@ class BackgroundSettingsView extends StatelessWidget {
                     name: 'Todo Dark Mode Toggle',
                     builder: (context) {
                       return CustomSwitch(
-                        label: 'Todo Dark Mode',
+                        label: 'settings.todo.darkMode'.tr(),
                         value: store.todoDarkMode,
                         onChanged: (value) => store.setTodoDarkMode(value),
                       );
@@ -424,7 +425,7 @@ class _ImageSourceSelectorState extends State<_ImageSourceSelector> {
               items: ImageSource.values.where((source) => source != ImageSource.local).toList(),
               itemBuilder:
                   (context, item) => Text(
-                    item.label,
+                    item.localizedLabel,
                     style: TextStyle(
                       color: item == ImageSource.userLikes && store.likedBackgrounds.isEmpty ? Colors.grey.shade400 : null,
                     ),

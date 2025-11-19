@@ -6,6 +6,7 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import '../home/model/widget_settings.dart' as ws;
+import '../home/model/background_settings.dart' as bs;
 
 /// Extensions to provide localized labels for enums
 extension WidgetTypeExtension on ws.WidgetType {
@@ -144,5 +145,43 @@ extension TemperatureUnitExtension on ws.TemperatureUnit {
 extension TimerFormatExtension on ws.TimerFormat {
   String get localizedLabel {
     return label; // TimerFormat already has localized labels
+  }
+}
+
+extension BackgroundRefreshRateExtension on bs.BackgroundRefreshRate {
+  String get localizedLabel {
+    switch (this) {
+      case bs.BackgroundRefreshRate.never:
+        return 'enums.backgroundRefreshRate.never'.tr();
+      case bs.BackgroundRefreshRate.newTab:
+        return 'enums.backgroundRefreshRate.newTab'.tr();
+      case bs.BackgroundRefreshRate.minute:
+        return 'enums.backgroundRefreshRate.minute'.tr();
+      case bs.BackgroundRefreshRate.fiveMinute:
+        return 'enums.backgroundRefreshRate.fiveMinute'.tr();
+      case bs.BackgroundRefreshRate.fifteenMinute:
+        return 'enums.backgroundRefreshRate.fifteenMinute'.tr();
+      case bs.BackgroundRefreshRate.thirtyMinute:
+        return 'enums.backgroundRefreshRate.thirtyMinute'.tr();
+      case bs.BackgroundRefreshRate.hour:
+        return 'enums.backgroundRefreshRate.hour'.tr();
+      case bs.BackgroundRefreshRate.daily:
+        return 'enums.backgroundRefreshRate.daily'.tr();
+      case bs.BackgroundRefreshRate.weekly:
+        return 'enums.backgroundRefreshRate.weekly'.tr();
+    }
+  }
+}
+
+extension ImageSourceExtension on bs.ImageSource {
+  String get localizedLabel {
+    switch (this) {
+      case bs.ImageSource.unsplash:
+        return 'enums.imageSource.unsplash'.tr();
+      case bs.ImageSource.local:
+        return 'enums.imageSource.local'.tr();
+      case bs.ImageSource.userLikes:
+        return 'enums.imageSource.userLikes'.tr();
+    }
   }
 }

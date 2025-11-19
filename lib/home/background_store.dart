@@ -1002,6 +1002,11 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
       _image1 = null;
       _image2 = null;
     }
+    _todoTasks = ObservableList.of([]);
+    _todoReminderAt = null;
+    _use24HourTodo = true;
+    _todoDarkMode = false;
+    await _saveTodo();
     _initialized = false;
     initializationFuture = init();
     await initializationFuture;

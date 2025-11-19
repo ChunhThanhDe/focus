@@ -28,6 +28,7 @@ void main() async {
       supportedLocales: const [Locale('en'), Locale('vi')],
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
+      saveLocale: true,
       child: const MyApp(),
     ),
   );

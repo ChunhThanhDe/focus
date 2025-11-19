@@ -215,6 +215,8 @@ class MenuButton extends StatelessWidget {
     );
     homeStore.reset();
     backgroundStore.reset();
+    backgroundStore.setTodo24hFormat(true);
+    backgroundStore.setTodoDarkMode(false);
     widgetStore.reset();
   }
 

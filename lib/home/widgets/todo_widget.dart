@@ -1,9 +1,12 @@
+/*
+ * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
+ * @ Created: 2025-11-19 20:30:51
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ */
+
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
-
-// ignore: avoid_web_libraries_in_flutter
-
-
 import '../../utils/custom_observer.dart';
 import '../background_store.dart';
 import 'todo/notes_pane.dart';
@@ -73,7 +76,7 @@ class _TodoWidgetState extends State<TodoWidget> {
                                       },
                                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: color),
                                       decoration: InputDecoration(
-                                        hintText: 'Add a task',
+                                        hintText: 'todo.addTask'.tr(),
                                         hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(color: color.withOpacity(0.5)),
                                         contentPadding: const EdgeInsets.symmetric(
                                           horizontal: 12,
@@ -127,7 +130,7 @@ class _TodoWidgetState extends State<TodoWidget> {
                                   TextButton(
                                     onPressed: () => setState(() => _showCompleted = !_showCompleted),
                                     child: Text(
-                                      _showCompleted ? 'Show active' : 'Show completed',
+                                      _showCompleted ? 'todo.showActive'.tr() : 'todo.showCompleted'.tr(),
                                       style: TextStyle(color: color.withOpacity(0.9)),
                                     ),
                                   ),
@@ -137,11 +140,11 @@ class _TodoWidgetState extends State<TodoWidget> {
                                       store.clearAllTodos();
                                     },
                                     child: Text(
-                                      'Clear all tasks',
+                                      'todo.clearAllTasks'.tr(),
                                       style: TextStyle(color: color.withOpacity(0.9)),
                                     ),
                                   ),
-                                  const SizedBox(width: 8),
+
                                   CustomObserver(
                                     name: 'TodoCompletedCount',
                                     builder: (context) {
@@ -190,7 +193,7 @@ class _TodoWidgetState extends State<TodoWidget> {
                                                 type: MaterialType.transparency,
                                                 child: Container(
                                                   width: 600,
-                                                  padding: const EdgeInsets.symmetric(vertical: 8),
+                                                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
                                                   child: Row(
                                                     children: [
                                                       Expanded(
@@ -212,7 +215,9 @@ class _TodoWidgetState extends State<TodoWidget> {
                                                           ),
                                                           child: Center(
                                                             child: Text(
-                                                              (item.remindTime ?? '').isNotEmpty ? item.remindTime! : 'HH:MM',
+                                                              (item.remindTime ?? '').isNotEmpty
+                                                                  ? item.remindTime!
+                                                                  : (context.read<BackgroundStore>().use24HourTodo ? 'todo.timeHint24'.tr() : 'todo.timeHint12'.tr()),
                                                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: color.withOpacity(0.8)),
                                                               textAlign: TextAlign.center,
                                                             ),
@@ -227,7 +232,14 @@ class _TodoWidgetState extends State<TodoWidget> {
                                               ),
                                               childWhenDragging: Opacity(
                                                 opacity: 0.4,
-                                                child: TodoRow(key: ValueKey('${item.id}-drag'), id: item.id, text: item.text, completed: item.completed, color: color, startEditing: false),
+                                                child: TodoRow(
+                                                  key: ValueKey('${item.id}-drag'),
+                                                  id: item.id,
+                                                  text: item.text,
+                                                  completed: item.completed,
+                                                  color: color,
+                                                  startEditing: false,
+                                                ),
                                               ),
                                               child: TodoRow(
                                                 key: ValueKey(item.id),

@@ -1,4 +1,11 @@
+/*
+ * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
+ * @ Created: 2025-11-19 20:30:51
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ */
+
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:screwdriver/screwdriver.dart';
@@ -59,47 +66,48 @@ class TodoRowState extends State<TodoRow> {
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Container(
         decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(6)),
-        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
         child: Row(
           children: [
             const SizedBox(width: 12),
             Expanded(
-              child: editing
-                  ? TextField(
-                      controller: controller,
-                      onSubmitted: (v) {
-                        store.updateTodoText(widget.id, v);
-                        setState(() => editing = false);
-                      },
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: widget.color),
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                        filled: true,
-                        fillColor: Colors.black.withOpacity(0.06),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(color: widget.color.withOpacity(0.15)),
-                          borderRadius: BorderRadius.circular(4),
+              child:
+                  editing
+                      ? TextField(
+                        controller: controller,
+                        onSubmitted: (v) {
+                          store.updateTodoText(widget.id, v);
+                          setState(() => editing = false);
+                        },
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: widget.color),
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                          filled: true,
+                          fillColor: Colors.black.withOpacity(0.06),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(color: widget.color.withOpacity(0.15)),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: widget.color.withOpacity(0.15)),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: widget.color.withOpacity(0.4)),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
                         ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: widget.color.withOpacity(0.15)),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: widget.color.withOpacity(0.4)),
-                          borderRadius: BorderRadius.circular(4),
+                      )
+                      : GestureDetector(
+                        onDoubleTap: () => setState(() => editing = true),
+                        child: Text(
+                          task.text,
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: widget.color,
+                            decoration: task.completed ? TextDecoration.lineThrough : TextDecoration.none,
+                          ),
                         ),
                       ),
-                    )
-                  : GestureDetector(
-                      onDoubleTap: () => setState(() => editing = true),
-                      child: Text(
-                        task.text,
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: widget.color,
-                          decoration: task.completed ? TextDecoration.lineThrough : TextDecoration.none,
-                        ),
-                      ),
-                    ),
             ),
             const SizedBox(width: 12),
             Checkbox(
@@ -124,24 +132,25 @@ class TodoRowState extends State<TodoRow> {
                     child: TextInput(
                       controller: timeController,
                       inputFormatters: [MaskedInputFormatter('00:00')],
-                      hintText: use24h ? 'HH:MM' : 'hh:mm',
+                      hintText: use24h ? 'todo.timeHint24'.tr() : 'todo.timeHint12'.tr(),
                       textAlign: TextAlign.center,
                       showInitialBorder: false,
                       fillColor: ((task.remindTime ?? '').isNotEmpty) ? widget.color.withOpacity(0.12) : null,
                       textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color),
                       hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color.withOpacity(0.6)),
-                      suffix: !use24h
-                          ? GestureDetector(
-                              onTap: () => setState(() => _isAm = !_isAm),
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 6),
-                                child: Text(
-                                  _isAm ? 'AM' : 'PM',
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color.withOpacity(0.8)),
+                      suffix:
+                          !use24h
+                              ? GestureDetector(
+                                onTap: () => setState(() => _isAm = !_isAm),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 6),
+                                  child: Text(
+                                    _isAm ? 'AM' : 'PM',
+                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color.withOpacity(0.8)),
+                                  ),
                                 ),
-                              ),
-                            )
-                          : null,
+                              )
+                              : null,
                       onSubmitted: (value) async {
                         final v = value.trim();
                         final parts = v.split(':');

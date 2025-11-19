@@ -1,4 +1,11 @@
+/*
+ * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
+ * @ Created: 2025-11-19 20:30:51
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ */
+
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class LegendPane extends StatelessWidget {
   final Color color;
@@ -17,13 +24,13 @@ class LegendPane extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Guide', style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: color, fontWeight: FontWeight.bold)),
+          Text('todo.guide'.tr(), style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: color, fontWeight: FontWeight.bold)),
           const SizedBox(height: 20),
           Row(
             children: [
               Container(width: 14, height: 14, decoration: BoxDecoration(color: Colors.red.withOpacity(0.5), borderRadius: BorderRadius.circular(3))),
               const SizedBox(width: 8),
-              Expanded(child: Text('Red: due in < 10 minutes', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: color.withOpacity(0.9)))),
+              Expanded(child: Text('todo.legendRed'.tr(), style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: color.withOpacity(0.9)))),
             ],
           ),
           const SizedBox(height: 6),
@@ -31,7 +38,7 @@ class LegendPane extends StatelessWidget {
             children: [
               Container(width: 14, height: 14, decoration: BoxDecoration(color: Colors.yellow.withOpacity(0.5), borderRadius: BorderRadius.circular(3))),
               const SizedBox(width: 8),
-              Expanded(child: Text('Yellow: due in < 60 minutes', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: color.withOpacity(0.9)))),
+              Expanded(child: Text('todo.legendYellow'.tr(), style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: color.withOpacity(0.9)))),
             ],
           ),
           const SizedBox(height: 6),
@@ -39,7 +46,7 @@ class LegendPane extends StatelessWidget {
             children: [
               Container(width: 14, height: 14, decoration: BoxDecoration(color: Colors.green.withOpacity(0.5), borderRadius: BorderRadius.circular(3))),
               const SizedBox(width: 8),
-              Expanded(child: Text('Green: completed', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: color.withOpacity(0.9)))),
+              Expanded(child: Text('todo.legendGreen'.tr(), style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: color.withOpacity(0.9)))),
             ],
           ),
           const SizedBox(height: 20),
@@ -47,7 +54,7 @@ class LegendPane extends StatelessWidget {
             children: [
               Icon(Icons.keyboard_alt_rounded, size: 16, color: color.withOpacity(0.9)),
               const SizedBox(width: 8),
-              Expanded(child: Text('Ctrl+S: save notes', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: color.withOpacity(0.9)))),
+              Expanded(child: Text('todo.ctrlSaveNotes'.tr(), style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: color.withOpacity(0.9)))),
             ],
           ),
           const SizedBox(height: 6),
@@ -55,7 +62,7 @@ class LegendPane extends StatelessWidget {
             children: [
               Icon(Icons.notifications_active_outlined, size: 16, color: color.withOpacity(0.9)),
               const SizedBox(width: 8),
-              Expanded(child: Text('Notification pushes when time comes', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: color.withOpacity(0.9)))),
+              Expanded(child: Text('todo.notifyWhenTimeComes'.tr(), style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: color.withOpacity(0.9)))),
             ],
           ),
         ],
