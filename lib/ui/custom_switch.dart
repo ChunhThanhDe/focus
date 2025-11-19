@@ -39,6 +39,7 @@ class CustomSwitch extends StatelessWidget {
             Switch.adaptive(
               value: value,
               onChanged: onChanged,
+              activeColor: Theme.of(context).colorScheme.primary,
             ),
           ],
         ),

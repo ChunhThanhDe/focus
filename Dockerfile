@@ -6,6 +6,7 @@ WORKDIR /app
 
 # Copy app source code (except anything in .dockerignore) and AOT compile app.
 COPY . .
+RUN cd shared && dart pub get && dart run build_runner build --delete-conflicting-outputs
 RUN dart pub get --directory=server
 RUN dart compile exe server/bin/server.dart -o server/bin/server
 

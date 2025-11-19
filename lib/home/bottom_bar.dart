@@ -382,6 +382,7 @@ class _ChangeBackgroundButtonState extends State<ChangeBackgroundButton> with Si
       name: 'ChangeBackgroundButton',
       builder: (context) {
         if (!store.initialized) return const SizedBox.shrink();
+        if (store.mode.isTodo) return const SizedBox.shrink();
 
         final color = store.foregroundColor;
         return GestureDetectorWithCursor(

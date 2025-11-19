@@ -26,6 +26,7 @@ import '../resources/flat_colors.dart';
 import '../resources/unsplash_sources.dart';
 import '../utils/custom_observer.dart';
 import '../utils/extensions.dart';
+import '../utils/enum_extensions.dart';
 import 'new_collection_dialog.dart';
 
 class BackgroundSettingsView extends StatelessWidget {
@@ -55,19 +56,47 @@ class BackgroundSettingsView extends StatelessWidget {
               },
             ),
             const SizedBox(height: 16),
-            LabeledObserver(
-              label: 'settings.background.autoRefresh'.tr(),
-              builder: (context) {
-                return CustomDropdown<BackgroundRefreshRate>(
-                  value: store.backgroundRefreshRate,
-                  hint: 'settings.background.selectDuration'.tr(),
-                  isExpanded: true,
-                  items: BackgroundRefreshRate.values,
-                  itemBuilder: (context, item) => Text(item.label),
-                  onSelected: (value) => store.setImageRefreshRate(value),
-                );
-              },
-            ),
+            if (!store.mode.isTodo)
+              LabeledObserver(
+                label: 'settings.background.autoRefresh'.tr(),
+                builder: (context) {
+                  return CustomDropdown<BackgroundRefreshRate>(
+                    value: store.backgroundRefreshRate,
+                    hint: 'settings.background.selectDuration'.tr(),
+                    isExpanded: true,
+                    items: BackgroundRefreshRate.values,
+                    itemBuilder: (context, item) => Text(item.localizedLabel),
+                    onSelected: (value) => store.setImageRefreshRate(value),
+                  );
+                },
+              ),
+            if (store.mode.isTodo)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  CustomObserver(
+                    name: 'Todo 24h Toggle',
+                    builder: (context) {
+                      return CustomSwitch(
+                        label: 'settings.todo.use24h'.tr(),
+                        value: store.use24HourTodo,
+                        onChanged: (value) => store.setTodo24hFormat(value),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  CustomObserver(
+                    name: 'Todo Dark Mode Toggle',
+                    builder: (context) {
+                      return CustomSwitch(
+                        label: 'settings.todo.darkMode'.tr(),
+                        value: store.todoDarkMode,
+                        onChanged: (value) => store.setTodoDarkMode(value),
+                      );
+                    },
+                  ),
+                ],
+              ),
             const SizedBox(height: 16),
             LabeledObserver(
               label: 'settings.background.tint'.tr(),
@@ -120,7 +149,7 @@ class _BackgroundOptions extends StatelessWidget {
         CustomObserver(
           name: 'Change Background',
           builder: (context) {
-            if (store.mode.isImage) return const SizedBox.shrink();
+            if (store.mode.isImage || store.mode.isTodo) return const SizedBox.shrink();
 
             return Row(
               mainAxisSize: MainAxisSize.min,
@@ -275,7 +304,10 @@ class BackgroundModeSelector extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Text(
                           mode.label,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400),
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.w400,
+                            color: store.mode == mode ? Colors.black.withOpacity(0.9) : AppColors.textColor.withOpacity(0.7),
+                          ),
                         ),
                       ),
                   },
@@ -393,7 +425,7 @@ class _ImageSourceSelectorState extends State<_ImageSourceSelector> {
               items: ImageSource.values.where((source) => source != ImageSource.local).toList(),
               itemBuilder:
                   (context, item) => Text(
-                    item.label,
+                    item.localizedLabel,
                     style: TextStyle(
                       color: item == ImageSource.userLikes && store.likedBackgrounds.isEmpty ? Colors.grey.shade400 : null,
                     ),
@@ -606,7 +638,7 @@ class _ColorSelector extends StatelessWidget {
     return CustomObserver(
       name: 'ColorSelector',
       builder: (context) {
-        if (!store.isColorMode) return const SizedBox.shrink();
+        if (!store.isColorMode && !store.mode.isTodo) return const SizedBox.shrink();
         return CustomDropdown<FlatColor>(
           value: store.color,
           label: 'settings.background.color'.tr(),

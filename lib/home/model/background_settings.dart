@@ -22,6 +22,7 @@ import 'flat_color.dart';
 part 'background_settings.g.dart';
 
 enum BackgroundMode {
+  todo('Todo'),
   color('Color'),
   gradient('Gradient'),
   image('Image');
@@ -35,6 +36,8 @@ enum BackgroundMode {
   bool get isGradient => this == BackgroundMode.gradient;
 
   bool get isImage => this == BackgroundMode.image;
+
+  bool get isTodo => this == BackgroundMode.todo;
 }
 
 enum ImageSource {

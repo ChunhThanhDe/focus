@@ -11,8 +11,6 @@ import 'package:easy_localization/easy_localization.dart';
 
 import 'backend/backend_service.dart';
 import 'backend/rest_backend_service.dart';
-import 'chrome_extension/services/extension_service.dart';
-import 'chrome_extension/stores/extension_store.dart';
 import 'home/home.dart';
 import 'utils/geocoding_service.dart';
 import 'utils/storage_manager.dart';
@@ -30,6 +28,7 @@ void main() async {
       supportedLocales: const [Locale('en'), Locale('vi')],
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
+      saveLocale: true,
       child: const MyApp(),
     ),
   );
@@ -68,13 +67,6 @@ Future<void> initialize() async {
   GetIt.instance.registerSingleton<GeocodingService>(
     OpenMeteoGeocodingService(),
   );
-  
-  // Register Chrome extension services
-  final extensionService = ExtensionService();
-  GetIt.instance.registerSingleton<ExtensionService>(extensionService);
-  GetIt.instance.registerSingleton<ExtensionStore>(
-    ExtensionStore(extensionService, storage),
-  );
 
   await GetIt.instance.allReady();
   await loadPackageInfo();
@@ -107,6 +99,17 @@ ThemeData buildTheme(BuildContext context) {
     hoverColor: Colors.amber.withOpacity(0.05), // Subtle hover effect
     focusColor: Colors.amber.withOpacity(0.1), // Focus effect
     splashFactory: InkRipple.splashFactory,
+    switchTheme: SwitchThemeData(
+      thumbColor: MaterialStateProperty.resolveWith(
+        (states) => states.contains(MaterialState.selected) ? Colors.amber : Colors.white70,
+      ),
+      trackColor: MaterialStateProperty.resolveWith(
+        (states) => states.contains(MaterialState.selected) ? Colors.amber.withOpacity(0.6) : Colors.white24,
+      ),
+      trackOutlineColor: MaterialStateProperty.resolveWith(
+        (states) => states.contains(MaterialState.selected) ? Colors.amber.withOpacity(0.8) : Colors.white30,
+      ),
+    ),
     scrollbarTheme: ScrollbarThemeData(
       thickness: WidgetStateProperty.all(4),
       thumbVisibility: WidgetStateProperty.all(true),

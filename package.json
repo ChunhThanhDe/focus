@@ -8,8 +8,9 @@
     "build:flutter": "flutter build web --release --csp --no-web-resources-cdn",
     "copy:newtab": "node scripts/copy-flutter-web.js",
     "copy:icons": "node scripts/copy-icons.js",
-    "build:ext": "npm run build:flutter && npm run copy:newtab && npm run copy:icons",
-    "dev": "npm run build:flutter && npm run copy:newtab && npm run copy:icons"
+    "sync:metadata": "node scripts/sync-extension-metadata.js",
+    "build:ext": "npm run build:flutter && npm run copy:newtab && npm run sync:metadata && npm run copy:icons",
+    "dev": "npm run build:flutter && npm run copy:newtab && npm run sync:metadata && npm run copy:icons"
   },
   "devDependencies": {},
   "dependencies": {

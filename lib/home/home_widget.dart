@@ -16,6 +16,8 @@ import 'widgets/digital_date_widget.dart';
 import 'widgets/message_widget.dart';
 import 'widgets/timer_widget.dart';
 import 'widgets/weather_widget.dart';
+import 'background_store.dart';
+import 'widgets/todo_widget.dart';
 
 class HomeWidget extends StatelessWidget {
   const HomeWidget({super.key});
@@ -23,10 +25,12 @@ class HomeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = context.read<WidgetStore>();
+    final background = context.read<BackgroundStore>();
     return CustomObserver(
       name: 'HomeWidget',
       builder: (context) {
         if (!store.initialized) return const SizedBox.shrink();
+        if (background.isTodoMode) return const TodoWidget();
         switch (store.type) {
           case WidgetType.none:
             return const SizedBox.shrink();

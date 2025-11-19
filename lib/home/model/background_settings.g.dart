@@ -68,6 +68,7 @@ Map<String, dynamic> _$BackgroundSettingsToJson(BackgroundSettings instance) =>
     };
 
 const _$BackgroundModeEnumMap = {
+  BackgroundMode.todo: 'todo',
   BackgroundMode.color: 'color',
   BackgroundMode.gradient: 'gradient',
   BackgroundMode.image: 'image',

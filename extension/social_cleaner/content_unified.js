@@ -1,3 +1,9 @@
+/**
+ * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
+ * @ Created: 2025-11-18 18:21:32
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ */
+
 // Unified content script for Focus extension
 // Removes social media feeds and injects quotes based on settings from Flutter UI
 
@@ -10,29 +16,13 @@
     showQuotes: true,
     builtinQuotesEnabled: true,
     customQuotes: [],
-    sites: {}
+    sites: {},
+    builtinQuotesLang: 'en',
+    builtinQuotesEn: [],
+    builtinQuotesVi: []
   };
 
-  // Built-in quotes (subset for performance)
-  const builtinQuotes = [
-    "The best time to plant a tree was 20 years ago. The second best time is now.",
-    "Your limitation—it's only your imagination.",
-    "Push yourself, because no one else is going to do it for you.",
-    "Great things never come from comfort zones.",
-    "Dream it. Wish it. Do it.",
-    "Success doesn't just find you. You have to go out and get it.",
-    "The harder you work for something, the greater you'll feel when you achieve it.",
-    "Dream bigger. Do bigger.",
-    "Don't stop when you're tired. Stop when you're done.",
-    "Wake up with determination. Go to bed with satisfaction.",
-    "Do something today that your future self will thank you for.",
-    "Little things make big days.",
-    "It's going to be hard, but hard does not mean impossible.",
-    "Don't wait for opportunity. Create it.",
-    "Sometimes we're tested not to show our weaknesses, but to discover our strengths.",
-    "The key to success is to focus on goals, not obstacles.",
-    "Dream it. Believe it. Build it."
-  ];
+  const builtinQuotes = [];
 
   // Site configurations
   const sites = {
@@ -58,19 +48,26 @@
         html[data-nfe-enabled='true'] div.x1hc1fzr.x1unhpq9.x6o7n8i > :not(#nfe-container) {
           display: none !important;
         }
+        html[data-nfe-enabled='true'] [data-pagelet="Reels"] > :not(#nfe-container) {
+          display: none !important;
+        }
+        html[data-nfe-enabled='true'] div[aria-label="Reels"] > :not(#nfe-container) {
+          display: none !important;
+        }
+        html[data-nfe-enabled='true'] div[role="main"] > :not(#nfe-container) {
+          display: none !important;
+        }
       `
     },
     instagram: {
       name: 'Instagram',
-      selectors: ['main'],
+      selectors: ['main', 'section'],
       css: `
         html:not([data-nfe-enabled='false']) main > :not(#nfe-container) {
           display: none !important;
         }
-        html:not([data-nfe-enabled='false']) main > #nfe-container {
-          width: 100% !important;
-          font-size: 24px !important;
-          padding: 128px !important;
+        html[data-nfe-enabled='true'] section > :not(#nfe-container) {
+          display: none !important;
         }
       `
     },
@@ -106,7 +103,13 @@
         'div[data-click-id="body"]'
       ],
       css: `
-        html:not([data-nfe-enabled='false']) div[data-testid="subreddit-posts"] > :not(#nfe-container) {
+        html[data-nfe-enabled='true'] div[data-testid="subreddit-posts"] > :not(#nfe-container) {
+          display: none !important;
+        }
+        html[data-nfe-enabled='true'] .ListingLayout-outerContainer .Post {
+          display: none !important;
+        }
+        html[data-nfe-enabled='true'] [data-testid="post-container"] {
           display: none !important;
         }
       `
@@ -143,25 +146,67 @@
         '.js-recent-activity-container'
       ],
       css: `
-        html:not([data-nfe-enabled='false']) .js-recent-activity-container > :not(#nfe-container) {
+        html[data-nfe-enabled='true'] .js-recent-activity-container > :not(#nfe-container) {
           display: none !important;
         }
-        html:not([data-nfe-enabled='false']) aside[aria-label='Account'] + div div[role='contentinfo'],
-        html:not([data-nfe-enabled='false']) aside[aria-label='Account'] + div aside[aria-label='Explore'] {
+        html[data-nfe-enabled='true'] aside[aria-label='Account'] + div div[role='contentinfo'],
+        html[data-nfe-enabled='true'] aside[aria-label='Account'] + div aside[aria-label='Explore'] {
           opacity: 0 !important;
           pointer-events: none !important;
           height: 0 !important;
           overflow-y: hidden !important;
         }
-        html:not([data-nfe-enabled='false']) aside[aria-label='Account'] + div #dashboard-feed-frame > :not(#nfe-container) {
+        html[data-nfe-enabled='true'] aside[aria-label='Account'] + div #dashboard-feed-frame {
           display: none !important;
         }
-        html:not([data-nfe-enabled='false']) aside[aria-label='Account'] + div aside[aria-label='Explore'] {
+        html[data-nfe-enabled='true'] aside[aria-label='Account'] + div #dashboard-feed {
+          display: none !important;
+        }
+        html[data-nfe-enabled='true'] aside[aria-label='Account'] + div [data-target="dashboard.feedContainer"] > :not(#nfe-container) {
+          display: none !important;
+        }
+        html[data-nfe-enabled='true'] aside[aria-label='Account'] + div [data-repository-hovercards-enabled] > :not(#nfe-container) {
+          display: none !important;
+        }
+        html[data-nfe-enabled='true'] aside[aria-label='Account'] + div [data-hpc] > :not(#nfe-container) {
+          display: none !important;
+        }
+        html[data-nfe-enabled='true'] aside[aria-label='Account'] + div aside[aria-label='Explore'] {
           width: 0 !important;
         }
-        html:not([data-nfe-enabled='false']) aside[aria-label='Account'] + div > [class*='d-'][class*='-flex'] > :first-child {
+        html[data-nfe-enabled='true'] aside[aria-label='Account'] + div > [class*='d-'][class*='-flex'] > :first-child {
           width: 100% !important;
         }
+      `
+    },
+    tiktok: {
+      name: 'TikTok',
+      selectors: [
+        'div[data-e2e="recommend-list"]',
+        'div[data-e2e="video-feed"]',
+        'div[data-e2e="scroll-list"]',
+        'main'
+      ],
+      css: `
+        html[data-nfe-enabled='true'] div[data-e2e="recommend-list"] > :not(#nfe-container) { display: none !important; }
+        html[data-nfe-enabled='true'] div[data-e2e="video-feed"] > :not(#nfe-container) { display: none !important; }
+        html[data-nfe-enabled='true'] div[data-e2e="scroll-list"] > :not(#nfe-container) { display: none !important; }
+        html[data-nfe-enabled='true'] main > :not(#nfe-container) { display: none !important; }
+      `
+    },
+    shopee: {
+      name: 'Shopee',
+      selectors: [
+        'main',
+        '.home-page',
+        '.shopee-page-wrapper',
+        '.shopee-search-item-result__items'
+      ],
+      css: `
+        html[data-nfe-enabled='true'] main > :not(#nfe-container) { display: none !important; }
+        html[data-nfe-enabled='true'] .home-page > :not(#nfe-container) { display: none !important; }
+        html[data-nfe-enabled='true'] .shopee-page-wrapper > :not(#nfe-container) { display: none !important; }
+        html[data-nfe-enabled='true'] .shopee-search-item-result__items > * { display: none !important; }
       `
     }
   };
@@ -169,13 +214,20 @@
   // Get current site
   function getCurrentSite() {
     const hostname = window.location.hostname;
-    if (hostname.includes('facebook.com')) return 'facebook';
-    if (hostname.includes('instagram.com')) return 'instagram';
+    const path = window.location.pathname || '';
+    if (hostname.includes('facebook.com')) {
+      return 'facebook';
+    }
+    if (hostname.includes('instagram.com')) {
+      return 'instagram';
+    }
     if (hostname.includes('twitter.com') || hostname.includes('x.com')) return 'twitter';
     if (hostname.includes('reddit.com')) return 'reddit';
     if (hostname.includes('linkedin.com')) return 'linkedin';
     if (hostname.includes('youtube.com')) return 'youtube';
+    if (hostname.includes('tiktok.com')) return 'tiktok';
     if (hostname.includes('github.com')) return 'github';
+    if (hostname.includes('shopee.vn') || hostname.includes('shopee.com')) return 'shopee';
     if (hostname.includes('news.ycombinator.com')) return 'hackernews';
     return null;
   }
@@ -190,19 +242,21 @@
   // Get random quote
   function getRandomQuote() {
     const allQuotes = [];
-    
     if (currentSettings.builtinQuotesEnabled) {
-      allQuotes.push(...builtinQuotes);
+      const lang = currentSettings.builtinQuotesLang === 'vi' ? 'vi' : 'en';
+      const list = lang === 'vi' ? currentSettings.builtinQuotesVi : currentSettings.builtinQuotesEn;
+      if (Array.isArray(list) && list.length > 0) {
+        allQuotes.push(...list);
+      } else {
+        allQuotes.push(...builtinQuotes);
+      }
     }
-    
     if (currentSettings.customQuotes && currentSettings.customQuotes.length > 0) {
       allQuotes.push(...currentSettings.customQuotes);
     }
-    
     if (allQuotes.length === 0) {
       return "Focus on what matters.";
     }
-    
     return allQuotes[Math.floor(Math.random() * allQuotes.length)];
   }
 
@@ -221,7 +275,7 @@
   }
 
   // Create quote container
-  function createQuoteContainer(quote) {
+  function createQuoteContainer(quote, asOverlay) {
     const isDark = (() => {
       try {
         const mql = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
@@ -239,42 +293,133 @@
 
     const textColor = isDark ? '#e5e5e5' : '#1a1a1a';
     const subTextColor = isDark ? '#a1a1a1' : '#666';
+    const cardBg = isDark ? '#111827' : '#ffffff';
+    const cardBorder = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
+    const shadow = isDark ? '0 10px 30px rgba(0,0,0,0.45)' : '0 10px 30px rgba(0,0,0,0.12)';
+    const accent = isDark ? '#60a5fa' : '#2563eb';
+
     const container = document.createElement('div');
     container.id = 'nfe-container';
     container.style.cssText = `
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 64px 32px;
-      text-align: center;
-      width: 100%;
-      min-height: 60vh;
+      display: block;
+      margin: 32px auto;
+      width: min(92%, 760px);
+      padding: 20px 24px;
+      border-radius: 12px;
+      background: ${cardBg};
+      border: 1px solid ${cardBorder};
+      box-shadow: ${shadow};
+      color: ${textColor};
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     `;
+    if (asOverlay) {
+      container.style.position = 'fixed';
+      container.style.top = '50%';
+      container.style.left = '50%';
+      container.style.transform = 'translate(-50%, -50%)';
+      container.style.zIndex = '2147483647';
+      container.style.pointerEvents = 'auto';
+      container.style.margin = '0';
+      container.style.width = 'min(88%, 720px)';
+    }
     
-    const quoteElement = document.createElement('div');
-    quoteElement.style.cssText = `
-      font-size: 24px;
-      line-height: 1.4;
+    const parts = (() => {
+      const raw = String(quote || '').trim();
+      const seps = [' — ', ' – ', ' - ', ' | '];
+      for (const s of seps) {
+        const idx = raw.indexOf(s);
+        if (idx > 0) {
+          return { text: raw.slice(0, idx).trim(), author: raw.slice(idx + s.length).trim() };
+        }
+      }
+      return { text: raw, author: '' };
+    })();
+
+    const quoteRow = document.createElement('div');
+    quoteRow.style.cssText = `
+      display: block;
+      font-size: 20px;
+      line-height: 1.6;
+      font-weight: 400;
       color: ${textColor};
-      max-width: 600px;
-      margin-bottom: 16px;
-      font-weight: 300;
     `;
-    quoteElement.textContent = `“${quote}”`;
-    
+
+    const open = document.createElement('span');
+    open.style.cssText = `color: ${accent}; font-size: 22px; margin-right: 4px;`;
+    open.textContent = '“';
+
+    const body = document.createElement('span');
+    body.textContent = parts.text;
+
+    const close = document.createElement('span');
+    close.style.cssText = `color: ${accent}; font-size: 22px; margin-left: 4px;`;
+    close.textContent = '”';
+
+    quoteRow.appendChild(open);
+    quoteRow.appendChild(body);
+    quoteRow.appendChild(close);
+
     const attribution = document.createElement('div');
     attribution.style.cssText = `
+      display: block;
+      text-align: right;
+      margin-top: 12px;
       font-size: 14px;
       color: ${subTextColor};
       font-style: italic;
     `;
-    attribution.textContent = '— Focus Extension';
-    
-    container.appendChild(quoteElement);
+    if (parts.author) {
+      const a = document.createElement('a');
+      a.href = `https://www.google.com/search?q=${encodeURIComponent(parts.author + ' quote')}`;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.style.cssText = `color: ${accent}; text-decoration: none;`;
+      a.textContent = parts.author;
+      attribution.textContent = '— ';
+      attribution.appendChild(a);
+    } else {
+      attribution.textContent = '— Focus to Your Target';
+    }
+
+    container.appendChild(quoteRow);
     container.appendChild(attribution);
-    
+
+    // Subtle quick unlock link
+    const quick = document.createElement('div');
+    quick.style.cssText = `
+      margin-top: 8px;
+      font-size: 11px;
+      color: ${subTextColor};
+      opacity: 0.35;
+    `;
+    const link = document.createElement('a');
+    link.href = '#';
+    link.textContent = 'Allow briefly (5 min)';
+    link.style.cssText = `color: ${accent}; text-decoration: none; cursor: pointer; opacity: 0.55;`;
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const siteId = getCurrentSite();
+      if (!siteId) return;
+      try {
+        chrome.runtime.sendMessage({ action: 'scheduleSiteLock', siteId: siteId, minutes: 5 });
+      } catch (_) {}
+      // Immediate local disable
+      try {
+        currentSettings.sites = currentSettings.sites || {};
+        currentSettings.sites[siteId] = { enabled: false };
+      } catch (_) {}
+      removeQuoteContainer();
+      const styleEl = document.getElementById('nfe-styles');
+      if (styleEl) styleEl.remove();
+      document.documentElement.setAttribute('data-nfe-enabled', 'false');
+    });
+    quick.appendChild(link);
+    container.appendChild(quick);
+
+    // Hover reveal
+    container.addEventListener('mouseenter', () => { quick.style.opacity = '0.65'; });
+    container.addEventListener('mouseleave', () => { quick.style.opacity = '0.35'; });
+
     return container;
   }
 
@@ -286,6 +431,14 @@
     }
   }
 
+  function isElementVisible(el) {
+    if (!el) return false;
+    const style = window.getComputedStyle(el);
+    if (style.display === 'none' || style.visibility === 'hidden' || parseFloat(style.opacity) === 0) return false;
+    const rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+
   // Inject quote into feed
   function injectQuote(targetElement) {
     if (!currentSettings.showQuotes) return;
@@ -293,14 +446,25 @@
     removeQuoteContainer();
     
     const quote = getRandomQuote();
-    const container = createQuoteContainer(quote);
-    
-    // Insert as first child
+    const container = createQuoteContainer(quote, false);
     if (targetElement.firstChild) {
       targetElement.insertBefore(container, targetElement.firstChild);
     } else {
       targetElement.appendChild(container);
     }
+    if (!isElementVisible(container)) {
+      removeQuoteContainer();
+      const overlay = createQuoteContainer(quote, true);
+      document.body.appendChild(overlay);
+    }
+  }
+
+  function injectOverlayQuote() {
+    if (!currentSettings.showQuotes) return;
+    removeQuoteContainer();
+    const quote = getRandomQuote();
+    const overlay = createQuoteContainer(quote, true);
+    document.body.appendChild(overlay);
   }
 
   // Main eradication function
@@ -333,6 +497,8 @@
     
     if (targetElement && !document.getElementById('nfe-container')) {
       injectQuote(targetElement);
+    } else if (!targetElement && !document.getElementById('nfe-container')) {
+      injectOverlayQuote();
     }
   }
 

@@ -5,6 +5,8 @@
  */
 
 import 'dart:developer';
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:js_util' as js_util;
 import 'package:flutter/foundation.dart';
@@ -36,18 +38,29 @@ abstract class _SocialCleanerStore with Store {
   ObservableList<String> customQuotes = ObservableList<String>();
 
   @observable
+  String builtinQuotesLang = 'en';
+
+  @observable
+  ObservableList<String> builtinQuotesEn = ObservableList<String>();
+
+  @observable
+  ObservableList<String> builtinQuotesVi = ObservableList<String>();
+
+  @observable
   ObservableMap<String, bool> siteSettings = ObservableMap<String, bool>();
 
   // Default site settings
   final Map<String, bool> _defaultSiteSettings = {
     'facebook': true,
     'instagram': true,
+    'tiktok': true,
     'twitter': true,
     'reddit': true,
     'linkedin': true,
-    'youtube': true,
-    'github': true,
+    'youtube': false,
+    'github': false,
     'hackernews': true,
+    'shopee': true,
   };
 
   @action
@@ -61,10 +74,12 @@ abstract class _SocialCleanerStore with Store {
 
       if (data != null) {
         _updateFromJson(data);
+        await _ensureBuiltinQuotesFromAssets();
         log('Social Cleaner settings loaded from storage');
       } else {
         // Set default settings and save them
         _setDefaultValues();
+        await _ensureBuiltinQuotesFromAssets();
         await _save();
         log('Social Cleaner default settings applied and saved');
       }
@@ -90,6 +105,13 @@ abstract class _SocialCleanerStore with Store {
   }
 
   @action
+  void updateBuiltinQuotesLang(String lang) {
+    if (lang == 'en' || lang == 'vi') {
+      update(() => builtinQuotesLang = lang);
+    }
+  }
+
+  @action
   void updateCustomQuotes(List<String> quotes) {
     update(() {
       customQuotes.clear();
@@ -110,9 +132,33 @@ abstract class _SocialCleanerStore with Store {
   }
 
   @action
+  void addBuiltinQuote(String quote) {
+    final q = quote.trim();
+    if (q.isEmpty) return;
+    if (builtinQuotesLang == 'vi') {
+      if (!builtinQuotesVi.contains(q)) update(() => builtinQuotesVi.add(q));
+    } else {
+      if (!builtinQuotesEn.contains(q)) update(() => builtinQuotesEn.add(q));
+    }
+  }
+
+  @action
   void removeCustomQuote(int index) {
     if (index >= 0 && index < customQuotes.length) {
       update(() => customQuotes.removeAt(index));
+    }
+  }
+
+  @action
+  void removeBuiltinQuote(int index) {
+    if (builtinQuotesLang == 'vi') {
+      if (index >= 0 && index < builtinQuotesVi.length) {
+        update(() => builtinQuotesVi.removeAt(index));
+      }
+    } else {
+      if (index >= 0 && index < builtinQuotesEn.length) {
+        update(() => builtinQuotesEn.removeAt(index));
+      }
     }
   }
 
@@ -131,12 +177,7 @@ abstract class _SocialCleanerStore with Store {
   @action
   Future<void> resetSettings() async {
     update(() {
-      enabled = true;
-      showQuotes = true;
-      builtinQuotesEnabled = true;
-      customQuotes.clear();
-      siteSettings.clear();
-      siteSettings.addAll(_defaultSiteSettings);
+      _setDefaultValues();
     });
   }
 
@@ -144,19 +185,64 @@ abstract class _SocialCleanerStore with Store {
     enabled = true;
     showQuotes = true;
     builtinQuotesEnabled = true;
+    builtinQuotesLang = 'en';
     customQuotes.clear();
+    builtinQuotesEn.clear();
+    builtinQuotesVi.clear();
     siteSettings.clear();
     siteSettings.addAll(_defaultSiteSettings);
+  }
+
+  Future<void> _ensureBuiltinQuotesFromAssets() async {
+    try {
+      final needEn = builtinQuotesEn.isEmpty;
+      final needVi = builtinQuotesVi.isEmpty;
+      if (!needEn && !needVi) return;
+      String? enStr;
+      String? viStr;
+      if (needEn) {
+        enStr = await rootBundle.loadString('assets/translations/en.json');
+      }
+      if (needVi) {
+        viStr = await rootBundle.loadString('assets/translations/vi.json');
+      }
+      if (enStr != null && enStr.isNotEmpty) {
+        final Map<String, dynamic> enJson = json.decode(enStr);
+        final List<dynamic>? arr = (enJson['quotes'] is Map) ? (enJson['quotes']['builtin'] as List?) : null;
+        if (arr != null && arr.isNotEmpty) {
+          builtinQuotesEn.clear();
+          builtinQuotesEn.addAll(arr.cast<String>());
+        }
+      }
+      if (viStr != null && viStr.isNotEmpty) {
+        final Map<String, dynamic> viJson = json.decode(viStr);
+        final List<dynamic>? arr = (viJson['quotes'] is Map) ? (viJson['quotes']['builtin'] as List?) : null;
+        if (arr != null && arr.isNotEmpty) {
+          builtinQuotesVi.clear();
+          builtinQuotesVi.addAll(arr.cast<String>());
+        }
+      }
+    } catch (_) {}
   }
 
   void _updateFromJson(Map<String, dynamic> json) {
     enabled = json['enabled'] ?? true;
     showQuotes = json['showQuotes'] ?? true;
     builtinQuotesEnabled = json['builtinQuotesEnabled'] ?? true;
+    builtinQuotesLang = json['builtinQuotesLang'] ?? 'en';
 
     customQuotes.clear();
     if (json['customQuotes'] is List) {
       customQuotes.addAll((json['customQuotes'] as List).cast<String>());
+    }
+
+    builtinQuotesEn.clear();
+    if (json['builtinQuotesEn'] is List) {
+      builtinQuotesEn.addAll((json['builtinQuotesEn'] as List).cast<String>());
+    }
+    builtinQuotesVi.clear();
+    if (json['builtinQuotesVi'] is List) {
+      builtinQuotesVi.addAll((json['builtinQuotesVi'] as List).cast<String>());
     }
 
     siteSettings.clear();
@@ -182,6 +268,9 @@ abstract class _SocialCleanerStore with Store {
       'enabled': enabled,
       'showQuotes': showQuotes,
       'builtinQuotesEnabled': builtinQuotesEnabled,
+      'builtinQuotesLang': builtinQuotesLang,
+      'builtinQuotesEn': builtinQuotesEn.toList(),
+      'builtinQuotesVi': builtinQuotesVi.toList(),
       'customQuotes': customQuotes.toList(),
       'sites': Map.fromEntries(
         siteSettings.entries.map(

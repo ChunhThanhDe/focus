@@ -44,20 +44,20 @@ class MenuButton extends StatelessWidget {
     return Theme(
       data: Theme.of(
         context,
-      ).copyWith(hoverColor: Theme.of(context).colorScheme.primary),
+      ).copyWith(hoverColor: Theme.of(context).colorScheme.primary.withOpacity(0.08)),
       child: Material(
         type: MaterialType.transparency,
         child: CustomDropdownButton<MapEntry<String, String>>(
           items: options.entries.toList(),
           underline: const SizedBox.shrink(),
-          dropdownWidth: 220,
+          dropdownWidth: 260,
           dropdownDirection: DropdownDirection.left,
           dropdownOverButton: false,
           scrollbarThickness: 6,
           focusColor: Theme.of(context).colorScheme.primary,
           dropdownElevation: 8,
-          dropdownPadding: const EdgeInsets.symmetric(vertical: 6),
-          itemHeight: 40,
+          dropdownPadding: const EdgeInsets.symmetric(vertical: 6, horizontal: 6),
+          itemHeight: 42,
           onChanged: (value) {
             if (value == null) return;
             onSelected(context, value.key);
@@ -92,7 +92,7 @@ class MenuButton extends StatelessWidget {
           itemBuilder:
               (context, item) => CustomDropdownMenuItem<MapEntry<String, String>>(
                 value: item,
-                hoverBackgroundColor: item.key == 'reset' ? Colors.red.withOpacity(0.15) : AppColors.borderColor.withOpacity(0.4),
+                hoverBackgroundColor: item.key == 'reset' ? Colors.red.withOpacity(0.15) : Theme.of(context).colorScheme.primary.withOpacity(0.10),
                 hoverTextColor: item.key == 'reset' ? Colors.red.shade300 : AppColors.textColor,
                 textColor: item.key == 'reset' ? Colors.red.shade400 : AppColors.textColor,
                 child: Padding(
@@ -101,14 +101,14 @@ class MenuButton extends StatelessWidget {
                     children: [
                       Icon(
                         _getIconForMenuItem(item.key),
-                        size: 16,
-                        color: item.key == 'reset' ? Colors.red.shade400 : AppColors.textColor.withOpacity(0.8),
+                        size: 18,
+                        color: item.key == 'reset' ? Colors.red.shade400 : Theme.of(context).colorScheme.primary.withOpacity(0.85),
                       ),
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(
                           item.value,
-                          style: const TextStyle(
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -215,6 +215,8 @@ class MenuButton extends StatelessWidget {
     );
     homeStore.reset();
     backgroundStore.reset();
+    backgroundStore.setTodo24hFormat(true);
+    backgroundStore.setTodoDarkMode(false);
     widgetStore.reset();
   }
 

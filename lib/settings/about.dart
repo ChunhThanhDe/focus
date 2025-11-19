@@ -4,8 +4,6 @@
  * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
  */
 
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -21,30 +19,26 @@ class About extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const SizedBox(height: 24),
-        const Center(child: FocusLogo(size: 110, animate: true)),
-        const SizedBox(height: 16),
+        const SizedBox(height: 12),
+        const Center(child: FocusLogo(size: 160, animate: false)),
+        const SizedBox(height: 12),
         Text(
-          'Focus'.toUpperCase(),
+          'Focus Your Target'.toUpperCase(),
           textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: 24,
-            letterSpacing: 10,
-            height: 1,
-            // fontWeight: FontWeight.bold,
-            fontFamily: FontFamilies.systemUI,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.w700,
+            letterSpacing: 1.2,
+            fontSize: 18,
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 11),
         Text(
           'v${packageInfo.version}'.toUpperCase(),
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 10,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
             letterSpacing: 2,
-            fontFamily: FontFamilies.systemUI,
-            fontWeight: FontWeight.w300,
-            color: Colors.white.withValues(alpha: 0.5),
+            fontWeight: FontWeight.w400,
+            color: Colors.white.withValues(alpha: 0.65),
           ),
         ),
         const SizedBox(height: 48),
@@ -55,27 +49,25 @@ class About extends StatelessWidget {
             Text(
               'Made with love',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: FontWeight.w300,
-                fontSize: 11,
-                letterSpacing: 0.2,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                fontWeight: FontWeight.w500,
+                letterSpacing: 0.25,
                 color: Theme.of(context).colorScheme.primary,
               ),
             ),
             const SizedBox(width: 6),
             Icon(
               Icons.favorite,
-              size: 14,
+              size: 20,
               color: Theme.of(context).colorScheme.primary,
             ),
             const SizedBox(width: 6),
             Text(
               'in',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: FontWeight.w300,
-                fontSize: 11,
-                letterSpacing: 0.2,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                fontWeight: FontWeight.w400,
+                letterSpacing: 0.25,
                 color: Theme.of(context).colorScheme.primary,
               ),
             ),
@@ -86,24 +78,22 @@ class About extends StatelessWidget {
           onTap: () => launchUrl(Uri.parse('https://flutter.dev')),
           child: Container(
             padding: const EdgeInsets.only(right: 4),
-            height: 24,
+            height: 28,
             child: const FlutterLogo(
               style: FlutterLogoStyle.horizontal,
-              size: 72,
+              size: 84,
               textColor: Colors.white,
             ),
           ),
         ),
-        const SizedBox(height: 32),
+        const SizedBox(height: 48),
         Text(
           'Developed by',
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontWeight: FontWeight.w300,
-            fontSize: 11,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            fontWeight: FontWeight.w500,
             letterSpacing: 0.2,
             color: Theme.of(context).colorScheme.primary,
-            // color: Colors.white.withValues(alpha:0.5),
           ),
         ),
         const SizedBox(height: 8),
@@ -112,12 +102,11 @@ class About extends StatelessWidget {
           child: Text(
             'ChunhThanhDe'.toUpperCase(),
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
               height: 1,
-              fontSize: 10,
-              // fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 2,
               fontFamily: FontFamilies.systemUI,
-              letterSpacing: 4,
             ),
           ),
         ),
@@ -127,17 +116,17 @@ class About extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GestureDetectorWithCursor(
-              onTap: () => launchUrl(Uri.parse('https://twitter.com/ChunhThanhDe')),
+              onTap: () => launchUrl(Uri.parse('https://www.youtube.com/@CHUNGCINE?sub_confirmation=1')),
               child: SizedBox.square(
-                dimension: 26,
-                child: Image.asset('assets/images/ic_twitter.png'),
+                dimension: 34,
+                child: Image.asset('assets/images/ic_youtube.png'),
               ),
             ),
             const SizedBox(width: 16),
             GestureDetectorWithCursor(
               onTap: () => launchUrl(Uri.parse('https://github.com/ChunhThanhDe')),
               child: SizedBox.square(
-                dimension: 26,
+                dimension: 32,
                 child: Image.asset(
                   'assets/images/ic_github.png',
                   color: Colors.white,
@@ -148,22 +137,20 @@ class About extends StatelessWidget {
             GestureDetectorWithCursor(
               onTap: () => launchUrl(Uri.parse('https://chunhthanhde.github.io')),
               child: SizedBox.square(
-                dimension: 30,
-                child: Image.asset('assets/images/ic_globe.png'),
+                dimension: 32,
+                child: Image.asset('assets/images/ic_website.png'),
               ),
             ),
           ],
         ),
-        const SizedBox(height: 32),
+        const SizedBox(height: 48),
         Text(
           'Backgrounds by',
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontWeight: FontWeight.w300,
-            fontSize: 11,
-            letterSpacing: 0.2,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            fontWeight: FontWeight.w500,
+            letterSpacing: 0.25,
             color: Theme.of(context).colorScheme.primary,
-            // color: Colors.white.withValues(alpha:0.5),
           ),
         ),
         const SizedBox(height: 8),
@@ -171,20 +158,18 @@ class About extends StatelessWidget {
           onTap: () => launchUrl(Uri.parse('https://unsplash.com')),
           child: Image.asset(
             'assets/images/ic_unsplash.png',
-            height: 24,
+            height: 28,
             color: Colors.white,
           ),
         ),
-        const SizedBox(height: 32),
+        const SizedBox(height: 48),
         Text(
           'Weather & Geocoding API by',
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontWeight: FontWeight.w300,
-            fontSize: 11,
-            letterSpacing: 0.2,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            fontWeight: FontWeight.w500,
+            letterSpacing: 0.25,
             color: Theme.of(context).colorScheme.primary,
-            // color: Colors.white.withValues(alpha:0.5),
           ),
         ),
         const SizedBox(height: 8),
@@ -192,11 +177,11 @@ class About extends StatelessWidget {
           onTap: () => launchUrl(Uri.parse('https://open-meteo.com')),
           child: Image.asset(
             'assets/images/ic_open_meteo.png',
-            height: 32,
+            height: 36,
             color: Colors.white,
           ),
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: 48),
       ],
     );
   }
@@ -212,102 +197,28 @@ class FocusLogo extends StatefulWidget {
   State<FocusLogo> createState() => _FocusLogoState();
 }
 
-class _FocusLogoState extends State<FocusLogo> with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
-    vsync: this,
-    duration: const Duration(seconds: 20),
-  );
-
-  @override
-  void initState() {
-    super.initState();
-    // _controller.repeat(
-    //   period: const Duration(seconds: 10),
-    // );
-    if (!widget.animate) return;
-    _controller.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        if (!widget.animate) return;
-        _controller.reset();
-        _controller.forward();
-      }
-    });
-    _controller.forward();
-  }
-
-  @override
-  void didUpdateWidget(covariant FocusLogo oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (!oldWidget.animate && widget.animate) {
-      _controller.repeat();
-      _controller.forward();
-    }
-  }
-
+class _FocusLogoState extends State<FocusLogo> {
   @override
   Widget build(BuildContext context) {
     return SizedBox.square(
       dimension: widget.size,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/ic_focus_logo_bg.png',
-              fit: BoxFit.cover,
-            ),
+      child: Center(
+        child: SizedBox.square(
+          // Constrain the logo to 80% of the outer square to create
+          // balanced padding around it while keeping the image centered.
+          // This avoids edge-to-edge rendering and maintains visual harmony.
+          dimension: widget.size * 0.8,
+          child: Image.asset(
+            'assets/images/ic_focus.png',
+            fit: BoxFit.contain,
           ),
-          AnimatedBuilder(
-            animation: _controller,
-            builder: (context, child) {
-              return Transform.rotate(
-                angle: _controller.value * 2 * pi,
-                child: child,
-              );
-            },
-            child: SizedBox.square(
-              dimension: widget.size * 0.7,
-              child: Image.asset(
-                'assets/images/ic_focus_planet.png',
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          // Shadow
-          SizedBox.square(
-            dimension: (widget.size * 0.7) + 1,
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: RadialGradient(
-                  radius: 0.75,
-                  colors: [
-                    Colors.black.withValues(alpha: 0),
-                    Colors.black.withValues(alpha: 0.2),
-                    Colors.black.withValues(alpha: 0.5),
-                    Colors.black.withValues(alpha: 1),
-                  ],
-                  stops: const [0.3, 0.5, 0.7, 1],
-                  center: const Alignment(-0.4, -0.5),
-                ),
-              ),
-            ),
-          ),
-          // SizedBox.square(
-          //   dimension: size * 0.7,
-          //   child: Image.asset(
-          //     'assets/images/ic_focus.png',
-          //     fit: BoxFit.cover,
-          //   ),
-          // ),
-        ],
+        ),
       ),
     );
   }
 
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
   }
 }

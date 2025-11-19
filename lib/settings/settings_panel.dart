@@ -11,7 +11,6 @@ import 'package:provider/provider.dart';
 import '../home/home_store.dart';
 import '../resources/colors.dart';
 import '../utils/custom_observer.dart';
-import '../chrome_extension/widgets/extension_settings_view.dart';
 import 'about.dart';
 import 'background_settings_view.dart';
 import 'menu_button.dart';
@@ -113,6 +112,30 @@ class _SettingsPanelContentState extends State<SettingsPanelContent> with Single
                           style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
                         ),
                       ),
+                      Material(
+                        type: MaterialType.transparency,
+                        child: Row(
+                          children: [
+                            Text(
+                              'EN',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                            Switch.adaptive(
+                              value: context.locale.languageCode == 'vi',
+                              onChanged: (isVi) async {
+                                await context.setLocale(isVi ? const Locale('vi') : const Locale('en'));
+                              },
+                              activeColor: Theme.of(context).colorScheme.primary,
+                              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
+                            Text(
+                              'VI',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 4),
                       const MenuButton(),
                       Material(
                         type: MaterialType.transparency,
@@ -177,7 +200,7 @@ class _SettingsPanelContentState extends State<SettingsPanelContent> with Single
                         tabs: [
                           Tab(text: 'settings.panel.background'.tr()),
                           Tab(text: 'settings.panel.widget'.tr()),
-                          Tab(text: 'Chrome Extension'),
+                          Tab(text: 'settings.panel.socialCleaner'.tr()),
                           Tab(text: 'settings.panel.about'.tr()),
                         ],
                         onTap: (index) => homeStore.setTabIndex(index),
@@ -204,7 +227,7 @@ class _SettingsPanelContentState extends State<SettingsPanelContent> with Single
                               case 1:
                                 return const WidgetSettings();
                               case 2:
-                                return const ExtensionSettingsView();
+                                return const SocialCleanerSettings();
                               case 3:
                                 return const About();
                               default:

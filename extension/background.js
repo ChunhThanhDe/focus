@@ -12,12 +12,14 @@ const defaultSettings = {
   sites: {
     facebook: { enabled: true },
     instagram: { enabled: true },
+    tiktok: { enabled: true },
     twitter: { enabled: true },
     reddit: { enabled: true },
     linkedin: { enabled: true },
-    youtube: { enabled: true },
-    github: { enabled: true },
-    hackernews: { enabled: true }
+    youtube: { enabled: false },
+    github: { enabled: false },
+    hackernews: { enabled: true },
+    shopee: { enabled: true }
   }
 };
 
@@ -45,12 +47,14 @@ function convertFlutterToBackgroundFormat(flutterSettings) {
     sites: flutterSettings.sites || {
       facebook: { enabled: true },
       instagram: { enabled: true },
+      tiktok: { enabled: true },
       twitter: { enabled: true },
       reddit: { enabled: true },
       linkedin: { enabled: true },
-      youtube: { enabled: true },
-      github: { enabled: true },
-      hackernews: { enabled: true }
+      youtube: { enabled: false },
+      github: { enabled: false },
+      hackernews: { enabled: true },
+      shopee: { enabled: true }
     }
   };
 }
@@ -101,6 +105,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         showQuotes: request.settings.showQuotes,
         builtinQuotesEnabled: request.settings.builtinQuotesEnabled,
         customQuotes: request.settings.customQuotes || [],
+        builtinQuotesLang: request.settings.builtinQuotesLang || 'en',
+        builtinQuotesEn: request.settings.builtinQuotesEn || [],
+        builtinQuotesVi: request.settings.builtinQuotesVi || [],
         sites: {}
       };
       
@@ -116,12 +123,69 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         sendResponse({ success: true });
       });
       return true; // Keep message channel open for async response
+    
+    case 'scheduleSiteLock': {
+      const siteId = request.siteId;
+      const minutes = Number(request.minutes || 0);
+      loadSettings().then((settings) => {
+        settings.sites = settings.sites || {};
+        settings.sites[siteId] = { enabled: false };
+        saveSettings(settings).then(() => {
+          if (minutes > 0) {
+            chrome.alarms.create(`lock:${siteId}`, { delayInMinutes: Math.max(0.1, minutes) });
+          }
+          sendResponse({ success: true });
+        });
+      });
+      return true; // Keep message channel open for async response
+    }
+    case 'todoScheduleReminder': {
+      const minutes = Number(request.minutes || 0);
+      const title = String(request.title || 'Todo Reminder');
+      chrome.storage.local.set({ todoReminderTitle: title }).then(() => {
+        chrome.alarms.create('todo:reminder', { delayInMinutes: Math.max(0.1, minutes) });
+        sendResponse({ success: true });
+      });
+      return true;
+    }
       
     default:
       console.log('Unknown action:', request.action);
       sendResponse({ error: 'Unknown action' });
   }
 });
+
+// Re-lock site when alarm fires
+chrome.alarms.onAlarm.addListener((alarm) => {
+  if (!alarm || !alarm.name || !alarm.name.startsWith('lock:')) return;
+  const siteId = alarm.name.replace('lock:', '');
+  loadSettings().then((settings) => {
+    settings.sites = settings.sites || {};
+    const site = settings.sites[siteId] || { enabled: true };
+    site.enabled = true;
+    settings.sites[siteId] = site;
+    saveSettings(settings);
+  });
+});
+
+chrome.alarms.onAlarm.addListener((alarm) => {
+  if (!alarm || !alarm.name || alarm.name !== 'todo:reminder') return;
+  chrome.storage.local.get('todoReminderTitle').then((result) => {
+    const title = result.todoReminderTitle || 'Todo Reminder';
+    try {
+      chrome.notifications.create({
+        type: 'basic',
+        iconUrl: 'icons/128.png',
+        title: title,
+        message: 'It\'s time to do your task.'
+      });
+    } catch (error) {
+      console.error('Failed to create notification', error);
+    }
+  });
+});
+
+
 
 // Initialize extension
 chrome.runtime.onInstalled.addListener(() => {

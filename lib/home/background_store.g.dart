@@ -45,6 +45,15 @@ mixin _$BackgroundStore on _BackgroundStore, Store {
             name: '_BackgroundStore.isImageMode',
           ))
           .value;
+  Computed<bool>? _$isTodoModeComputed;
+
+  @override
+  bool get isTodoMode =>
+      (_$isTodoModeComputed ??= Computed<bool>(
+            () => super.isTodoMode,
+            name: '_BackgroundStore.isTodoMode',
+          ))
+          .value;
   Computed<Color>? _$foregroundColorComputed;
 
   @override
@@ -493,6 +502,86 @@ mixin _$BackgroundStore on _BackgroundStore, Store {
     });
   }
 
+  late final _$_todoTasksAtom = Atom(
+    name: '_BackgroundStore._todoTasks',
+    context: context,
+  );
+
+  ObservableList<TodoTask> get todoTasks {
+    _$_todoTasksAtom.reportRead();
+    return super._todoTasks;
+  }
+
+  @override
+  ObservableList<TodoTask> get _todoTasks => todoTasks;
+
+  @override
+  set _todoTasks(ObservableList<TodoTask> value) {
+    _$_todoTasksAtom.reportWrite(value, super._todoTasks, () {
+      super._todoTasks = value;
+    });
+  }
+
+  late final _$_todoReminderAtAtom = Atom(
+    name: '_BackgroundStore._todoReminderAt',
+    context: context,
+  );
+
+  DateTime? get todoReminderAt {
+    _$_todoReminderAtAtom.reportRead();
+    return super._todoReminderAt;
+  }
+
+  @override
+  DateTime? get _todoReminderAt => todoReminderAt;
+
+  @override
+  set _todoReminderAt(DateTime? value) {
+    _$_todoReminderAtAtom.reportWrite(value, super._todoReminderAt, () {
+      super._todoReminderAt = value;
+    });
+  }
+
+  late final _$_use24HourTodoAtom = Atom(
+    name: '_BackgroundStore._use24HourTodo',
+    context: context,
+  );
+
+  bool get use24HourTodo {
+    _$_use24HourTodoAtom.reportRead();
+    return super._use24HourTodo;
+  }
+
+  @override
+  bool get _use24HourTodo => use24HourTodo;
+
+  @override
+  set _use24HourTodo(bool value) {
+    _$_use24HourTodoAtom.reportWrite(value, super._use24HourTodo, () {
+      super._use24HourTodo = value;
+    });
+  }
+
+  late final _$_todoDarkModeAtom = Atom(
+    name: '_BackgroundStore._todoDarkMode',
+    context: context,
+  );
+
+  bool get todoDarkMode {
+    _$_todoDarkModeAtom.reportRead();
+    return super._todoDarkMode;
+  }
+
+  @override
+  bool get _todoDarkMode => todoDarkMode;
+
+  @override
+  set _todoDarkMode(bool value) {
+    _$_todoDarkModeAtom.reportWrite(value, super._todoDarkMode, () {
+      super._todoDarkMode = value;
+    });
+  }
+
   late final _$initializeImagesAsyncAction = AsyncAction(
     '_BackgroundStore.initializeImages',
     context: context,
@@ -733,6 +822,174 @@ mixin _$BackgroundStore on _BackgroundStore, Store {
   }
 
   @override
+  void addTodo(String text) {
+    final _$actionInfo = _$_BackgroundStoreActionController.startAction(
+      name: '_BackgroundStore.addTodo',
+    );
+    try {
+      return super.addTodo(text);
+    } finally {
+      _$_BackgroundStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void addTodos(List<String> texts) {
+    final _$actionInfo = _$_BackgroundStoreActionController.startAction(
+      name: '_BackgroundStore.addTodos',
+    );
+    try {
+      return super.addTodos(texts);
+    } finally {
+      _$_BackgroundStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void addTodoBelow(String afterId, {String text = ''}) {
+    final _$actionInfo = _$_BackgroundStoreActionController.startAction(
+      name: '_BackgroundStore.addTodoBelow',
+    );
+    try {
+      return super.addTodoBelow(afterId, text: text);
+    } finally {
+      _$_BackgroundStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void reorderTodo(int oldIndex, int newIndex) {
+    final _$actionInfo = _$_BackgroundStoreActionController.startAction(
+      name: '_BackgroundStore.reorderTodo',
+    );
+    try {
+      return super.reorderTodo(oldIndex, newIndex);
+    } finally {
+      _$_BackgroundStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void toggleTodo(String id, bool completed) {
+    final _$actionInfo = _$_BackgroundStoreActionController.startAction(
+      name: '_BackgroundStore.toggleTodo',
+    );
+    try {
+      return super.toggleTodo(id, completed);
+    } finally {
+      _$_BackgroundStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void removeTodo(String id) {
+    final _$actionInfo = _$_BackgroundStoreActionController.startAction(
+      name: '_BackgroundStore.removeTodo',
+    );
+    try {
+      return super.removeTodo(id);
+    } finally {
+      _$_BackgroundStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void clearCompletedTodos() {
+    final _$actionInfo = _$_BackgroundStoreActionController.startAction(
+      name: '_BackgroundStore.clearCompletedTodos',
+    );
+    try {
+      return super.clearCompletedTodos();
+    } finally {
+      _$_BackgroundStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void clearAllTodos() {
+    final _$actionInfo = _$_BackgroundStoreActionController.startAction(
+      name: '_BackgroundStore.clearAllTodos',
+    );
+    try {
+      return super.clearAllTodos();
+    } finally {
+      _$_BackgroundStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void scheduleTodoReminderMinutes(int minutes) {
+    final _$actionInfo = _$_BackgroundStoreActionController.startAction(
+      name: '_BackgroundStore.scheduleTodoReminderMinutes',
+    );
+    try {
+      return super.scheduleTodoReminderMinutes(minutes);
+    } finally {
+      _$_BackgroundStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setTodoRemindTime(String id, String time) {
+    final _$actionInfo = _$_BackgroundStoreActionController.startAction(
+      name: '_BackgroundStore.setTodoRemindTime',
+    );
+    try {
+      return super.setTodoRemindTime(id, time);
+    } finally {
+      _$_BackgroundStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void scheduleTaskReminderFromTime(String id) {
+    final _$actionInfo = _$_BackgroundStoreActionController.startAction(
+      name: '_BackgroundStore.scheduleTaskReminderFromTime',
+    );
+    try {
+      return super.scheduleTaskReminderFromTime(id);
+    } finally {
+      _$_BackgroundStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void updateTodoText(String id, String text) {
+    final _$actionInfo = _$_BackgroundStoreActionController.startAction(
+      name: '_BackgroundStore.updateTodoText',
+    );
+    try {
+      return super.updateTodoText(id, text);
+    } finally {
+      _$_BackgroundStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setTodo24hFormat(bool value) {
+    final _$actionInfo = _$_BackgroundStoreActionController.startAction(
+      name: '_BackgroundStore.setTodo24hFormat',
+    );
+    try {
+      return super.setTodo24hFormat(value);
+    } finally {
+      _$_BackgroundStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setTodoDarkMode(bool value) {
+    final _$actionInfo = _$_BackgroundStoreActionController.startAction(
+      name: '_BackgroundStore.setTodoDarkMode',
+    );
+    try {
+      return super.setTodoDarkMode(value);
+    } finally {
+      _$_BackgroundStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void addNewCollection(UnsplashSource source, {bool setAsCurrent = false}) {
     final _$actionInfo = _$_BackgroundStoreActionController.startAction(
       name: '_BackgroundStore.addNewCollection',
@@ -763,6 +1020,7 @@ isLiked: ${isLiked},
 isColorMode: ${isColorMode},
 isGradientMode: ${isGradientMode},
 isImageMode: ${isImageMode},
+isTodoMode: ${isTodoMode},
 foregroundColor: ${foregroundColor},
 currentImage: ${currentImage}
     ''';

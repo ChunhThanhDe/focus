@@ -5,6 +5,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../ui/custom_switch.dart';
 import '../ui/text_input.dart';
@@ -12,6 +13,7 @@ import '../ui/gesture_detector_with_cursor.dart';
 import '../resources/colors.dart';
 import '../utils/custom_observer.dart';
 import '../utils/social_cleaner_store.dart';
+import 'reset_dialog.dart';
 
 class SocialCleanerSettings extends StatefulWidget {
   const SocialCleanerSettings({super.key});
@@ -46,11 +48,11 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
           children: [
             // Main toggle
             _buildSection(
-              title: 'Social Feed Cleaner',
+              title: 'settings.socialCleaner.title'.tr(),
               child: CustomSwitch(
                 value: store.enabled,
                 onChanged: (value) => store.updateEnabled(value),
-                label: 'Enable social feed cleaning',
+                label: 'settings.socialCleaner.enable'.tr(),
               ),
             ),
 
@@ -59,14 +61,14 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
 
               // Quote settings
               _buildSection(
-                title: 'Quote Settings',
+                title: 'settings.socialCleaner.quote.title'.tr(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomSwitch(
                       value: store.showQuotes,
                       onChanged: (value) => store.updateShowQuotes(value),
-                      label: 'Show inspirational quotes',
+                      label: 'settings.socialCleaner.quote.show'.tr(),
                     ),
 
                     if (store.showQuotes) ...[
@@ -74,7 +76,7 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
                       CustomSwitch(
                         value: store.builtinQuotesEnabled,
                         onChanged: (value) => store.updateBuiltinQuotesEnabled(value),
-                        label: 'Use built-in quotes',
+                        label: 'settings.socialCleaner.quote.useBuiltin'.tr(),
                       ),
 
                       const SizedBox(height: 16),
@@ -88,18 +90,20 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
 
               // Site-specific settings
               _buildSection(
-                title: 'Site Settings',
+                title: 'settings.socialCleaner.sites.title'.tr(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildSiteToggle('Facebook', 'facebook'),
-                    _buildSiteToggle('Instagram', 'instagram'),
-                    _buildSiteToggle('Twitter/X', 'twitter'),
-                    _buildSiteToggle('Reddit', 'reddit'),
-                    _buildSiteToggle('LinkedIn', 'linkedin'),
-                    _buildSiteToggle('YouTube', 'youtube'),
-                    _buildSiteToggle('GitHub', 'github'),
-                    _buildSiteToggle('Hacker News', 'hackernews'),
+                    _buildSiteToggle('settings.socialCleaner.sites.facebook'.tr(), 'facebook'),
+                    _buildSiteToggle('settings.socialCleaner.sites.instagram'.tr(), 'instagram'),
+                    _buildSiteToggle('settings.socialCleaner.sites.tiktok'.tr(), 'tiktok'),
+                    _buildSiteToggle('settings.socialCleaner.sites.twitter'.tr(), 'twitter'),
+                    _buildSiteToggle('settings.socialCleaner.sites.reddit'.tr(), 'reddit'),
+                    _buildSiteToggle('settings.socialCleaner.sites.linkedin'.tr(), 'linkedin'),
+                    _buildSiteToggle('settings.socialCleaner.sites.youtube'.tr(), 'youtube'),
+                    _buildSiteToggle('settings.socialCleaner.sites.github'.tr(), 'github'),
+                    _buildSiteToggle('settings.socialCleaner.sites.shopee'.tr(), 'shopee'),
+                    _buildSiteToggle('settings.socialCleaner.sites.hackernews'.tr(), 'hackernews'),
                   ],
                 ),
               ),
@@ -108,27 +112,39 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
 
               // Reset button
               _buildSection(
-                title: 'Reset',
+                title: 'settings.socialCleaner.reset.title'.tr(),
                 child: GestureDetectorWithCursor(
                   onTap: () => _showResetDialog(),
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
-                      color: Colors.red.withValues(alpha: 0.1),
+                      color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(6),
-                      border: Border.all(color: Colors.red.withValues(alpha: 0.3)),
+                      border: Border.all(color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3)),
                     ),
-                    child: const Text(
-                      'Reset to defaults',
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                      ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.restore_rounded,
+                          size: 16,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          'settings.socialCleaner.reset.toDefaults'.tr(),
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
+              const SizedBox(height: 16),
             ],
           ],
         );
@@ -169,7 +185,7 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Custom Quotes',
+          'settings.socialCleaner.customQuotes.title'.tr(),
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.w500,
             color: AppColors.textColor,
@@ -183,7 +199,7 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
             Expanded(
               child: TextInput(
                 controller: _customQuoteController,
-                hintText: 'Enter your custom quote...',
+                hintText: 'settings.socialCleaner.customQuotes.hint'.tr(),
                 onSubmitted: (value) async {
                   _addCustomQuote();
                   return null;
@@ -257,7 +273,7 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
           ),
         ] else ...[
           Text(
-            'No custom quotes added yet.',
+            'settings.socialCleaner.customQuotes.empty'.tr(),
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: AppColors.textColor.withValues(alpha: 0.6),
               fontStyle: FontStyle.italic,
@@ -279,27 +295,7 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
   void _showResetDialog() {
     showDialog(
       context: context,
-      builder:
-          (context) => AlertDialog(
-            title: const Text('Reset Settings'),
-            content: const Text(
-              'Are you sure you want to reset all social cleaner settings to their default values? This action cannot be undone.',
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () {
-                  store.resetSettings();
-                  Navigator.of(context).pop();
-                },
-                style: TextButton.styleFrom(foregroundColor: Colors.red),
-                child: const Text('Reset'),
-              ),
-            ],
-          ),
+      builder: (context) => ResetDialog(onReset: store.resetSettings),
     );
   }
 }

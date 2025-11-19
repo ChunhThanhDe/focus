@@ -115,6 +115,13 @@ class _HomeBackgroundState extends State<HomeBackground> {
 
   LinearGradient? get backgroundGradient {
     if (store.isImageMode) return null;
+    if (store.isTodoMode && store.todoDarkMode) {
+      return LinearGradient(
+        colors: const [Colors.black, Colors.black],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      );
+    }
     final gradient = store.gradient;
 
     final colors = store.isGradientMode ? gradient.colors : [store.color.background, store.color.background];
