@@ -60,19 +60,19 @@ class NotesPaneState extends State<NotesPane> {
               Expanded(
                 child: Text(
                   'Notes',
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: widget.color, fontWeight: FontWeight.w500),
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: widget.color, fontWeight: FontWeight.bold),
                 ),
               ),
               TextButton(
                 onPressed: () async {
                   await _saveNotes();
                 },
-                child: Text('Save', style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: widget.color.withOpacity(0.9))),
+                child: Text('Save', style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: widget.color.withOpacity(0.9), fontWeight: FontWeight.bold)),
               ),
               const SizedBox(width: 8),
               TextButton(
                 onPressed: () => _handlePaste(),
-                child: Text('Paste', style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: widget.color.withOpacity(0.9))),
+                child: Text('Paste', style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: widget.color.withOpacity(0.9), fontWeight: FontWeight.bold)),
               ),
               const SizedBox(width: 8),
               TextButton(
@@ -80,7 +80,7 @@ class NotesPaneState extends State<NotesPane> {
                   _noteController.clear();
                   setState(() {});
                 },
-                child: Text('Clear', style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: widget.color.withOpacity(0.9))),
+                child: Text('Clear', style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: widget.color.withOpacity(0.9), fontWeight: FontWeight.bold)),
               ),
               SizedBox(width: 4),
             ],
