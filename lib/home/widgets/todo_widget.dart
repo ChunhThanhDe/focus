@@ -694,6 +694,22 @@ class _LegendPane extends StatelessWidget {
               Expanded(child: Text('Green: completed', style: TextStyle(color: color.withOpacity(0.9)))),
             ],
           ),
+          const SizedBox(height: 32),
+          Row(
+            children: [
+              Icon(Icons.keyboard_alt_rounded, size: 16, color: color.withOpacity(0.9)),
+              const SizedBox(width: 8),
+              Expanded(child: Text('Ctrl+S: save notes', style: TextStyle(color: color.withOpacity(0.9)))),
+            ],
+          ),
+          const SizedBox(height: 6),
+          Row(
+            children: [
+              Icon(Icons.notifications_active_outlined, size: 16, color: color.withOpacity(0.9)),
+              const SizedBox(width: 8),
+              Expanded(child: Text('Notification pushes when time comes', style: TextStyle(color: color.withOpacity(0.9)))),
+            ],
+          ),
         ],
       ),
     );
