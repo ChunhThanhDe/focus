@@ -27,211 +27,217 @@ class _TodoWidgetState extends State<TodoWidget> {
       builder: (context) {
         return LayoutBuilder(
           builder: (context, constraints) {
-            const double middleWidth = 800;
-            const double rightWidth = 220;
-            final double leftWidth = (constraints.maxWidth - middleWidth - rightWidth).clamp(0.0, double.infinity);
+            final double total = constraints.maxWidth;
+            final double leftWidth = total * 4 / 12;
+            final double middleWidth = total * 6 / 12;
+            final double rightWidth = total * 2 / 12;
             return Stack(
               children: [
                 Align(
-                  alignment: Alignment.center,
-                  child: SizedBox(
-                    width: middleWidth,
-                    child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                  alignment: Alignment.centerLeft,
+                  child: Row(
                     children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              controller: _newController,
-                              onSubmitted: (v) {
-                                final lines = v.split('\n').map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
-                                if (lines.isEmpty) return;
-                                if (lines.length == 1) {
-                                  store.addTodo(lines.first);
-                                } else {
-                                  store.addTodos(lines);
-                                }
-                                _newController.clear();
-                              },
-                              style: TextStyle(color: color, fontSize: 18),
-                              decoration: InputDecoration(
-                                hintText: 'Add a task',
-                                hintStyle: TextStyle(color: color.withOpacity(0.5)),
-                                contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 12,
-                                ),
-                                filled: true,
-                                fillColor: Colors.black.withOpacity(0.1),
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: color.withOpacity(0.15)),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: color.withOpacity(0.15)),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: color.withOpacity(0.4)),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          GestureDetector(
-                            onTap: () {
-                              final lines = _newController.text.split('\n').map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
-                              if (lines.isEmpty) return;
-                              if (lines.length == 1) {
-                                store.addTodo(lines.first);
-                              } else {
-                                store.addTodos(lines);
-                              }
-                              _newController.clear();
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                              decoration: BoxDecoration(
-                                color: color.withOpacity(0.12),
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: Icon(Icons.add_rounded, color: color),
-                            ),
-                          ),
-                        ],
+                      SizedBox(
+                        height: constraints.maxHeight,
+                        width: leftWidth,
+                        child: _NotesPane(color: color),
                       ),
-                      const SizedBox(height: 12),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          TextButton(
-                            onPressed: () => setState(() => _showCompleted = !_showCompleted),
-                            child: Text(
-                              _showCompleted ? 'Show active' : 'Show completed',
-                              style: TextStyle(color: color.withOpacity(0.9)),
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          TextButton(
-                            onPressed: () => store.clearAllTodos(),
-                            child: Text(
-                              'Clear all tasks',
-                              style: TextStyle(color: color.withOpacity(0.9)),
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                            decoration: BoxDecoration(
-                              color: color.withOpacity(0.12),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Text(
-                              '${store.todoTasks.where((t) => t.completed).length}',
-                              style: TextStyle(color: color.withOpacity(0.9)),
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: (_showCompleted ? store.todoTasks.where((e) => e.completed).toList() : store.todoTasks.where((e) => !e.completed).toList()).length,
-                        itemBuilder: (context, index) {
-                          final items = _showCompleted ? store.todoTasks.where((e) => e.completed).toList() : store.todoTasks.where((e) => !e.completed).toList();
-                          final item = items[index];
-                          return DragTarget<int>(
-                            onWillAccept: (from) => from != null && from != index,
-                            onAccept: (from) {
-                              final fromId = items[from].id;
-                              final toId = items[index].id;
-                              final oldIndex = store.todoTasks.indexWhere((e) => e.id == fromId);
-                              final newIndex = store.todoTasks.indexWhere((e) => e.id == toId);
-                              store.reorderTodo(oldIndex, newIndex);
-                            },
-                            builder: (context, candidateData, rejectedData) {
-                              return LongPressDraggable<int>(
-                                data: index,
-                                dragAnchorStrategy: childDragAnchorStrategy,
-                                feedback: Material(
-                                  type: MaterialType.transparency,
-                                  child: Container(
-                                    width: 600,
-                                    padding: const EdgeInsets.symmetric(vertical: 8),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            item.text,
-                                            style: TextStyle(
-                                              color: color,
-                                              fontSize: 18,
-                                              decoration: item.completed ? TextDecoration.lineThrough : TextDecoration.none,
-                                            ),
-                                          ),
+
+                      SizedBox(
+                        height: constraints.maxHeight,
+                        width: middleWidth,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: TextField(
+                                      controller: _newController,
+                                      onSubmitted: (v) {
+                                        final lines = v.split('\n').map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
+                                        if (lines.isEmpty) return;
+                                        if (lines.length == 1) {
+                                          store.addTodo(lines.first);
+                                        } else {
+                                          store.addTodos(lines);
+                                        }
+                                        _newController.clear();
+                                      },
+                                      style: TextStyle(color: color, fontSize: 18),
+                                      decoration: InputDecoration(
+                                        hintText: 'Add a task',
+                                        hintStyle: TextStyle(color: color.withOpacity(0.5)),
+                                        contentPadding: const EdgeInsets.symmetric(
+                                          horizontal: 12,
+                                          vertical: 12,
                                         ),
-                                        const SizedBox(width: 12),
-                                        SizedBox(
-                                          width: 84,
-                                          child: DecoratedBox(
-                                            decoration: BoxDecoration(
-                                              color: (item.remindTime ?? '').isNotEmpty ? color.withOpacity(0.12) : Colors.transparent,
-                                              borderRadius: BorderRadius.circular(4),
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                (item.remindTime ?? '').isNotEmpty ? item.remindTime! : 'HH:MM',
-                                                style: TextStyle(color: color.withOpacity(0.8), fontSize: 14),
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                          ),
+                                        filled: true,
+                                        fillColor: Colors.black.withOpacity(0.1),
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(color: color.withOpacity(0.15)),
+                                          borderRadius: BorderRadius.circular(6),
                                         ),
-                                        const SizedBox(width: 6),
-                                        Icon(Icons.delete_outline_rounded, color: color.withOpacity(0.8)),
-                                      ],
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(color: color.withOpacity(0.15)),
+                                          borderRadius: BorderRadius.circular(6),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(color: color.withOpacity(0.4)),
+                                          borderRadius: BorderRadius.circular(6),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                childWhenDragging: Opacity(
-                                  opacity: 0.4,
-                                  child: _TodoRow(key: ValueKey('${item.id}-drag'), id: item.id, text: item.text, completed: item.completed, color: color, startEditing: false),
-                                ),
-                                child: _TodoRow(
-                                  key: ValueKey(item.id),
-                                  id: item.id,
-                                  text: item.text,
-                                  completed: item.completed,
-                                  color: color,
-                                  startEditing: item.text.isEmpty,
-                                ),
-                              );
-                            },
-                          );
-                        },
+                                  const SizedBox(width: 8),
+                                  GestureDetector(
+                                    onTap: () {
+                                      final lines = _newController.text.split('\n').map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
+                                      if (lines.isEmpty) return;
+                                      if (lines.length == 1) {
+                                        store.addTodo(lines.first);
+                                      } else {
+                                        store.addTodos(lines);
+                                      }
+                                      _newController.clear();
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                      decoration: BoxDecoration(
+                                        color: color.withOpacity(0.12),
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: Icon(Icons.add_rounded, color: color),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 12),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  TextButton(
+                                    onPressed: () => setState(() => _showCompleted = !_showCompleted),
+                                    child: Text(
+                                      _showCompleted ? 'Show active' : 'Show completed',
+                                      style: TextStyle(color: color.withOpacity(0.9)),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  TextButton(
+                                    onPressed: () => store.clearAllTodos(),
+                                    child: Text(
+                                      'Clear all tasks',
+                                      style: TextStyle(color: color.withOpacity(0.9)),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                                    decoration: BoxDecoration(
+                                      color: color.withOpacity(0.12),
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    child: Text(
+                                      '${store.todoTasks.where((t) => t.completed).length}',
+                                      style: TextStyle(color: color.withOpacity(0.9)),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                ],
+                              ),
+                              const SizedBox(height: 20),
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: (_showCompleted ? store.todoTasks.where((e) => e.completed).toList() : store.todoTasks.where((e) => !e.completed).toList()).length,
+                                itemBuilder: (context, index) {
+                                  final items = _showCompleted ? store.todoTasks.where((e) => e.completed).toList() : store.todoTasks.where((e) => !e.completed).toList();
+                                  final item = items[index];
+                                  return DragTarget<int>(
+                                    onWillAccept: (from) => from != null && from != index,
+                                    onAccept: (from) {
+                                      final fromId = items[from].id;
+                                      final toId = items[index].id;
+                                      final oldIndex = store.todoTasks.indexWhere((e) => e.id == fromId);
+                                      final newIndex = store.todoTasks.indexWhere((e) => e.id == toId);
+                                      store.reorderTodo(oldIndex, newIndex);
+                                    },
+                                    builder: (context, candidateData, rejectedData) {
+                                      return LongPressDraggable<int>(
+                                        data: index,
+                                        dragAnchorStrategy: childDragAnchorStrategy,
+                                        feedback: Material(
+                                          type: MaterialType.transparency,
+                                          child: Container(
+                                            width: 600,
+                                            padding: const EdgeInsets.symmetric(vertical: 8),
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    item.text,
+                                                    style: TextStyle(
+                                                      color: color,
+                                                      fontSize: 18,
+                                                      decoration: item.completed ? TextDecoration.lineThrough : TextDecoration.none,
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 12),
+                                                SizedBox(
+                                                  width: 84,
+                                                  child: DecoratedBox(
+                                                    decoration: BoxDecoration(
+                                                      color: (item.remindTime ?? '').isNotEmpty ? color.withOpacity(0.12) : Colors.transparent,
+                                                      borderRadius: BorderRadius.circular(4),
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(
+                                                        (item.remindTime ?? '').isNotEmpty ? item.remindTime! : 'HH:MM',
+                                                        style: TextStyle(color: color.withOpacity(0.8), fontSize: 14),
+                                                        textAlign: TextAlign.center,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 6),
+                                                Icon(Icons.delete_outline_rounded, color: color.withOpacity(0.8)),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        childWhenDragging: Opacity(
+                                          opacity: 0.4,
+                                          child: _TodoRow(key: ValueKey('${item.id}-drag'), id: item.id, text: item.text, completed: item.completed, color: color, startEditing: false),
+                                        ),
+                                        child: _TodoRow(
+                                          key: ValueKey(item.id),
+                                          id: item.id,
+                                          text: item.text,
+                                          completed: item.completed,
+                                          color: color,
+                                          startEditing: item.text.isEmpty,
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                    ),
-                  ),
                 ),
                 Align(
-                  alignment: Alignment.centerLeft,
+                  alignment: Alignment.centerRight,
                   child: SizedBox(
-                    width: leftWidth,
-                    child: _NotesPane(color: color),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: SizedBox(
+                    height: constraints.maxHeight,
                     width: rightWidth,
                     child: _LegendPane(color: color),
                   ),
@@ -582,7 +588,7 @@ class _LegendPane extends StatelessWidget {
             children: [
               Container(width: 14, height: 14, decoration: BoxDecoration(color: Colors.red.withOpacity(0.5), borderRadius: BorderRadius.circular(3))),
               const SizedBox(width: 8),
-              Expanded(child: Text('Red: due in < 10 minutes', style: TextStyle(color: color.withOpacity(0.9))))
+              Expanded(child: Text('Red: due in < 10 minutes', style: TextStyle(color: color.withOpacity(0.9)))),
             ],
           ),
           const SizedBox(height: 6),
@@ -590,7 +596,7 @@ class _LegendPane extends StatelessWidget {
             children: [
               Container(width: 14, height: 14, decoration: BoxDecoration(color: Colors.yellow.withOpacity(0.5), borderRadius: BorderRadius.circular(3))),
               const SizedBox(width: 8),
-              Expanded(child: Text('Yellow: due in < 60 minutes', style: TextStyle(color: color.withOpacity(0.9))))
+              Expanded(child: Text('Yellow: due in < 60 minutes', style: TextStyle(color: color.withOpacity(0.9)))),
             ],
           ),
           const SizedBox(height: 6),
@@ -598,7 +604,7 @@ class _LegendPane extends StatelessWidget {
             children: [
               Container(width: 14, height: 14, decoration: BoxDecoration(color: Colors.green.withOpacity(0.5), borderRadius: BorderRadius.circular(3))),
               const SizedBox(width: 8),
-              Expanded(child: Text('Green: completed', style: TextStyle(color: color.withOpacity(0.9))))
+              Expanded(child: Text('Green: completed', style: TextStyle(color: color.withOpacity(0.9)))),
             ],
           ),
         ],
