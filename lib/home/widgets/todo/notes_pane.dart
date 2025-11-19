@@ -94,39 +94,31 @@ class NotesPaneState extends State<NotesPane> {
           ),
           const SizedBox(height: 8),
           Expanded(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.zero,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  TextField(
-                    controller: _noteController,
-                    keyboardType: TextInputType.multiline,
-                    maxLines: null,
-                    minLines: 24,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color),
-                    decoration: InputDecoration(
-                      hintText: 'todo.writeOrPaste'.tr(),
-                      hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color.withOpacity(0.5)),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                      filled: true,
-                      fillColor: Colors.black.withOpacity(0.06),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(color: widget.color.withOpacity(0.15)),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: widget.color.withOpacity(0.15)),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: widget.color.withOpacity(0.4)),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                ],
+            child: TextField(
+              controller: _noteController,
+              keyboardType: TextInputType.multiline,
+              maxLines: null,
+              expands: true,
+              textAlignVertical: TextAlignVertical.top,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color),
+              decoration: InputDecoration(
+                hintText: 'todo.writeOrPaste'.tr(),
+                hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color.withOpacity(0.5)),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                filled: true,
+                fillColor: Colors.black.withOpacity(0.06),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: widget.color.withOpacity(0.15)),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: widget.color.withOpacity(0.15)),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: widget.color.withOpacity(0.4)),
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
             ),
           ),
