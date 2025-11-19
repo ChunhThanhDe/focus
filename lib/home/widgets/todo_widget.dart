@@ -55,7 +55,7 @@ class _TodoWidgetState extends State<TodoWidget> {
                         height: constraints.maxHeight,
                         width: middleWidth,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+                          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -129,9 +129,7 @@ class _TodoWidgetState extends State<TodoWidget> {
                               CustomObserver(
                                 name: 'TodoList',
                                 builder: (context) {
-                                  final items = _showCompleted
-                                      ? store.todoTasks.where((e) => e.completed).toList()
-                                      : store.todoTasks.where((e) => !e.completed).toList();
+                                  final items = _showCompleted ? store.todoTasks.where((e) => e.completed).toList() : store.todoTasks.where((e) => !e.completed).toList();
                                   final completedCount = store.todoTasks.where((t) => t.completed).length;
                                   return Column(
                                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -653,19 +651,9 @@ class _NotesPaneState extends State<_NotesPane> {
   }
 }
 
-class _NoteBlock {
-  final String id;
-  final _NoteType type;
-  final String? content;
-  final Uint8List? bytes;
-  _NoteBlock(this.id, this.type, [this.content, this.bytes]);
-}
-
-enum _NoteType { text, image }
-
 class _LegendPane extends StatelessWidget {
   final Color color;
-  const _LegendPane({super.key, required this.color});
+  const _LegendPane({required this.color});
 
   @override
   Widget build(BuildContext context) {
