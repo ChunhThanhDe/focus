@@ -17,8 +17,8 @@ class LegendPane extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Legend', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: color, fontWeight: FontWeight.w500)),
-          const SizedBox(height: 8),
+          Text('Legend', style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: color, fontWeight: FontWeight.w500)),
+          const SizedBox(height: 20),
           Row(
             children: [
               Container(width: 14, height: 14, decoration: BoxDecoration(color: Colors.red.withOpacity(0.5), borderRadius: BorderRadius.circular(3))),
@@ -42,7 +42,7 @@ class LegendPane extends StatelessWidget {
               Expanded(child: Text('Green: completed', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: color.withOpacity(0.9)))),
             ],
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 20),
           Row(
             children: [
               Icon(Icons.keyboard_alt_rounded, size: 16, color: color.withOpacity(0.9)),

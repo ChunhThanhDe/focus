@@ -19,15 +19,16 @@ class About extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const SizedBox(height: 16),
+        const SizedBox(height: 12),
         const Center(child: FocusLogo(size: 160, animate: false)),
-        const SizedBox(height: 15),
+        const SizedBox(height: 12),
         Text(
           'Focus Your Target'.toUpperCase(),
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.w700,
             letterSpacing: 1.2,
+            fontSize: 18,
           ),
         ),
         const SizedBox(height: 11),

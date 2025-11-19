@@ -1,19 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
-import 'package:flutter/services.dart' hide TextInput;
-import 'package:flutter/foundation.dart' show kIsWeb;
+
 // ignore: avoid_web_libraries_in_flutter
-import 'dart:html' as html;
-import 'dart:async';
-import 'package:get_it/get_it.dart';
-import '../../utils/storage_manager.dart';
-import '../../resources/storage_keys.dart';
+
 
 import '../../utils/custom_observer.dart';
 import '../background_store.dart';
-import '../../ui/text_input.dart';
-import 'package:screwdriver/screwdriver.dart';
 import 'todo/notes_pane.dart';
 import 'todo/todo_row.dart';
 import 'todo/legend_pane.dart';
@@ -82,7 +74,7 @@ class _TodoWidgetState extends State<TodoWidget> {
                                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: color),
                                       decoration: InputDecoration(
                                         hintText: 'Add a task',
-                                        hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: color.withOpacity(0.5)),
+                                        hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(color: color.withOpacity(0.5)),
                                         contentPadding: const EdgeInsets.symmetric(
                                           horizontal: 12,
                                           vertical: 12,
