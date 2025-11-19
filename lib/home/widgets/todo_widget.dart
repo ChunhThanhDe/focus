@@ -29,10 +29,10 @@ class _TodoWidgetState extends State<TodoWidget> {
   @override
   Widget build(BuildContext context) {
     final store = context.read<BackgroundStore>();
-    final color = store.foregroundColor;
     return CustomObserver(
       name: 'TodoWidget',
       builder: (context) {
+        final color = store.foregroundColor;
         return LayoutBuilder(
           builder: (context, constraints) {
             final double total = constraints.maxWidth;

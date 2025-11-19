@@ -4,11 +4,6 @@ import '../home/model/flat_color.dart';
 class FlatColors {
   const FlatColors._();
 
-  static const FlatColor focusTheme = FlatColor(
-    name: 'Focus Theme',
-    background: Color(0XFFFFC107),
-    foreground: Color(0XFFFFFFFF),
-  );
   static const FlatColor minimal = FlatColor(
     name: 'Minimal',
     background: Color(0XFFFFFFFF),
@@ -131,7 +126,6 @@ class FlatColors {
   );
 
   static const Map<String, FlatColor> colors = {
-    'Focus Theme': focusTheme,
     'Minimal': minimal,
     'Minimal Inverted': minimalInverted,
     'Brutal Red': brutalRed,

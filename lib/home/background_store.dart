@@ -7,6 +7,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:math' hide log;
+// ignore: avoid_web_libraries_in_flutter
 import 'dart:js_util' as js_util;
 
 import 'package:easy_localization/easy_localization.dart';
@@ -555,6 +556,7 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
   /// Retrieves the foreground color based on the current settings.
   @computed
   Color get foregroundColor {
+    if (_mode.isTodo && _todoDarkMode) return Colors.white;
     if (_mode.isColor || _mode.isTodo) return _color.foreground;
     if (_mode.isGradient) return _gradient.foreground;
     // Return black(inverted) foreground color for image mode when
