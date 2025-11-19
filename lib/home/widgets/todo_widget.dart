@@ -79,10 +79,10 @@ class _TodoWidgetState extends State<TodoWidget> {
                                         _newController.clear();
                                         setState(() {});
                                       },
-                                      style: TextStyle(color: color, fontSize: 18, height: 1.4, letterSpacing: 0.2),
+                                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: color),
                                       decoration: InputDecoration(
                                         hintText: 'Add a task',
-                                        hintStyle: TextStyle(color: color.withOpacity(0.5), height: 1.4, letterSpacing: 0.2),
+                                        hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: color.withOpacity(0.5)),
                                         contentPadding: const EdgeInsets.symmetric(
                                           horizontal: 12,
                                           vertical: 12,
@@ -204,11 +204,8 @@ class _TodoWidgetState extends State<TodoWidget> {
                                                       Expanded(
                                                         child: Text(
                                                           item.text,
-                                                          style: TextStyle(
+                                                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                                                             color: color,
-                                                            fontSize: 18,
-                                                            height: 1.4,
-                                                            letterSpacing: 0.2,
                                                             decoration: item.completed ? TextDecoration.lineThrough : TextDecoration.none,
                                                           ),
                                                         ),
@@ -224,7 +221,7 @@ class _TodoWidgetState extends State<TodoWidget> {
                                                           child: Center(
                                                             child: Text(
                                                               (item.remindTime ?? '').isNotEmpty ? item.remindTime! : 'HH:MM',
-                                                              style: TextStyle(color: color.withOpacity(0.8), fontSize: 14, height: 1.4, letterSpacing: 0.2),
+                                                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: color.withOpacity(0.8)),
                                                               textAlign: TextAlign.center,
                                                             ),
                                                           ),

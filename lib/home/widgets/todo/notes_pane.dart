@@ -59,19 +59,19 @@ class NotesPaneState extends State<NotesPane> {
               Expanded(
                 child: Text(
                   'Notes',
-                  style: TextStyle(color: widget.color, fontSize: 16, fontWeight: FontWeight.w500, height: 1.4, letterSpacing: 0.2),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color, fontWeight: FontWeight.w500),
                 ),
               ),
               TextButton(
                 onPressed: () async {
                   await _saveNotes();
                 },
-                child: Text('Save', style: TextStyle(color: widget.color.withOpacity(0.9), height: 1.4, letterSpacing: 0.2)),
+                child: Text('Save', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color.withOpacity(0.9))),
               ),
               const SizedBox(width: 8),
               TextButton(
                 onPressed: () => _handlePaste(),
-                child: Text('Paste', style: TextStyle(color: widget.color.withOpacity(0.9), height: 1.4, letterSpacing: 0.2)),
+                child: Text('Paste', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color.withOpacity(0.9))),
               ),
               const SizedBox(width: 8),
               TextButton(
@@ -79,7 +79,7 @@ class NotesPaneState extends State<NotesPane> {
                   _noteController.clear();
                   setState(() {});
                 },
-                child: Text('Clear', style: TextStyle(color: widget.color.withOpacity(0.9), height: 1.4, letterSpacing: 0.2)),
+                child: Text('Clear', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color.withOpacity(0.9))),
               ),
             ],
           ),
@@ -95,10 +95,10 @@ class NotesPaneState extends State<NotesPane> {
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
                     minLines: 24,
-                    style: TextStyle(color: widget.color, height: 1.4, letterSpacing: 0.2),
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color),
                     decoration: InputDecoration(
                       hintText: 'Write or paste…',
-                      hintStyle: TextStyle(color: widget.color.withOpacity(0.5), height: 1.4, letterSpacing: 0.2),
+                      hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color.withOpacity(0.5)),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       filled: true,
                       fillColor: Colors.black.withOpacity(0.06),

@@ -71,7 +71,7 @@ class TodoRowState extends State<TodoRow> {
                         store.updateTodoText(widget.id, v);
                         setState(() => editing = false);
                       },
-                      style: TextStyle(color: widget.color, fontSize: 18, height: 1.4, letterSpacing: 0.2),
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: widget.color),
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                         filled: true,
@@ -94,11 +94,8 @@ class TodoRowState extends State<TodoRow> {
                       onDoubleTap: () => setState(() => editing = true),
                       child: Text(
                         task.text,
-                        style: TextStyle(
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: widget.color,
-                          fontSize: 18,
-                          height: 1.4,
-                          letterSpacing: 0.2,
                           decoration: task.completed ? TextDecoration.lineThrough : TextDecoration.none,
                         ),
                       ),
@@ -131,14 +128,17 @@ class TodoRowState extends State<TodoRow> {
                       textAlign: TextAlign.center,
                       showInitialBorder: false,
                       fillColor: ((task.remindTime ?? '').isNotEmpty) ? widget.color.withOpacity(0.12) : null,
-                      textStyle: TextStyle(color: widget.color, height: 1.4, letterSpacing: 0.2),
-                      hintStyle: TextStyle(color: widget.color.withOpacity(0.6), height: 1.4, letterSpacing: 0.2),
+                      textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color),
+                      hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color.withOpacity(0.6)),
                       suffix: !use24h
                           ? GestureDetector(
                               onTap: () => setState(() => _isAm = !_isAm),
                               child: Padding(
                                 padding: const EdgeInsets.only(right: 6),
-                                child: Text(_isAm ? 'AM' : 'PM', style: TextStyle(color: widget.color.withOpacity(0.8), height: 1.4, letterSpacing: 0.2)),
+                                child: Text(
+                                  _isAm ? 'AM' : 'PM',
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color.withOpacity(0.8)),
+                                ),
                               ),
                             )
                           : null,
