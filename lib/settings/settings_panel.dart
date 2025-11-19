@@ -112,29 +112,7 @@ class _SettingsPanelContentState extends State<SettingsPanelContent> with Single
                           style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
                         ),
                       ),
-                      Material(
-                        type: MaterialType.transparency,
-                        child: Row(
-                          children: [
-                            Text(
-                              'EN',
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                            Switch.adaptive(
-                              value: context.locale.languageCode == 'vi',
-                              onChanged: (isVi) async {
-                                await context.setLocale(isVi ? const Locale('vi') : const Locale('en'));
-                              },
-                              activeColor: Theme.of(context).colorScheme.primary,
-                              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            ),
-                            Text(
-                              'VI',
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                          ],
-                        ),
-                      ),
+                      const SizedBox.shrink(),
                       const SizedBox(width: 4),
                       const MenuButton(),
                       Material(

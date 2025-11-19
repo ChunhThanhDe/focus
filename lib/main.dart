@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
     return DebugRender(
       debugHighlightObserverRebuild: false,
       child: MaterialApp(
-        title: 'main.title'.tr(),
+        title: 'focus',
         debugShowCheckedModeBanner: false,
         theme: buildTheme(context),
         home: const HomeWrapper(key: ValueKey('HomeWrapper')),

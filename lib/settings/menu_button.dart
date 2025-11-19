@@ -27,20 +27,21 @@ import 'reset_dialog.dart';
 class MenuButton extends StatelessWidget {
   const MenuButton({super.key});
 
-  static Map<String, String> get options => {
-    'liked_backgrounds': 'settings.menu.likedBackgrounds'.tr(),
-    'import': 'settings.menu.import'.tr(),
-    'export': 'settings.menu.export'.tr(),
-    'advanced': 'settings.menu.advanced'.tr(),
-    'changelog': 'settings.menu.changelog'.tr(),
-    'donate': 'settings.menu.donate'.tr(),
-    'sponsor': 'settings.menu.sponsor'.tr(),
-    'report': 'settings.menu.report'.tr(),
-    'reset': 'settings.menu.reset'.tr(),
-  };
-
   @override
   Widget build(BuildContext context) {
+    final bool isVi = context.locale.languageCode == 'vi';
+    final Map<String, String> itemsMap = {
+      'liked_backgrounds': 'settings.menu.likedBackgrounds'.tr(),
+      'import': 'settings.menu.import'.tr(),
+      'export': 'settings.menu.export'.tr(),
+      'language_toggle': isVi ? 'common.english'.tr() : 'common.vietnamese'.tr(),
+      'advanced': 'settings.menu.advanced'.tr(),
+      'changelog': 'settings.menu.changelog'.tr(),
+      'donate': 'settings.menu.donate'.tr(),
+      'sponsor': 'settings.menu.sponsor'.tr(),
+      'report': 'settings.menu.report'.tr(),
+      'reset': 'settings.menu.reset'.tr(),
+    };
     return Theme(
       data: Theme.of(
         context,
@@ -48,7 +49,7 @@ class MenuButton extends StatelessWidget {
       child: Material(
         type: MaterialType.transparency,
         child: CustomDropdownButton<MapEntry<String, String>>(
-          items: options.entries.toList(),
+          items: itemsMap.entries.toList(),
           underline: const SizedBox.shrink(),
           dropdownWidth: 260,
           dropdownDirection: DropdownDirection.left,
@@ -144,6 +145,8 @@ class MenuButton extends StatelessWidget {
         return Icons.file_download_outlined;
       case 'export':
         return Icons.file_upload_outlined;
+      case 'language_toggle':
+        return Icons.translate;
       case 'report':
         return Icons.bug_report_outlined;
       case 'donate':
@@ -195,6 +198,9 @@ class MenuButton extends StatelessWidget {
         onImportSettings(context);
       case 'export':
         onExportSettings(context);
+      case 'language_toggle':
+        final isVi = context.locale.languageCode == 'vi';
+        context.setLocale(isVi ? const Locale('en') : const Locale('vi'));
       case 'report':
         launchUrl(
           Uri.parse('https://github.com/ChunhThanhDe/focus/issues/new/choose'),

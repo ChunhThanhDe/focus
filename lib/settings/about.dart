@@ -19,7 +19,7 @@ class About extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const SizedBox(height: 12),
+        const SizedBox(height: 6),
         const Center(child: FocusLogo(size: 160, animate: false)),
         const SizedBox(height: 12),
         Text(
@@ -65,7 +65,7 @@ class About extends StatelessWidget {
             Text(
               'in',
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 fontWeight: FontWeight.w400,
                 letterSpacing: 0.25,
                 color: Theme.of(context).colorScheme.primary,
@@ -139,6 +139,49 @@ class About extends StatelessWidget {
               child: SizedBox.square(
                 dimension: 32,
                 child: Image.asset('assets/images/ic_website.png'),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 48),
+        Text(
+          'Flutter Vietnam Community',
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            fontWeight: FontWeight.w500,
+            letterSpacing: 0.25,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
+        const SizedBox(height: 12),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GestureDetectorWithCursor(
+              onTap: () => launchUrl(Uri.parse('https://discord.gg/et4nyJ49')),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox.square(
+                    dimension: 40,
+                    child: ClipOval(
+                      child: Image.asset(
+                        'assets/images/ic_flutter_pho.jpg',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    'Best Flutter Discord VN ',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      height: 1,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: FontFamilies.systemUI,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
