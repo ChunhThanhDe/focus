@@ -27,6 +27,7 @@ class StorageKeys {
   static const String imageDownloadQuality = 'image_download_quality';
   static const String socialCleanerSettings = 'social_cleaner_settings';
   static const String todoSettings = 'todo_settings';
+  static const String todoNotes = 'todo_notes';
 
   static String likedBackground(String id) => 'liked:$id';
 }

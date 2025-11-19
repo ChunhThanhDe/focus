@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:flutter/services.dart' hide TextInput;
+import 'package:flutter/foundation.dart' show kIsWeb;
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html' as html;
+import 'dart:async';
+import 'package:get_it/get_it.dart';
+import '../../utils/storage_manager.dart';
+import '../../resources/storage_keys.dart';
 
 import '../../utils/custom_observer.dart';
 import '../background_store.dart';
@@ -450,7 +457,30 @@ class _NotesPane extends StatefulWidget {
 
 class _NotesPaneState extends State<_NotesPane> {
   final TextEditingController _noteController = TextEditingController();
-  final TextEditingController _imageUrlController = TextEditingController();
+  late final LocalStorageManager storage = GetIt.instance.get<LocalStorageManager>();
+
+  @override
+  void initState() {
+    super.initState();
+    _noteController.addListener(_syncImagesFromEditor);
+    _loadNotes();
+    if (kIsWeb) {
+      html.document.onPaste.listen((event) async {
+        try {
+          // no auto-save on paste
+        } catch (_) {}
+      });
+      html.document.onKeyDown.listen((e) async {
+        try {
+          final key = e.key?.toLowerCase() ?? '';
+          if ((e.ctrlKey || e.metaKey) && key == 's') {
+            e.preventDefault();
+            await _saveNotes();
+          }
+        } catch (_) {}
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -462,7 +492,6 @@ class _NotesPaneState extends State<_NotesPane> {
       ),
       padding: const EdgeInsets.all(12),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Row(
@@ -475,83 +504,63 @@ class _NotesPaneState extends State<_NotesPane> {
               ),
               TextButton(
                 onPressed: () async {
-                  final data = await Clipboard.getData('text/plain');
-                  final txt = data?.text?.trim() ?? '';
-                  if (txt.isEmpty) return;
-                  if (txt.startsWith('http')) {
-                    _imageUrlController.text = txt;
-                    setState(() {});
-                  } else {
-                    final cur = _noteController.text;
-                    _noteController.text = cur.isEmpty ? txt : '$cur\n$txt';
-                  }
+                  await _saveNotes();
                 },
+                child: Text('Save', style: TextStyle(color: widget.color.withOpacity(0.9))),
+              ),
+              const SizedBox(width: 8),
+              TextButton(
+                onPressed: () => _handlePaste(),
                 child: Text('Paste', style: TextStyle(color: widget.color.withOpacity(0.9))),
+              ),
+              const SizedBox(width: 8),
+              TextButton(
+                onPressed: () {
+                  _noteController.clear();
+                  setState(() {});
+                },
+                child: Text('Clear', style: TextStyle(color: widget.color.withOpacity(0.9))),
               ),
             ],
           ),
           const SizedBox(height: 8),
-          TextField(
-            controller: _noteController,
-            maxLines: 6,
-            style: TextStyle(color: widget.color),
-            decoration: InputDecoration(
-              hintText: 'Write something…',
-              hintStyle: TextStyle(color: widget.color.withOpacity(0.5)),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              filled: true,
-              fillColor: Colors.black.withOpacity(0.06),
-              border: OutlineInputBorder(
-                borderSide: BorderSide(color: widget.color.withOpacity(0.15)),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: widget.color.withOpacity(0.15)),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: widget.color.withOpacity(0.4)),
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
-          TextField(
-            controller: _imageUrlController,
-            onSubmitted: (_) => setState(() {}),
-            style: TextStyle(color: widget.color),
-            decoration: InputDecoration(
-              hintText: 'Image URL',
-              hintStyle: TextStyle(color: widget.color.withOpacity(0.5)),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              filled: true,
-              fillColor: Colors.black.withOpacity(0.06),
-              border: OutlineInputBorder(
-                borderSide: BorderSide(color: widget.color.withOpacity(0.15)),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: widget.color.withOpacity(0.15)),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: widget.color.withOpacity(0.4)),
-                borderRadius: BorderRadius.circular(8),
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.zero,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  TextField(
+                    controller: _noteController,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    minLines: 12,
+                    style: TextStyle(color: widget.color),
+                    decoration: InputDecoration(
+                      hintText: 'Write or paste…',
+                      hintStyle: TextStyle(color: widget.color.withOpacity(0.5)),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      filled: true,
+                      fillColor: Colors.black.withOpacity(0.06),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: widget.color.withOpacity(0.15)),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: widget.color.withOpacity(0.15)),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: widget.color.withOpacity(0.4)),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                ],
               ),
             ),
           ),
-          const SizedBox(height: 10),
-          if (_imageUrlController.text.trim().isNotEmpty)
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: SizedBox(
-                height: 160,
-                child: Image.network(
-                  _imageUrlController.text.trim(),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
         ],
       ),
     );
@@ -559,11 +568,78 @@ class _NotesPaneState extends State<_NotesPane> {
 
   @override
   void dispose() {
+    _noteController.removeListener(_syncImagesFromEditor);
     _noteController.dispose();
-    _imageUrlController.dispose();
     super.dispose();
   }
+  
+
+  void _syncImagesFromEditor() {
+    setState(() {});
+  }
+
+  // no image URL parsing for Notes
+
+  Future<void> _handlePaste() async {
+    try {
+      if (kIsWeb) {
+        final text = await html.window.navigator.clipboard?.readText();
+        if (text != null && text.trim().isNotEmpty) {
+          final cur = _noteController.text;
+          _noteController.text = cur.isEmpty ? text : '$cur\n$text';
+        }
+      } else {
+        final data = await Clipboard.getData('text/plain');
+        final txt = data?.text ?? '';
+        if (txt.trim().isNotEmpty) {
+          final cur = _noteController.text;
+          _noteController.text = cur.isEmpty ? txt : '$cur\n$txt';
+        }
+      }
+    } catch (_) {}
+    if (_noteController.text.trim().isEmpty) {
+      final data = await Clipboard.getData('text/plain');
+      final txt = data?.text ?? '';
+      if (txt.trim().isNotEmpty) {
+        final cur = _noteController.text;
+        _noteController.text = cur.isEmpty ? txt : '$cur\n$txt';
+      }
+    }
+    _syncImagesFromEditor();
+    setState(() {});
+  }
+
+  Future<void> _loadNotes() async {
+    try {
+      final data = await storage.getJson(StorageKeys.todoNotes);
+      if (data == null) return;
+      final text = (data['text'] as String?) ?? '';
+      _noteController.text = text;
+      setState(() {});
+    } catch (_) {}
+  }
+
+  Future<void> _saveNotes() async {
+    try {
+      final payload = {
+        'text': _noteController.text,
+      };
+      await storage.setJson(StorageKeys.todoNotes, payload);
+    } catch (_) {}
+  }
+
+  
 }
+
+class _NoteBlock {
+  final String id;
+  final _NoteType type;
+  final String? content;
+  final Uint8List? bytes;
+  _NoteBlock(this.id, this.type, [this.content, this.bytes]);
+}
+
+enum _NoteType { text, image }
 
 class _LegendPane extends StatelessWidget {
   final Color color;
