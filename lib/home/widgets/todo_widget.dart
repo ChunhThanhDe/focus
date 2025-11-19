@@ -13,6 +13,7 @@ import '../../resources/storage_keys.dart';
 import '../../utils/custom_observer.dart';
 import '../background_store.dart';
 import '../../ui/text_input.dart';
+import 'package:screwdriver/screwdriver.dart';
 
 class TodoWidget extends StatefulWidget {
   const TodoWidget({super.key});
@@ -73,6 +74,7 @@ class _TodoWidgetState extends State<TodoWidget> {
                                           store.addTodos(lines);
                                         }
                                         _newController.clear();
+                                        setState(() {});
                                       },
                                       style: TextStyle(color: color, fontSize: 18),
                                       decoration: InputDecoration(
@@ -110,6 +112,7 @@ class _TodoWidgetState extends State<TodoWidget> {
                                         store.addTodos(lines);
                                       }
                                       _newController.clear();
+                                      setState(() {});
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
@@ -123,114 +126,129 @@ class _TodoWidgetState extends State<TodoWidget> {
                                 ],
                               ),
                               const SizedBox(height: 12),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  TextButton(
-                                    onPressed: () => setState(() => _showCompleted = !_showCompleted),
-                                    child: Text(
-                                      _showCompleted ? 'Show active' : 'Show completed',
-                                      style: TextStyle(color: color.withOpacity(0.9)),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  TextButton(
-                                    onPressed: () => store.clearAllTodos(),
-                                    child: Text(
-                                      'Clear all tasks',
-                                      style: TextStyle(color: color.withOpacity(0.9)),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                                    decoration: BoxDecoration(
-                                      color: color.withOpacity(0.12),
-                                      borderRadius: BorderRadius.circular(6),
-                                    ),
-                                    child: Text(
-                                      '${store.todoTasks.where((t) => t.completed).length}',
-                                      style: TextStyle(color: color.withOpacity(0.9)),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                ],
-                              ),
-                              const SizedBox(height: 20),
-                              ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: (_showCompleted ? store.todoTasks.where((e) => e.completed).toList() : store.todoTasks.where((e) => !e.completed).toList()).length,
-                                itemBuilder: (context, index) {
-                                  final items = _showCompleted ? store.todoTasks.where((e) => e.completed).toList() : store.todoTasks.where((e) => !e.completed).toList();
-                                  final item = items[index];
-                                  return DragTarget<int>(
-                                    onWillAccept: (from) => from != null && from != index,
-                                    onAccept: (from) {
-                                      final fromId = items[from].id;
-                                      final toId = items[index].id;
-                                      final oldIndex = store.todoTasks.indexWhere((e) => e.id == fromId);
-                                      final newIndex = store.todoTasks.indexWhere((e) => e.id == toId);
-                                      store.reorderTodo(oldIndex, newIndex);
-                                    },
-                                    builder: (context, candidateData, rejectedData) {
-                                      return LongPressDraggable<int>(
-                                        data: index,
-                                        dragAnchorStrategy: childDragAnchorStrategy,
-                                        feedback: Material(
-                                          type: MaterialType.transparency,
-                                          child: Container(
-                                            width: 600,
-                                            padding: const EdgeInsets.symmetric(vertical: 8),
-                                            child: Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    item.text,
-                                                    style: TextStyle(
-                                                      color: color,
-                                                      fontSize: 18,
-                                                      decoration: item.completed ? TextDecoration.lineThrough : TextDecoration.none,
-                                                    ),
-                                                  ),
-                                                ),
-                                                const SizedBox(width: 12),
-                                                SizedBox(
-                                                  width: 84,
-                                                  child: DecoratedBox(
-                                                    decoration: BoxDecoration(
-                                                      color: (item.remindTime ?? '').isNotEmpty ? color.withOpacity(0.12) : Colors.transparent,
-                                                      borderRadius: BorderRadius.circular(4),
-                                                    ),
-                                                    child: Center(
-                                                      child: Text(
-                                                        (item.remindTime ?? '').isNotEmpty ? item.remindTime! : 'HH:MM',
-                                                        style: TextStyle(color: color.withOpacity(0.8), fontSize: 14),
-                                                        textAlign: TextAlign.center,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                const SizedBox(width: 6),
-                                                Icon(Icons.delete_outline_rounded, color: color.withOpacity(0.8)),
-                                              ],
+                              CustomObserver(
+                                name: 'TodoList',
+                                builder: (context) {
+                                  final items = _showCompleted
+                                      ? store.todoTasks.where((e) => e.completed).toList()
+                                      : store.todoTasks.where((e) => !e.completed).toList();
+                                  final completedCount = store.todoTasks.where((t) => t.completed).length;
+                                  return Column(
+                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          TextButton(
+                                            onPressed: () => setState(() => _showCompleted = !_showCompleted),
+                                            child: Text(
+                                              _showCompleted ? 'Show active' : 'Show completed',
+                                              style: TextStyle(color: color.withOpacity(0.9)),
                                             ),
                                           ),
-                                        ),
-                                        childWhenDragging: Opacity(
-                                          opacity: 0.4,
-                                          child: _TodoRow(key: ValueKey('${item.id}-drag'), id: item.id, text: item.text, completed: item.completed, color: color, startEditing: false),
-                                        ),
-                                        child: _TodoRow(
-                                          key: ValueKey(item.id),
-                                          id: item.id,
-                                          text: item.text,
-                                          completed: item.completed,
-                                          color: color,
-                                          startEditing: item.text.isEmpty,
-                                        ),
-                                      );
-                                    },
+                                          const SizedBox(width: 8),
+                                          TextButton(
+                                            onPressed: () {
+                                              store.clearAllTodos();
+                                            },
+                                            child: Text(
+                                              'Clear all tasks',
+                                              style: TextStyle(color: color.withOpacity(0.9)),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 8),
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                                            decoration: BoxDecoration(
+                                              color: color.withOpacity(0.12),
+                                              borderRadius: BorderRadius.circular(6),
+                                            ),
+                                            child: Text(
+                                              '$completedCount',
+                                              style: TextStyle(color: color.withOpacity(0.9)),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 8),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 20),
+                                      ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: const NeverScrollableScrollPhysics(),
+                                        itemCount: items.length,
+                                        itemBuilder: (context, index) {
+                                          final item = items[index];
+                                          return DragTarget<int>(
+                                            onWillAccept: (from) => from != null && from != index,
+                                            onAccept: (from) {
+                                              final fromId = items[from].id;
+                                              final toId = items[index].id;
+                                              final oldIndex = store.todoTasks.indexWhere((e) => e.id == fromId);
+                                              final newIndex = store.todoTasks.indexWhere((e) => e.id == toId);
+                                              store.reorderTodo(oldIndex, newIndex);
+                                            },
+                                            builder: (context, candidateData, rejectedData) {
+                                              return LongPressDraggable<int>(
+                                                data: index,
+                                                dragAnchorStrategy: childDragAnchorStrategy,
+                                                feedback: Material(
+                                                  type: MaterialType.transparency,
+                                                  child: Container(
+                                                    width: 600,
+                                                    padding: const EdgeInsets.symmetric(vertical: 8),
+                                                    child: Row(
+                                                      children: [
+                                                        Expanded(
+                                                          child: Text(
+                                                            item.text,
+                                                            style: TextStyle(
+                                                              color: color,
+                                                              fontSize: 18,
+                                                              decoration: item.completed ? TextDecoration.lineThrough : TextDecoration.none,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(width: 12),
+                                                        SizedBox(
+                                                          width: 84,
+                                                          child: DecoratedBox(
+                                                            decoration: BoxDecoration(
+                                                              color: (item.remindTime ?? '').isNotEmpty ? color.withOpacity(0.12) : Colors.transparent,
+                                                              borderRadius: BorderRadius.circular(4),
+                                                            ),
+                                                            child: Center(
+                                                              child: Text(
+                                                                (item.remindTime ?? '').isNotEmpty ? item.remindTime! : 'HH:MM',
+                                                                style: TextStyle(color: color.withOpacity(0.8), fontSize: 14),
+                                                                textAlign: TextAlign.center,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(width: 6),
+                                                        Icon(Icons.delete_outline_rounded, color: color.withOpacity(0.8)),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                childWhenDragging: Opacity(
+                                                  opacity: 0.4,
+                                                  child: _TodoRow(key: ValueKey('${item.id}-drag'), id: item.id, text: item.text, completed: item.completed, color: color, startEditing: false),
+                                                ),
+                                                child: _TodoRow(
+                                                  key: ValueKey(item.id),
+                                                  id: item.id,
+                                                  text: item.text,
+                                                  completed: item.completed,
+                                                  color: color,
+                                                  startEditing: item.text.isEmpty,
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ],
                                   );
                                 },
                               ),
@@ -293,12 +311,12 @@ class _TodoRowState extends State<_TodoRow> {
   @override
   Widget build(BuildContext context) {
     final store = context.read<BackgroundStore>();
-    final task = store.todoTasks.firstWhere((e) => e.id == widget.id);
+    final task = store.todoTasks.firstWhereOrNull((e) => e.id == widget.id) ?? TodoTask(id: widget.id, text: widget.text, completed: widget.completed);
     if ((task.remindTime ?? '').isNotEmpty && timeController.text != task.remindTime) {
       timeController.text = task.remindTime!;
     }
     Color? bg;
-    if (widget.completed) {
+    if (task.completed) {
       bg = Colors.green.withOpacity(0.5);
     } else {
       final s = task.remindTime ?? '';
@@ -358,26 +376,29 @@ class _TodoRowState extends State<_TodoRow> {
                       : GestureDetector(
                         onDoubleTap: () => setState(() => editing = true),
                         child: Text(
-                          widget.text,
+                          task.text,
                           style: TextStyle(
                             color: widget.color,
                             fontSize: 18,
-                            decoration: widget.completed ? TextDecoration.lineThrough : TextDecoration.none,
+                            decoration: task.completed ? TextDecoration.lineThrough : TextDecoration.none,
                           ),
                         ),
                       ),
             ),
             const SizedBox(width: 12),
             Checkbox(
-              value: widget.completed,
-              onChanged: (v) => store.toggleTodo(widget.id, v ?? false),
+              value: task.completed,
+              onChanged: (v) {
+                store.toggleTodo(widget.id, v ?? false);
+                setState(() {});
+              },
               side: BorderSide(color: widget.color.withOpacity(0.5)),
               fillColor: MaterialStateProperty.resolveWith((states) => widget.color.withOpacity(0.2)),
               checkColor: Colors.black,
             ),
             const SizedBox(width: 6),
             IgnorePointer(
-              ignoring: widget.completed,
+              ignoring: task.completed,
               child: CustomObserver(
                 name: 'TodoRowTimeInput',
                 builder: (context) {
@@ -420,6 +441,7 @@ class _TodoRowState extends State<_TodoRow> {
                         }
                         store.setTodoRemindTime(widget.id, toStore);
                         store.scheduleTaskReminderFromTime(widget.id);
+                        setState(() {});
                         return true;
                       },
                     ),
@@ -429,7 +451,10 @@ class _TodoRowState extends State<_TodoRow> {
             ),
             const SizedBox(width: 6),
             InkWell(
-              onTap: () => store.removeTodo(widget.id),
+              onTap: () {
+                store.removeTodo(widget.id);
+                setState(() {});
+              },
               child: Icon(Icons.delete_outline_rounded, color: widget.color.withOpacity(0.8)),
             ),
             const SizedBox(width: 12),
@@ -449,7 +474,7 @@ class _TodoRowState extends State<_TodoRow> {
 
 class _NotesPane extends StatefulWidget {
   final Color color;
-  const _NotesPane({super.key, required this.color});
+  const _NotesPane({required this.color});
 
   @override
   State<_NotesPane> createState() => _NotesPaneState();
@@ -534,7 +559,7 @@ class _NotesPaneState extends State<_NotesPane> {
                     controller: _noteController,
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
-                    minLines: 12,
+                    minLines: 24,
                     style: TextStyle(color: widget.color),
                     decoration: InputDecoration(
                       hintText: 'Write or paste…',
@@ -572,7 +597,6 @@ class _NotesPaneState extends State<_NotesPane> {
     _noteController.dispose();
     super.dispose();
   }
-  
 
   void _syncImagesFromEditor() {
     setState(() {});
@@ -627,8 +651,6 @@ class _NotesPaneState extends State<_NotesPane> {
       await storage.setJson(StorageKeys.todoNotes, payload);
     } catch (_) {}
   }
-
-  
 }
 
 class _NoteBlock {
