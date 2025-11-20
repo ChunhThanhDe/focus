@@ -1,20 +1,19 @@
 /*
  * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
  * @ Created: 2025-11-12 11:09:32
- * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+* @ Message: 🎯 Happy coding and Have a nice day! 🌤️
  */
 
 import 'package:flutter/material.dart';
+import 'package:focus/data/sources/backend/backend_service.dart';
+import 'package:focus/data/sources/backend/rest_backend_service.dart';
+import 'package:focus/presentation/home/pages/home_page.dart';
+import 'package:focus/core/services/geocoding_service.dart';
+import 'package:focus/data/sources/storage/local_storage_manager.dart';
+import 'package:focus/core/utils/weather_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
-
-import 'backend/backend_service.dart';
-import 'backend/rest_backend_service.dart';
-import 'home/home.dart';
-import 'utils/geocoding_service.dart';
-import 'utils/storage_manager.dart';
-import 'utils/weather_service.dart';
 
 void main() async {
   final binding = WidgetsFlutterBinding.ensureInitialized();
