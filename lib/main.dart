@@ -83,8 +83,6 @@ Future<void> initializeBackend() async {
 
 Future<BackendService> getBackend() async => RestBackendService();
 
- 
-
 class DebugRender extends InheritedWidget {
   final bool debugHighlightObserverRebuild;
 
