@@ -32,7 +32,7 @@ void main(List<String> args) {
   final StringBuffer stringBuffer = StringBuffer();
 
   stringBuffer.writeln("import 'package:flutter/painting.dart';");
-  stringBuffer.writeln("import '../home/model/color_gradient.dart';");
+  stringBuffer.writeln("import 'package:focus/data/models/color_gradient.dart';");
   stringBuffer.writeln('class ColorGradients {');
   stringBuffer.writeln('  const ColorGradients._();\n');
 

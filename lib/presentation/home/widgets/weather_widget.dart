@@ -5,7 +5,6 @@
  */
 
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:focus/presentation/home/store/background_store.dart';

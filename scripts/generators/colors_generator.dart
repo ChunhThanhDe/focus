@@ -31,7 +31,7 @@ void main(List<String> args) {
   final StringBuffer stringBuffer = StringBuffer();
 
   stringBuffer.writeln("import 'package:flutter/painting.dart';");
-  stringBuffer.writeln("import '../home/model/flat_color.dart';");
+  stringBuffer.writeln("import 'package:focus/data/models/flat_color.dart';");
   stringBuffer.writeln('class FlatColors {');
   stringBuffer.writeln('  const FlatColors._();\n');
 
