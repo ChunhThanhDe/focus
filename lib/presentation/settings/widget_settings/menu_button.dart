@@ -1,14 +1,15 @@
 /*
  * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
- * @ Created: 2025-11-12 11:01:44
- * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ * @ Created: 2025-08-12 11:01:44
+ * @ Message: Ã°Å¸Å½Â¯ Happy coding and Have a nice day! Ã°Å¸Å’Â¤Ã¯Â¸Â
  */
 
 import 'package:flutter/material.dart';
-import 'package:focus/presentation/settings/dialogs/advanced_settings_dialog.dart';
-import 'package:focus/presentation/settings/dialogs/changelog_dialog.dart';
-import 'package:focus/presentation/settings/dialogs/liked_backgrounds_dialog.dart';
-import 'package:focus/presentation/settings/dialogs/reset_dialog.dart';
+import 'package:focus/common/widgets/dialogs/advanced_settings_dialog.dart';
+import 'package:focus/common/widgets/dialogs/changelog_dialog.dart';
+import 'package:focus/common/widgets/dialogs/liked_backgrounds_dialog.dart';
+import 'package:focus/common/widgets/dialogs/reset_dialog.dart';
+
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -21,7 +22,7 @@ import 'package:focus/data/models/export_data.dart';
 import 'package:focus/presentation/home/store/widget_store.dart';
 import 'package:focus/core/constants/colors.dart';
 import 'package:focus/core/constants/storage_keys.dart';
-import 'package:focus/core/utils/dropdown_button3.dart';
+import 'package:focus/common/widgets/button/dropdown_button3.dart';
 import 'package:focus/data/sources/storage/local_storage_manager.dart';
 
 class MenuButton extends StatelessWidget {

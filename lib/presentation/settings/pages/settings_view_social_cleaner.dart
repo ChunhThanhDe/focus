@@ -1,18 +1,18 @@
 /*
  * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
- * @ Created: 2025-11-12 11:09:32
-* @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ * @ Created: 2025-08-12 11:09:32
+* @ Message: ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Â¯ Happy coding and Have a nice day! ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â¤ÃƒÂ¯Ã‚Â¸Ã‚Â
  */
 
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import 'package:focus/common/widgets/custom_switch.dart';
-import 'package:focus/common/widgets/text_input.dart';
-import 'package:focus/common/widgets/gesture_detector_with_cursor.dart';
+import 'package:focus/common/widgets/button/custom_switch.dart';
+import 'package:focus/common/widgets/dialogs/reset_dialog.dart';
+import 'package:focus/common/widgets/input/text_input.dart';
+import 'package:focus/common/widgets/input/gesture_detector_with_cursor.dart';
 import 'package:focus/core/constants/colors.dart';
-import 'package:focus/core/utils/custom_observer.dart';
-import 'package:focus/presentation/settings/dialogs/reset_dialog.dart';
+import 'package:focus/common/widgets/observer/custom_observer.dart';
 import 'package:focus/presentation/social_cleaner/store/social_cleaner_store.dart';
 
 class SocialCleanerSettings extends StatefulWidget {

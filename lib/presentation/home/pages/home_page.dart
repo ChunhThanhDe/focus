@@ -1,7 +1,7 @@
 /*
  * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
- * @ Created: 2025-11-12 11:09:32
- * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ * @ Created: 2025-08-12 11:09:32
+ * @ Message: Ã°Å¸Å½Â¯ Happy coding and Have a nice day! Ã°Å¸Å’Â¤Ã¯Â¸Â
  */
 
 import 'dart:async';
@@ -11,12 +11,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:focus/common/widgets/dialogs/changelog_dialog.dart';
 import 'package:focus/presentation/home/store/background_store.dart';
 import 'package:focus/presentation/home/store/home_store.dart';
 import 'package:focus/presentation/home/store/widget_store.dart';
 import 'package:focus/presentation/home/widgets/home_background.dart';
 import 'package:focus/presentation/home/widgets/home_widget.dart';
-import 'package:focus/presentation/settings/dialogs/changelog_dialog.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -25,9 +25,9 @@ import 'package:focus/main.dart';
 import 'package:focus/core/constants/storage_keys.dart';
 
 import 'package:focus/presentation/settings/pages/settings_panel.dart';
-import 'package:focus/common/widgets/message_banner/message_banner.dart';
-import 'package:focus/common/widgets/message_banner/message_view.dart';
-import 'package:focus/core/utils/custom_observer.dart';
+import 'package:focus/common/widgets/toast/message_banner.dart';
+import 'package:focus/common/widgets/toast/message_view.dart';
+import 'package:focus/common/widgets/observer/custom_observer.dart';
 import 'package:focus/data/sources/storage/local_storage_manager.dart';
 import 'package:focus/core/utils/universal/io.dart';
 import 'package:focus/core/utils/utils.dart';

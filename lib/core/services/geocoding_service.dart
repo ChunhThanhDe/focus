@@ -1,6 +1,6 @@
 /*
  * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
- * @ Created: 2025-11-12 11:01:44
+ * @ Created: 2025-08-12 11:01:44
  * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
  */
 
@@ -9,7 +9,6 @@ import 'dart:developer';
 
 import 'package:focus/data/models/location_response.dart';
 import 'package:http/http.dart' as http;
-
 
 abstract class GeocodingService {
   Future<List<LocationResponse>> fetchLocations(String query);

@@ -1,6 +1,6 @@
 /*
  * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
- * @ Created: 2025-11-12 11:01:44
+ * @ Created: 2025-08-12 11:01:44
 * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
  */
 
@@ -42,20 +42,9 @@ enum DateFormat {
   }
 }
 
-// enum DateFormat {
-//   dayMonthYear('dd/mm/yyyy'),
-//   monthDayYear('mm/dd/yyyy'),
-//   yearMonthDay('yyyy/mm/dd'),
-//   special('Custom');
-
-//   const DateFormat(this.label);
-
-//   final String label;
-// }
-
 enum Separator {
   nothing(''),
-  dot('Ã¢â‚¬Â¢'),
+  dot('.'),
   colon(':'),
   dash('-'),
   space(' '),
@@ -68,7 +57,7 @@ enum Separator {
 
 enum DateSeparator {
   dash('-'),
-  dot('Ã¢â‚¬Â¢'),
+  dot('.'),
   slash('/');
 
   const DateSeparator(this.value);

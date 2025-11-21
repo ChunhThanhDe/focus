@@ -1,12 +1,12 @@
 /*
  * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
- * @ Created: 2025-11-12 11:09:32
- * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ * @ Created: 2025-08-12 11:09:32
+ * @ Message: Ã°Å¸Å½Â¯ Happy coding and Have a nice day! Ã°Å¸Å’Â¤Ã¯Â¸Â
  */
 
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:focus/presentation/settings/pages/background_settings_view.dart';
+import 'package:focus/presentation/settings/pages/settings_view_background.dart';
 import 'package:focus/presentation/settings/pages/settings_view_about.dart';
 import 'package:focus/presentation/settings/pages/settings_view_social_cleaner.dart';
 import 'package:focus/presentation/settings/pages/settings_view_widgets.dart';
@@ -15,7 +15,7 @@ import 'package:provider/provider.dart';
 
 import 'package:focus/presentation/home/store/home_store.dart';
 import 'package:focus/core/constants/colors.dart';
-import 'package:focus/core/utils/custom_observer.dart';
+import 'package:focus/common/widgets/observer/custom_observer.dart';
 
 class SettingsPanel extends StatelessWidget {
   const SettingsPanel({super.key});

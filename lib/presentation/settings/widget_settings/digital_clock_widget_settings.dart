@@ -1,7 +1,7 @@
 /*
  * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
- * @ Created: 2025-11-12 11:01:44
- * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ * @ Created: 2025-08-12 11:01:44
+ * @ Message: ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Â¯ Happy coding and Have a nice day! ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â¤ÃƒÂ¯Ã‚Â¸Ã‚Â
  */
 
 import 'package:flutter/material.dart';
@@ -9,12 +9,12 @@ import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:focus/domain/entities/widget_settings.dart';
-import 'package:focus/common/widgets/alignment_control.dart';
-import 'package:focus/common/widgets/custom_dropdown.dart';
-import 'package:focus/common/widgets/custom_slider.dart';
+import 'package:focus/common/widgets/layout/alignment_control.dart';
+import 'package:focus/common/widgets/button/custom_dropdown.dart';
+import 'package:focus/common/widgets/input/custom_slider.dart';
 import 'package:focus/presentation/home/store/widget_store.dart';
 import 'package:focus/core/configs/assets/fonts.dart';
-import 'package:focus/core/utils/custom_observer.dart';
+import 'package:focus/common/widgets/observer/custom_observer.dart';
 
 import 'package:focus/core/utils/enum_extensions.dart';
 

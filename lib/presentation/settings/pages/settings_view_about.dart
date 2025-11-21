@@ -1,11 +1,11 @@
 /*
  * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
- * @ Created: 2025-11-12 11:01:44
- * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ * @ Created: 2025-08-12 11:01:44
+ * @ Message: ðŸŽ¯ Happy coding and Have a nice day! ðŸŒ¤ï¸
  */
 
 import 'package:flutter/material.dart';
-import 'package:focus/common/widgets/gesture_detector_with_cursor.dart';
+import 'package:focus/common/widgets/input/gesture_detector_with_cursor.dart';
 import 'package:focus/core/configs/assets/fonts.dart';
 import 'package:focus/main.dart';
 import 'package:url_launcher/url_launcher.dart';

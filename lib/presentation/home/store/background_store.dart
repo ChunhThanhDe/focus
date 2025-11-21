@@ -1,12 +1,13 @@
 /*
  * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
- * @ Created: 2025-11-12 11:01:44
+ * @ Created: 2025-08-12 11:01:44
 * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
  */
 
 import 'dart:async';
 import 'dart:developer';
 import 'dart:math' hide log;
+
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:js_util' as js_util;
 import 'package:easy_localization/easy_localization.dart';
@@ -32,42 +33,9 @@ import 'package:focus/core/utils/utils.dart';
 import 'package:focus/data/models/background_settings.dart';
 import 'package:focus/data/models/color_gradient.dart';
 import 'package:focus/data/models/flat_color.dart';
+import 'package:focus/domain/entities/todo_item.dart';
 
 part 'background_store.g.dart';
-
-class TodoTask {
-  final String id;
-  final String text;
-  final bool completed;
-  final String? remindTime;
-
-  const TodoTask({required this.id, required this.text, this.completed = false, this.remindTime});
-
-  TodoTask copyWith({String? id, String? text, bool? completed, String? remindTime}) {
-    return TodoTask(
-      id: id ?? this.id,
-      text: text ?? this.text,
-      completed: completed ?? this.completed,
-      remindTime: remindTime ?? this.remindTime,
-    );
-  }
-
-  Map<String, dynamic> toJson() => {
-    'id': id,
-    'text': text,
-    'completed': completed,
-    'remindTime': remindTime,
-  };
-
-  static TodoTask fromJson(Map<String, dynamic> json) {
-    return TodoTask(
-      id: json['id'] ?? '',
-      text: json['text'] ?? '',
-      completed: json['completed'] ?? false,
-      remindTime: json['remindTime'] as String?,
-    );
-  }
-}
 
 /// Version of the settings. This is exported with settings and used to
 /// determine if the settings are compatible with the current version of the
@@ -208,7 +176,7 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
     final todoData = await storage.getJson(StorageKeys.todoSettings);
     if (todoData != null) {
       final List<dynamic> items = (todoData['tasks'] as List?) ?? [];
-      _todoTasks = ObservableList.of(items.map((e) => TodoTask.fromJson((e as Map).cast<String, dynamic>())).toList());
+      _todoTasks = ObservableList.of(items.map((e) => TodoItem.fromJson((e as Map).cast<String, dynamic>())).toList());
       final int? ts = todoData['reminderAt'] as int?;
       _todoReminderAt = ts != null && ts > 0 ? DateTime.fromMillisecondsSinceEpoch(ts) : null;
       _use24HourTodo = (todoData['use24HourTodo'] as bool?) ?? true;
@@ -573,7 +541,7 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
   }
 
   @readonly
-  ObservableList<TodoTask> _todoTasks = ObservableList.of([]);
+  ObservableList<TodoItem> _todoTasks = ObservableList.of([]);
 
   @readonly
   DateTime? _todoReminderAt;
@@ -586,14 +554,14 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
   void addTodo(String text) {
     final t = text.trim();
     if (t.isEmpty) return;
-    final item = TodoTask(id: DateTime.now().millisecondsSinceEpoch.toString(), text: t);
+    final item = TodoItem(id: DateTime.now().millisecondsSinceEpoch.toString(), text: t);
     _todoTasks.insert(0, item);
     _saveTodo();
   }
 
   @action
   void addTodos(List<String> texts) {
-    final items = texts.map((e) => e.trim()).where((e) => e.isNotEmpty).map((t) => TodoTask(id: DateTime.now().millisecondsSinceEpoch.toString(), text: t)).toList();
+    final items = texts.map((e) => e.trim()).where((e) => e.isNotEmpty).map((t) => TodoItem(id: DateTime.now().millisecondsSinceEpoch.toString(), text: t)).toList();
     for (final item in items.reversed) {
       _todoTasks.insert(0, item);
     }
@@ -604,7 +572,7 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
   void addTodoBelow(String afterId, {String text = ''}) {
     final int index = _todoTasks.indexWhere((e) => e.id == afterId);
     if (index < 0) return;
-    final item = TodoTask(id: DateTime.now().millisecondsSinceEpoch.toString(), text: text);
+    final item = TodoItem(id: DateTime.now().millisecondsSinceEpoch.toString(), text: text);
     _todoTasks.insert(index + 1, item);
     _saveTodo();
   }

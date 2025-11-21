@@ -236,8 +236,8 @@ lib/
 │  ├─ helpers/
 │  │  └─ is_dark_mode.dart                    # optional, or reuse existing util
 │  └─ widgets/
-│     ├─ message_banner/message_banner.dart   # from lib/ui/message_banner/message_banner.dart
-│     └─ message_banner/message_view.dart     # from lib/ui/message_banner/message_view.dart
+│     ├─ message_banner/message_banner.dart   # from lib/ui/toast/message_banner.dart
+│     └─ message_banner/message_view.dart     # from lib/ui/toast/message_view.dart
 ├─ domain/
 │  ├─ entities/
 │  │  ├─ widget_settings.dart                 # extract from current models

@@ -1,7 +1,7 @@
 /*
  * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
- * @ Created: 2025-11-12 11:01:44
- * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ * @ Created: 2025-08-12 11:01:44
+ * @ Message: Ã°Å¸Å½Â¯ Happy coding and Have a nice day! Ã°Å¸Å’Â¤Ã¯Â¸Â
  */
 
 import 'package:flutter/material.dart';
@@ -12,7 +12,7 @@ import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
 import 'package:screwdriver/screwdriver.dart';
 
-import 'package:focus/core/utils/custom_observer.dart';
+import 'package:focus/common/widgets/observer/custom_observer.dart';
 import 'package:focus/core/utils/extensions.dart';
 import 'package:focus/domain/entities/widget_settings.dart';
 

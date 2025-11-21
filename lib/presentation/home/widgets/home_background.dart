@@ -1,7 +1,7 @@
 /*
  * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
- * @ Created: 2025-11-12 11:01:44
-* @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ * @ Created: 2025-08-12 11:01:44
+* @ Message: Ã°Å¸Å½Â¯ Happy coding and Have a nice day! Ã°Å¸Å’Â¤Ã¯Â¸Â
  */
 
 import 'dart:typed_data';
@@ -11,9 +11,9 @@ import 'package:focus/presentation/home/store/background_store.dart';
 import 'package:provider/provider.dart';
 
 import 'package:focus/core/constants/colors.dart';
-import 'package:focus/core/utils/custom_observer.dart';
+import 'package:focus/common/widgets/observer/custom_observer.dart';
 import 'package:focus/core/utils/utils.dart';
-import 'package:focus/common/widgets/texture_painter.dart';
+import 'package:focus/common/widgets/effects/texture_painter.dart';
 
 class HomeBackground extends StatefulWidget {
   const HomeBackground({super.key});

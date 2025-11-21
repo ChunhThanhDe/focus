@@ -1,7 +1,7 @@
 /*
  * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
- * @ Created: 2025-11-12 11:01:44
-* @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ * @ Created: 2025-08-12 11:01:44
+* @ Message: Ã°Å¸Å½Â¯ Happy coding and Have a nice day! Ã°Å¸Å’Â¤Ã¯Â¸Â
  */
 
 import 'dart:math';
@@ -14,9 +14,9 @@ import 'package:focus/presentation/home/store/home_store.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import 'package:focus/core/utils/custom_observer.dart';
+import 'package:focus/common/widgets/observer/custom_observer.dart';
 import 'package:focus/data/models/background_settings.dart';
-import 'package:focus/common/widgets/gesture_detector_with_cursor.dart';
+import 'package:focus/common/widgets/input/gesture_detector_with_cursor.dart';
 
 class BottomBar extends StatelessWidget {
   const BottomBar({super.key});
