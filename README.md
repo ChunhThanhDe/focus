@@ -18,6 +18,13 @@ See live demo [here](https://chunhthanhde.github.io/focus/).
 ## How to contribute
 Read more about contributing to Focus in CONTRIBUTING.md.
 
+## Support 🏆
+
+- If you wanna get updates in next version, please give me a ⭐ to the repo [👍](https://www.youtube.com/@CHUNGCINE?sub_confirmation=1)
+- If you love my work and want to support, references me a part-time job, collaboration an interesting project or a good full-time job.
+
+  Thank you so much 👍
+
 ## Developer Overview
 
 ### Local Install
@@ -72,3 +79,10 @@ npm run build:flutter && npm run copy:newtab
 3. Click “Load unpacked” and select the `extension/` folder
 4. Open a supported site; use the New Tab Settings to toggle behavior
 ```
+
+## Credits
+
+This project is inspired by [avinayak/minim](https://github.com/BirjuVachhani/pluto)
+
+I have reused part of the `UI idea` and `Data Mock` from this project.
+

@@ -1,0 +1,15 @@
+- name: external dependency
+  color: "#5319e7"
+  description: Issues or changes related to third-party dependencies or external integrations
+
+- name: dart
+  color: "#02a2a2"
+  description: Changes or features specific to the Dart programming language
+
+- name: js
+  color: "#f1e05a"
+  description: Changes or features specific to JavaScript code
+
+- name: other
+  color: "#ffffff"
+  description: No changes related to bug fixes and feature requests
