@@ -46,7 +46,7 @@ dependencies:
   # State management using the Provider pattern
   provider: ^6.1.5
   # Dependency injection using the service locator pattern
-  get_it: ^8.0.3
+  get_it: ^9.1.0
   # Annotations for JSON serialization (requires build_runner to generate code)
   json_annotation: ^4.9.0
   # Utility functions for working with Dart collections like List, Map, Set
@@ -62,9 +62,9 @@ dependencies:
   # Input formatters for currencies, phone numbers, credit cards, etc.
   flutter_multi_formatter: ^2.13.7
   # Launch URLs in a browser or other apps
-  url_launcher: ^6.3.1
+  url_launcher: ^6.3.2
   # Get app information like version, build number, etc.
-  package_info_plus: ^8.3.0
+  package_info_plus: ^9.0.0
   # More utilities for Flutter development
   flutter_screwdriver: ^3.2.0
   # Render Markdown in your Flutter app
@@ -76,7 +76,7 @@ dependencies:
   # Reactive programming for Dart using streams
   rxdart: ^0.28.0
   # Cross-platform HTML support for Flutter
-  universal_html: ^2.2.4
+  universal_html: ^2.3.0
   # Cross-platform I/O support for Dart
   universal_io: ^2.2.2
   pub_semver: ^2.2.0
@@ -99,7 +99,7 @@ dev_dependencies:
   # Working with Unicode characters (for extended String manipulation)
   characters: ^1.4.0
   # Automatic Dart code formatting
-  dart_style: ^3.1.0
+  dart_style: ^3.1.3
   # Generates code for JSON serialization (works with json_annotation)
   json_serializable: ^6.9.5
   # ggenerate launcher icons for your Flutter app
