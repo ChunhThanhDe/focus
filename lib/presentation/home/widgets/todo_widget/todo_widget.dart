@@ -13,6 +13,8 @@ import 'package:focus/presentation/home/widgets/todo_widget/notes_pane.dart';
 import 'package:focus/presentation/home/widgets/todo_widget/todo_row.dart';
 import 'package:focus/common/widgets/observer/custom_observer.dart';
 
+enum TodoFilter { active, completed, all }
+
 class TodoWidget extends StatefulWidget {
   const TodoWidget({super.key});
 
@@ -22,7 +24,7 @@ class TodoWidget extends StatefulWidget {
 
 class _TodoWidgetState extends State<TodoWidget> {
   final TextEditingController _newController = TextEditingController();
-  bool _showCompleted = false;
+  TodoFilter _filter = TodoFilter.active;
 
   @override
   Widget build(BuildContext context) {
@@ -130,9 +132,12 @@ class _TodoWidgetState extends State<TodoWidget> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   TextButton(
-                                    onPressed: () => setState(() => _showCompleted = !_showCompleted),
+                                    onPressed:
+                                        () => setState(() {
+                                          _filter = _filter == TodoFilter.active ? TodoFilter.completed : (_filter == TodoFilter.completed ? TodoFilter.all : TodoFilter.active);
+                                        }),
                                     child: Text(
-                                      _showCompleted ? 'todo.showActive'.tr() : 'todo.showCompleted'.tr(),
+                                      _filter == TodoFilter.active ? 'todo.showCompleted'.tr() : (_filter == TodoFilter.completed ? 'todo.showAll'.tr() : 'todo.showActive'.tr()),
                                       style: TextStyle(color: color.withOpacity(0.9)),
                                     ),
                                   ),
@@ -172,7 +177,10 @@ class _TodoWidgetState extends State<TodoWidget> {
                                 child: CustomObserver(
                                   name: 'TodoListScrollable',
                                   builder: (context) {
-                                    final items = _showCompleted ? store.todoTasks.where((e) => e.completed).toList() : store.todoTasks.where((e) => !e.completed).toList();
+                                    final items =
+                                        _filter == TodoFilter.all
+                                            ? store.todoTasks.toList()
+                                            : (_filter == TodoFilter.completed ? store.todoTasks.where((e) => e.completed).toList() : store.todoTasks.where((e) => !e.completed).toList());
                                     return ListView.builder(
                                       padding: EdgeInsets.zero,
                                       itemCount: items.length,

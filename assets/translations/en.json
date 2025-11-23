@@ -241,6 +241,7 @@
     "addTask": "Add a task",
     "showActive": "Show active",
     "showCompleted": "Show completed",
+    "showAll": "Show all",
     "clearAllTasks": "Clear all tasks",
     "notes": "Notes",
     "save": "Save",
