@@ -526,9 +526,7 @@ class UnsplashSourceSettings extends StatelessWidget {
               items: [...store.customSources, ...UnsplashSources.sources],
               itemBuilder: (context, item) {
                 if (item == UnsplashSources.christmas) {
-                  return Text(
-                    'ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â½ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¾${item.name}',
-                  );
+                  return Text('🎄${item.name}');
                 }
                 return Row(
                   children: [

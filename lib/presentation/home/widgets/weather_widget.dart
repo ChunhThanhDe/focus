@@ -84,9 +84,9 @@ class _WeatherWidgetState extends State<WeatherWidget> with SingleTickerProvider
     if (weatherInfo == null) return '_ _';
     final String temperature;
     if (settings.temperatureUnit == TemperatureUnit.celsius) {
-      temperature = '${weatherInfo.temperature.round()}ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â°';
+      temperature = '${weatherInfo.temperature.round()}°';
     } else {
-      temperature = '${(weatherInfo.temperature * 9 / 5 + 32).round()}ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â°F';
+      temperature = '${(weatherInfo.temperature * 9 / 5 + 32).round()}°F';
     }
     switch (settings.format) {
       case WeatherFormat.temperature:
