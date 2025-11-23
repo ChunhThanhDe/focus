@@ -55,6 +55,7 @@ abstract class _SocialCleanerStore with Store {
     'instagram': true,
     'tiktok': true,
     'twitter': true,
+    'threads': true,
     'reddit': true,
     'linkedin': true,
     'youtube': false,

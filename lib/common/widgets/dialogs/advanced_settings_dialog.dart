@@ -1,7 +1,7 @@
 /*
  * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
  * @ Created: 2025-08-12 11:01:44
- * @ Message: ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â°ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â½ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¯ Happy coding and Have a nice day! ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â°ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¤ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¯ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
  */
 
 import 'dart:math' hide log;
@@ -165,11 +165,7 @@ class CustomCollectionsSettings extends StatelessWidget {
             const Spacer(),
             GestureDetectorWithCursor(
               onTap: () => onCreateNewCollection(context, store),
-              child: Icon(
-                Icons.add_circle_rounded,
-                size: 18,
-                color: context.colorScheme.primary,
-              ),
+              child: Icon(Icons.add_circle_rounded, size: 18, color: context.colorScheme.primary),
             ),
           ],
         ),
@@ -190,18 +186,11 @@ class CustomCollectionsSettings extends StatelessWidget {
                     return Container(
                       color:
                           selected
-                              ? context.colorScheme.primary.withValues(
-                                alpha: 0.1,
-                              )
+                              ? context.colorScheme.primary.withValues(alpha: 0.1)
                               : hovering
-                              ? context.colorScheme.onSurface.withValues(
-                                alpha: 0.05,
-                              )
+                              ? context.colorScheme.onSurface.withValues(alpha: 0.05)
                               : null,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 6,
-                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                       child: Row(
                         children: [
                           Expanded(
@@ -213,24 +202,14 @@ class CustomCollectionsSettings extends StatelessWidget {
                           if (!selected && hovering)
                             GestureDetectorWithCursor(
                               onTap: () {
-                                store.removeCustomCollection(
-                                  store.customSources[index],
-                                );
+                                store.removeCustomCollection(store.customSources[index]);
                               },
                               child: Text(
                                 'Delete',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: context.colorScheme.primary,
-                                ),
+                                style: TextStyle(fontSize: 12, color: context.colorScheme.primary),
                               ),
                             ),
-                          if (selected)
-                            const Icon(
-                              Icons.done,
-                              color: Colors.green,
-                              size: 16,
-                            ),
+                          if (selected) const Icon(Icons.done, color: Colors.green, size: 16),
                         ],
                       ),
                     );
@@ -244,17 +223,11 @@ class CustomCollectionsSettings extends StatelessWidget {
     );
   }
 
-  Future<void> onCreateNewCollection(
-    BuildContext context,
-    BackgroundStore store,
-  ) async {
+  Future<void> onCreateNewCollection(BuildContext context, BackgroundStore store) async {
     final String? result = await showDialog<String>(
       context: context,
       builder:
-          (context) => Theme(
-            data: Theme.of(context),
-            child: NewCollectionDialog(store: store),
-          ),
+          (context) => Theme(data: Theme.of(context), child: NewCollectionDialog(store: store)),
     );
     if (result != null) {
       store.addNewCollection(

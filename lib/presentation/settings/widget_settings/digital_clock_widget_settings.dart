@@ -1,7 +1,7 @@
 /*
  * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
  * @ Created: 2025-08-12 11:01:44
- * @ Message: ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Â¯ Happy coding and Have a nice day! ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â¤ÃƒÂ¯Ã‚Â¸Ã‚Â
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
  */
 
 import 'package:flutter/material.dart';
@@ -50,9 +50,7 @@ class DigitalClockWidgetSettingsView extends StatelessWidget {
               valueLabel: '${settings.fontSize.floor().toString()} px',
               value: settings.fontSize,
               onChanged:
-                  (value) => settings.update(
-                    () => settings.fontSize = value.floorToDouble(),
-                  ),
+                  (value) => settings.update(() => settings.fontSize = value.floorToDouble()),
             );
           },
         ),

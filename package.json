@@ -1,6 +1,6 @@
 {
   "name": "focus-extension",
-  "version": "2.7.1",
+  "version": "2.7.2",
   "type": "module",
   "description": "Chrome extension combining Flutter newtab and social media cleaner",
   "private": true,

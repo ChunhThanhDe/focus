@@ -95,6 +95,21 @@
         }
       `
     },
+    threads: {
+      name: 'Threads',
+      selectors: [
+        'main',
+        'div[role="feed"]'
+      ],
+      css: `
+        html[data-nfe-enabled='true'] main > :not(#nfe-container) {
+          display: none !important;
+        }
+        html[data-nfe-enabled='true'] div[role='feed'] > :not(#nfe-container) {
+          display: none !important;
+        }
+      `
+    },
     reddit: {
       name: 'Reddit',
       selectors: [
@@ -221,6 +236,7 @@
     if (hostname.includes('instagram.com')) {
       return 'instagram';
     }
+    if (hostname.includes('threads.net')) return 'threads';
     if (hostname.includes('twitter.com') || hostname.includes('x.com')) return 'twitter';
     if (hostname.includes('reddit.com')) return 'reddit';
     if (hostname.includes('linkedin.com')) return 'linkedin';

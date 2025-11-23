@@ -1,7 +1,7 @@
 /*
  * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
  * @ Created: 2025-08-12 11:01:44
- * @ Message: Ã°Å¸Å½Â¯ Happy coding and Have a nice day! Ã°Å¸Å’Â¤Ã¯Â¸Â
+  * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
  */
 
 import 'package:flutter/material.dart';
@@ -25,7 +25,6 @@ class TimerWidget extends StatefulWidget {
 
 class _TimerWidgetState extends State<TimerWidget> with SingleTickerProviderStateMixin {
   late Ticker _ticker;
-  late DateTime _initialTime;
   late DateTime _now;
 
   late final WidgetStore store = context.read<WidgetStore>();
@@ -33,10 +32,9 @@ class _TimerWidgetState extends State<TimerWidget> with SingleTickerProviderStat
   @override
   void initState() {
     super.initState();
-    _initialTime = _now = DateTime.now();
+    _now = DateTime.now();
     _ticker = createTicker((elapsed) {
-      final newTime = _initialTime.add(elapsed);
-      // rebuild only if seconds changes instead of every frame
+      final newTime = DateTime.now();
       if (store.timerSettings.format.showsSeconds && _now.second != newTime.second) {
         setState(() => _now = newTime);
       } else if (_now.minute != newTime.minute) {

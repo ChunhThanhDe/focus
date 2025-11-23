@@ -1,7 +1,7 @@
 /*
  * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
  * @ Created: 2025-08-19 20:30:51
-* @ Message: Ã°Å¸Å½Â¯ Happy coding and Have a nice day! Ã°Å¸Å’Â¤Ã¯Â¸Â
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
  */
 
 import 'package:collection/collection.dart';
@@ -52,13 +52,16 @@ class TodoRowState extends State<TodoRow> {
         final int? m = int.tryParse(parts[1]);
         if (h != null && m != null) {
           final now = DateTime.now();
-          var candidate = DateTime(now.year, now.month, now.day, h, m);
-          if (!candidate.isAfter(now)) candidate = candidate.add(const Duration(days: 1));
-          final minutes = candidate.difference(now).inMinutes;
-          if (minutes < 10) {
+          final todayTime = DateTime(now.year, now.month, now.day, h, m);
+          if (!todayTime.isAfter(now)) {
             bg = Colors.red.withOpacity(0.5);
-          } else if (minutes < 60) {
-            bg = Colors.yellow.withOpacity(0.5);
+          } else {
+            final minutes = todayTime.difference(now).inMinutes;
+            if (minutes < 10) {
+              bg = Colors.red.withOpacity(0.5);
+            } else if (minutes < 60) {
+              bg = Colors.yellow.withOpacity(0.5);
+            }
           }
         }
       }
@@ -129,7 +132,7 @@ class TodoRowState extends State<TodoRow> {
                 builder: (context) {
                   final use24h = context.read<BackgroundStore>().use24HourTodo;
                   return SizedBox(
-                    width: 84,
+                    width: 100,
                     child: TextInput(
                       controller: timeController,
                       inputFormatters: [MaskedInputFormatter('00:00')],

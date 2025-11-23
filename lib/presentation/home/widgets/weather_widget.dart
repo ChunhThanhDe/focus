@@ -1,7 +1,7 @@
 /*
  * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
  * @ Created: 2025-08-12 11:01:44
-* @ Message: Ã°Å¸Å½Â¯ Happy coding and Have a nice day! Ã°Å¸Å’Â¤Ã¯Â¸Â
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
  */
 
 import 'dart:async';
@@ -21,11 +21,7 @@ class WeatherWidgetWrapper extends StatelessWidget {
   final double latitude;
   final double longitude;
 
-  const WeatherWidgetWrapper({
-    super.key,
-    required this.latitude,
-    required this.longitude,
-  });
+  const WeatherWidgetWrapper({super.key, required this.latitude, required this.longitude});
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +48,7 @@ class _WeatherWidgetState extends State<WeatherWidget> with SingleTickerProvider
   void initState() {
     super.initState();
 
-    _timer = Timer.periodic(
-      const Duration(seconds: 1),
-      (timer) => store.onTimerCallback(),
-    );
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) => store.onTimerCallback());
   }
 
   @override
@@ -87,16 +80,13 @@ class _WeatherWidgetState extends State<WeatherWidget> with SingleTickerProvider
     );
   }
 
-  String buildText(
-    WeatherInfo? weatherInfo,
-    WeatherWidgetSettingsStore settings,
-  ) {
+  String buildText(WeatherInfo? weatherInfo, WeatherWidgetSettingsStore settings) {
     if (weatherInfo == null) return '_ _';
     final String temperature;
     if (settings.temperatureUnit == TemperatureUnit.celsius) {
-      temperature = '${weatherInfo.temperature.round()}ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â°';
+      temperature = '${weatherInfo.temperature.round()}°';
     } else {
-      temperature = '${(weatherInfo.temperature * 9 / 5 + 32).round()}ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â°F';
+      temperature = '${(weatherInfo.temperature * 9 / 5 + 32).round()}°F';
     }
     switch (settings.format) {
       case WeatherFormat.temperature:

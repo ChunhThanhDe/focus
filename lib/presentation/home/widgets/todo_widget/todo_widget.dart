@@ -1,7 +1,7 @@
 /*
  * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
  * @ Created: 2025-08-19 20:30:51
-* @ Message: Ã°Å¸Å½Â¯ Happy coding and Have a nice day! Ã°Å¸Å’Â¤Ã¯Â¸Â
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
  */
 
 import 'package:flutter/material.dart';
@@ -13,6 +13,8 @@ import 'package:focus/presentation/home/widgets/todo_widget/notes_pane.dart';
 import 'package:focus/presentation/home/widgets/todo_widget/todo_row.dart';
 import 'package:focus/common/widgets/observer/custom_observer.dart';
 
+enum TodoFilter { active, completed, all }
+
 class TodoWidget extends StatefulWidget {
   const TodoWidget({super.key});
 
@@ -22,7 +24,7 @@ class TodoWidget extends StatefulWidget {
 
 class _TodoWidgetState extends State<TodoWidget> {
   final TextEditingController _newController = TextEditingController();
-  bool _showCompleted = false;
+  TodoFilter _filter = TodoFilter.active;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +33,8 @@ class _TodoWidgetState extends State<TodoWidget> {
       name: 'TodoWidget',
       builder: (context) {
         final color = store.foregroundColor;
+        final bool isDarkTodo = store.isTodoMode && store.todoDarkMode;
+        final Color borderBase = isDarkTodo ? Theme.of(context).colorScheme.primary : color;
         return LayoutBuilder(
           builder: (context, constraints) {
             final double total = constraints.maxWidth;
@@ -85,15 +89,15 @@ class _TodoWidgetState extends State<TodoWidget> {
                                         filled: true,
                                         fillColor: Colors.black.withOpacity(0.1),
                                         border: OutlineInputBorder(
-                                          borderSide: BorderSide(color: color.withOpacity(0.15)),
+                                          borderSide: BorderSide(color: borderBase.withOpacity(0.15)),
                                           borderRadius: BorderRadius.circular(6),
                                         ),
                                         enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: color.withOpacity(0.15)),
+                                          borderSide: BorderSide(color: borderBase.withOpacity(0.15)),
                                           borderRadius: BorderRadius.circular(6),
                                         ),
                                         focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: color.withOpacity(0.4)),
+                                          borderSide: BorderSide(color: borderBase),
                                           borderRadius: BorderRadius.circular(6),
                                         ),
                                       ),
@@ -128,9 +132,12 @@ class _TodoWidgetState extends State<TodoWidget> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   TextButton(
-                                    onPressed: () => setState(() => _showCompleted = !_showCompleted),
+                                    onPressed:
+                                        () => setState(() {
+                                          _filter = _filter == TodoFilter.active ? TodoFilter.completed : (_filter == TodoFilter.completed ? TodoFilter.all : TodoFilter.active);
+                                        }),
                                     child: Text(
-                                      _showCompleted ? 'todo.showActive'.tr() : 'todo.showCompleted'.tr(),
+                                      _filter == TodoFilter.active ? 'todo.showCompleted'.tr() : (_filter == TodoFilter.completed ? 'todo.showAll'.tr() : 'todo.showActive'.tr()),
                                       style: TextStyle(color: color.withOpacity(0.9)),
                                     ),
                                   ),
@@ -170,7 +177,10 @@ class _TodoWidgetState extends State<TodoWidget> {
                                 child: CustomObserver(
                                   name: 'TodoListScrollable',
                                   builder: (context) {
-                                    final items = _showCompleted ? store.todoTasks.where((e) => e.completed).toList() : store.todoTasks.where((e) => !e.completed).toList();
+                                    final items =
+                                        _filter == TodoFilter.all
+                                            ? store.todoTasks.toList()
+                                            : (_filter == TodoFilter.completed ? store.todoTasks.where((e) => e.completed).toList() : store.todoTasks.where((e) => !e.completed).toList());
                                     return ListView.builder(
                                       padding: EdgeInsets.zero,
                                       itemCount: items.length,

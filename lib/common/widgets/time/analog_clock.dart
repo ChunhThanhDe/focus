@@ -38,17 +38,14 @@ class AnalogClock extends StatefulWidget {
 /// State for [AnalogClock] which handles time updates via a Ticker.
 class _AnalogClockState extends State<AnalogClock> with SingleTickerProviderStateMixin {
   late Ticker _ticker;
-  late DateTime _initialTime;
   late DateTime _now;
 
   @override
   void initState() {
     super.initState();
-    _initialTime = _now = DateTime.now();
+    _now = DateTime.now();
     _ticker = createTicker((elapsed) {
-      final newTime = _initialTime.add(elapsed);
-      // rebuild only if seconds changes instead of every frame
-      // Only update the widget if the second or minute has changed (for performance)
+      final newTime = DateTime.now();
       if (_now.second != newTime.second && widget.showSecondsHand) {
         setState(() => _now = newTime);
       } else if (_now.minute != newTime.minute) {

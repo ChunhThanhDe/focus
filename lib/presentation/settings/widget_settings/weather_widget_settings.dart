@@ -1,7 +1,7 @@
 /*
  * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
  * @ Created: 2025-08-12 11:01:44
-* @ Message: ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Â¯ Happy coding and Have a nice day! ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â¤ÃƒÂ¯Ã‚Â¸Ã‚Â
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
  */
 
 import 'dart:async';
@@ -56,9 +56,7 @@ class WeatherWidgetSettingsView extends StatelessWidget {
               valueLabel: '${settings.fontSize.floor().toString()} px',
               value: settings.fontSize,
               onChanged:
-                  (value) => settings.update(
-                    () => settings.fontSize = value.floorToDouble(),
-                  ),
+                  (value) => settings.update(() => settings.fontSize = value.floorToDouble()),
             );
           },
         ),
@@ -93,7 +91,8 @@ class WeatherWidgetSettingsView extends StatelessWidget {
               key: ValueKey(settings.location),
               location: settings.location,
               onChanged: (location) {
-                if (location.latitude == settings.location.latitude && location.longitude == settings.location.longitude) {
+                if (location.latitude == settings.location.latitude &&
+                    location.longitude == settings.location.longitude) {
                   return;
                 }
                 settings.update(() => settings.location = location);
@@ -137,9 +136,7 @@ class LocationAutoCompleteField extends StatefulWidget {
 }
 
 class _LocationAutoCompleteFieldState extends State<LocationAutoCompleteField> {
-  late final AsyncDeBouncer _deBouncer = AsyncDeBouncer(
-    const Duration(milliseconds: 700),
-  );
+  late final AsyncDeBouncer _deBouncer = AsyncDeBouncer(const Duration(milliseconds: 700));
 
   late final GeocodingService geocodingService = GetIt.instance.get<GeocodingService>();
 
@@ -151,10 +148,7 @@ class _LocationAutoCompleteFieldState extends State<LocationAutoCompleteField> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (widget.label != null) ...[
-          Text(widget.label!),
-          const SizedBox(height: 10),
-        ],
+        if (widget.label != null) ...[Text(widget.label!), const SizedBox(height: 10)],
         Autocomplete<LocationResponse>(
           initialValue: TextEditingValue(
             text:
@@ -191,12 +185,7 @@ class _LocationAutoCompleteFieldState extends State<LocationAutoCompleteField> {
               }
             });
           },
-          fieldViewBuilder: (
-            context,
-            textEditingController,
-            focusNode,
-            onFieldSubmitted,
-          ) {
+          fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
             return TextInput(
               controller: textEditingController,
               focusNode: focusNode,
@@ -237,10 +226,7 @@ class _LocationAutoCompleteFieldState extends State<LocationAutoCompleteField> {
               child: Material(
                 type: MaterialType.transparency,
                 child: Container(
-                  constraints: const BoxConstraints(
-                    maxHeight: 250,
-                    maxWidth: 310,
-                  ),
+                  constraints: const BoxConstraints(maxHeight: 250, maxWidth: 310),
                   decoration: BoxDecoration(
                     color: AppColors.dropdownOverlayColor,
                     borderRadius: BorderRadius.circular(6),
@@ -258,16 +244,15 @@ class _LocationAutoCompleteFieldState extends State<LocationAutoCompleteField> {
                       itemCount: options.length,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
-                        final bool isEmpty = index == 0 && options.length == 1 && options.first is _EmptyLocation;
-                        final bool isError = index == 0 && options.length == 1 && options.first is _LocationError;
+                        final bool isEmpty =
+                            index == 0 && options.length == 1 && options.first is _EmptyLocation;
+                        final bool isError =
+                            index == 0 && options.length == 1 && options.first is _LocationError;
                         final location = options.elementAt(index);
                         final selected = AutocompleteHighlightedOption.of(context) == index;
                         if (isEmpty) {
                           return Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 14,
-                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                             child: Align(
                               alignment: Alignment.center,
                               heightFactor: 1,
@@ -283,10 +268,7 @@ class _LocationAutoCompleteFieldState extends State<LocationAutoCompleteField> {
                         }
                         if (isError) {
                           return Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 14,
-                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                             child: Align(
                               alignment: Alignment.center,
                               heightFactor: 1,
@@ -311,11 +293,11 @@ class _LocationAutoCompleteFieldState extends State<LocationAutoCompleteField> {
                               Colors.grey.withValues(alpha: 0.15),
                             ),
                             child: Container(
-                              color: selected ? Theme.of(context).colorScheme.primary : Colors.transparent,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 10,
-                              ),
+                              color:
+                                  selected
+                                      ? Theme.of(context).colorScheme.primary
+                                      : Colors.transparent,
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                               child: Row(
                                 children: [
                                   Container(
@@ -323,9 +305,7 @@ class _LocationAutoCompleteFieldState extends State<LocationAutoCompleteField> {
                                     decoration: BoxDecoration(
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.black.withValues(
-                                            alpha: 0.1,
-                                          ),
+                                          color: Colors.black.withValues(alpha: 0.1),
                                           blurRadius: 10,
                                           offset: const Offset(0, 4),
                                         ),
@@ -345,9 +325,7 @@ class _LocationAutoCompleteFieldState extends State<LocationAutoCompleteField> {
                                       children: [
                                         Text(
                                           location.name,
-                                          style: Theme.of(
-                                            context,
-                                          ).textTheme.bodyLarge!.copyWith(
+                                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                             fontWeight: FontWeight.w400,
                                             fontSize: 14,
                                           ),
@@ -355,11 +333,12 @@ class _LocationAutoCompleteFieldState extends State<LocationAutoCompleteField> {
                                         const SizedBox(height: 3),
                                         Text(
                                           getDescription(location),
-                                          style: Theme.of(
-                                            context,
-                                          ).textTheme.bodyLarge!.copyWith(
+                                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                             fontWeight: FontWeight.w300,
-                                            color: selected ? Colors.grey.shade200 : Colors.grey.shade400,
+                                            color:
+                                                selected
+                                                    ? Colors.grey.shade200
+                                                    : Colors.grey.shade400,
                                             fontSize: 12,
                                           ),
                                         ),
