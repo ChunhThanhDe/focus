@@ -1,7 +1,7 @@
 /*
  * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
  * @ Created: 2025-08-19 20:30:51
-* @ Message: Ã°Å¸Å½Â¯ Happy coding and Have a nice day! Ã°Å¸Å’Â¤Ã¯Â¸Â
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
  */
 
 import 'package:flutter/material.dart';
@@ -31,6 +31,8 @@ class _TodoWidgetState extends State<TodoWidget> {
       name: 'TodoWidget',
       builder: (context) {
         final color = store.foregroundColor;
+        final bool isDarkTodo = store.isTodoMode && store.todoDarkMode;
+        final Color borderBase = isDarkTodo ? Theme.of(context).colorScheme.primary : color;
         return LayoutBuilder(
           builder: (context, constraints) {
             final double total = constraints.maxWidth;
@@ -85,15 +87,15 @@ class _TodoWidgetState extends State<TodoWidget> {
                                         filled: true,
                                         fillColor: Colors.black.withOpacity(0.1),
                                         border: OutlineInputBorder(
-                                          borderSide: BorderSide(color: color.withOpacity(0.15)),
+                                          borderSide: BorderSide(color: borderBase.withOpacity(0.15)),
                                           borderRadius: BorderRadius.circular(6),
                                         ),
                                         enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: color.withOpacity(0.15)),
+                                          borderSide: BorderSide(color: borderBase.withOpacity(0.15)),
                                           borderRadius: BorderRadius.circular(6),
                                         ),
                                         focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: color.withOpacity(0.4)),
+                                          borderSide: BorderSide(color: borderBase.withOpacity(0.4)),
                                           borderRadius: BorderRadius.circular(6),
                                         ),
                                       ),

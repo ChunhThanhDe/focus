@@ -1,7 +1,7 @@
 /*
  * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
  * @ Created: 2025-08-19 20:30:51
-* @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
  */
 
 import 'dart:async';
@@ -13,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart' hide TextInput;
 import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
+import 'package:focus/presentation/home/store/background_store.dart';
 
 import 'package:focus/core/constants/storage_keys.dart';
 import 'package:focus/data/sources/storage/local_storage_manager.dart';
@@ -53,11 +55,14 @@ class NotesPaneState extends State<NotesPane> {
 
   @override
   Widget build(BuildContext context) {
+    final store = context.read<BackgroundStore>();
+    final bool isDarkTodo = store.isTodoMode && store.todoDarkMode;
+    final Color borderBase = isDarkTodo ? Theme.of(context).colorScheme.primary : widget.color;
     return Container(
       decoration: BoxDecoration(
         color: Colors.black.withOpacity(0.06),
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: widget.color.withOpacity(0.15)),
+        border: Border.all(color: borderBase.withOpacity(0.15)),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
       child: Column(
@@ -110,15 +115,15 @@ class NotesPaneState extends State<NotesPane> {
                 filled: true,
                 fillColor: Colors.black.withOpacity(0.06),
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(color: widget.color.withOpacity(0.15)),
+                  borderSide: BorderSide(color: borderBase),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: widget.color.withOpacity(0.15)),
+                  borderSide: BorderSide(color: borderBase),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: widget.color.withOpacity(0.4)),
+                  borderSide: BorderSide(color: borderBase),
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
