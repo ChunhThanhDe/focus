@@ -98,14 +98,30 @@
     threads: {
       name: 'Threads',
       selectors: [
+        'div[role="feed"]',
+        'div[role="main"]',
+        '#__next',
+        'div[id^="mount_"]',
         'main',
-        'div[role="feed"]'
+        'body'
       ],
       css: `
+        html[data-nfe-enabled='true'] div[role='feed'] > :not(#nfe-container) {
+          display: none !important;
+        }
+        html[data-nfe-enabled='true'] div[role='main'] > :not(#nfe-container) {
+          display: none !important;
+        }
+        html[data-nfe-enabled='true'] #__next > :not(#nfe-container) {
+          display: none !important;
+        }
+        html[data-nfe-enabled='true'] div[id^='mount_'] > :not(#nfe-container) {
+          display: none !important;
+        }
         html[data-nfe-enabled='true'] main > :not(#nfe-container) {
           display: none !important;
         }
-        html[data-nfe-enabled='true'] div[role='feed'] > :not(#nfe-container) {
+        html[data-nfe-enabled='true'] body > :not(#nfe-container) {
           display: none !important;
         }
       `
@@ -236,7 +252,7 @@
     if (hostname.includes('instagram.com')) {
       return 'instagram';
     }
-    if (hostname.includes('threads.net')) return 'threads';
+    if (hostname.includes('threads.net') || hostname.includes('threads.com')) return 'threads';
     if (hostname.includes('twitter.com') || hostname.includes('x.com')) return 'twitter';
     if (hostname.includes('reddit.com')) return 'reddit';
     if (hostname.includes('linkedin.com')) return 'linkedin';
