@@ -76,7 +76,7 @@ dependencies:
   # Reactive programming for Dart using streams
   rxdart: ^0.28.0
   # Cross-platform HTML support for Flutter
-  universal_html: ^2.2.4
+  universal_html: ^2.3.0
   # Cross-platform I/O support for Dart
   universal_io: ^2.2.2
   pub_semver: ^2.2.0
