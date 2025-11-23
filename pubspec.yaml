@@ -46,7 +46,7 @@ dependencies:
   # State management using the Provider pattern
   provider: ^6.1.5
   # Dependency injection using the service locator pattern
-  get_it: ^8.0.3
+  get_it: ^9.1.0
   # Annotations for JSON serialization (requires build_runner to generate code)
   json_annotation: ^4.9.0
   # Utility functions for working with Dart collections like List, Map, Set
