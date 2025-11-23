@@ -21,11 +21,7 @@ class WeatherWidgetWrapper extends StatelessWidget {
   final double latitude;
   final double longitude;
 
-  const WeatherWidgetWrapper({
-    super.key,
-    required this.latitude,
-    required this.longitude,
-  });
+  const WeatherWidgetWrapper({super.key, required this.latitude, required this.longitude});
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +48,7 @@ class _WeatherWidgetState extends State<WeatherWidget> with SingleTickerProvider
   void initState() {
     super.initState();
 
-    _timer = Timer.periodic(
-      const Duration(seconds: 1),
-      (timer) => store.onTimerCallback(),
-    );
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) => store.onTimerCallback());
   }
 
   @override
@@ -87,10 +80,7 @@ class _WeatherWidgetState extends State<WeatherWidget> with SingleTickerProvider
     );
   }
 
-  String buildText(
-    WeatherInfo? weatherInfo,
-    WeatherWidgetSettingsStore settings,
-  ) {
+  String buildText(WeatherInfo? weatherInfo, WeatherWidgetSettingsStore settings) {
     if (weatherInfo == null) return '_ _';
     final String temperature;
     if (settings.temperatureUnit == TemperatureUnit.celsius) {

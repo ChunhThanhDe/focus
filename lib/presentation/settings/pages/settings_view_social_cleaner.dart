@@ -1,7 +1,7 @@
 /*
  * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
  * @ Created: 2025-08-12 11:09:32
-* @ Message: ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Â¯ Happy coding and Have a nice day! ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â¤ÃƒÂ¯Ã‚Â¸Ã‚Â
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
  */
 
 import 'package:flutter/material.dart';
@@ -98,6 +98,7 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
                     _buildSiteToggle('settings.socialCleaner.sites.instagram'.tr(), 'instagram'),
                     _buildSiteToggle('settings.socialCleaner.sites.tiktok'.tr(), 'tiktok'),
                     _buildSiteToggle('settings.socialCleaner.sites.twitter'.tr(), 'twitter'),
+                    _buildSiteToggle('settings.socialCleaner.sites.threads'.tr(), 'threads'),
                     _buildSiteToggle('settings.socialCleaner.sites.reddit'.tr(), 'reddit'),
                     _buildSiteToggle('settings.socialCleaner.sites.linkedin'.tr(), 'linkedin'),
                     _buildSiteToggle('settings.socialCleaner.sites.youtube'.tr(), 'youtube'),
