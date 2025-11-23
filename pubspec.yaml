@@ -62,7 +62,7 @@ dependencies:
   # Input formatters for currencies, phone numbers, credit cards, etc.
   flutter_multi_formatter: ^2.13.7
   # Launch URLs in a browser or other apps
-  url_launcher: ^6.3.1
+  url_launcher: ^6.3.2
   # Get app information like version, build number, etc.
   package_info_plus: ^8.3.0
   # More utilities for Flutter development
