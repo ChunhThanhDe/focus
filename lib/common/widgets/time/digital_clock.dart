@@ -32,16 +32,14 @@ class DigitalClock extends StatefulWidget {
 
 class _DigitalClockState extends State<DigitalClock> with SingleTickerProviderStateMixin {
   late Ticker _ticker;
-  late DateTime _initialTime;
   late DateTime _now;
 
   @override
   void initState() {
     super.initState();
-    _initialTime = _now = DateTime.now();
+    _now = DateTime.now();
     _ticker = createTicker((elapsed) {
-      final newTime = _initialTime.add(elapsed);
-      // rebuild only if seconds changes instead of every frame
+      final newTime = DateTime.now();
       if (_now.second != newTime.second) {
         setState(() => _now = newTime);
       }
