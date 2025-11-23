@@ -1,165 +1,78 @@
-# Focus — Flutter New Tab + Social Cleaner (Chrome MV3)
+<p align="center"><a href="https://chromewebstore.google.com/detail/focus-to-your-target/medcmkcekhaggbmjpgagiajoennmlmcf" target="_blank" rel="focus focus"><img width="200" alt="Focus lLgo" src="assets/images/logo.png"></a></p>
+<br/>
+<p align="center"><strong>Focus to Your Target</strong> analyzes web pages and aims to reduce distracting social feeds and supports keeping you <strong>focused</strong> on your target.</p>
+<br/>
+<!--
+<p align="center"><a rel="focus focus" href="https://chromewebstore.google.com/detail/medcmkcekhaggbmjpgagiajoennmlmcf?utm_source=item-share-cb"><img alt="Chrome Web Store" src="https://img.shields.io/badge/Chrome-141e24.svg?&style=for-the-badge&logo=google-chrome&logoColor=white"></a>  <a rel="focus focus" href="https://microsoftedge.microsoft.com/addons/search?term=Focus%20to%20Your%20Target"><img alt="Edge Addons" src="https://img.shields.io/badge/Edge-141e24.svg?&style=for-the-badge&logo=microsoft-edge&logoColor=white"></a></p>
+-->
 
-A hybrid Chrome extension that combines a Flutter Web UI (New Tab, Settings) with TypeScript/JavaScript logic for social feed cleaning. Flutter controls the on/off state and site‑specific behavior; the extension background scripts persist settings and broadcast changes to content scripts running on supported sites.
+<a href="https://chromewebstore.google.com/detail/medcmkcekhaggbmjpgagiajoennmlmcf"><img src=".image/chrome_store_dark.png#gh-light-mode-only" height="60px"/></a>
+<a href="https://chromewebstore.google.com/detail/medcmkcekhaggbmjpgagiajoennmlmcf"><img src=".image/microsoft_store_dark.png#gh-dark-mode-only" height="60px"/></a>
 
-## 1. Project Structure
 
-```
-focus/
-├─ extension/                      # Unpacked Chrome extension folder (load this in chrome://extensions)
-│  ├─ manifest.json               # MV3 manifest: content scripts, permissions, background
-│  ├─ background.js               # Service worker: settings persistence, message routing
-│  ├─ social_cleaner/             # Content script and assets for social feed cleaning
-│  │  └─ content_unified.js       # Unified cleaner logic with per‑site selectors & quote banner
-│  └─ newtab/                     # Copied Flutter build output (index.html, assets, canvaskit, etc.)
-│
-├─ lib/                           # Flutter application source
-│  ├─ ui/                         # UI widgets/components
-│  ├─ utils/                      # Logic + storage
-│  │  ├─ social_cleaner_store.dart # Settings store, persistence, and bridge to background
-│  │  └─ storage_manager.dart     # Abstraction over SharedPreferences (web uses localStorage)
-│  └─ resources/                  # Constants, keys
-│     └─ storage_keys.dart        # Keys for persisted settings (e.g., social_cleaner_settings)
-│
-├─ scripts/                       # Build, copy, and utility scripts
-│  ├─ copy-flutter-web.js         # Copies Flutter build into extension/newtab
-│  └─ generators/*                # Dev helpers (colors, gradients)
-│
-├─ assets/                        # Flutter assets (fonts, images, translations)
-├─ package.json                   # Node build scripts for extension TS+copy flow
-├─ pubspec.yaml                   # Flutter/Dart dependencies and assets
-├─ analysis_options.yaml          # Flutter lints
-```
+<h2 align="center">Focus Your Target</h2>
+<br/>
+<p align="center"><strong>Focus to Your Target</strong> is an <strong>open-source</strong> MIT-licensed <strong>browser extension</strong> designed to declutter social media and improve <strong>focus</strong>. It transforms the <strong>New Tab</strong> into a minimalist dashboard that hides distracting feeds on major networks and displays inspirational quotes. <strong>Focus to Your Target</strong> is <strong>feature‑rich</strong>, includes a simple <strong>to‑do mode</strong>, and is customizable throughout the UI.</p>
+<br/>
 
-### Directory Purposes
-- `extension/`: the unpacked extension you load in Chrome. Contains `manifest.json`, `background.js`, unified content script under `social_cleaner/`, and the Flutter build under `newtab/`.
-- `lib/`: Flutter Web UI for New Tab and the Settings dialog. It persists settings and sends updates to the extension background.
-- `feed-focus/`: previous modular TS architecture for the cleaner (kept for reference). Current build uses `content_unified.js` instead.
-- `scripts/`: Node/Dart helpers used in build and maintenance.
-- `.vscode/`: developer convenience tasks and keybindings.
+<p align="center"><img src="images/BG.png" alt="Screenshot"/></p>
+
+See live demo [here](https://chunhthanhde.github.io/focus/).
+
+## How to contribute
+Read more about contributing to Focus in CONTRIBUTING.md.
+
+## Developer Overview
+
+### Local Install
+
+1. Download `focus.zip` from [Releases](https://github.com/ChunhThanhDe/focus/releases)
+2. Unzip the file
+3. In Chrome/Edge go to the extensions page (`chrome://extensions` or `edge://extensions`).
+4. Enable Developer Mode.
+5. Drag the unzipped folder anywhere on the page to import it (do not delete the folder afterwards).
  
+### Build from Source Development
 
-### Key Configuration Files
-- `extension/manifest.json` — declares content scripts, background service worker, host permissions, and `run_at`.
-- `extension/background.js` — MV3 service worker. Persists settings in `chrome.storage.local` and broadcasts updates to all tabs.
-- `extension/social_cleaner/content_unified.js` — unified content script: site detection, CSS injection, quote banner, settings listening.
-- `lib/utils/social_cleaner_store.dart` — Flutter store for social cleaner settings; writes settings and notifies background.
-- `package.json` — NPM scripts to build TS and copy Flutter web.
-- `pubspec.yaml` — Flutter/Dart dependencies and assets configuration.
-
-## 2. Functionality Overview
-
-### Major Features
-- New Tab (Flutter Web)
-  - Displays the main UI and Settings dialog.
-  - Persists Social Cleaner settings (global enable, per‑site enable, quotes options).
-- Social Cleaner (Content Script)
-  - Detects supported sites (YouTube, Twitter/X, Reddit, Facebook, Instagram, LinkedIn, GitHub).
-  - Hides feed content when enabled and injects a theme‑aware quote banner.
-  - Reacts to SPA route changes and dynamic content.
-- Background Service Worker
-  - Loads/saves settings in `chrome.storage.local`.
-  - Listens for messages from Flutter and broadcasts updates to content scripts.
-- Messaging & Storage
-  - Flutter sends `{ action: 'updateSocialCleanerSettings', settings }` to background.
-  - Background persists and sends `{ action: 'settingsUpdated', settings }` to tabs.
-  - Content script listens to both messages and `chrome.storage.onChanged`.
-
-### Core Functions
-- `extension/social_cleaner/content_unified.js:241` — `isEnabledForSite(siteId)` checks global and per‑site flags.
-- `extension/social_cleaner/content_unified.js:266` — `eradicate()` applies or removes styles/banner based on settings.
-- `extension/social_cleaner/content_unified.js:183` — `createQuoteContainer(quote)` builds a banner with dark/light detection.
-- `extension/background.js:86` — `saveSettings(settings)` persists to `chrome.storage.local` and broadcasts updates.
-- `lib/utils/social_cleaner_store.dart:189` — `_save()` writes settings and `_notifyBackground(settings)` sends updates.
-
-### External Dependencies
-- Node: `fs-extra` for build/copy.
-- Flutter/Dart packages: `shared_preferences`, `provider`, `mobx`, `flutter_mobx`, `intl`, etc. See `pubspec.yaml`.
-- Chrome APIs: `chrome.scripting`, `chrome.runtime`, `chrome.storage`, `chrome.tabs` (MV3).
-
-## 3. Setup and Execution Instructions
-
-### System Requirements
+#### 1. System Requirements
 - Node.js: `>= 18`
 - npm: `>= 9`
 - Flutter: `>= 3.22` (Dart SDK `^3.7.0`)
 - Chrome: latest stable with MV3 support
 
-### Installation
+#### 2. Installation
 ```bash
 # In the project root
 npm install
 flutter pub get
 ```
+#### 3. Get API from Unsplash and Run Server
+- Visit [Unsplash Developers](https://unsplash.com/developers)
+- Sign up for an account (if you don’t have one)
+- Create a new application to get your API key
+- Add your API key to the `server/.env` file as `UNSPLASH_API_KEY`
 
-### Build (Production)
+Run server
 ```bash
+# In the server folder
+npm run start
+```
+#### 4.Build (Production)
+```bash
+# In the root folder
+flutter pub run build_runner build --delete-conflicting-outputs
+
 # Build Flutter web and copy into extension/newtab
 npm run build:ext
+
 # or individually
 npm run build:flutter && npm run copy:newtab
 ```
 
-### Development
-```bash
-# One-shot Flutter build and copy for local testing
-npm run dev
-
-# If you edit Flutter code frequently, run:
-flutter build web --release --csp --no-web-resources-cdn
-npm run copy:newtab
-```
-
-### Load the Extension
+#### 5.Load the Extension (In Developer Mode)
 ```text
 1. Open chrome://extensions
 2. Enable Developer mode
 3. Click “Load unpacked” and select the `extension/` folder
 4. Open a supported site; use the New Tab Settings to toggle behavior
 ```
-
-### Configuration
-- No secrets are required.
-- Settings are persisted in `chrome.storage.local` under key `socialCleanerSettings`.
-- Flutter uses a store that mirrors changes to the background via `chrome.runtime.sendMessage`.
- - Flutter store key name is `social_cleaner_settings`; background converts and persists under `socialCleanerSettings`.
-
-### Testing
-- Manual testing:
-  - Toggle global enable/disable and per‑site switches in the Settings dialog.
-  - Confirm feed hidden/shown and banner visibility.
-  - Navigate across SPA pages; verify consistent behavior.
-- Static checks:
-```bash
-# Flutter analyzer
-fvm flutter analyze  # or: flutter analyze
-```
-
-## 4. Additional Information
-
-### Deployment
-- Package by zipping the `extension/` directory contents (excluding any development artifacts) and upload to the Chrome Web Store.
-- Ensure `manifest.json` is MV3 compliant and that all scripts are within the extension directory.
-
-### Known Issues / Limitations
-- MV3 service workers cannot use `window.localStorage` — use `chrome.storage.local`.
-- SPA sites may require periodic re‑evaluation; handled via interval and mutation observer in the content script.
-- Per‑site selectors can change as platforms update their DOM; updates may be required.
-
-### Contribution Guidelines
-- Fork and create feature branches.
-- Follow code style and linting:
-```bash
-flutter analyze
-```
-- Do not commit API keys or secrets.
-- For larger changes, update this README if structure or workflows change.
-
----
-
-### Quick Reference
-- Load extension: `extension/`
-- Background: `extension/background.js`
-- Content script: `extension/social_cleaner/content_unified.js`
-- Flutter settings store: `lib/utils/social_cleaner_store.dart`
-- Build all: `npm run build:ext`

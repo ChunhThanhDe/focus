@@ -35,10 +35,10 @@ app_icons: flutter pub run flutter_launcher_icons
 codegen: flutter pub run build_runner build --delete-conflicting-outputs
 
 # Sinh file màu sắc từ file JSON đầu vào
-generate_colors: dart scripts/generators/colors_generator.dart scripts/generators/colors.json lib/resources/flat_colors.dart
+generate_colors: dart scripts/generators/colors_generator.dart scripts/generators/colors.json lib/core/constants/flat_colors.dart
 
 # Sinh file gradient màu từ file JSON đầu vào
-generate_gradients: dart scripts/generators/gradients_generator.dart scripts/generators/colors.json lib/resources/color_gradients.dart
+generate_gradients: dart scripts/generators/gradients_generator.dart scripts/generators/colors.json lib/core/constants/color_gradients.dart
 
 # Resize logo động SVG thành file dùng trong app
 gen_animated_logo: dart scripts/animated_logo_resizer.dart scripts/logo_animated_template.svg logo_animated.svg

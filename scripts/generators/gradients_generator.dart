@@ -1,6 +1,6 @@
 /*
  * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
- * @ Created: 2025-11-12 11:01:44
+ * @ Created: 2025-08-12 11:01:44
  * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
  */
 
@@ -32,7 +32,7 @@ void main(List<String> args) {
   final StringBuffer stringBuffer = StringBuffer();
 
   stringBuffer.writeln("import 'package:flutter/painting.dart';");
-  stringBuffer.writeln("import '../home/model/color_gradient.dart';");
+  stringBuffer.writeln("import 'package:focus/data/models/color_gradient.dart';");
   stringBuffer.writeln('class ColorGradients {');
   stringBuffer.writeln('  const ColorGradients._();\n');
 

@@ -1,6 +1,6 @@
 /*
  * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
- * @ Created: 2025-11-12 11:01:44
+ * @ Created: 2025-08-12 11:01:44
  * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
  */
 
@@ -15,8 +15,8 @@ import 'package:shelf_router/shelf_router.dart';
 import 'package:unsplash_client/unsplash_client.dart' show Photo;
 
 /// Get Unsplash API key from system environment variables
-final String unsplashApiKey =
-    Platform.environment['UNSPLASH_ACCESS_KEY'] ?? String.fromEnvironment('UNSPLASH_ACCESS_KEY');
+final String unsplashApiKey = Platform.environment['UNSPLASH_ACCESS_KEY'] ??
+    String.fromEnvironment('UNSPLASH_ACCESS_KEY');
 
 /// Define HTTP routes
 final _router = Router()
@@ -45,7 +45,8 @@ Future<Response> _unsplashRandomImageHandler(Request request) async {
     final Photo? photo = await randomUnsplashImage(source: source);
 
     if (photo == null) {
-      return Response.internalServerError(body: 'Could not get a photo from Unsplash.');
+      return Response.internalServerError(
+          body: 'Could not get a photo from Unsplash.');
     }
 
     return Response.ok(
@@ -66,8 +67,10 @@ void main(List<String> args) async {
 
   final ip = InternetAddress.anyIPv4;
 
-  final handler =
-      Pipeline().addMiddleware(logRequests()).addMiddleware(enableCors()).addHandler(_router.call);
+  final handler = Pipeline()
+      .addMiddleware(logRequests())
+      .addMiddleware(enableCors())
+      .addHandler(_router.call);
 
   final port = int.parse(Platform.environment['PORT'] ?? '8000');
 
@@ -85,7 +88,8 @@ Middleware enableCors() {
           headers: {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-            'Access-Control-Allow-Headers': 'Origin, Content-Type, Authorization',
+            'Access-Control-Allow-Headers':
+                'Origin, Content-Type, Authorization',
           },
         );
       }

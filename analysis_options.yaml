@@ -38,7 +38,7 @@ linter:
     # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
 
     prefer_single_quotes: true
-    prefer_relative_imports: true
+    prefer_relative_imports: false
     prefer_final_fields: true
     use_super_parameters: true
     require_trailing_commas: true
