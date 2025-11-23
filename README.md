@@ -2,12 +2,8 @@
 <br/>
 <p align="center"><strong>Focus to Your Target</strong> analyzes web pages and aims to reduce distracting social feeds and supports keeping you <strong>focused</strong> on your target.</p>
 <br/>
-<!--
-<p align="center"><a rel="focus focus" href="https://chromewebstore.google.com/detail/medcmkcekhaggbmjpgagiajoennmlmcf?utm_source=item-share-cb"><img alt="Chrome Web Store" src="https://img.shields.io/badge/Chrome-141e24.svg?&style=for-the-badge&logo=google-chrome&logoColor=white"></a>  <a rel="focus focus" href="https://microsoftedge.microsoft.com/addons/search?term=Focus%20to%20Your%20Target"><img alt="Edge Addons" src="https://img.shields.io/badge/Edge-141e24.svg?&style=for-the-badge&logo=microsoft-edge&logoColor=white"></a></p>
--->
 
-<a href="https://chromewebstore.google.com/detail/medcmkcekhaggbmjpgagiajoennmlmcf"><img src=".image/chrome_store_dark.png#gh-light-mode-only" height="60px"/></a>
-<a href="https://chromewebstore.google.com/detail/medcmkcekhaggbmjpgagiajoennmlmcf"><img src=".image/microsoft_store_dark.png#gh-dark-mode-only" height="60px"/></a>
+<p align="center"><a href="https://chromewebstore.google.com/detail/medcmkcekhaggbmjpgagiajoennmlmcf"><img src="images/chrome_store_light.png#gh-light-mode-only" height="60px" alt="Chrome Web Store"/></a> <a href="https://chromewebstore.google.com/detail/medcmkcekhaggbmjpgagiajoennmlmcf"><img src="images/chrome_store_dark.png#gh-dark-mode-only" height="60px" alt="Chrome Web Store"/></a>  <a href="https://microsoftedge.microsoft.com/addons/search?term=Focus%20to%20Your%20Target"><img src="images/microsoft_store_light.png#gh-light-mode-only" height="60px" alt="Microsoft Edge Add-ons"/></a> <a href="https://microsoftedge.microsoft.com/addons/search?term=Focus%20to%20Your%20Target"><img src="images/microsoft_store_dark.png#gh-dark-mode-only" height="60px" alt="Microsoft Edge Add-ons"/></a></p>
 
 
 <h2 align="center">Focus Your Target</h2>
