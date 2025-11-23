@@ -3,16 +3,7 @@
 <p align="center"><strong>Focus to Your Target</strong> analyzes web pages and aims to reduce distracting social feeds and supports keeping you <strong>focused</strong> on your target.</p>
 <br/>
 
-[![Chrome Web Store][chrome_store_light]][chrome_store_link_light] [![Chrome Web Store][chrome_store_dark]][chrome_store_link_dark] [![Microsoft Edge Add-ons][edge_store_light]][edge_store_link_light] [![Microsoft Edge Add-ons][edge_store_dark]][edge_store_link_dark]
-
-[chrome_store_light]: images/chrome_store_light.png#gh-light-mode-only
-[chrome_store_dark]: images/chrome_store_dark.png#gh-dark-mode-only
-[edge_store_light]: images/microsoft_store_light.png#gh-light-mode-only
-[edge_store_dark]: images/microsoft_store_dark.png#gh-dark-mode-only
-[chrome_store_link_light]: https://chromewebstore.google.com/detail/medcmkcekhaggbmjpgagiajoennmlmcf#gh-light-mode-only
-[chrome_store_link_dark]: https://chromewebstore.google.com/detail/medcmkcekhaggbmjpgagiajoennmlmcf#gh-dark-mode-only
-[edge_store_link_light]: https://microsoftedge.microsoft.com/addons/search?term=Focus%20to%20Your%20Target#gh-light-mode-only
-[edge_store_link_dark]: https://microsoftedge.microsoft.com/addons/search?term=Focus%20to%20Your%20Target#gh-dark-mode-only
+<p align="center"><a href="https://chromewebstore.google.com/detail/medcmkcekhaggbmjpgagiajoennmlmcf?utm_source=item-share-cb"><img src="images/chrome_store_light.png#gh-light-mode-only" height="40px" alt="Chrome Web Store"/></a> <a href="https://chromewebstore.google.com/detail/medcmkcekhaggbmjpgagiajoennmlmcf?utm_source=item-share-cb"><img src="images/chrome_store_dark.png#gh-dark-mode-only" height="40px" alt="Chrome Web Store"/></a>&nbsp;&nbsp;<a href="https://microsoftedge.microsoft.com/addons/search?term=Focus%20to%20Your%20Target"><img src="images/microsoft_store_light.png#gh-light-mode-only" height="40px" alt="Microsoft Edge Add-ons"/></a> <a href="https://microsoftedge.microsoft.com/addons/search?term=Focus%20to%20Your%20Target"><img src="images/microsoft_store_dark.png#gh-dark-mode-only" height="40px" alt="Microsoft Edge Add-ons"/></a></p>
 
 <h2 align="center">Focus Your Target</h2>
 <br/>
