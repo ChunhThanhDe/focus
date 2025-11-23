@@ -5,7 +5,7 @@
   "description": "Chrome extension combining Flutter newtab and social media cleaner",
   "private": true,
   "scripts": {
-    "build:flutter": "flutter build web --release --csp --no-web-resources-cdn",
+    "build:flutter": "fvm flutter build web --release --csp --no-web-resources-cdn",
     "copy:newtab": "node scripts/copy-flutter-web.js",
     "copy:icons": "node scripts/copy-icons.js",
     "sync:metadata": "node scripts/sync-extension-metadata.js",
