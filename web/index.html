@@ -1,15 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <base href="/focus/">
+  <base href="$FLUTTER_BASE_HREF">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="description" content="A new-tab extension that hides social media clutter and shows inspiring quotes to keep you focused." />
+  <meta name="keywords" content="Focus, New Tab, Productivity, Flutter, Chrome Extension" />
+  <meta name="author" content="ChunhThanhDe" />
   <title>New Tab</title>
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/x-icon" href="favicon.png">
   <link rel="apple-touch-icon" sizes="192x192" href="icons/Icon-192.png">
   <link rel="stylesheet" href="style.css">
+  <style>
+    .container{width:100vw;height:100vh;display:flex;justify-content:center;align-items:center}
+    .indicator{width:16vw;max-width:192px}
+    @media (max-width:600px){.indicator{width:32vw}}
+    @media (min-width:601px){.indicator{width:16vw}}
+  </style>
 </head>
 <body>
+  <div id="loading_indicator" class="container">
+    <img class="indicator" src="icons/logo.png" alt="loading" />
+  </div>
+  <script src="loading.js"></script>
   <script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>
