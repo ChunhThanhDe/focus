@@ -52,13 +52,16 @@ class TodoRowState extends State<TodoRow> {
         final int? m = int.tryParse(parts[1]);
         if (h != null && m != null) {
           final now = DateTime.now();
-          var candidate = DateTime(now.year, now.month, now.day, h, m);
-          if (!candidate.isAfter(now)) candidate = candidate.add(const Duration(days: 1));
-          final minutes = candidate.difference(now).inMinutes;
-          if (minutes < 10) {
+          final todayTime = DateTime(now.year, now.month, now.day, h, m);
+          if (!todayTime.isAfter(now)) {
             bg = Colors.red.withOpacity(0.5);
-          } else if (minutes < 60) {
-            bg = Colors.yellow.withOpacity(0.5);
+          } else {
+            final minutes = todayTime.difference(now).inMinutes;
+            if (minutes < 10) {
+              bg = Colors.red.withOpacity(0.5);
+            } else if (minutes < 60) {
+              bg = Colors.yellow.withOpacity(0.5);
+            }
           }
         }
       }

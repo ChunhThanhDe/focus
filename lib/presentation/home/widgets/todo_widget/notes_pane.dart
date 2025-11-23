@@ -115,11 +115,11 @@ class NotesPaneState extends State<NotesPane> {
                 filled: true,
                 fillColor: Colors.black.withOpacity(0.06),
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(color: borderBase),
+                  borderSide: BorderSide(color: borderBase.withOpacity(0.15)),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: borderBase),
+                  borderSide: BorderSide(color: borderBase.withOpacity(0.15)),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 focusedBorder: OutlineInputBorder(

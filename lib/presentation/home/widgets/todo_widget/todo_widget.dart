@@ -95,7 +95,7 @@ class _TodoWidgetState extends State<TodoWidget> {
                                           borderRadius: BorderRadius.circular(6),
                                         ),
                                         focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: borderBase.withOpacity(0.4)),
+                                          borderSide: BorderSide(color: borderBase),
                                           borderRadius: BorderRadius.circular(6),
                                         ),
                                       ),
