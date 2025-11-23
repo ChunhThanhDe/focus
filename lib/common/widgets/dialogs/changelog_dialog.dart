@@ -1,7 +1,7 @@
 /*
  * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
  * @ Created: 2025-08-12 11:01:44
-* @ Message: ðŸŽ¯ Happy coding and Have a nice day! ðŸŒ¤ï¸
+* @ Message: 🎯 Happy coding and Have a nice day! 🌤️
  */
 
 import 'dart:convert';
