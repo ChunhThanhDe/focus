@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Focus to your Target",
-  "version": "2.7.0",
+  "version": "2.7.1",
   "description": "A new-tab extension that hides social media clutter and shows inspiring quotes to keep you focused",
   "content_scripts": [
     {
