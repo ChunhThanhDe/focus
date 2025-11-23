@@ -1,0 +1,30 @@
+name: Other
+description: Other changes not related to features and bugs
+title: "other: "
+labels: [other]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Clearly describe what change is needed and why. If this changes the code including adding new features and fixing bugs then please use a different issue type.
+      placeholder: "Provide a description of the other."
+    validations:
+      required: true
+  - type: textarea
+    id: requirements
+    attributes:
+      label: Requirements
+      description: The list of requirements that need to be met in order to consider the ticket to be completed. Please be as explicit as possible.
+      value: |
+        - [ ] No changes related to bug fixes and feature requests.
+        - [ ] All CI/CD checks are passing.
+        - [ ] There is no drop in the test coverage percentage.
+    validations:
+      required: true
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any other context, including links/screenshots/video recordings/etc about the problem here.
+      placeholder: "Provide context here."
