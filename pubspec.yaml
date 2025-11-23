@@ -64,7 +64,7 @@ dependencies:
   # Launch URLs in a browser or other apps
   url_launcher: ^6.3.1
   # Get app information like version, build number, etc.
-  package_info_plus: ^8.3.0
+  package_info_plus: ^9.0.0
   # More utilities for Flutter development
   flutter_screwdriver: ^3.2.0
   # Render Markdown in your Flutter app
