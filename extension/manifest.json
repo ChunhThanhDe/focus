@@ -3,9 +3,6 @@
   "name": "Focus to your Target",
   "version": "2.7.0",
   "description": "A new-tab extension that hides social media clutter and shows inspiring quotes to keep you focused",
-  "chrome_url_overrides": {
-    "newtab": "newtab/index.html"
-  },
   "content_scripts": [
     {
       "matches": [

@@ -17,6 +17,7 @@ import 'package:focus/presentation/home/store/home_store.dart';
 import 'package:focus/presentation/home/store/widget_store.dart';
 import 'package:focus/presentation/home/widgets/home_background.dart';
 import 'package:focus/presentation/home/widgets/home_widget.dart';
+import 'package:focus/presentation/home/widgets/bottom_bar.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +32,6 @@ import 'package:focus/common/widgets/observer/custom_observer.dart';
 import 'package:focus/data/sources/storage/local_storage_manager.dart';
 import 'package:focus/core/utils/universal/io.dart';
 import 'package:focus/core/utils/utils.dart';
-import 'package:focus/presentation/home/widgets/bottom_bar.dart';
 import 'package:focus/data/models/background_settings.dart';
 
 const bool isDevMode = String.fromEnvironment('MODE') == 'debug';
