@@ -243,7 +243,7 @@
     "timeHint24": "HH:MM",
     "timeHint12": "hh:mm",
     "guide": "Hướng dẫn",
-    "legendRed": "Đỏ: còn < 10 phút",
+    "legendRed": "Đỏ: còn < 10 phút và quá hạn",
     "legendYellow": "Vàng: còn < 60 phút",
     "legendGreen": "Xanh: đã hoàn thành",
     "ctrlSaveNotes": "Ctrl+S: lưu ghi chú",
