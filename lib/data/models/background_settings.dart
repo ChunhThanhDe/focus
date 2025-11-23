@@ -103,7 +103,7 @@ class BackgroundSettings with EquatableMixin {
   final List<UnsplashSource> customSources;
 
   BackgroundSettings({
-    this.mode = BackgroundMode.color,
+    this.mode = BackgroundMode.todo,
     this.color = FlatColors.minimal,
     this.gradient = ColorGradients.youtube,
     this.tint = 0,

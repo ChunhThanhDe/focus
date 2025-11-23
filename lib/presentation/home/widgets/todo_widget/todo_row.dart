@@ -129,7 +129,7 @@ class TodoRowState extends State<TodoRow> {
                 builder: (context) {
                   final use24h = context.read<BackgroundStore>().use24HourTodo;
                   return SizedBox(
-                    width: 84,
+                    width: 100,
                     child: TextInput(
                       controller: timeController,
                       inputFormatters: [MaskedInputFormatter('00:00')],

@@ -80,7 +80,7 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
   late Future initializationFuture;
 
   @readonly
-  BackgroundMode _mode = BackgroundMode.color;
+  BackgroundMode _mode = BackgroundMode.todo;
 
   @readonly
   FlatColor _color = FlatColors.minimal;
@@ -545,10 +545,12 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
 
   @readonly
   DateTime? _todoReminderAt;
+
   @readonly
   bool _use24HourTodo = true;
+
   @readonly
-  bool _todoDarkMode = false;
+  bool _todoDarkMode = true;
 
   @action
   void addTodo(String text) {
