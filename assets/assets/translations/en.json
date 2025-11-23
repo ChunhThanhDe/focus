@@ -1,0 +1,261 @@
+{
+  "main": {
+    "title": "Focus"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "create": "Create",
+    "settings": "Settings",
+    "message": "Message",
+    "widget": "Widget",
+    "font": "Font",
+    "fontSize": "Font size",
+    "position": "Position",
+    "template": "Template",
+    "format": "Format",
+    "border": "Border",
+    "separator": "Separator",
+    "color": "Color",
+    "gradient": "Gradient",
+    "search": "Search",
+    "saveImage": "Save Image",
+    "saveFile": "Save File",
+    "language": "Language",
+    "english": "English",
+    "vietnamese": "Vietnamese"
+  },
+  "settings": {
+    "panel": {
+      "background": "Background",
+      "widget": "Widget",
+      "about": "About",
+      "socialCleaner": "Social Cleaner"
+    },
+    "background": {
+      "mode": "Background Mode",
+      "source": "Source",
+      "collection": "Background Collection",
+      "resolution": "Resolution",
+      "autoRefresh": "Auto Refresh Background",
+      "selectDuration": "Select duration",
+      "tint": "Tint",
+      "blackWhiteFilter": "Black & White Filter",
+      "selectSource": "Select source",
+      "selectCollection": "Select a collection",
+      "selectResolution": "Select a resolution",
+      "autoMode": "Auto Mode: ",
+      "autoModeDescription": "Background images will have\nsame resolution as this window.\n",
+      "note": "\nNote: ",
+      "noteDescription": "Higher resolution background may\ntake more time to load depending on\nyour connection.",
+      "selectColor": "Select a color",
+      "selectGradient": "Select a gradient",
+      "color": "Color",
+      "gradient": "Gradient"
+    },
+    "widget": {
+      "label": "Widget",
+      "radius": "Radius",
+      "showSeconds": "Show seconds",
+      "coloredSecondHand": "Colored Second Hand",
+      "imageDownloadQuality": "Image Download Quality",
+      "textBefore": "Text Before",
+      "date": "Date",
+      "time": "Time",
+      "textAfter": "Text After",
+      "dateFormat": "Date Format"
+    },
+    "socialCleaner": {
+      "title": "Social Feed Cleaner",
+      "enable": "Enable social feed cleaning",
+      "quote": {
+        "title": "Quote Settings",
+        "show": "Show inspirational quotes",
+        "useBuiltin": "Use built-in quotes"
+      },
+      "customQuotes": {
+        "title": "Custom Quotes",
+        "hint": "Enter your custom quote...",
+        "empty": "No custom quotes added yet."
+      },
+      "sites": {
+        "title": "Site Settings",
+        "facebook": "Facebook",
+        "instagram": "Instagram",
+        "tiktok": "TikTok",
+        "twitter": "Twitter/X",
+        "threads": "Threads",
+        "reddit": "Reddit",
+        "linkedin": "LinkedIn",
+        "youtube": "YouTube",
+        "github": "GitHub",
+        "shopee": "Shopee",
+        "hackernews": "Hacker News"
+      },
+      "reset": {
+        "title": "Reset",
+        "toDefaults": "Reset to defaults"
+      }
+    },
+    "weather": {
+      "location": "Location (city)",
+      "temperatureUnit": "Temperature unit"
+    },
+    "menu": {
+      "likedBackgrounds": "View liked photos",
+      "import": "Import Settings",
+      "export": "Export Settings",
+      "advanced": "Advanced Settings",
+      "changelog": "See what's new",
+      "donate": "Donate",
+      "sponsor": "Become a sponsor",
+      "report": "Report an issue",
+      "reset": "Reset to default"
+    },
+    "dialog": {
+      "customCollections": "Custom Collections",
+      "newCollection": {
+        "keywords": "Keywords"
+      },
+      "reset": {
+        "title": "Reset to default settings?",
+        "description": "Are you sure you want to reset all settings to default? This cannot be reversed.",
+        "note": "Note that this will also clear your liked photos!",
+        "yesReset": "Yes, Reset!"
+      }
+    },
+    "todo": {
+      "use24h": "Use 24h Time Format",
+      "darkMode": "Todo Dark Mode"
+    }
+  },
+  "about": {
+    "focusYourTarget": "Focus Your Target",
+    "madeWithLove": "Made with love",
+    "in": "in",
+    "developedBy": "Developed by",
+    "backgroundsBy": "Backgrounds by",
+    "weatherGeocodingBy": "Weather & Geocoding API by"
+  },
+  "home": {
+    "photoBy": "Photo by ",
+    "on": " on ",
+    "timer": {
+      "defaultTime": "00:00:00"
+    }
+  },
+  "placeholders": {
+    "dateFormat": "dd/mm/yyyy",
+    "timeFormat": "hh:mm aa"
+  },
+  "defaults": {
+    "message": "Hello World!"
+  },
+  "enums": {
+    "widgetType": {
+      "none": "None",
+      "digitalClock": "Digital Clock",
+      "analogClock": "Analog Clock",
+      "text": "Text",
+      "timer": "Timer",
+      "weather": "Weather",
+      "digitalDate": "Date & Time"
+    },
+    "borderType": {
+      "none": "None",
+      "solid": "Solid",
+      "rounded": "Rounded"
+    },
+    "clockFormat": {
+      "twelveHour": "12 Hours",
+      "twelveHoursWithAmPm": "12 Hours with AM / PM",
+      "twentyFourHour": "24 Hours"
+    },
+    "alignment": {
+      "topLeft": "Top Left",
+      "topCenter": "Top Center",
+      "topRight": "Top Right",
+      "centerLeft": "Center Left",
+      "center": "Center",
+      "centerRight": "Center Right",
+      "bottomLeft": "Bottom Left",
+      "bottomCenter": "Bottom Center",
+      "bottomRight": "Bottom Right"
+    },
+    "separator": {
+      "nothing": "Nothing",
+      "dot": "Dot",
+      "colon": "Colon",
+      "dash": "Dash",
+      "space": "Space",
+      "newLine": "New Line"
+    },
+    "dateSeparator": {
+      "dash": "Dash",
+      "dot": "Dot",
+      "slash": "Slash"
+    },
+    "dateFormat": {
+      "dayMonthYear": "Day/Month/Year",
+      "monthDayYear": "Month/Day/Year",
+      "yearMonthDay": "Year/Month/Day",
+      "custom": "Custom"
+    },
+    "imageSource": {
+      "unsplash": "Unsplash",
+      "local": "Local",
+      "userLikes": "Liked By You"
+    },
+    "backgroundRefreshRate": {
+      "never": "Never",
+      "newTab": "Every New Tab",
+      "minute": "Every Minute",
+      "fiveMinute": "Every 5 Minutes",
+      "fifteenMinute": "Every 15 Minutes",
+      "thirtyMinute": "Every 30 Minutes",
+      "hour": "Every Hour",
+      "daily": "Every Day",
+      "weekly": "Every Week"
+    }
+  },
+  "quotes": {
+    "builtin": [
+      "The best time to plant a tree was 20 years ago. The second best time is now.",
+      "Your limitation—it's only your imagination.",
+      "Push yourself, because no one else is going to do it for you.",
+      "Great things never come from comfort zones.",
+      "Dream it. Wish it. Do it.",
+      "Success doesn't just find you. You have to go out and get it.",
+      "The harder you work for something, the greater you'll feel when you achieve it.",
+      "Dream bigger. Do bigger.",
+      "Don't stop when you're tired. Stop when you're done.",
+      "Wake up with determination. Go to bed with satisfaction.",
+      "Do something today that your future self will thank you for.",
+      "Little things make big days.",
+      "It's going to be hard, but hard does not mean impossible.",
+      "Don't wait for opportunity. Create it.",
+      "Sometimes we're tested not to show our weaknesses, but to discover our strengths.",
+      "The key to success is to focus on goals, not obstacles.",
+      "Dream it. Believe it. Build it."
+    ]
+  },
+  "todo": {
+    "addTask": "Add a task",
+    "showActive": "Show active",
+    "showCompleted": "Show completed",
+    "showAll": "Show all",
+    "clearAllTasks": "Clear all tasks",
+    "notes": "Notes",
+    "save": "Save",
+    "paste": "Paste",
+    "clear": "Clear",
+    "writeOrPaste": "Write or paste…",
+    "timeHint24": "HH:MM",
+    "timeHint12": "hh:mm",
+    "guide": "Guide",
+    "legendRed": "Red: due in < 10 minutes and overdue",
+    "legendYellow": "Yellow: due in < 60 minutes",
+    "legendGreen": "Green: completed",
+    "ctrlSaveNotes": "Ctrl+S: save notes",
+    "notifyWhenTimeComes": "Notification pushes when time comes"
+  }
+}

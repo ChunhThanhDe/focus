@@ -1,0 +1,253 @@
+{
+  "main": {
+    "title": "Tập Trung"
+  },
+  "common": {
+    "cancel": "Hủy",
+    "create": "Tạo",
+    "settings": "Cài Đặt",
+    "message": "Tin Nhắn",
+    "widget": "Tiện Ích",
+    "font": "Phông Chữ",
+    "fontSize": "Kích thước chữ",
+    "position": "Vị Trí",
+    "template": "Mẫu",
+    "format": "Định Dạng",
+    "border": "Viền",
+    "separator": "Dấu Phân Cách",
+    "color": "Màu Sắc",
+    "gradient": "Gradient",
+    "search": "Tìm Kiếm",
+    "saveImage": "Lưu Hình Ảnh",
+    "saveFile": "Lưu Tệp",
+    "language": "Ngôn ngữ",
+    "english": "Tiếng Anh",
+    "vietnamese": "Tiếng Việt"
+  },
+  "settings": {
+    "panel": {
+      "background": "Nền",
+      "widget": "Tiện Ích",
+      "about": "Giới thiệu",
+      "socialCleaner": "Làm sạch Mạng Xã Hội"
+    },
+    "background": {
+      "mode": "Chế Độ Nền",
+      "source": "Nguồn",
+      "collection": "Bộ Sưu Tập Nền",
+      "resolution": "Độ Phân Giải",
+      "autoRefresh": "Tự Động Làm Mới Nền",
+      "selectDuration": "Chọn thời gian",
+      "tint": "Mờ",
+      "blackWhiteFilter": "Đen Trắng",
+      "selectSource": "Nguồn",
+      "selectCollection": "Bộ sưu tập",
+      "selectResolution": "Dộ phân giải",
+      "autoMode": "Tự Động: ",
+      "autoModeDescription": "Hình nền sẽ có\ncùng độ phân giải với cửa sổ này.\n",
+      "note": "\nLưu Ý: ",
+      "noteDescription": "Hình nền có độ phân giải cao hơn có thể\nmất nhiều thời gian tải hơn tùy thuộc vào\nkết nối của bạn.",
+      "selectColor": "Màu sắc",
+      "selectGradient": "Gradient",
+      "color": "Màu sắc",
+      "gradient": "Gradient"
+    },
+    "widget": {
+      "label": "Tiện Ích",
+      "radius": "Bán Kính",
+      "showSeconds": "Hiển thị giây",
+      "coloredSecondHand": "Kim Giây Màu",
+      "imageDownloadQuality": "Chất Lượng Tải Hình Ảnh",
+      "textBefore": "Văn Bản Trước",
+      "date": "Ngày",
+      "time": "Thời Gian",
+      "textAfter": "Văn Bản Sau",
+      "dateFormat": "Định Dạng Ngày"
+    },
+    "socialCleaner": {
+      "title": "Trình làm sạch bảng tin",
+      "enable": "Bật làm sạch bảng tin",
+      "quote": {
+        "title": "Cài đặt câu trích dẫn",
+        "show": "Hiển thị trích dẫn",
+        "useBuiltin": "Dùng trích dẫn mặc định"
+      },
+      "customQuotes": {
+        "title": "Câu trích dẫn tùy chỉnh",
+        "hint": "Nhập câu trích dẫn của bạn...",
+        "empty": "Chưa có câu trích dẫn tùy chỉnh."
+      },
+      "sites": {
+        "title": "Cài đặt trang mạng",
+        "facebook": "Facebook",
+        "instagram": "Instagram",
+      "tiktok": "TikTok",
+      "twitter": "Twitter/X",
+      "threads": "Threads",
+      "reddit": "Reddit",
+      "linkedin": "LinkedIn",
+      "youtube": "YouTube",
+      "github": "GitHub",
+      "shopee": "Shopee",
+        "hackernews": "Hacker News"
+      },
+      "reset": {
+        "title": "Đặt lại",
+        "toDefaults": "Đặt lại mặc định"
+      }
+    },
+    "weather": {
+      "location": "Vị trí (thành phố)",
+      "temperatureUnit": "Đơn vị nhiệt độ"
+    },
+    "menu": {
+      "likedBackgrounds": "Xem ảnh đã thích",
+      "import": "Nhập Cài Đặt",
+      "export": "Xuất Cài Đặt",
+      "advanced": "Cài Đặt Nâng Cao",
+      "changelog": "Thông tin cập nhật",
+      "donate": "Quyên Góp",
+      "sponsor": "Trở thành nhà tài trợ",
+      "report": "Báo cáo lỗi",
+      "reset": "Đặt lại ban đầu"
+    },
+    "dialog": {
+      "customCollections": "Bộ Sưu Tập Tùy Chỉnh",
+      "newCollection": {
+        "keywords": "Từ Khóa"
+      },
+      "reset": {
+        "title": "Đặt lại về mặc định?",
+        "description": "Bạn có chắc muốn đặt lại tất cả cài đặt về mặc định? Hành động này không thể hoàn tác.",
+        "note": "Lưu ý: thao tác này cũng sẽ xóa các ảnh bạn đã thích!",
+        "yesReset": "Có, Đặt Lại!"
+      }
+    },
+    "todo": {
+      "use24h": "Định dạng 24h",
+      "darkMode": "Chế độ tối"
+    }
+  },
+  "home": {
+    "photoBy": "Ảnh bởi ",
+    "on": " trên ",
+    "timer": {
+      "defaultTime": "00:00:00"
+    }
+  },
+  "placeholders": {
+    "dateFormat": "dd/mm/yyyy",
+    "timeFormat": "hh:mm aa"
+  },
+  "defaults": {
+    "message": "Hello World!"
+  },
+  "enums": {
+    "widgetType": {
+      "none": "Không",
+      "digitalClock": "Đồng Hồ Số",
+      "analogClock": "Đồng Hồ Kim",
+      "text": "Văn Bản",
+      "timer": "Bộ Đếm Thời Gian",
+      "weather": "Thời Tiết",
+      "digitalDate": "Ngày & Giờ"
+    },
+    "borderType": {
+      "none": "Không",
+      "solid": "Đặc",
+      "rounded": "Bo Tròn"
+    },
+    "clockFormat": {
+      "twelveHour": "12 Giờ",
+      "twelveHoursWithAmPm": "12 Giờ với AM / PM",
+      "twentyFourHour": "24 Giờ"
+    },
+    "alignment": {
+      "topLeft": "Trên Trái",
+      "topCenter": "Trên Giữa",
+      "topRight": "Trên Phải",
+      "centerLeft": "Giữa Trái",
+      "center": "Giữa",
+      "centerRight": "Giữa Phải",
+      "bottomLeft": "Dưới Trái",
+      "bottomCenter": "Dưới Giữa",
+      "bottomRight": "Dưới Phải"
+    },
+    "separator": {
+      "nothing": "Không",
+      "dot": "Chấm",
+      "colon": "Hai Chấm",
+      "dash": "Gạch Ngang",
+      "space": "Khoảng Trắng",
+      "newLine": "Dòng Mới"
+    },
+    "dateSeparator": {
+      "dash": "Gạch Ngang",
+      "dot": "Chấm",
+      "slash": "Gạch Chéo"
+    },
+    "dateFormat": {
+      "dayMonthYear": "Ngày/Tháng/Năm",
+      "monthDayYear": "Tháng/Ngày/Năm",
+      "yearMonthDay": "Năm/Tháng/Ngày",
+      "custom": "Tùy Chỉnh"
+    },
+    "imageSource": {
+      "unsplash": "Unsplash",
+      "local": "Cục bộ",
+      "userLikes": "Bạn đã thích"
+    },
+    "backgroundRefreshRate": {
+      "never": "Không bao giờ",
+      "newTab": "Mỗi thẻ mới",
+      "minute": "Mỗi phút",
+      "fiveMinute": "Mỗi 5 phút",
+      "fifteenMinute": "Mỗi 15 phút",
+      "thirtyMinute": "Mỗi 30 phút",
+      "hour": "Mỗi giờ",
+      "daily": "Mỗi ngày",
+      "weekly": "Mỗi tuần"
+    }
+  },
+  "quotes": {
+    "builtin": [
+      "Thời điểm tốt nhất để trồng cây là 20 năm trước. Thời điểm tốt thứ hai là ngay bây giờ.",
+      "Giới hạn của bạn chỉ là trí tưởng tượng của bạn.",
+      "Hãy thúc đẩy bản thân, vì không ai khác làm điều đó cho bạn.",
+      "Những điều vĩ đại không bao giờ đến từ vùng an toàn.",
+      "Hãy mơ ước. Hãy ước mong. Hãy hành động.",
+      "Thành công không tự tìm đến bạn. Bạn phải đi ra ngoài và nắm lấy nó.",
+      "Càng nỗ lực cho điều gì đó, bạn sẽ càng cảm thấy tuyệt vời khi đạt được nó.",
+      "Mơ lớn. Làm lớn.",
+      "Đừng dừng lại khi bạn mệt. Hãy dừng lại khi bạn hoàn thành.",
+      "Hãy thức dậy với quyết tâm và đi ngủ với sự mãn nguyện.",
+      "Hãy làm điều gì đó hôm nay để bản thân tương lai của bạn sẽ cảm ơn.",
+      "Những điều nhỏ bé tạo nên ngày lớn lao.",
+      "Sẽ khó khăn, nhưng khó khăn không có nghĩa là không thể.",
+      "Đừng chờ đợi cơ hội. Hãy tạo ra nó.",
+      "Đôi khi chúng ta được thử thách không phải để lộ ra điểm yếu mà để khám phá sức mạnh của mình.",
+      "Chìa khóa thành công là tập trung vào mục tiêu, không phải trở ngại.",
+      "Hãy mơ. Hãy tin. Hãy xây dựng."
+    ]
+  },
+  "todo": {
+    "addTask": "Thêm nhiệm vụ",
+    "showActive": "Nhiệm vụ cần hoàn thành",
+    "showCompleted": "Hiện đã hoàn thành",
+    "showAll": "Hiển thị tất cả",
+    "clearAllTasks": "Xóa tất cả ",
+    "notes": "Ghi chú",
+    "save": "Lưu",
+    "paste": "Dán",
+    "clear": "Xóa",
+    "writeOrPaste": "Viết hoặc dán…",
+    "timeHint24": "HH:MM",
+    "timeHint12": "hh:mm",
+    "guide": "Hướng dẫn",
+    "legendRed": "Đỏ: còn < 10 phút và quá hạn",
+    "legendYellow": "Vàng: còn < 60 phút",
+    "legendGreen": "Xanh: đã hoàn thành",
+    "ctrlSaveNotes": "Ctrl+S: lưu ghi chú",
+    "notifyWhenTimeComes": "Sẽ thông báo khi đến giờ"
+  }
+}
