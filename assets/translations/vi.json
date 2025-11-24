@@ -250,4 +250,18 @@
     "ctrlSaveNotes": "Ctrl+S: lưu ghi chú",
     "notifyWhenTimeComes": "Sẽ thông báo khi đến giờ"
   }
+  ,
+  "permission": {
+    "title": "Bật Trình làm sạch bảng tin",
+    "description": "Focus cần quyền truy cập trang để ẩn News Feed và hiển thị câu trích dẫn. Quyền chỉ dùng cho thao tác giao diện (DOM), không thu thập dữ liệu cá nhân.",
+    "choose_sites": "Chọn trang để cấp quyền",
+    "button": {
+      "requesting": "Đang yêu cầu…",
+      "grant_selected": "Cấp quyền đã chọn"
+    },
+    "result": {
+      "granted": "Đã cấp quyền",
+      "denied": "Từ chối quyền"
+    }
+  }
 }

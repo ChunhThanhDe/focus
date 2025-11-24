@@ -3,6 +3,62 @@
 
 console.log('Focus extension background script loaded');
 
+const OPTIONAL_ORIGINS = [
+  'https://www.facebook.com/*',
+  'https://web.facebook.com/*',
+  'https://www.instagram.com/*',
+  'https://www.threads.net/*',
+  'https://www.threads.com/*',
+  'https://www.tiktok.com/*',
+  'https://twitter.com/*',
+  'https://x.com/*',
+  'https://www.reddit.com/*',
+  'https://old.reddit.com/*',
+  'https://www.linkedin.com/*',
+  'https://www.youtube.com/*',
+  'https://github.com/*',
+  'https://news.ycombinator.com/*',
+  'https://shopee.vn/*',
+  'https://shopee.com/*',
+];
+
+function originsFromRequest(req) {
+  const arr = Array.isArray(req?.origins) ? req.origins : OPTIONAL_ORIGINS;
+  return arr;
+}
+
+function urlMatchesAnyOrigin(url, origins) {
+  if (!url) return false;
+  try {
+    const u = new URL(url);
+    const originStr = `${u.protocol}//${u.host}`;
+    return origins.some((o) => {
+      const base = o.replace('/*', '');
+      return originStr.startsWith(base);
+    });
+  } catch (_) {
+    return false;
+  }
+}
+
+async function registerSocialCleanerContentScript() {
+  try {
+    await chrome.scripting.unregisterContentScripts({ ids: ['focus-social-cleaner'] }).catch(() => {});
+    await chrome.scripting.registerContentScripts([
+      {
+        id: 'focus-social-cleaner',
+        js: ['social_cleaner/content_unified.js'],
+        matches: OPTIONAL_ORIGINS,
+        runAt: 'document_start',
+        allFrames: false,
+      },
+    ]);
+    console.log('Registered social cleaner content script');
+  } catch (e) {
+    console.warn('Failed to register content script', e);
+  }
+}
+
 // Default settings
 const defaultSettings = {
   enabled: true,
@@ -150,6 +206,35 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       });
       return true;
     }
+    case 'checkOptionalPermissions': {
+      const origins = originsFromRequest(request);
+      chrome.permissions.contains({ origins }).then((granted) => {
+        sendResponse({ granted: Boolean(granted) });
+      });
+      return true;
+    }
+    case 'requestOptionalPermissions': {
+      const origins = originsFromRequest(request);
+      chrome.permissions.request({ origins }).then((granted) => {
+        sendResponse({ granted: Boolean(granted) });
+        if (granted) {
+          registerSocialCleanerContentScript();
+          chrome.tabs.query({}).then((tabs) => {
+            tabs.forEach((tab) => {
+              if (urlMatchesAnyOrigin(tab.url, origins)) {
+                try {
+                  chrome.scripting.executeScript({
+                    target: { tabId: tab.id },
+                    files: ['social_cleaner/content_unified.js'],
+                  });
+                } catch (_) {}
+              }
+            });
+          });
+        }
+      });
+      return true;
+    }
       
     default:
       console.log('Unknown action:', request.action);
@@ -188,10 +273,30 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 });
 
 
+chrome.permissions.onAdded.addListener((perms) => {
+  const origins = perms?.origins || [];
+  if (!origins || origins.length === 0) return;
+  registerSocialCleanerContentScript();
+  chrome.tabs.query({}).then((tabs) => {
+    tabs.forEach((tab) => {
+      if (urlMatchesAnyOrigin(tab.url, origins)) {
+        try {
+          chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            files: ['social_cleaner/content_unified.js'],
+          });
+        } catch (_) {}
+      }
+    });
+  });
+});
+
+
 
 // Initialize extension
 chrome.runtime.onInstalled.addListener(() => {
   console.log('Focus extension installed');
+  registerSocialCleanerContentScript();
   
   // Only set default settings if none exist
   chrome.storage.local.get('socialCleanerSettings').then(result => {
@@ -202,4 +307,8 @@ chrome.runtime.onInstalled.addListener(() => {
       console.log('Existing settings found, keeping them');
     }
   });
+});
+
+chrome.runtime.onStartup.addListener(() => {
+  registerSocialCleanerContentScript();
 });

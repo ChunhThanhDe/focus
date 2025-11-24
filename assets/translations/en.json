@@ -257,5 +257,18 @@
     "legendGreen": "Green: completed",
     "ctrlSaveNotes": "Ctrl+S: save notes",
     "notifyWhenTimeComes": "Notification pushes when time comes"
+  },
+  "permission": {
+    "title": "Enable Social Cleaner",
+    "description": "Focus needs site access to hide the News Feed and show quotes. Access is used only for UI (DOM) changes; no personal data is collected.",
+    "choose_sites": "Choose sites to grant access",
+    "button": {
+      "requesting": "Requesting…",
+      "grant_selected": "Grant selected"
+    },
+    "result": {
+      "granted": "Permissions granted",
+      "denied": "Permissions denied"
+    }
   }
 }

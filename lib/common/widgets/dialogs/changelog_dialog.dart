@@ -11,6 +11,7 @@ import 'dart:math' hide log;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:focus/common/widgets/dialogs/permission_request_dialog.dart';
 import 'package:flutter_screwdriver/flutter_screwdriver.dart';
 import 'package:focus/main.dart';
 import 'package:focus/core/constants/colors.dart';
@@ -68,7 +69,21 @@ class _ChangelogDialogState extends State<ChangelogDialog> {
                   Material(
                     type: MaterialType.transparency,
                     child: IconButton(
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Future.delayed(const Duration(milliseconds: 100), () {
+                          showDialog(
+                            // ignore: use_build_context_synchronously
+                            context: context,
+                            barrierDismissible: true,
+                            builder:
+                                (ctx) => const Material(
+                                  type: MaterialType.transparency,
+                                  child: PermissionRequestDialog(),
+                                ),
+                          );
+                        });
+                      },
                       splashRadius: 16,
                       iconSize: 18,
                       icon: const Icon(Icons.close),
