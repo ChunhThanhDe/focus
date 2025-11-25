@@ -17,7 +17,6 @@ const OPTIONAL_ORIGINS = [
   'https://www.linkedin.com/*',
   'https://www.youtube.com/*',
   'https://github.com/*',
-  'https://news.ycombinator.com/*',
   'https://shopee.vn/*',
   'https://shopee.com/*',
 ];
@@ -75,7 +74,6 @@ const defaultSettings = {
     linkedin: { enabled: true },
     youtube: { enabled: false },
     github: { enabled: false },
-    hackernews: { enabled: true },
     shopee: { enabled: true }
   }
 };
@@ -111,7 +109,6 @@ function convertFlutterToBackgroundFormat(flutterSettings) {
       linkedin: { enabled: true },
       youtube: { enabled: false },
       github: { enabled: false },
-      hackernews: { enabled: true },
       shopee: { enabled: true }
     }
   };

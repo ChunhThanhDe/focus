@@ -60,7 +60,6 @@ abstract class _SocialCleanerStore with Store {
     'linkedin': true,
     'youtube': false,
     'github': false,
-    'hackernews': true,
     'shopee': true,
   };
 
@@ -414,8 +413,6 @@ abstract class _SocialCleanerStore with Store {
         return const ['https://www.youtube.com/*'];
       case 'github':
         return const ['https://github.com/*', 'https://www.github.com/*'];
-      case 'hackernews':
-        return const ['https://news.ycombinator.com/*'];
       case 'shopee':
         return const ['https://shopee.vn/*', 'https://shopee.com/*'];
       default:
@@ -438,7 +435,6 @@ abstract class _SocialCleanerStore with Store {
       'https://www.linkedin.com/*',
       'https://www.youtube.com/*',
       'https://github.com/*',
-      'https://news.ycombinator.com/*',
       'https://shopee.vn/*',
       'https://shopee.com/*',
     ];

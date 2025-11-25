@@ -19,17 +19,9 @@ class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
       'https://web.facebook.com/*',
       'http://web.facebook.com/*',
     ],
-    'Instagram': [
-      'https://www.instagram.com/*',
-      'http://www.instagram.com/*',
-    ],
-    'TikTok': [
-      'https://www.tiktok.com/*',
-    ],
-    'Threads': [
-      'https://www.threads.net/*',
-      'https://www.threads.com/*',
-    ],
+    'Instagram': ['https://www.instagram.com/*', 'http://www.instagram.com/*'],
+    'TikTok': ['https://www.tiktok.com/*'],
+    'Threads': ['https://www.threads.net/*', 'https://www.threads.com/*'],
     'Twitter/X': [
       'https://twitter.com/*',
       'http://twitter.com/*',
@@ -42,28 +34,28 @@ class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
       'https://old.reddit.com/*',
       'http://old.reddit.com/*',
     ],
-    'LinkedIn': [
-      'https://www.linkedin.com/*',
-      'http://www.linkedin.com/*',
-    ],
-    'YouTube': [
-      'https://www.youtube.com/*',
-    ],
-    'GitHub': [
-      'https://github.com/*',
-      'https://www.github.com/*',
-    ],
-    'Hacker News': [
-      'https://news.ycombinator.com/*',
-    ],
-    'Shopee': [
-      'https://shopee.vn/*',
-      'https://shopee.com/*',
-    ],
+    'LinkedIn': ['https://www.linkedin.com/*', 'http://www.linkedin.com/*'],
+    'YouTube': ['https://www.youtube.com/*'],
+    'GitHub': ['https://github.com/*', 'https://www.github.com/*'],
+    'Shopee': ['https://shopee.vn/*', 'https://shopee.com/*'],
   };
   final Map<String, bool> _requestingBySite = {};
   final Map<String, bool?> _grantedBySite = {};
   final Map<String, bool> _enabledBySite = {};
+  String _assetForName(String name) {
+    final key = name.toLowerCase();
+    if (key.contains('facebook')) return 'assets/images/facebook.png';
+    if (key.contains('instagram')) return 'assets/images/instagram.png';
+    if (key.contains('tiktok')) return 'assets/images/tiktok.png';
+    if (key.contains('threads')) return 'assets/images/threads.png';
+    if (key.contains('twitter')) return 'assets/images/twitter.png';
+    if (key.contains('reddit')) return 'assets/images/reddit.png';
+    if (key.contains('linkedin')) return 'assets/images/linkedin.png';
+    if (key.contains('youtube')) return 'assets/images/youtube.png';
+    if (key.contains('github')) return 'assets/images/github.png';
+    if (key.contains('shopee')) return 'assets/images/shopee.png';
+    return 'assets/images/ic_globe.png';
+  }
 
   @override
   void initState() {
@@ -77,7 +69,9 @@ class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
       final permissions = js_util.getProperty(chrome, 'permissions');
       for (final entry in siteOrigins.entries) {
         final granted = await js_util.promiseToFuture(
-          js_util.callMethod(permissions, 'contains', [js_util.jsify({'origins': entry.value})]),
+          js_util.callMethod(permissions, 'contains', [
+            js_util.jsify({'origins': entry.value}),
+          ]),
         );
         _grantedBySite[entry.key] = granted == true;
         _enabledBySite[entry.key] = granted == true;
@@ -90,7 +84,7 @@ class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        width: 760,
+        width: 830,
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
           color: AppColors.settingsPanelBackgroundColor,
@@ -105,7 +99,9 @@ class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
                 Expanded(
                   child: Text(
                     'permission.title'.tr(),
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
                   ),
                 ),
                 Material(
@@ -120,7 +116,7 @@ class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
               ],
             ),
             const SizedBox(height: 8),
-            Text('permission.description'.tr(), style: Theme.of(context).textTheme.bodyMedium),
+            Text('permission.description'.tr(), style: Theme.of(context).textTheme.bodyLarge),
             const SizedBox(height: 12),
             if ((_enabledBySite.values.where((e) => e == true).isEmpty))
               Container(
@@ -133,14 +129,15 @@ class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
                 ),
                 child: Text(
                   'permission.warning.no_site_enabled'.tr(),
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Colors.amber.shade400,
-                        fontWeight: FontWeight.w600,
-                      ),
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: Colors.amber.shade400,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
               ),
-            Text('permission.choose_sites'.tr(), style: Theme.of(context).textTheme.bodySmall),
-            const SizedBox(height: 8),
+            Text('permission.choose_sites'.tr(), style: Theme.of(context).textTheme.bodyLarge),
+            const SizedBox(height: 12),
             LayoutBuilder(
               builder: (context, constraints) {
                 const double spacing = 12;
@@ -148,84 +145,118 @@ class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
                 return Wrap(
                   spacing: spacing,
                   runSpacing: spacing,
-                  children: siteOrigins.entries.map((entry) {
-                    final name = entry.key;
-                    final origins = entry.value;
-                    final bool isOn = _enabledBySite[name] == true;
-                    final bool requesting = _requestingBySite[name] == true;
-                    final bool? granted = _grantedBySite[name];
-                    return SizedBox(
-                      width: itemWidth,
-                      child: InkWell(
-                        onTap: requesting
-                            ? null
-                            : () async {
-                                setState(() => _requestingBySite[name] = true);
-                                try {
-                                  final chrome = js_util.getProperty(js_util.globalThis, 'chrome');
-                                  final runtime = js_util.getProperty(chrome, 'runtime');
-                                  final res = await js_util.promiseToFuture(
-                                    js_util.callMethod(runtime, 'sendMessage', [js_util.jsify({ 'action': 'requestOptionalPermissions', 'origins': origins })]),
-                                  );
-                                  // Re-check actual permission state to ensure UI updates correctly
-                                  final permissions = js_util.getProperty(chrome, 'permissions');
-                                  final confirmed = await js_util.promiseToFuture(
-                                    js_util.callMethod(permissions, 'contains', [js_util.jsify({'origins': origins})]),
-                                  );
-                                  final ok = confirmed == true || (res is Map && res['granted'] == true);
-                                  _grantedBySite[name] = ok;
-                                  _enabledBySite[name] = ok;
-                                } catch (_) {
-                                  _grantedBySite[name] = false;
-                                }
-                                setState(() => _requestingBySite[name] = false);
-                              },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                          decoration: BoxDecoration(
-                            color: isOn ? Colors.amber.withValues(alpha: 0.12) : Theme.of(context).colorScheme.surface,
-                            borderRadius: BorderRadius.circular(6),
-                            border: Border.all(
-                              color: isOn
-                                  ? Colors.amber.shade600
-                                  : Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
-                              width: isOn ? 2 : 1,
-                            ),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(
-                                isOn ? Icons.radio_button_checked : Icons.radio_button_unchecked,
-                                color: isOn ? Colors.amber.shade600 : Theme.of(context).colorScheme.outline,
-                                size: 18,
+                  children:
+                      siteOrigins.entries.map((entry) {
+                        final name = entry.key;
+                        final origins = entry.value;
+                        final bool isOn = _enabledBySite[name] == true;
+                        final bool requesting = _requestingBySite[name] == true;
+                        return SizedBox(
+                          width: itemWidth,
+                          child: InkWell(
+                            onTap:
+                                requesting
+                                    ? null
+                                    : () async {
+                                      setState(() => _requestingBySite[name] = true);
+                                      try {
+                                        final chrome = js_util.getProperty(
+                                          js_util.globalThis,
+                                          'chrome',
+                                        );
+                                        final runtime = js_util.getProperty(chrome, 'runtime');
+                                        final res = await js_util.promiseToFuture(
+                                          js_util.callMethod(runtime, 'sendMessage', [
+                                            js_util.jsify({
+                                              'action': 'requestOptionalPermissions',
+                                              'origins': origins,
+                                            }),
+                                          ]),
+                                        );
+                                        // Re-check actual permission state to ensure UI updates correctly
+                                        final permissions = js_util.getProperty(
+                                          chrome,
+                                          'permissions',
+                                        );
+                                        final confirmed = await js_util.promiseToFuture(
+                                          js_util.callMethod(permissions, 'contains', [
+                                            js_util.jsify({'origins': origins}),
+                                          ]),
+                                        );
+                                        final ok =
+                                            confirmed == true ||
+                                            (res is Map && res['granted'] == true);
+                                        _grantedBySite[name] = ok;
+                                        _enabledBySite[name] = ok;
+                                      } catch (_) {
+                                        _grantedBySite[name] = false;
+                                      }
+                                      setState(() => _requestingBySite[name] = false);
+                                    },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                              decoration: BoxDecoration(
+                                color:
+                                    isOn
+                                        ? Colors.amber.withValues(alpha: 0.12)
+                                        : Theme.of(context).colorScheme.surface,
+                                borderRadius: BorderRadius.circular(6),
+                                border: Border.all(
+                                  color:
+                                      isOn
+                                          ? Colors.amber.shade600
+                                          : Theme.of(
+                                            context,
+                                          ).colorScheme.outline.withValues(alpha: 0.2),
+                                  width: isOn ? 2 : 1,
+                                ),
                               ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  name,
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              child: Row(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(4),
+                                    child: Image.asset(
+                                      _assetForName(name),
+                                      width: 18,
+                                      height: 18,
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Text(
+                                      name,
+                                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                                         color: Theme.of(context).colorScheme.onSurface,
                                         fontWeight: FontWeight.w600,
                                       ),
-                                ),
-                              ),
-                              const SizedBox(width: 12),
-                              Text(
-                                isOn ? 'permission.status.on'.tr() : 'permission.status.off'.tr(),
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      color: isOn ? Colors.amber.shade700 : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Text(
+                                    isOn
+                                        ? 'permission.status.on'.tr()
+                                        : 'permission.status.off'.tr(),
+                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                      color:
+                                          isOn
+                                              ? Colors.amber.shade700
+                                              : Theme.of(
+                                                context,
+                                              ).colorScheme.onSurface.withValues(alpha: 0.7),
                                       fontWeight: FontWeight.w600,
                                     ),
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                    );
-                  }).toList(),
+                        );
+                      }).toList(),
                 );
               },
             ),
+            const SizedBox(height: 12),
           ],
         ),
       ),

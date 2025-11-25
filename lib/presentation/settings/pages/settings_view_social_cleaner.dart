@@ -105,7 +105,6 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
                     _buildSiteToggle('settings.socialCleaner.sites.youtube'.tr(), 'youtube'),
                     _buildSiteToggle('settings.socialCleaner.sites.github'.tr(), 'github'),
                     _buildSiteToggle('settings.socialCleaner.sites.shopee'.tr(), 'shopee'),
-                    _buildSiteToggle('settings.socialCleaner.sites.hackernews'.tr(), 'hackernews'),
                   ],
                 ),
               ),

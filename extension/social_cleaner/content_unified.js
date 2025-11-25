@@ -260,7 +260,6 @@
     if (hostname.includes('tiktok.com')) return 'tiktok';
     if (hostname.includes('github.com')) return 'github';
     if (hostname.includes('shopee.vn') || hostname.includes('shopee.com')) return 'shopee';
-    if (hostname.includes('news.ycombinator.com')) return 'hackernews';
     return null;
   }
 
