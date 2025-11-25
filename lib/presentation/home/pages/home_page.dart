@@ -11,7 +11,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:focus/common/widgets/dialogs/changelog_dialog.dart';
+import 'package:focus/common/widgets/dialogs/permission_request_dialog.dart';
 import 'package:focus/presentation/home/store/background_store.dart';
 import 'package:focus/presentation/home/store/home_store.dart';
 import 'package:focus/presentation/home/store/widget_store.dart';
@@ -269,11 +269,10 @@ class _HomeState extends State<Home> {
       showDialog(
         context: context,
         barrierDismissible: true,
-        builder:
-            (context) => const Material(
-              type: MaterialType.transparency,
-              child: ChangelogDialog(),
-            ),
+        builder: (context) => const Material(
+          type: MaterialType.transparency,
+          child: PermissionRequestDialog(),
+        ),
       );
     }
   }
