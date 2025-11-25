@@ -86,7 +86,7 @@ class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        width: 830,
+        width: 900,
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
           color: AppColors.settingsPanelBackgroundColor,
@@ -201,15 +201,9 @@ class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
                 ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 8),
-              Text(
-                'permission.description'.tr(),
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
+              Text('permission.description'.tr(), style: Theme.of(context).textTheme.bodyLarge),
               const SizedBox(height: 12),
-              Text(
-                'permission.choose_sites'.tr(),
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
+              Text('permission.choose_sites'.tr(), style: Theme.of(context).textTheme.bodyLarge),
             ] else if (_tabIndex == 1) ...[
               Text(
                 'permission.title'.tr(),
@@ -218,10 +212,7 @@ class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
                 ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 8),
-              Text(
-                'permission.description'.tr(),
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
+              Text('permission.description'.tr(), style: Theme.of(context).textTheme.bodyLarge),
               const SizedBox(height: 12),
               if ((_enabledBySite.values.where((e) => e == true).isEmpty))
                 Container(
@@ -241,10 +232,7 @@ class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
                     textAlign: TextAlign.center,
                   ),
                 ),
-              Text(
-                'permission.choose_sites'.tr(),
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
+              Text('permission.choose_sites'.tr(), style: Theme.of(context).textTheme.bodyLarge),
               const SizedBox(height: 12),
               LayoutBuilder(
                 builder: (context, constraints) {
@@ -253,106 +241,113 @@ class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
                   return Wrap(
                     spacing: spacing,
                     runSpacing: spacing,
-                    children: siteOrigins.entries.map((entry) {
-                      final name = entry.key;
-                      final origins = entry.value;
-                      final bool isOn = _enabledBySite[name] == true;
-                      final bool requesting = _requestingBySite[name] == true;
-                      return SizedBox(
-                        width: itemWidth,
-                        child: InkWell(
-                          onTap: requesting
-                              ? null
-                              : () async {
-                                  setState(() => _requestingBySite[name] = true);
-                                  try {
-                                    final chrome = js_util.getProperty(
-                                      js_util.globalThis,
-                                      'chrome',
-                                    );
-                                    final runtime = js_util.getProperty(
-                                      chrome,
-                                      'runtime',
-                                    );
-                                    final res = await js_util.promiseToFuture(
-                                      js_util.callMethod(runtime, 'sendMessage', [
-                                        js_util.jsify({
-                                          'action': 'requestOptionalPermissions',
-                                          'origins': origins,
-                                        }),
-                                      ]),
-                                    );
-                                    final permissions = js_util.getProperty(
-                                      chrome,
-                                      'permissions',
-                                    );
-                                    final confirmed = await js_util.promiseToFuture(
-                                      js_util.callMethod(permissions, 'contains', [
-                                        js_util.jsify({'origins': origins}),
-                                      ]),
-                                    );
-                                    final ok = confirmed == true || (res is Map && res['granted'] == true);
-                                    _grantedBySite[name] = ok;
-                                    _enabledBySite[name] = ok;
-                                  } catch (_) {
-                                    _grantedBySite[name] = false;
-                                  }
-                                  setState(() => _requestingBySite[name] = false);
-                                },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 14,
-                              vertical: 12,
-                            ),
-                            decoration: BoxDecoration(
-                              color: isOn
-                                  ? Colors.amber.withValues(alpha: 0.12)
-                                  : Theme.of(context).colorScheme.surface,
-                              borderRadius: BorderRadius.circular(6),
-                              border: Border.all(
-                                color: isOn
-                                    ? Colors.amber.shade600
-                                    : Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
-                                width: isOn ? 2 : 1,
-                              ),
-                            ),
-                            child: Row(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(4),
-                                  child: Image.asset(
-                                    _assetForName(name),
-                                    width: 18,
-                                    height: 18,
-                                    fit: BoxFit.contain,
+                    children:
+                        siteOrigins.entries.map((entry) {
+                          final name = entry.key;
+                          final origins = entry.value;
+                          final bool isOn = _enabledBySite[name] == true;
+                          final bool requesting = _requestingBySite[name] == true;
+                          return SizedBox(
+                            width: itemWidth,
+                            child: InkWell(
+                              onTap:
+                                  requesting
+                                      ? null
+                                      : () async {
+                                        setState(() => _requestingBySite[name] = true);
+                                        try {
+                                          final chrome = js_util.getProperty(
+                                            js_util.globalThis,
+                                            'chrome',
+                                          );
+                                          final runtime = js_util.getProperty(chrome, 'runtime');
+                                          final res = await js_util.promiseToFuture(
+                                            js_util.callMethod(runtime, 'sendMessage', [
+                                              js_util.jsify({
+                                                'action': 'requestOptionalPermissions',
+                                                'origins': origins,
+                                              }),
+                                            ]),
+                                          );
+                                          final permissions = js_util.getProperty(
+                                            chrome,
+                                            'permissions',
+                                          );
+                                          final confirmed = await js_util.promiseToFuture(
+                                            js_util.callMethod(permissions, 'contains', [
+                                              js_util.jsify({'origins': origins}),
+                                            ]),
+                                          );
+                                          final ok =
+                                              confirmed == true ||
+                                              (res is Map && res['granted'] == true);
+                                          _grantedBySite[name] = ok;
+                                          _enabledBySite[name] = ok;
+                                        } catch (_) {
+                                          _grantedBySite[name] = false;
+                                        }
+                                        setState(() => _requestingBySite[name] = false);
+                                      },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                                decoration: BoxDecoration(
+                                  color:
+                                      isOn
+                                          ? Colors.amber.withValues(alpha: 0.12)
+                                          : Theme.of(context).colorScheme.surface,
+                                  borderRadius: BorderRadius.circular(6),
+                                  border: Border.all(
+                                    color:
+                                        isOn
+                                            ? Colors.amber.shade600
+                                            : Theme.of(
+                                              context,
+                                            ).colorScheme.outline.withValues(alpha: 0.2),
+                                    width: isOn ? 2 : 1,
                                   ),
                                 ),
-                                const SizedBox(width: 12),
-                                Expanded(
-                                  child: Text(
-                                    name,
-                                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                child: Row(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(4),
+                                      child: Image.asset(
+                                        _assetForName(name),
+                                        width: 18,
+                                        height: 18,
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 12),
+                                    Expanded(
+                                      child: Text(
+                                        name,
+                                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                                           color: Theme.of(context).colorScheme.onSurface,
                                           fontWeight: FontWeight.w600,
                                         ),
-                                  ),
-                                ),
-                                const SizedBox(width: 12),
-                                Text(
-                                  isOn ? 'permission.status.on'.tr() : 'permission.status.off'.tr(),
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                        color: isOn
-                                            ? Colors.amber.shade700
-                                            : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 12),
+                                    Text(
+                                      isOn
+                                          ? 'permission.status.on'.tr()
+                                          : 'permission.status.off'.tr(),
+                                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                        color:
+                                            isOn
+                                                ? Colors.amber.shade700
+                                                : Theme.of(
+                                                  context,
+                                                ).colorScheme.onSurface.withValues(alpha: 0.7),
                                         fontWeight: FontWeight.w600,
                                       ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
-                      );
-                    }).toList(),
+                          );
+                        }).toList(),
                   );
                 },
               ),
@@ -365,106 +360,111 @@ class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
               ),
               const SizedBox(height: 12),
               Text(
-                'Focus ra đời từ nhu cầu hạn chế sự trì hoãn và thói quen cuộn vô thức. Có lúc bạn nhận ra mình gõ “facebook.com” vào thanh địa chỉ một cách tự động. Với Focus, chúng tôi muốn giảm sức hút gây nghiện của News Feed bằng cách ẩn nó đi và thay bằng những câu trích dẫn tích cực.',
-                style: Theme.of(context).textTheme.bodyLarge,
+                'aboutDialog.p1'.tr(),
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 12),
               Text(
-                'Những năm gần đây, News Feed xuất hiện trong đủ loại ứng dụng nhờ khả năng giữ chân người dùng. Đã đến lúc chúng ta – những người dùng – giành lại quyền kiểm soát.',
-                style: Theme.of(context).textTheme.bodyLarge,
+                'aboutDialog.p2'.tr(),
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 12),
               Text(
-                'Focus luôn miễn phí, mã nguồn mở và không theo dõi bạn. Quyền truy cập trang chỉ dùng cho thao tác giao diện, không thu thập dữ liệu cá nhân.',
-                style: Theme.of(context).textTheme.bodyLarge,
+                'aboutDialog.p3'.tr(),
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 16),
               Text(
-                'Support',
+                'aboutDialog.support'.tr(),
                 style: Theme.of(
                   context,
-                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '• Giới thiệu Focus cho bạn bè',
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    '• ${'aboutDialog.tellFriends'.tr()}',
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: 8),
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        '• Để lại đánh giá trên ',
-                        style: Theme.of(context).textTheme.bodyMedium,
+                        '• ${'aboutDialog.leaveReviewOn'.tr()}',
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                       InkWell(
                         onTap: () => launchUrl(Uri.parse('https://chrome.google.com/webstore')),
                         child: Text(
-                          'Chrome',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.w600,
-                              ),
+                          'aboutDialog.chrome'.tr(),
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
-                      Text(' hoặc ', style: Theme.of(context).textTheme.bodyMedium),
+                      Text(' ${'common.or'.tr()} ', style: Theme.of(context).textTheme.bodyLarge),
                       InkWell(
                         onTap: () => launchUrl(Uri.parse('https://addons.mozilla.org')),
                         child: Text(
-                          'Firefox',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.w600,
-                              ),
+                          'aboutDialog.firefox'.tr(),
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
-                      Text(' store', style: Theme.of(context).textTheme.bodyMedium),
+                      Text(
+                        ' ${'aboutDialog.store'.tr()}',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
                     ],
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: 8),
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        '• Báo lỗi hoặc đóng góp trên ',
-                        style: Theme.of(context).textTheme.bodyMedium,
+                        '• ${'aboutDialog.reportOn'.tr()}',
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                       InkWell(
-                        onTap: () => launchUrl(
-                          Uri.parse('https://github.com/ChunhThanhDe/focus/issues/new/choose'),
-                        ),
+                        onTap:
+                            () => launchUrl(
+                              Uri.parse('https://github.com/ChunhThanhDe/focus/issues/new/choose'),
+                            ),
                         child: Text(
-                          'GitHub',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.w600,
-                              ),
+                          'aboutDialog.github'.tr(),
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: 8),
                   Text(
-                    '• Chia sẻ cho chúng tôi biết Focus đã giúp bạn như thế nào',
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    '• ${'aboutDialog.shareHowHelped'.tr()}',
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: 8),
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text('• ', style: Theme.of(context).textTheme.bodyMedium),
+                      Text('• ', style: Theme.of(context).textTheme.bodyLarge),
                       InkWell(
-                        onTap: () => launchUrl(Uri.parse('https://www.buymeacoffee.com/ChunhThanhDe')),
+                        onTap:
+                            () => launchUrl(Uri.parse('https://www.buymeacoffee.com/ChunhThanhDe')),
                         child: Text(
-                          'Mua tôi một ly cà phê',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.w600,
-                              ),
+                          'aboutDialog.buyCoffee'.tr(),
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ],

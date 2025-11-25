@@ -22,7 +22,8 @@
     "saveFile": "Save File",
     "language": "Language",
     "english": "English",
-    "vietnamese": "Vietnamese"
+    "vietnamese": "Vietnamese",
+    "or": "or"
   },
   "settings": {
     "panel": {
@@ -277,5 +278,21 @@
       "granted": "Permissions granted",
       "denied": "Permissions denied"
     }
+  }
+  ,
+  "aboutDialog": {
+    "p1": "Focus was born from the need to curb procrastination and mindless scrolling. Sometimes you catch yourself typing \"facebook.com\" into the address bar automatically. With Focus, we aim to reduce the addictive pull of the News Feed by hiding it and replacing it with uplifting quotes.",
+    "p2": "In recent years, the News Feed has spread across all kinds of apps because of its power to keep users engaged. It’s time for us — the users — to take back control.",
+    "p3": "Focus is and will always be free and open‑source, and it will never track you. Site access is used only for UI (DOM) changes; no personal data is collected.",
+    "support": "Support",
+    "tellFriends": "Tell your friends about Focus",
+    "leaveReviewOn": "Leave a review on ",
+    "chrome": "Chrome",
+    "firefox": "Firefox",
+    "store": " store",
+    "reportOn": "Report or fix bugs on ",
+    "github": "GitHub",
+    "shareHowHelped": "Share how Focus has helped you",
+    "buyCoffee": "Buy me a coffee"
   }
 }

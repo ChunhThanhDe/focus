@@ -22,7 +22,8 @@
     "saveFile": "Lưu Tệp",
     "language": "Ngôn ngữ",
     "english": "Tiếng Anh",
-    "vietnamese": "Tiếng Việt"
+    "vietnamese": "Tiếng Việt",
+    "or": "hoặc"
   },
   "settings": {
     "panel": {
@@ -88,7 +89,7 @@
       "linkedin": "LinkedIn",
       "youtube": "YouTube",
       "github": "GitHub",
-      "shopee": "Shopee",
+      "shopee": "Shopee"
       },
       "reset": {
         "title": "Đặt lại",
@@ -270,5 +271,21 @@
       "granted": "Đã cấp quyền",
       "denied": "Từ chối quyền"
     }
+  }
+  ,
+  "aboutDialog": {
+    "p1": "Focus ra đời từ nhu cầu hạn chế sự trì hoãn và thói quen cuộn vô thức. Đôi khi bạn nhận ra mình gõ \"facebook.com\" vào thanh địa chỉ một cách tự động. Với Focus, chúng tôi muốn giảm sức hút gây nghiện của News Feed bằng cách ẩn nó đi và thay bằng những câu trích dẫn tích cực.",
+    "p2": "Những năm gần đây, News Feed xuất hiện trong đủ loại ứng dụng nhờ khả năng giữ chân người dùng. Đã đến lúc chúng ta — những người dùng — giành lại quyền kiểm soát.",
+    "p3": "Focus luôn miễn phí, mã nguồn mở và không theo dõi bạn. Quyền truy cập trang chỉ dùng cho thao tác giao diện (DOM), không thu thập dữ liệu cá nhân.",
+    "support": "Hỗ trợ",
+    "tellFriends": "Giới thiệu Focus cho bạn bè",
+    "leaveReviewOn": "Để lại đánh giá trên ",
+    "chrome": "Chrome",
+    "firefox": "Firefox",
+    "store": " store",
+    "reportOn": "Báo lỗi hoặc đóng góp trên ",
+    "github": "GitHub",
+    "shareHowHelped": "Chia sẻ cho chúng tôi biết Focus đã giúp bạn như thế nào",
+    "buyCoffee": "Mua tôi một ly cà phê"
   }
 }
