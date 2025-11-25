@@ -61,7 +61,7 @@ abstract class _SocialCleanerStore with Store {
     'youtube': false,
     'github': false,
     'hackernews': true,
-    'shoppe': true,
+    'shopee': true,
   };
 
   @action
@@ -93,9 +93,6 @@ abstract class _SocialCleanerStore with Store {
   @action
   void updateEnabled(bool value) {
     update(() => enabled = value);
-    if (value) {
-      _ensureOptionalPermissions();
-    }
   }
 
   @action
@@ -363,12 +360,48 @@ abstract class _SocialCleanerStore with Store {
     } catch (_) {}
   }
 
+  @action
+  Future<bool> hasSitePermission(String siteId) async {
+    try {
+      if (!kIsWeb) return true;
+      final origins = _originsForSite(siteId);
+      if (origins.isEmpty) return true;
+      final chrome = js_util.getProperty(js_util.globalThis, 'chrome');
+      final permissions = js_util.getProperty(chrome, 'permissions');
+      final granted = await js_util.promiseToFuture(
+        js_util.callMethod(permissions, 'contains', [js_util.jsify({'origins': origins})]),
+      );
+      return granted == true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  @action
+  Future<bool> requestSitePermission(String siteId) async {
+    try {
+      if (!kIsWeb) return true;
+      final origins = _originsForSite(siteId);
+      if (origins.isEmpty) return true;
+      final chrome = js_util.getProperty(js_util.globalThis, 'chrome');
+      final runtime = js_util.getProperty(chrome, 'runtime');
+      final res = await js_util.promiseToFuture(
+        js_util.callMethod(runtime, 'sendMessage', [js_util.jsify({'action': 'requestOptionalPermissions', 'origins': origins})]),
+      );
+      return res is Map && res['granted'] == true;
+    } catch (_) {
+      return false;
+    }
+  }
+
   List<String> _originsForSite(String siteId) {
     switch (siteId) {
       case 'facebook':
         return const ['https://www.facebook.com/*', 'http://www.facebook.com/*', 'https://web.facebook.com/*', 'http://web.facebook.com/*'];
       case 'instagram':
         return const ['https://www.instagram.com/*', 'http://www.instagram.com/*'];
+      case 'tiktok':
+        return const ['https://www.tiktok.com/*'];
       case 'threads':
         return const ['https://www.threads.net/*', 'https://www.threads.com/*'];
       case 'twitter':

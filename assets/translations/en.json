@@ -264,7 +264,15 @@
     "choose_sites": "Choose sites to grant access",
     "button": {
       "requesting": "Requesting…",
+      "grant": "Grant",
       "grant_selected": "Grant selected"
+    },
+    "status": {
+      "on": "On",
+      "off": "Off"
+    },
+    "warning": {
+      "no_site_enabled": "Social Cleaner isn't currently enabled for any sites. Choose at least one below to get started."
     },
     "result": {
       "granted": "Permissions granted",

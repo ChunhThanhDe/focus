@@ -25,6 +25,7 @@ class SocialCleanerSettings extends StatefulWidget {
 class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
   final SocialCleanerStore store = SocialCleanerStore();
   final TextEditingController _customQuoteController = TextEditingController();
+  final Map<String, bool> _siteRequesting = {};
 
   @override
   void initState() {
@@ -173,10 +174,39 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
   Widget _buildSiteToggle(String siteName, String siteId) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
-      child: CustomSwitch(
-        value: store.isSiteEnabled(siteId),
-        onChanged: (value) => store.updateSiteEnabled(siteId, value),
-        label: siteName,
+      child: FutureBuilder<bool>(
+        future: store.hasSitePermission(siteId),
+        builder: (context, snapshot) {
+          final bool hasPermission = snapshot.data == true;
+          if (hasPermission) {
+            return CustomSwitch(
+              value: store.isSiteEnabled(siteId),
+              onChanged: (value) => store.updateSiteEnabled(siteId, value),
+              label: siteName,
+            );
+          }
+          final bool requesting = _siteRequesting[siteId] == true;
+          return Row(
+            children: [
+              Expanded(child: Text(siteName, style: Theme.of(context).textTheme.bodyMedium)),
+              const SizedBox(width: 8),
+              SizedBox(
+                height: 32,
+                child: ElevatedButton(
+                  onPressed: requesting
+                      ? null
+                      : () async {
+                          setState(() => _siteRequesting[siteId] = true);
+                          final ok = await store.requestSitePermission(siteId);
+                          setState(() => _siteRequesting[siteId] = false);
+                          if (ok) setState(() {});
+                        },
+                  child: Text(requesting ? 'permission.button.requesting'.tr() : 'permission.button.grant'.tr()),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

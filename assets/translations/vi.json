@@ -257,7 +257,15 @@
     "choose_sites": "Chọn trang để cấp quyền",
     "button": {
       "requesting": "Đang yêu cầu…",
+      "grant": "Cấp quyền",
       "grant_selected": "Cấp quyền đã chọn"
+    },
+    "status": {
+      "on": "Bật",
+      "off": "Tắt"
+    },
+    "warning": {
+      "no_site_enabled": "Trình làm sạch bảng tin chưa được bật cho trang nào. Hãy chọn ít nhất một trang bên dưới để bắt đầu."
     },
     "result": {
       "granted": "Đã cấp quyền",
