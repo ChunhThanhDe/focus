@@ -197,8 +197,17 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     case 'todoScheduleReminder': {
       const minutes = Number(request.minutes || 0);
       const title = String(request.title || 'Todo Reminder');
-      chrome.storage.local.set({ todoReminderTitle: title }).then(() => {
-        chrome.alarms.create('todo:reminder', { delayInMinutes: Math.max(0.1, minutes) });
+      const taskId = String(request.taskId || '');
+      if (!taskId) {
+        sendResponse({ success: false, error: 'taskId is required' });
+        return true;
+      }
+      // Lưu thông tin thông báo cho task này
+      chrome.storage.local.set({ [`todoReminder:${taskId}`]: { title, taskId } }).then(() => {
+        // Xóa alarm cũ nếu có
+        chrome.alarms.clear(`todo:reminder:${taskId}`);
+        // Tạo alarm mới cho task này
+        chrome.alarms.create(`todo:reminder:${taskId}`, { delayInMinutes: Math.max(0.1, minutes) });
         sendResponse({ success: true });
       });
       return true;
@@ -253,9 +262,11 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 });
 
 chrome.alarms.onAlarm.addListener((alarm) => {
-  if (!alarm || !alarm.name || alarm.name !== 'todo:reminder') return;
-  chrome.storage.local.get('todoReminderTitle').then((result) => {
-    const title = result.todoReminderTitle || 'Todo Reminder';
+  if (!alarm || !alarm.name || !alarm.name.startsWith('todo:reminder:')) return;
+  const taskId = alarm.name.replace('todo:reminder:', '');
+  chrome.storage.local.get(`todoReminder:${taskId}`).then((result) => {
+    const reminderData = result[`todoReminder:${taskId}`];
+    const title = reminderData?.title || 'Todo Reminder';
     try {
       chrome.notifications.create({
         type: 'basic',
@@ -263,6 +274,8 @@ chrome.alarms.onAlarm.addListener((alarm) => {
         title: title,
         message: 'It\'s time to do your task.'
       });
+      // Xóa thông tin thông báo sau khi đã hiển thị
+      chrome.storage.local.remove(`todoReminder:${taskId}`);
     } catch (error) {
       console.error('Failed to create notification', error);
     }

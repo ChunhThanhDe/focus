@@ -51,25 +51,34 @@ class TodoRowState extends State<TodoRow> {
       timeController.text = task.remindTime!;
     }
     Color? bg;
+    final now = DateTime.now();
+    final todayStr =
+        '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
+    final isToday = task.remindDate == todayStr || task.remindDate == null;
+
     if (task.completed) {
       bg = Colors.green.withOpacity(0.5);
     } else {
-      final s = task.remindTime ?? '';
-      if (s.isNotEmpty) {
-        final parts = s.split(':');
-        final int? h = int.tryParse(parts[0]);
-        final int? m = int.tryParse(parts[1]);
-        if (h != null && m != null) {
-          final now = DateTime.now();
-          final todayTime = DateTime(now.year, now.month, now.day, h, m);
-          if (!todayTime.isAfter(now)) {
-            bg = Colors.red.withOpacity(0.5);
-          } else {
-            final minutes = todayTime.difference(now).inMinutes;
-            if (minutes < 10) {
+      // Nếu không phải hôm nay, dùng màu nhạt
+      if (!isToday && task.remindDate != null) {
+        bg = widget.color.withOpacity(0.15);
+      } else {
+        final s = task.remindTime ?? '';
+        if (s.isNotEmpty) {
+          final parts = s.split(':');
+          final int? h = int.tryParse(parts[0]);
+          final int? m = int.tryParse(parts[1]);
+          if (h != null && m != null) {
+            final todayTime = DateTime(now.year, now.month, now.day, h, m);
+            if (!todayTime.isAfter(now)) {
               bg = Colors.red.withOpacity(0.5);
-            } else if (minutes < 60) {
-              bg = Colors.yellow.withOpacity(0.5);
+            } else {
+              final minutes = todayTime.difference(now).inMinutes;
+              if (minutes < 10) {
+                bg = Colors.red.withOpacity(0.5);
+              } else if (minutes < 60) {
+                bg = Colors.yellow.withOpacity(0.5);
+              }
             }
           }
         }
