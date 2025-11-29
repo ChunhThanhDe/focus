@@ -1,7 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Focus to your Target",
-  "version": "2.7.2",
+  "short_name": "Focus",
+  "version": "2.7.3",
   "description": "A new-tab extension that hides social media clutter and shows inspiring quotes to keep you focused",
   "chrome_url_overrides": {
     "newtab": "newtab/index.html"
@@ -49,14 +50,5 @@
     "16": "icons/16.png",
     "48": "icons/48.png",
     "128": "icons/128.png"
-  },
-  "action": {
-    "default_popup": "newtab/index.html",
-    "default_title": "Focus",
-    "default_icon": {
-      "16": "icons/16.png",
-      "48": "icons/48.png",
-      "128": "icons/128.png"
-    }
   }
 }
