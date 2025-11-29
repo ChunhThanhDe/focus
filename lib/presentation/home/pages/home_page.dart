@@ -88,6 +88,7 @@ class _HomeState extends State<Home> {
       startTimer();
     });
     _shouldShowChangelog();
+    _checkAndShowPermissionDialog();
   }
 
   void listenToEvents() {
@@ -266,6 +267,32 @@ class _HomeState extends State<Home> {
       await storageManager.setString(StorageKeys.version, packageInfo.version);
       await Future.delayed(const Duration(seconds: 1));
       if (!mounted) return;
+      showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) => const Material(
+          type: MaterialType.transparency,
+          child: PermissionRequestDialog(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _checkAndShowPermissionDialog() async {
+    // Wait a bit to ensure UI is ready and changelog dialog check is done
+    await Future.delayed(const Duration(seconds: 1));
+    if (!mounted) return;
+    
+    // Check if any permissions are granted
+    final hasAnyPermissions = await PermissionRequestDialog.hasAnyPermissions();
+    if (!hasAnyPermissions) {
+      // Check if there's already a dialog showing by checking if Navigator can pop
+      // If changelog dialog was shown, it should have been dismissed or permission dialog shown
+      // So we check again after a delay
+      await Future.delayed(const Duration(milliseconds: 300));
+      if (!mounted) return;
+      
+      log('No permissions granted, showing permission dialog');
       showDialog(
         context: context,
         barrierDismissible: true,

@@ -1,13 +1,74 @@
+/*
+ * @ Author: Chung Nguyen Thanh <chunhthanhde.dev@gmail.com>
+ * @ Created: 2025-11-29 16:37:51
+ * @ Message: 🎯 Happy coding and Have a nice day! 🌤️
+ */
+
 import 'dart:js_util' as js_util;
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:focus/core/constants/colors.dart';
+import 'package:focus/main.dart';
+import 'package:focus/presentation/settings/pages/settings_view_about.dart';
+import 'package:focus/common/widgets/input/gesture_detector_with_cursor.dart';
 
 class PermissionRequestDialog extends StatefulWidget {
   const PermissionRequestDialog({super.key});
   @override
   State<PermissionRequestDialog> createState() => _PermissionRequestDialogState();
+
+  /// Check if any permissions are granted
+  static Future<bool> hasAnyPermissions() async {
+    try {
+      final chrome = js_util.getProperty(js_util.globalThis, 'chrome');
+      if (chrome == null) return false;
+      final permissions = js_util.getProperty(chrome, 'permissions');
+      if (permissions == null) return false;
+
+      const siteOrigins = {
+        'Facebook': [
+          'https://www.facebook.com/*',
+          'http://www.facebook.com/*',
+          'https://web.facebook.com/*',
+          'http://web.facebook.com/*',
+        ],
+        'Instagram': ['https://www.instagram.com/*', 'http://www.instagram.com/*'],
+        'TikTok': ['https://www.tiktok.com/*'],
+        'Threads': ['https://www.threads.net/*', 'https://www.threads.com/*'],
+        'Twitter/X': [
+          'https://twitter.com/*',
+          'http://twitter.com/*',
+          'https://x.com/*',
+          'http://x.com/*',
+        ],
+        'Reddit': [
+          'https://www.reddit.com/*',
+          'http://www.reddit.com/*',
+          'https://old.reddit.com/*',
+          'http://old.reddit.com/*',
+        ],
+        'LinkedIn': ['https://www.linkedin.com/*', 'http://www.linkedin.com/*'],
+        'YouTube': ['https://www.youtube.com/*'],
+        'GitHub': ['https://github.com/*', 'https://www.github.com/*'],
+        'Shopee': ['https://shopee.vn/*', 'https://shopee.com/*'],
+      };
+
+      for (final entry in siteOrigins.entries) {
+        final granted = await js_util.promiseToFuture(
+          js_util.callMethod(permissions, 'contains', [
+            js_util.jsify({'origins': entry.value}),
+          ]),
+        );
+        if (granted == true) {
+          return true;
+        }
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
 }
 
 class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
@@ -251,10 +312,14 @@ class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
                             width: itemWidth,
                             child: InkWell(
                               onTap:
-                                  requesting
+                                  (requesting || isOn)
                                       ? null
                                       : () async {
-                                        setState(() => _requestingBySite[name] = true);
+                                        // Set requesting state
+                                        _requestingBySite[name] = true;
+                                        if (mounted) setState(() {});
+
+                                        bool ok = false;
                                         try {
                                           final chrome = js_util.getProperty(
                                             js_util.globalThis,
@@ -278,15 +343,21 @@ class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
                                               js_util.jsify({'origins': origins}),
                                             ]),
                                           );
-                                          final ok =
+                                          ok =
                                               confirmed == true ||
                                               (res is Map && res['granted'] == true);
-                                          _grantedBySite[name] = ok;
-                                          _enabledBySite[name] = ok;
                                         } catch (_) {
-                                          _grantedBySite[name] = false;
+                                          ok = false;
                                         }
-                                        setState(() => _requestingBySite[name] = false);
+
+                                        // Update all states at once to avoid multiple rebuilds
+                                        if (mounted) {
+                                          setState(() {
+                                            _requestingBySite[name] = false;
+                                            _grantedBySite[name] = ok;
+                                            _enabledBySite[name] = ok;
+                                          });
+                                        }
                                       },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
@@ -352,6 +423,91 @@ class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
                 },
               ),
             ] else ...[
+              // Top row: App info (left) + Support & Discord (right)
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // Left side: App icon, name, version
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            const FocusLogo(size: 120, animate: false),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Focus Your Target'.toUpperCase(),
+                                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                      letterSpacing: 1.2,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+
+                                  Text(
+                                    'v${packageInfo.version}'.toUpperCase(),
+                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                      letterSpacing: 2,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white.withValues(alpha: 0.65),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Right side: Support & Discord button
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetectorWithCursor(
+                          onTap: () => launchUrl(Uri.parse('https://discord.gg/et4nyJ49')),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF5865F2),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.chat_bubble_outline,
+                                  size: 20,
+                                  color: Colors.white,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  'aboutDialog.joinDiscord'.tr(),
+                                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
               Text(
                 '${'settings.menu.changelog'.tr()} - ${'settings.panel.about'.tr()}',
                 style: Theme.of(
@@ -393,11 +549,16 @@ class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        '• ${'aboutDialog.leaveReviewOn'.tr()}',
+                        '• ${'aboutDialog.leaveReviewOn'.tr()} ',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                       InkWell(
-                        onTap: () => launchUrl(Uri.parse('https://chrome.google.com/webstore')),
+                        onTap:
+                            () => launchUrl(
+                              Uri.parse(
+                                'https://chromewebstore.google.com/detail/focus-to-your-target/jgifoecdnnjidgepcankbpcmhefeehpm',
+                              ),
+                            ),
                         child: Text(
                           'aboutDialog.chrome'.tr(),
                           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
@@ -408,9 +569,14 @@ class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
                       ),
                       Text(' ${'common.or'.tr()} ', style: Theme.of(context).textTheme.bodyLarge),
                       InkWell(
-                        onTap: () => launchUrl(Uri.parse('https://addons.mozilla.org')),
+                        onTap:
+                            () => launchUrl(
+                              Uri.parse(
+                                'https://microsoftedge.microsoft.com/addons/detail/focus-to-your-target/bcgniccgbgfnaibdlmjnbgaimdanbpai',
+                              ),
+                            ),
                         child: Text(
-                          'aboutDialog.firefox'.tr(),
+                          'aboutDialog.edge'.tr(),
                           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             color: Theme.of(context).colorScheme.primary,
                             fontWeight: FontWeight.w600,
@@ -472,7 +638,7 @@ class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
                 ],
               ),
             ],
-            const SizedBox(height: 12),
+            const SizedBox(height: 24),
           ],
         ),
       ),

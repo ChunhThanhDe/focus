@@ -115,7 +115,9 @@ class About extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GestureDetectorWithCursor(
-              onTap: () => launchUrl(Uri.parse('https://www.youtube.com/@CHUNGCINE?sub_confirmation=1')),
+              onTap:
+                  () =>
+                      launchUrl(Uri.parse('https://www.youtube.com/@CHUNGCINE?sub_confirmation=1')),
               child: SizedBox.square(
                 dimension: 34,
                 child: Image.asset('assets/images/ic_youtube.png'),
