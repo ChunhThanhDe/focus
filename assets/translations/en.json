@@ -260,7 +260,7 @@
   },
   "permission": {
     "title": "Enable Social Cleaner",
-    "description": "Focus needs site access to hide the News Feed and show quotes. Access is used only for UI (DOM) changes; no personal data is collected.",
+    "description": "Focus needs site access to hide the Social Feed and show quotes. Access is used only for UI (DOM) changes; no personal data is collected.",
     "choose_sites": "Choose sites to grant access",
     "button": {
       "requesting": "Requesting…",
@@ -281,8 +281,8 @@
   }
   ,
   "aboutDialog": {
-    "p1": "Focus was born from the need to curb procrastination and mindless scrolling. Sometimes you catch yourself typing \"facebook.com\" into the address bar automatically. With Focus, we aim to reduce the addictive pull of the News Feed by hiding it and replacing it with uplifting quotes.",
-    "p2": "In recent years, the News Feed has spread across all kinds of apps because of its power to keep users engaged. It's time for us — the users — to take back control.",
+    "p1": "Focus was born from the need to curb procrastination and mindless scrolling. Sometimes you catch yourself typing \"facebook.com\" into the address bar automatically. With Focus, we aim to reduce the addictive pull of the Social Feed by hiding it and replacing it with uplifting quotes.",
+    "p2": "In recent years, the Social Feed has spread across all kinds of apps because of its power to keep users engaged. It's time for us — the users — to take back control.",
     "p3": "Focus is and will always be free and open‑source, and it will never track you. Site access is used only for UI (DOM) changes; no personal data is collected.",
     "support": "Support & Feedback",
     "joinDiscord": "Join Discord for Feedback",

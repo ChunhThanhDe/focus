@@ -253,7 +253,7 @@
   ,
   "permission": {
     "title": "Bật Trình làm sạch bảng tin",
-    "description": "Focus cần quyền truy cập trang để ẩn News Feed và hiển thị câu trích dẫn. Quyền chỉ dùng cho thao tác giao diện (DOM), không thu thập dữ liệu cá nhân.",
+    "description": "Focus cần quyền truy cập trang để ẩn Social Feed và hiển thị câu trích dẫn. Quyền chỉ dùng cho thao tác giao diện (DOM), không thu thập dữ liệu cá nhân.",
     "choose_sites": "Chọn trang để cấp quyền",
     "button": {
       "requesting": "Đang yêu cầu…",
@@ -274,8 +274,8 @@
   }
   ,
   "aboutDialog": {
-    "p1": "Focus ra đời từ nhu cầu hạn chế sự trì hoãn và thói quen cuộn vô thức. Đôi khi bạn nhận ra mình gõ \"facebook.com\" vào thanh địa chỉ một cách tự động. Với Focus, chúng tôi muốn giảm sức hút gây nghiện của News Feed bằng cách ẩn nó đi và thay bằng những câu trích dẫn tích cực.",
-    "p2": "Những năm gần đây, News Feed xuất hiện trong đủ loại ứng dụng nhờ khả năng giữ chân người dùng. Đã đến lúc chúng ta — những người dùng — giành lại quyền kiểm soát.",
+    "p1": "Focus ra đời từ nhu cầu hạn chế sự trì hoãn và thói quen sử dụng mạng xã hội vô thức. Đôi khi bạn nhận ra mình gõ \"facebook.com\" vào thanh địa chỉ một cách tự động. Với Focus, chúng tôi muốn giảm sức hút gây nghiện của Social Feed bằng cách ẩn nó đi và thay bằng những câu trích dẫn tích cực.",
+    "p2": "Những năm gần đây, Social Feed xuất hiện trong đủ loại ứng dụng nhờ khả năng giữ chân người dùng. Đã đến lúc chúng ta — những người dùng — giành lại quyền kiểm soát.",
     "p3": "Focus luôn miễn phí, mã nguồn mở và không theo dõi bạn. Quyền truy cập trang chỉ dùng cho thao tác giao diện (DOM), không thu thập dữ liệu cá nhân.",
     "support": "Hỗ trợ & Phản hồi",
     "joinDiscord": "Tham gia Discord để Phản hồi",

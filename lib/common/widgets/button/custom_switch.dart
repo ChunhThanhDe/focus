@@ -5,6 +5,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'package:focus/common/widgets/input/gesture_detector_with_cursor.dart';
 
@@ -43,6 +44,71 @@ class CustomSwitch extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class CustomSwitchWithGrantButton extends StatelessWidget {
+  final String label;
+  final bool requesting;
+  final VoidCallback? onPressed;
+
+  const CustomSwitchWithGrantButton({
+    super.key,
+    required this.label,
+    required this.requesting,
+    this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isEnabled = !requesting && onPressed != null;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              label,
+              style: theme.textTheme.bodyLarge,
+            ),
+          ),
+          SizedBox(
+            height: 35,
+            child: ElevatedButton(
+              onPressed: isEnabled ? onPressed : null,
+              style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    isEnabled ? Colors.amber.withOpacity(0.8) : Colors.amber.withOpacity(0.3),
+                foregroundColor: isEnabled ? Colors.white : Colors.white.withOpacity(0.5),
+                disabledBackgroundColor: Colors.amber.withOpacity(0.3),
+                disabledForegroundColor: Colors.white.withOpacity(0.5),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  side: BorderSide(
+                    color:
+                        isEnabled ? Colors.amber.withOpacity(0.9) : Colors.amber.withOpacity(0.4),
+                    width: 1,
+                  ),
+                ),
+                elevation: isEnabled ? 2 : 0,
+                shadowColor: Colors.amber.withOpacity(0.3),
+              ),
+              child: Text(
+                requesting ? 'permission.button.requesting'.tr() : 'permission.button.grant'.tr(),
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

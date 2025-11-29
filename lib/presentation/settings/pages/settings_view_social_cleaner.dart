@@ -121,7 +121,9 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(6),
-                      border: Border.all(color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3)),
+                      border: Border.all(
+                        color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
+                      ),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -185,25 +187,15 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
             );
           }
           final bool requesting = _siteRequesting[siteId] == true;
-          return Row(
-            children: [
-              Expanded(child: Text(siteName, style: Theme.of(context).textTheme.bodyMedium)),
-              const SizedBox(width: 8),
-              SizedBox(
-                height: 32,
-                child: ElevatedButton(
-                  onPressed: requesting
-                      ? null
-                      : () async {
-                          setState(() => _siteRequesting[siteId] = true);
-                          final ok = await store.requestSitePermission(siteId);
-                          setState(() => _siteRequesting[siteId] = false);
-                          if (ok) setState(() {});
-                        },
-                  child: Text(requesting ? 'permission.button.requesting'.tr() : 'permission.button.grant'.tr()),
-                ),
-              ),
-            ],
+          return CustomSwitchWithGrantButton(
+            label: siteName,
+            requesting: requesting,
+            onPressed: () async {
+              setState(() => _siteRequesting[siteId] = true);
+              final ok = await store.requestSitePermission(siteId);
+              setState(() => _siteRequesting[siteId] = false);
+              if (ok) setState(() {});
+            },
           );
         },
       ),

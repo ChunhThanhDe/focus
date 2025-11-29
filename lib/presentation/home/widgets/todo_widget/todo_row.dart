@@ -22,7 +22,14 @@ class TodoRow extends StatefulWidget {
   final Color color;
   final bool startEditing;
 
-  const TodoRow({super.key, required this.id, required this.text, required this.completed, required this.color, this.startEditing = false});
+  const TodoRow({
+    super.key,
+    required this.id,
+    required this.text,
+    required this.completed,
+    required this.color,
+    this.startEditing = false,
+  });
 
   @override
   State<TodoRow> createState() => TodoRowState();
@@ -37,7 +44,9 @@ class TodoRowState extends State<TodoRow> {
   @override
   Widget build(BuildContext context) {
     final store = context.read<BackgroundStore>();
-    final task = store.todoTasks.firstWhereOrNull((e) => e.id == widget.id) ?? TodoItem(id: widget.id, text: widget.text, completed: widget.completed);
+    final task =
+        store.todoTasks.firstWhereOrNull((e) => e.id == widget.id) ??
+        TodoItem(id: widget.id, text: widget.text, completed: widget.completed);
     if ((task.remindTime ?? '').isNotEmpty && timeController.text != task.remindTime) {
       timeController.text = task.remindTime!;
     }
@@ -69,7 +78,13 @@ class TodoRowState extends State<TodoRow> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Container(
-        decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(6)),
+        decoration: BoxDecoration(
+          color: bg,
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(
+            color: bg ?? widget.color.withOpacity(0.15),
+          ),
+        ),
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
         child: Row(
           children: [
@@ -108,7 +123,8 @@ class TodoRowState extends State<TodoRow> {
                           task.text,
                           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             color: widget.color,
-                            decoration: task.completed ? TextDecoration.lineThrough : TextDecoration.none,
+                            decoration:
+                                task.completed ? TextDecoration.lineThrough : TextDecoration.none,
                           ),
                         ),
                       ),
@@ -121,7 +137,9 @@ class TodoRowState extends State<TodoRow> {
                 setState(() {});
               },
               side: BorderSide(color: widget.color.withOpacity(0.5)),
-              fillColor: MaterialStateProperty.resolveWith((states) => widget.color.withOpacity(0.2)),
+              fillColor: MaterialStateProperty.resolveWith(
+                (states) => widget.color.withOpacity(0.2),
+              ),
               checkColor: Colors.black,
             ),
             const SizedBox(width: 6),
@@ -139,9 +157,16 @@ class TodoRowState extends State<TodoRow> {
                       hintText: use24h ? 'todo.timeHint24'.tr() : 'todo.timeHint12'.tr(),
                       textAlign: TextAlign.center,
                       showInitialBorder: false,
-                      fillColor: ((task.remindTime ?? '').isNotEmpty) ? widget.color.withOpacity(0.12) : null,
-                      textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color),
-                      hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color.withOpacity(0.6)),
+                      fillColor:
+                          ((task.remindTime ?? '').isNotEmpty)
+                              ? widget.color.withOpacity(0.12)
+                              : null,
+                      textStyle: Theme.of(
+                        context,
+                      ).textTheme.bodyMedium?.copyWith(color: widget.color),
+                      hintStyle: Theme.of(
+                        context,
+                      ).textTheme.bodyMedium?.copyWith(color: widget.color.withOpacity(0.6)),
                       suffix:
                           !use24h
                               ? GestureDetector(
@@ -150,7 +175,9 @@ class TodoRowState extends State<TodoRow> {
                                   padding: const EdgeInsets.only(right: 6),
                                   child: Text(
                                     _isAm ? 'AM' : 'PM',
-                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color.withOpacity(0.8)),
+                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                      color: widget.color.withOpacity(0.8),
+                                    ),
                                   ),
                                 ),
                               )
@@ -163,12 +190,14 @@ class TodoRowState extends State<TodoRow> {
                         if (h == null || m == null) return false;
                         String toStore;
                         if (use24h) {
-                          toStore = '${h.toString().padLeft(2, '0')}:${m.toString().padLeft(2, '0')}';
+                          toStore =
+                              '${h.toString().padLeft(2, '0')}:${m.toString().padLeft(2, '0')}';
                         } else {
                           if (h < 1 || h > 12) return false;
                           if (m < 0 || m > 59) return false;
                           final int h24 = (h % 12) + (_isAm ? 0 : 12);
-                          toStore = '${h24.toString().padLeft(2, '0')}:${m.toString().padLeft(2, '0')}';
+                          toStore =
+                              '${h24.toString().padLeft(2, '0')}:${m.toString().padLeft(2, '0')}';
                         }
                         store.setTodoRemindTime(widget.id, toStore);
                         store.scheduleTaskReminderFromTime(widget.id);
