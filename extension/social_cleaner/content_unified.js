@@ -474,32 +474,66 @@
   function injectQuote(targetElement) {
     if (!currentSettings.showQuotes) return;
     
+    // Check if container already exists to avoid unnecessary recreation
+    const existing = document.getElementById('nfe-container');
+    if (existing && isElementVisible(existing)) {
+      return; // Already have a visible container
+    }
+    
     removeQuoteContainer();
     
     const quote = getRandomQuote();
     const container = createQuoteContainer(quote, false);
-    if (targetElement.firstChild) {
-      targetElement.insertBefore(container, targetElement.firstChild);
-    } else {
-      targetElement.appendChild(container);
-    }
-    if (!isElementVisible(container)) {
-      removeQuoteContainer();
-      const overlay = createQuoteContainer(quote, true);
-      document.body.appendChild(overlay);
-    }
+    
+    // Use requestAnimationFrame to batch DOM operations
+    requestAnimationFrame(() => {
+      if (targetElement.firstChild) {
+        targetElement.insertBefore(container, targetElement.firstChild);
+      } else {
+        targetElement.appendChild(container);
+      }
+      
+      // Check visibility after a short delay to allow rendering
+      setTimeout(() => {
+        if (!isElementVisible(container)) {
+          removeQuoteContainer();
+          const overlay = createQuoteContainer(quote, true);
+          document.body.appendChild(overlay);
+        }
+      }, 100);
+    });
   }
 
   function injectOverlayQuote() {
     if (!currentSettings.showQuotes) return;
+    
+    // Check if container already exists to avoid unnecessary recreation
+    const existing = document.getElementById('nfe-container');
+    if (existing && isElementVisible(existing)) {
+      return; // Already have a visible container
+    }
+    
     removeQuoteContainer();
     const quote = getRandomQuote();
     const overlay = createQuoteContainer(quote, true);
-    document.body.appendChild(overlay);
+    
+    // Use requestAnimationFrame to batch DOM operations
+    requestAnimationFrame(() => {
+      document.body.appendChild(overlay);
+    });
   }
 
   // Main eradication function
+  let lastEradicateTime = 0;
+  const ERADICATE_THROTTLE_MS = 500; // Throttle to max once per 500ms
+  
   function eradicate() {
+    const now = Date.now();
+    if (now - lastEradicateTime < ERADICATE_THROTTLE_MS) {
+      return; // Skip if called too frequently
+    }
+    lastEradicateTime = now;
+    
     const siteId = getCurrentSite();
     if (!siteId || !isEnabledForSite(siteId)) {
       // Remove any existing modifications
@@ -519,6 +553,12 @@
     // Inject CSS
     injectCSS(siteId);
     
+    // Check if container already exists and is visible
+    const existingContainer = document.getElementById('nfe-container');
+    if (existingContainer && isElementVisible(existingContainer)) {
+      return; // Container already exists and is visible, no need to recreate
+    }
+    
     // Find target element
     let targetElement = null;
     for (const selector of site.selectors) {
@@ -526,9 +566,9 @@
       if (targetElement) break;
     }
     
-    if (targetElement && !document.getElementById('nfe-container')) {
+    if (targetElement && !existingContainer) {
       injectQuote(targetElement);
-    } else if (!targetElement && !document.getElementById('nfe-container')) {
+    } else if (!targetElement && !existingContainer) {
       injectOverlayQuote();
     }
   }
@@ -573,15 +613,21 @@
     loadSettings();
     
     // Re-run eradication periodically to handle dynamic content
-    setInterval(eradicate, 1000);
+    // Increased interval to reduce frequency and prevent jitter
+    setInterval(eradicate, 2000);
     
     // Handle navigation changes (for SPAs)
     let lastUrl = location.href;
+    let urlChangeTimeout = null;
     new MutationObserver(() => {
       const url = location.href;
       if (url !== lastUrl) {
         lastUrl = url;
-        setTimeout(eradicate, 500);
+        // Clear previous timeout to debounce rapid changes
+        if (urlChangeTimeout) clearTimeout(urlChangeTimeout);
+        urlChangeTimeout = setTimeout(() => {
+          eradicate();
+        }, 500);
       }
     }).observe(document, { subtree: true, childList: true });
   }
