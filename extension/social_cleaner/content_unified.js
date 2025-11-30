@@ -585,6 +585,11 @@
     }
     lastEradicateTime = now;
     
+    // Don't inject quote banner until settings are loaded
+    if (!settingsLoaded) {
+      return;
+    }
+    
     const siteId = getCurrentSite();
     if (!siteId || !isEnabledForSite(siteId)) {
       // Remove any existing modifications
@@ -744,13 +749,19 @@
   }
 
   // Load settings from storage
+  let settingsLoaded = false;
+  
   function loadSettings() {
     chrome.runtime.sendMessage({ action: 'getSocialCleanerSettings' }, (response) => {
       if (response) {
         currentSettings = { ...currentSettings, ...response };
+        settingsLoaded = true;
         // Re-setup observer when settings change
         setupFeedObserver();
         scheduleEradicate();
+      } else {
+        // If no response, mark as loaded anyway to prevent infinite waiting
+        settingsLoaded = true;
       }
     });
   }
@@ -802,8 +813,8 @@
     });
     urlObserver.observe(document, { subtree: true, childList: true });
     
-    // Initial setup
-    scheduleEradicate();
+    // Initial setup - wait for settings to load first
+    // scheduleEradicate() will be called from loadSettings() callback
     
     // Setup feed observer after a short delay to ensure DOM is ready
     setTimeout(() => {
