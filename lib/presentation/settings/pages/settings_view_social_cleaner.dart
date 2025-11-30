@@ -14,6 +14,7 @@ import 'package:focus/common/widgets/input/gesture_detector_with_cursor.dart';
 import 'package:focus/core/constants/colors.dart';
 import 'package:focus/common/widgets/observer/custom_observer.dart';
 import 'package:focus/presentation/social_cleaner/store/social_cleaner_store.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 class SocialCleanerSettings extends StatefulWidget {
   const SocialCleanerSettings({super.key});
@@ -180,10 +181,13 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
         builder: (context, snapshot) {
           final bool hasPermission = snapshot.data == true;
           if (hasPermission) {
-            return CustomSwitch(
-              value: store.isSiteEnabled(siteId),
-              onChanged: (value) => store.updateSiteEnabled(siteId, value),
-              label: siteName,
+            return Observer(
+              builder:
+                  (_) => CustomSwitch(
+                    value: store.isSiteEnabled(siteId),
+                    onChanged: (value) => store.updateSiteEnabled(siteId, value),
+                    label: siteName,
+                  ),
             );
           }
           final bool requesting = _siteRequesting[siteId] == true;

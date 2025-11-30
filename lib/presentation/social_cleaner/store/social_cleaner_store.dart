@@ -211,7 +211,8 @@ abstract class _SocialCleanerStore with Store {
       }
       if (enStr != null && enStr.isNotEmpty) {
         final Map<String, dynamic> enJson = json.decode(enStr);
-        final List<dynamic>? arr = (enJson['quotes'] is Map) ? (enJson['quotes']['builtin'] as List?) : null;
+        final List<dynamic>? arr =
+            (enJson['quotes'] is Map) ? (enJson['quotes']['builtin'] as List?) : null;
         if (arr != null && arr.isNotEmpty) {
           builtinQuotesEn.clear();
           builtinQuotesEn.addAll(arr.cast<String>());
@@ -219,7 +220,8 @@ abstract class _SocialCleanerStore with Store {
       }
       if (viStr != null && viStr.isNotEmpty) {
         final Map<String, dynamic> viJson = json.decode(viStr);
-        final List<dynamic>? arr = (viJson['quotes'] is Map) ? (viJson['quotes']['builtin'] as List?) : null;
+        final List<dynamic>? arr =
+            (viJson['quotes'] is Map) ? (viJson['quotes']['builtin'] as List?) : null;
         if (arr != null && arr.isNotEmpty) {
           builtinQuotesVi.clear();
           builtinQuotesVi.addAll(arr.cast<String>());
@@ -316,7 +318,9 @@ abstract class _SocialCleanerStore with Store {
       final permissions = js_util.getProperty(chrome, 'permissions');
       final origins = _optionalOrigins();
       final granted = await js_util.promiseToFuture(
-        js_util.callMethod(permissions, 'contains', [js_util.jsify({'origins': origins})]),
+        js_util.callMethod(permissions, 'contains', [
+          js_util.jsify({'origins': origins}),
+        ]),
       );
       return granted == true;
     } catch (_) {
@@ -331,7 +335,9 @@ abstract class _SocialCleanerStore with Store {
       final permissions = js_util.getProperty(chrome, 'permissions');
       final origins = _optionalOrigins();
       final granted = await js_util.promiseToFuture(
-        js_util.callMethod(permissions, 'request', [js_util.jsify({'origins': origins})]),
+        js_util.callMethod(permissions, 'request', [
+          js_util.jsify({'origins': origins}),
+        ]),
       );
       return granted == true;
     } catch (_) {
@@ -354,7 +360,9 @@ abstract class _SocialCleanerStore with Store {
       final chrome = js_util.getProperty(js_util.globalThis, 'chrome');
       final runtime = js_util.getProperty(chrome, 'runtime');
       await js_util.promiseToFuture(
-        js_util.callMethod(runtime, 'sendMessage', [js_util.jsify({'action': 'requestOptionalPermissions', 'origins': origins})]),
+        js_util.callMethod(runtime, 'sendMessage', [
+          js_util.jsify({'action': 'requestOptionalPermissions', 'origins': origins}),
+        ]),
       );
     } catch (_) {}
   }
@@ -368,7 +376,9 @@ abstract class _SocialCleanerStore with Store {
       final chrome = js_util.getProperty(js_util.globalThis, 'chrome');
       final permissions = js_util.getProperty(chrome, 'permissions');
       final granted = await js_util.promiseToFuture(
-        js_util.callMethod(permissions, 'contains', [js_util.jsify({'origins': origins})]),
+        js_util.callMethod(permissions, 'contains', [
+          js_util.jsify({'origins': origins}),
+        ]),
       );
       return granted == true;
     } catch (_) {
@@ -385,7 +395,9 @@ abstract class _SocialCleanerStore with Store {
       final chrome = js_util.getProperty(js_util.globalThis, 'chrome');
       final runtime = js_util.getProperty(chrome, 'runtime');
       final res = await js_util.promiseToFuture(
-        js_util.callMethod(runtime, 'sendMessage', [js_util.jsify({'action': 'requestOptionalPermissions', 'origins': origins})]),
+        js_util.callMethod(runtime, 'sendMessage', [
+          js_util.jsify({'action': 'requestOptionalPermissions', 'origins': origins}),
+        ]),
       );
       return res is Map && res['granted'] == true;
     } catch (_) {
@@ -396,7 +408,12 @@ abstract class _SocialCleanerStore with Store {
   List<String> _originsForSite(String siteId) {
     switch (siteId) {
       case 'facebook':
-        return const ['https://www.facebook.com/*', 'http://www.facebook.com/*', 'https://web.facebook.com/*', 'http://web.facebook.com/*'];
+        return const [
+          'https://www.facebook.com/*',
+          'http://www.facebook.com/*',
+          'https://web.facebook.com/*',
+          'http://web.facebook.com/*',
+        ];
       case 'instagram':
         return const ['https://www.instagram.com/*', 'http://www.instagram.com/*'];
       case 'tiktok':
@@ -404,9 +421,19 @@ abstract class _SocialCleanerStore with Store {
       case 'threads':
         return const ['https://www.threads.net/*', 'https://www.threads.com/*'];
       case 'twitter':
-        return const ['https://twitter.com/*', 'http://twitter.com/*', 'https://x.com/*', 'http://x.com/*'];
+        return const [
+          'https://twitter.com/*',
+          'http://twitter.com/*',
+          'https://x.com/*',
+          'http://x.com/*',
+        ];
       case 'reddit':
-        return const ['https://www.reddit.com/*', 'http://www.reddit.com/*', 'https://old.reddit.com/*', 'http://old.reddit.com/*'];
+        return const [
+          'https://www.reddit.com/*',
+          'http://www.reddit.com/*',
+          'https://old.reddit.com/*',
+          'http://old.reddit.com/*',
+        ];
       case 'linkedin':
         return const ['https://www.linkedin.com/*', 'http://www.linkedin.com/*'];
       case 'youtube':

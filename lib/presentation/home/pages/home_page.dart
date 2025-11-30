@@ -263,18 +263,10 @@ class _HomeState extends State<Home> {
       StorageKeys.version,
     );
     if (storedVersion == null || storedVersion != packageInfo.version) {
-      log('Showing changelog dialog');
+      log('Updating stored version');
       await storageManager.setString(StorageKeys.version, packageInfo.version);
-      await Future.delayed(const Duration(seconds: 1));
-      if (!mounted) return;
-      showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (context) => const Material(
-          type: MaterialType.transparency,
-          child: PermissionRequestDialog(),
-        ),
-      );
+      // Removed: No longer show permission dialog on first load
+      // Permission dialog will be shown by _checkAndShowPermissionDialog() if needed
     }
   }
 
@@ -282,7 +274,7 @@ class _HomeState extends State<Home> {
     // Wait a bit to ensure UI is ready and changelog dialog check is done
     await Future.delayed(const Duration(seconds: 1));
     if (!mounted) return;
-    
+
     // Check if any permissions are granted
     final hasAnyPermissions = await PermissionRequestDialog.hasAnyPermissions();
     if (!hasAnyPermissions) {
@@ -291,15 +283,16 @@ class _HomeState extends State<Home> {
       // So we check again after a delay
       await Future.delayed(const Duration(milliseconds: 300));
       if (!mounted) return;
-      
+
       log('No permissions granted, showing permission dialog');
       showDialog(
         context: context,
         barrierDismissible: true,
-        builder: (context) => const Material(
-          type: MaterialType.transparency,
-          child: PermissionRequestDialog(),
-        ),
+        builder:
+            (context) => const Material(
+              type: MaterialType.transparency,
+              child: PermissionRequestDialog(),
+            ),
       );
     }
   }
