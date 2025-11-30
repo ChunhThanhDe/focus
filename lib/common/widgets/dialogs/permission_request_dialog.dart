@@ -474,7 +474,7 @@ class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         GestureDetectorWithCursor(
-                          onTap: () => launchUrl(Uri.parse('https://discord.gg/et4nyJ49')),
+                          onTap: () => launchUrl(Uri.parse('https://discord.gg/kMrAKAZA2X')),
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                             decoration: BoxDecoration(

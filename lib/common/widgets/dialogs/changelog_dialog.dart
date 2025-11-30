@@ -195,7 +195,7 @@ class _ChangelogDialogState extends State<ChangelogDialog> {
                   ),
                   const SizedBox(height: 12),
                   GestureDetectorWithCursor(
-                    onTap: () => launchUrl(Uri.parse('https://discord.gg/et4nyJ49')),
+                    onTap: () => launchUrl(Uri.parse('https://discord.gg/kMrAKAZA2X')),
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                       decoration: BoxDecoration(
