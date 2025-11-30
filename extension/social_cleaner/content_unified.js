@@ -469,10 +469,28 @@
 
   function isElementVisible(el) {
     if (!el) return false;
+    // Check if element is still in the DOM
+    if (!document.contains(el)) return false;
+    
     const style = window.getComputedStyle(el);
+    // Check if element is hidden by CSS
     if (style.display === 'none' || style.visibility === 'hidden' || parseFloat(style.opacity) === 0) return false;
+    
     const rect = el.getBoundingClientRect();
+    // Element is visible if it has dimensions (even if scrolled out of viewport)
+    // This prevents removing quote banner just because user scrolled
     return rect.width > 0 && rect.height > 0;
+  }
+  
+  function isElementInViewport(el) {
+    if (!el) return false;
+    const rect = el.getBoundingClientRect();
+    return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
   }
 
   // Flag to prevent multiple simultaneous injections
@@ -586,10 +604,19 @@
     // Inject CSS
     injectCSS(siteId);
     
-    // Check if container already exists and is visible
+    // Check if container already exists and is in DOM
     const existingContainer = document.getElementById('nfe-container');
-    if (existingContainer && isElementVisible(existingContainer)) {
-      return; // Container already exists and is visible, no need to recreate
+    if (existingContainer) {
+      // If container exists and is in DOM, check if it's actually hidden by CSS
+      if (document.contains(existingContainer)) {
+        const style = window.getComputedStyle(existingContainer);
+        // Only recreate if container is hidden by CSS, not just scrolled out of viewport
+        if (style.display !== 'none' && style.visibility !== 'hidden' && parseFloat(style.opacity) > 0) {
+          return; // Container exists and is visible, no need to recreate
+        }
+      }
+      // If container exists but is not in DOM or is hidden, remove it first
+      removeQuoteContainer();
     }
     
     // If we're already injecting, skip to avoid duplicates
@@ -668,13 +695,44 @@
     
     if (targetElement) {
       feedObserverTarget = targetElement;
+      
+      // Debounce for MutationObserver to avoid too many triggers during scroll
+      let mutationDebounceTimeout = null;
+      const MUTATION_DEBOUNCE_MS = 500;
+      
       // Create new observer for this container
       feedObserver = new MutationObserver((mutations) => {
-        // Only react if there are actual changes and no quote banner exists
-        const existingContainer = document.getElementById('nfe-container');
-        if (mutations.length > 0 && (!existingContainer || !isElementVisible(existingContainer))) {
-          scheduleEradicate();
+        // Clear existing timeout
+        if (mutationDebounceTimeout) {
+          clearTimeout(mutationDebounceTimeout);
         }
+        
+        // Debounce mutations to avoid triggering too frequently during scroll
+        mutationDebounceTimeout = setTimeout(() => {
+          const existingContainer = document.getElementById('nfe-container');
+          
+          // Only react if:
+          // 1. There are actual changes
+          // 2. No quote banner exists OR quote banner is not in DOM (not just scrolled out)
+          if (mutations.length > 0) {
+            if (!existingContainer) {
+              // No container at all, try to inject
+              scheduleEradicate();
+            } else if (!document.contains(existingContainer)) {
+              // Container was removed from DOM, recreate
+              scheduleEradicate();
+            } else {
+              // Container exists and is in DOM
+              // Check if it's actually hidden by CSS (not just scrolled out)
+              const style = window.getComputedStyle(existingContainer);
+              if (style.display === 'none' || style.visibility === 'hidden' || parseFloat(style.opacity) === 0) {
+                // Container is hidden by CSS, recreate
+                scheduleEradicate();
+              }
+              // If container is just scrolled out of viewport, leave it alone
+            }
+          }
+        }, MUTATION_DEBOUNCE_MS);
       });
       
       // Observe the feed container for changes
