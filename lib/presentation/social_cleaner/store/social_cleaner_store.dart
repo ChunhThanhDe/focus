@@ -58,8 +58,8 @@ abstract class _SocialCleanerStore with Store {
     'threads': true,
     'reddit': true,
     'linkedin': true,
-    'youtube': false,
-    'github': false,
+    'youtube': true,
+    'github': true,
     'shopee': true,
   };
 

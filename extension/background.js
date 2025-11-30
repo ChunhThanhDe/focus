@@ -72,8 +72,8 @@ const defaultSettings = {
     threads: { enabled: true },
     reddit: { enabled: true },
     linkedin: { enabled: true },
-    youtube: { enabled: false },
-    github: { enabled: false },
+    youtube: { enabled: true },
+    github: { enabled: true },
     shopee: { enabled: true }
   }
 };

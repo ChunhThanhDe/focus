@@ -266,7 +266,7 @@ class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
               const SizedBox(height: 16),
               // YouTube video embed
               _YouTubeVideoEmbed(
-                videoId: 'G0HHiE3VcU8', // TODO: Replace with actual YouTube video ID
+                videoId: 'n8gfUrHthTA',
               ),
               const SizedBox(height: 16),
 
@@ -562,7 +562,7 @@ class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
                         onTap:
                             () => launchUrl(
                               Uri.parse(
-                                'https://chromewebstore.google.com/detail/focus-to-your-target/jgifoecdnnjidgepcankbpcmhefeehpm',
+                                'https://chromewebstore.google.com/detail/focus-to-your-target/medcmkcekhaggbmjpgagiajoennmlmcf',
                               ),
                             ),
                         child: Text(
@@ -578,7 +578,7 @@ class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
                         onTap:
                             () => launchUrl(
                               Uri.parse(
-                                'https://microsoftedge.microsoft.com/addons/detail/focus-to-your-target/bcgniccgbgfnaibdlmjnbgaimdanbpai',
+                                'https://chromewebstore.google.com/detail/focus-to-your-target/medcmkcekhaggbmjpgagiajoennmlmcf',
                               ),
                             ),
                         child: Text(
