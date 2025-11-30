@@ -244,6 +244,8 @@
     "timeHint24": "HH:MM",
     "timeHint12": "hh:mm",
     "guide": "Hướng dẫn",
+    "guideDescription": "Xem video hướng dẫn bên dưới để tìm hiểu cách sử dụng Focus và bật tính năng Social Cleaner.",
+    "guideInstruction": "Nhấp vào video để xem trên YouTube. Sau đó, chuyển sang tab \"Bật Trình làm sạch bảng tin\" để cấp quyền cho các trang web bạn muốn.",
     "legendRed": "Đỏ: còn < 10 phút và quá hạn",
     "legendYellow": "Vàng: còn < 60 phút",
     "legendGreen": "Xanh: đã hoàn thành",

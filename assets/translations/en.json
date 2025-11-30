@@ -252,6 +252,8 @@
     "timeHint24": "HH:MM",
     "timeHint12": "hh:mm",
     "guide": "Guide",
+    "guideDescription": "Watch the guide video below to learn how to use Focus and enable the Social Cleaner feature.",
+    "guideInstruction": "Click on the video to watch on YouTube. Then, switch to the \"Enable Social Cleaner\" tab to grant permissions for the websites you want.",
     "legendRed": "Red: due in < 10 minutes and overdue",
     "legendYellow": "Yellow: due in < 60 minutes",
     "legendGreen": "Green: completed",

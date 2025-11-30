@@ -261,10 +261,16 @@ class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
                   context,
                 ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
               ),
-              const SizedBox(height: 8),
-              Text('permission.description'.tr(), style: Theme.of(context).textTheme.bodyLarge),
               const SizedBox(height: 12),
-              Text('permission.choose_sites'.tr(), style: Theme.of(context).textTheme.bodyLarge),
+              Text('todo.guideDescription'.tr(), style: Theme.of(context).textTheme.bodyLarge),
+              const SizedBox(height: 16),
+              // YouTube video embed
+              _YouTubeVideoEmbed(
+                videoId: 'G0HHiE3VcU8', // TODO: Replace with actual YouTube video ID
+              ),
+              const SizedBox(height: 16),
+
+              Text('todo.guideInstruction'.tr(), style: Theme.of(context).textTheme.bodyLarge),
             ] else if (_tabIndex == 1) ...[
               Text(
                 'permission.title'.tr(),
@@ -640,6 +646,133 @@ class _PermissionRequestDialogState extends State<PermissionRequestDialog> {
             ],
             const SizedBox(height: 24),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Widget to display YouTube video thumbnail with play button
+/// Clicking will open the video on YouTube
+class _YouTubeVideoEmbed extends StatelessWidget {
+  final String videoId;
+
+  const _YouTubeVideoEmbed({required this.videoId});
+
+  @override
+  Widget build(BuildContext context) {
+    // If no valid video ID, show placeholder
+    if (videoId.isEmpty || videoId == 'YOUR_VIDEO_ID_HERE') {
+      return Container(
+        width: double.infinity,
+        height: 400,
+        decoration: BoxDecoration(
+          color: Colors.black.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
+            width: 1,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.play_circle_outline,
+                size: 64,
+                color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.5),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Video hướng dẫn sẽ được hiển thị tại đây',
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return Container(
+      width: double.infinity,
+      constraints: const BoxConstraints(
+        maxHeight: 500,
+        minHeight: 300,
+      ),
+      child: AspectRatio(
+        aspectRatio: 16 / 9,
+        child: GestureDetectorWithCursor(
+          onTap:
+              () => launchUrl(
+                Uri.parse('https://www.youtube.com/watch?v=$videoId'),
+                mode: LaunchMode.externalApplication,
+              ),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                color: Colors.amber.shade600,
+                width: 2,
+              ),
+            ),
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                // YouTube thumbnail
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.network(
+                    'https://i.ytimg.com/vi/$videoId/maxresdefault.jpg',
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Image.network(
+                        'https://i.ytimg.com/vi/$videoId/hqdefault.jpg',
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            color: Colors.black.withValues(alpha: 0.3),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+                // Dark overlay
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                // Play button overlay
+                Center(
+                  child: Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.5),
+                          blurRadius: 12,
+                          spreadRadius: 2,
+                        ),
+                      ],
+                    ),
+                    child: const Icon(
+                      Icons.play_arrow,
+                      color: Colors.white,
+                      size: 56,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
