@@ -212,6 +212,20 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       });
       return true;
     }
+    case 'todoCancelReminder': {
+      const taskId = String(request.taskId || '');
+      if (!taskId) {
+        sendResponse({ success: false, error: 'taskId is required' });
+        return true;
+      }
+      // Xóa alarm và storage cho task này
+      chrome.alarms.clear(`todo:reminder:${taskId}`).then(() => {
+        chrome.storage.local.remove(`todoReminder:${taskId}`).then(() => {
+          sendResponse({ success: true });
+        });
+      });
+      return true;
+    }
     case 'checkOptionalPermissions': {
       const origins = originsFromRequest(request);
       chrome.permissions.contains({ origins }).then((granted) => {

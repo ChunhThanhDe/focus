@@ -648,6 +648,14 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
   @action
   void scheduleTodoReminderMinutes(int minutes) {
     final int m = minutes < 1 ? 1 : minutes;
+    // Kiểm tra xem có task nào chưa hoàn thành không trước khi lưu
+    final task = _todoTasks.firstWhereOrNull((e) => !e.completed);
+    if (task == null) {
+      // Không có task nào chưa hoàn thành, clear reminder
+      _todoReminderAt = null;
+      _saveTodo();
+      return;
+    }
     _todoReminderAt = DateTime.now().add(Duration(minutes: m));
     _saveTodo();
     _notifyScheduleTodoReminder(m);
