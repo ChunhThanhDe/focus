@@ -50,7 +50,8 @@ const int settingsVersion = 1;
 class BackgroundStore = _BackgroundStore with _$BackgroundStore;
 
 abstract class _BackgroundStore with Store, LazyInitializationMixin {
-  late final LocalStorageManager storage = GetIt.instance.get<LocalStorageManager>();
+  late final LocalStorageManager storage =
+      GetIt.instance.get<LocalStorageManager>();
 
   // Defines the size of the window. This is used to fetch images of the
   /// correct size.
@@ -158,7 +159,8 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
   @override
   Future<void> init() async {
     final data = await storage.getJson(StorageKeys.backgroundSettings);
-    final settings = data != null ? BackgroundSettings.fromJson(data) : BackgroundSettings();
+    final settings =
+        data != null ? BackgroundSettings.fromJson(data) : BackgroundSettings();
 
     _mode = settings.mode;
     _color = settings.color;
@@ -177,10 +179,13 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
     if (todoData != null) {
       final List<dynamic> items = (todoData['tasks'] as List?) ?? [];
       _todoTasks = ObservableList.of(
-        items.map((e) => TodoItem.fromJson((e as Map).cast<String, dynamic>())).toList(),
+        items
+            .map((e) => TodoItem.fromJson((e as Map).cast<String, dynamic>()))
+            .toList(),
       );
       final int? ts = todoData['reminderAt'] as int?;
-      _todoReminderAt = ts != null && ts > 0 ? DateTime.fromMillisecondsSinceEpoch(ts) : null;
+      _todoReminderAt =
+          ts != null && ts > 0 ? DateTime.fromMillisecondsSinceEpoch(ts) : null;
       _use24HourTodo = (todoData['use24HourTodo'] as bool?) ?? true;
       _todoDarkMode = (todoData['todoDarkMode'] as bool?) ?? false;
     }
@@ -196,10 +201,12 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
         .getInt('image2Time')
         .then((value) => DateTime.fromMillisecondsSinceEpoch(value ?? 0));
 
-    backgroundLastUpdated = await storage.getInt(StorageKeys.backgroundLastUpdated).then((value) {
-      if (value == null) return DateTime.now();
-      return DateTime.fromMillisecondsSinceEpoch(value);
-    });
+    backgroundLastUpdated = await storage
+        .getInt(StorageKeys.backgroundLastUpdated)
+        .then((value) {
+          if (value == null) return DateTime.now();
+          return DateTime.fromMillisecondsSinceEpoch(value);
+        });
 
     _initialized = true;
 
@@ -256,7 +263,8 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
   /// set to new tab).
   @action
   Future<void> initializeImages() async {
-    if (_imageSource == ImageSource.unsplash || _imageSource == ImageSource.userLikes) {
+    if (_imageSource == ImageSource.unsplash ||
+        _imageSource == ImageSource.userLikes) {
       if (!await storage.containsKey(StorageKeys.image1)) {
         // If no images are cached, fetch new ones now and cache them.
         _loadImageFromSource().then((result) {
@@ -562,7 +570,10 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
   void addTodo(String text) {
     final t = text.trim();
     if (t.isEmpty) return;
-    final item = TodoItem(id: DateTime.now().millisecondsSinceEpoch.toString(), text: t);
+    final item = TodoItem(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      text: t,
+    );
     _todoTasks.insert(0, item);
     _saveTodo();
   }
@@ -573,7 +584,12 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
         texts
             .map((e) => e.trim())
             .where((e) => e.isNotEmpty)
-            .map((t) => TodoItem(id: DateTime.now().millisecondsSinceEpoch.toString(), text: t))
+            .map(
+              (t) => TodoItem(
+                id: DateTime.now().millisecondsSinceEpoch.toString(),
+                text: t,
+              ),
+            )
             .toList();
     for (final item in items.reversed) {
       _todoTasks.insert(0, item);
@@ -585,7 +601,10 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
   void addTodoBelow(String afterId, {String text = ''}) {
     final int index = _todoTasks.indexWhere((e) => e.id == afterId);
     if (index < 0) return;
-    final item = TodoItem(id: DateTime.now().millisecondsSinceEpoch.toString(), text: text);
+    final item = TodoItem(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      text: text,
+    );
     _todoTasks.insert(index + 1, item);
     _saveTodo();
   }
@@ -671,7 +690,10 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
       }
     }
 
-    _todoTasks[index] = _todoTasks[index].copyWith(remindTime: time, remindDate: remindDate);
+    _todoTasks[index] = _todoTasks[index].copyWith(
+      remindTime: time,
+      remindDate: remindDate,
+    );
     _saveTodo();
   }
 
@@ -730,7 +752,9 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
               '${tomorrow.year}-${tomorrow.month.toString().padLeft(2, '0')}-${tomorrow.day.toString().padLeft(2, '0')}';
           final int index = _todoTasks.indexWhere((e) => e.id == id);
           if (index >= 0) {
-            _todoTasks[index] = _todoTasks[index].copyWith(remindDate: remindDate);
+            _todoTasks[index] = _todoTasks[index].copyWith(
+              remindDate: remindDate,
+            );
             _saveTodo();
           }
         }
@@ -765,10 +789,14 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
       final chrome = js_util.getProperty(js_util.globalThis, 'chrome');
       if (chrome == null) return;
       final runtime = js_util.getProperty(chrome, 'runtime');
-      final String title =
-          _todoTasks.firstWhereOrNull((e) => !e.completed)?.text ?? 'Todo Reminder';
+      final task = _todoTasks.firstWhereOrNull((e) => !e.completed);
+      if (task == null)
+        return; // Không có task nào chưa hoàn thành, không tạo reminder
+      final String title = task.text;
+      final String taskId = task.id;
       final message = {
         'action': 'todoScheduleReminder',
+        'taskId': taskId,
         'minutes': minutes,
         'title': title,
       };
@@ -863,7 +891,9 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
     // log('Auto Background refresh has been triggered');
     // Exit if it is not time to change the background based on the user
     // settings.
-    if (_backgroundRefreshRate.nextUpdateTime(backgroundLastUpdated)!.isAfter(DateTime.now()) ||
+    if (_backgroundRefreshRate
+            .nextUpdateTime(backgroundLastUpdated)!
+            .isAfter(DateTime.now()) ||
         _isLoadingImage) {
       // Enable this to see the remaining time in console.
 
@@ -894,7 +924,8 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
     final Background? image = currentImage;
     if (image == null) return;
 
-    final fileName = 'background_${DateTime.now().millisecondsSinceEpoch ~/ 1000}.jpg';
+    final fileName =
+        'background_${DateTime.now().millisecondsSinceEpoch ~/ 1000}.jpg';
 
     final resolution = await storage.getEnum(
       StorageKeys.imageDownloadQuality,
@@ -904,7 +935,8 @@ abstract class _BackgroundStore with Store, LazyInitializationMixin {
     Uri uri = applyResolutionOnUrl(image.url, resolution);
 
     final response = await http.get(uri);
-    final imageBytes = response.statusCode == 200 ? response.bodyBytes : image.bytes;
+    final imageBytes =
+        response.statusCode == 200 ? response.bodyBytes : image.bytes;
 
     if (kIsWeb) {
       return downloadImage(imageBytes, fileName);
