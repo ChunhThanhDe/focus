@@ -37,7 +37,9 @@ class TodoRow extends StatefulWidget {
 
 class TodoRowState extends State<TodoRow> {
   late bool editing = widget.startEditing;
-  late TextEditingController controller = TextEditingController(text: widget.text);
+  late TextEditingController controller = TextEditingController(
+    text: widget.text,
+  );
   final TextEditingController timeController = TextEditingController();
   bool _isAm = true;
 
@@ -47,22 +49,45 @@ class TodoRowState extends State<TodoRow> {
     final task =
         store.todoTasks.firstWhereOrNull((e) => e.id == widget.id) ??
         TodoItem(id: widget.id, text: widget.text, completed: widget.completed);
-    if ((task.remindTime ?? '').isNotEmpty && timeController.text != task.remindTime) {
+    if ((task.remindTime ?? '').isNotEmpty &&
+        timeController.text != task.remindTime) {
       timeController.text = task.remindTime!;
     }
     Color? bg;
     final now = DateTime.now();
-    final todayStr =
-        '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
-    final isToday = task.remindDate == todayStr || task.remindDate == null;
+    final today = DateTime(now.year, now.month, now.day);
+    DateTime? remindDate;
+
+    if (task.remindDate != null) {
+      // Format expected: "yyyy-MM-dd"
+      remindDate = DateTime.tryParse(task.remindDate!);
+      if (remindDate != null) {
+        remindDate = DateTime(
+          remindDate.year,
+          remindDate.month,
+          remindDate.day,
+        );
+      }
+    }
+
+    final bool isToday =
+        remindDate == null ||
+        (remindDate.year == today.year &&
+            remindDate.month == today.month &&
+            remindDate.day == today.day);
 
     if (task.completed) {
       bg = Colors.green.withOpacity(0.5);
     } else {
-      // Nếu không phải hôm nay, dùng màu nhạt
-      if (!isToday && task.remindDate != null) {
+      // Nếu có remindDate và ở quá khứ -> quá hạn, luôn đỏ
+      if (remindDate != null && remindDate.isBefore(today)) {
+        bg = Colors.red.withOpacity(0.5);
+      }
+      // Nếu có remindDate ở tương lai (không phải hôm nay) -> màu nhạt, không khẩn cấp
+      else if (!isToday && remindDate.isAfter(today)) {
         bg = widget.color.withOpacity(0.15);
       } else {
+        // Hôm nay (hoặc không có remindDate) thì dùng logic theo giờ như cũ
         final s = task.remindTime ?? '';
         if (s.isNotEmpty) {
           final parts = s.split(':');
@@ -107,21 +132,32 @@ class TodoRowState extends State<TodoRow> {
                           store.updateTodoText(widget.id, v);
                           setState(() => editing = false);
                         },
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: widget.color),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodyLarge?.copyWith(color: widget.color),
                         decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 8,
+                          ),
                           filled: true,
                           fillColor: Colors.black.withOpacity(0.06),
                           border: OutlineInputBorder(
-                            borderSide: BorderSide(color: widget.color.withOpacity(0.15)),
+                            borderSide: BorderSide(
+                              color: widget.color.withOpacity(0.15),
+                            ),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: widget.color.withOpacity(0.15)),
+                            borderSide: BorderSide(
+                              color: widget.color.withOpacity(0.15),
+                            ),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: widget.color.withOpacity(0.4)),
+                            borderSide: BorderSide(
+                              color: widget.color.withOpacity(0.4),
+                            ),
                             borderRadius: BorderRadius.circular(4),
                           ),
                         ),
@@ -130,10 +166,14 @@ class TodoRowState extends State<TodoRow> {
                         onDoubleTap: () => setState(() => editing = true),
                         child: Text(
                           task.text,
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyLarge?.copyWith(
                             color: widget.color,
                             decoration:
-                                task.completed ? TextDecoration.lineThrough : TextDecoration.none,
+                                task.completed
+                                    ? TextDecoration.lineThrough
+                                    : TextDecoration.none,
                           ),
                         ),
                       ),
@@ -163,7 +203,10 @@ class TodoRowState extends State<TodoRow> {
                     child: TextInput(
                       controller: timeController,
                       inputFormatters: [MaskedInputFormatter('00:00')],
-                      hintText: use24h ? 'todo.timeHint24'.tr() : 'todo.timeHint12'.tr(),
+                      hintText:
+                          use24h
+                              ? 'todo.timeHint24'.tr()
+                              : 'todo.timeHint12'.tr(),
                       textAlign: TextAlign.center,
                       showInitialBorder: false,
                       fillColor:
@@ -175,7 +218,9 @@ class TodoRowState extends State<TodoRow> {
                       ).textTheme.bodyMedium?.copyWith(color: widget.color),
                       hintStyle: Theme.of(
                         context,
-                      ).textTheme.bodyMedium?.copyWith(color: widget.color.withOpacity(0.6)),
+                      ).textTheme.bodyMedium?.copyWith(
+                        color: widget.color.withOpacity(0.6),
+                      ),
                       suffix:
                           !use24h
                               ? GestureDetector(
@@ -184,7 +229,9 @@ class TodoRowState extends State<TodoRow> {
                                   padding: const EdgeInsets.only(right: 6),
                                   child: Text(
                                     _isAm ? 'AM' : 'PM',
-                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyMedium?.copyWith(
                                       color: widget.color.withOpacity(0.8),
                                     ),
                                   ),
@@ -194,8 +241,10 @@ class TodoRowState extends State<TodoRow> {
                       onSubmitted: (value) async {
                         final v = value.trim();
                         final parts = v.split(':');
-                        final int? h = parts.length == 2 ? int.tryParse(parts[0]) : null;
-                        final int? m = parts.length == 2 ? int.tryParse(parts[1]) : null;
+                        final int? h =
+                            parts.length == 2 ? int.tryParse(parts[0]) : null;
+                        final int? m =
+                            parts.length == 2 ? int.tryParse(parts[1]) : null;
                         if (h == null || m == null) return false;
                         String toStore;
                         if (use24h) {
@@ -224,7 +273,10 @@ class TodoRowState extends State<TodoRow> {
                 store.removeTodo(widget.id);
                 setState(() {});
               },
-              child: Icon(Icons.delete_outline_rounded, color: widget.color.withOpacity(0.8)),
+              child: Icon(
+                Icons.delete_outline_rounded,
+                color: widget.color.withOpacity(0.8),
+              ),
             ),
             const SizedBox(width: 12),
           ],
