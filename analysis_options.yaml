@@ -41,5 +41,10 @@ analyzer:
     implicit-casts: false # Disable implicit casting to ensure type safety.
     implicit-dynamic: false # Require explicit type annotations instead of using `dynamic`.
 
+formatter:
+  trailing_commas: preserve
+
+
+
 # Additional information about this file can be found at
 # `https://dart.dev/guides/language/analysis-options`

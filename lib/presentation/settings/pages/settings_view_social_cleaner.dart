@@ -14,6 +14,7 @@ import 'package:focus/common/widgets/input/gesture_detector_with_cursor.dart';
 import 'package:focus/core/constants/colors.dart';
 import 'package:focus/common/widgets/observer/custom_observer.dart';
 import 'package:focus/presentation/social_cleaner/store/social_cleaner_store.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 class SocialCleanerSettings extends StatefulWidget {
   const SocialCleanerSettings({super.key});
@@ -25,6 +26,7 @@ class SocialCleanerSettings extends StatefulWidget {
 class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
   final SocialCleanerStore store = SocialCleanerStore();
   final TextEditingController _customQuoteController = TextEditingController();
+  final Map<String, bool> _siteRequesting = {};
 
   @override
   void initState() {
@@ -104,7 +106,6 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
                     _buildSiteToggle('settings.socialCleaner.sites.youtube'.tr(), 'youtube'),
                     _buildSiteToggle('settings.socialCleaner.sites.github'.tr(), 'github'),
                     _buildSiteToggle('settings.socialCleaner.sites.shopee'.tr(), 'shopee'),
-                    _buildSiteToggle('settings.socialCleaner.sites.hackernews'.tr(), 'hackernews'),
                   ],
                 ),
               ),
@@ -121,7 +122,9 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(6),
-                      border: Border.all(color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3)),
+                      border: Border.all(
+                        color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
+                      ),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -173,10 +176,32 @@ class _SocialCleanerSettingsState extends State<SocialCleanerSettings> {
   Widget _buildSiteToggle(String siteName, String siteId) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
-      child: CustomSwitch(
-        value: store.isSiteEnabled(siteId),
-        onChanged: (value) => store.updateSiteEnabled(siteId, value),
-        label: siteName,
+      child: FutureBuilder<bool>(
+        future: store.hasSitePermission(siteId),
+        builder: (context, snapshot) {
+          final bool hasPermission = snapshot.data == true;
+          if (hasPermission) {
+            return Observer(
+              builder:
+                  (_) => CustomSwitch(
+                    value: store.isSiteEnabled(siteId),
+                    onChanged: (value) => store.updateSiteEnabled(siteId, value),
+                    label: siteName,
+                  ),
+            );
+          }
+          final bool requesting = _siteRequesting[siteId] == true;
+          return CustomSwitchWithGrantButton(
+            label: siteName,
+            requesting: requesting,
+            onPressed: () async {
+              setState(() => _siteRequesting[siteId] = true);
+              final ok = await store.requestSitePermission(siteId);
+              setState(() => _siteRequesting[siteId] = false);
+              if (ok) setState(() {});
+            },
+          );
+        },
       ),
     );
   }

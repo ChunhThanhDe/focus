@@ -115,7 +115,9 @@ class About extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GestureDetectorWithCursor(
-              onTap: () => launchUrl(Uri.parse('https://www.youtube.com/@CHUNGCINE?sub_confirmation=1')),
+              onTap:
+                  () =>
+                      launchUrl(Uri.parse('https://www.youtube.com/@CHUNGCINE?sub_confirmation=1')),
               child: SizedBox.square(
                 dimension: 34,
                 child: Image.asset('assets/images/ic_youtube.png'),
@@ -144,7 +146,7 @@ class About extends StatelessWidget {
         ),
         const SizedBox(height: 48),
         Text(
-          'Flutter Vietnam Community',
+          'Join Focus Community',
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
             fontWeight: FontWeight.w500,
@@ -158,7 +160,7 @@ class About extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GestureDetectorWithCursor(
-              onTap: () => launchUrl(Uri.parse('https://discord.gg/et4nyJ49')),
+              onTap: () => launchUrl(Uri.parse('https://discord.gg/kMrAKAZA2X')),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -173,7 +175,7 @@ class About extends StatelessWidget {
                   ),
                   const SizedBox(width: 12),
                   Text(
-                    'Best Flutter Discord VN ',
+                    'Focus Discord Community ',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       height: 1,
                       fontWeight: FontWeight.w700,

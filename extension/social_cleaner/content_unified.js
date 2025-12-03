@@ -260,7 +260,6 @@
     if (hostname.includes('tiktok.com')) return 'tiktok';
     if (hostname.includes('github.com')) return 'github';
     if (hostname.includes('shopee.vn') || hostname.includes('shopee.com')) return 'shopee';
-    if (hostname.includes('news.ycombinator.com')) return 'hackernews';
     return null;
   }
 
@@ -441,6 +440,7 @@
         currentSettings.sites[siteId] = { enabled: false };
       } catch (_) {}
       removeQuoteContainer();
+      isInjecting = false; // Reset flag when disabling
       const styleEl = document.getElementById('nfe-styles');
       if (styleEl) styleEl.remove();
       document.documentElement.setAttribute('data-nfe-enabled', 'false');
@@ -457,50 +457,139 @@
 
   // Remove existing quote container
   function removeQuoteContainer() {
+    // Remove all possible containers (both in feed and overlay)
     const existing = document.getElementById('nfe-container');
     if (existing) {
       existing.remove();
     }
+    // Also check for any containers that might have been created but not properly removed
+    const allContainers = document.querySelectorAll('#nfe-container');
+    allContainers.forEach(container => container.remove());
   }
 
   function isElementVisible(el) {
     if (!el) return false;
+    // Check if element is still in the DOM
+    if (!document.contains(el)) return false;
+    
     const style = window.getComputedStyle(el);
+    // Check if element is hidden by CSS
     if (style.display === 'none' || style.visibility === 'hidden' || parseFloat(style.opacity) === 0) return false;
+    
     const rect = el.getBoundingClientRect();
+    // Element is visible if it has dimensions (even if scrolled out of viewport)
+    // This prevents removing quote banner just because user scrolled
     return rect.width > 0 && rect.height > 0;
   }
+  
+  function isElementInViewport(el) {
+    if (!el) return false;
+    const rect = el.getBoundingClientRect();
+    return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+  }
+
+  // Flag to prevent multiple simultaneous injections
+  let isInjecting = false;
 
   // Inject quote into feed
   function injectQuote(targetElement) {
     if (!currentSettings.showQuotes) return;
+    if (isInjecting) return; // Prevent concurrent injections
     
+    // Check if container already exists to avoid unnecessary recreation
+    const existing = document.getElementById('nfe-container');
+    if (existing && isElementVisible(existing)) {
+      return; // Already have a visible container
+    }
+    
+    isInjecting = true;
     removeQuoteContainer();
     
     const quote = getRandomQuote();
     const container = createQuoteContainer(quote, false);
-    if (targetElement.firstChild) {
-      targetElement.insertBefore(container, targetElement.firstChild);
-    } else {
-      targetElement.appendChild(container);
-    }
-    if (!isElementVisible(container)) {
-      removeQuoteContainer();
-      const overlay = createQuoteContainer(quote, true);
-      document.body.appendChild(overlay);
-    }
+    
+    // Use requestAnimationFrame to batch DOM operations
+    requestAnimationFrame(() => {
+      // Double-check that no container was created in the meantime
+      const checkExisting = document.getElementById('nfe-container');
+      if (checkExisting) {
+        isInjecting = false;
+        return; // Another injection happened, abort
+      }
+      
+      if (targetElement.firstChild) {
+        targetElement.insertBefore(container, targetElement.firstChild);
+      } else {
+        targetElement.appendChild(container);
+      }
+      
+      // Check visibility after a short delay to allow rendering
+      setTimeout(() => {
+        const currentContainer = document.getElementById('nfe-container');
+        if (currentContainer && !isElementVisible(currentContainer)) {
+          removeQuoteContainer();
+          // Double-check before creating overlay
+          const overlayCheck = document.getElementById('nfe-container');
+          if (!overlayCheck) {
+            const overlay = createQuoteContainer(quote, true);
+            document.body.appendChild(overlay);
+          }
+        }
+        isInjecting = false;
+      }, 100);
+    });
   }
 
   function injectOverlayQuote() {
     if (!currentSettings.showQuotes) return;
+    if (isInjecting) return; // Prevent concurrent injections
+    
+    // Check if container already exists to avoid unnecessary recreation
+    const existing = document.getElementById('nfe-container');
+    if (existing && isElementVisible(existing)) {
+      return; // Already have a visible container
+    }
+    
+    isInjecting = true;
     removeQuoteContainer();
     const quote = getRandomQuote();
     const overlay = createQuoteContainer(quote, true);
-    document.body.appendChild(overlay);
+    
+    // Use requestAnimationFrame to batch DOM operations
+    requestAnimationFrame(() => {
+      // Double-check that no container was created in the meantime
+      const checkExisting = document.getElementById('nfe-container');
+      if (checkExisting) {
+        isInjecting = false;
+        return; // Another injection happened, abort
+      }
+      
+      document.body.appendChild(overlay);
+      isInjecting = false;
+    });
   }
 
   // Main eradication function
+  let lastEradicateTime = 0;
+  const ERADICATE_THROTTLE_MS = 500; // Throttle to max once per 500ms
+  
   function eradicate() {
+    const now = Date.now();
+    if (now - lastEradicateTime < ERADICATE_THROTTLE_MS) {
+      return; // Skip if called too frequently
+    }
+    lastEradicateTime = now;
+    
+    // Don't inject quote banner until settings are loaded
+    if (!settingsLoaded) {
+      return;
+    }
+    
     const siteId = getCurrentSite();
     if (!siteId || !isEnabledForSite(siteId)) {
       // Remove any existing modifications
@@ -520,6 +609,26 @@
     // Inject CSS
     injectCSS(siteId);
     
+    // Check if container already exists and is in DOM
+    const existingContainer = document.getElementById('nfe-container');
+    if (existingContainer) {
+      // If container exists and is in DOM, check if it's actually hidden by CSS
+      if (document.contains(existingContainer)) {
+        const style = window.getComputedStyle(existingContainer);
+        // Only recreate if container is hidden by CSS, not just scrolled out of viewport
+        if (style.display !== 'none' && style.visibility !== 'hidden' && parseFloat(style.opacity) > 0) {
+          return; // Container exists and is visible, no need to recreate
+        }
+      }
+      // If container exists but is not in DOM or is hidden, remove it first
+      removeQuoteContainer();
+    }
+    
+    // If we're already injecting, skip to avoid duplicates
+    if (isInjecting) {
+      return;
+    }
+    
     // Find target element
     let targetElement = null;
     for (const selector of site.selectors) {
@@ -527,19 +636,132 @@
       if (targetElement) break;
     }
     
-    if (targetElement && !document.getElementById('nfe-container')) {
+    if (targetElement && !existingContainer) {
       injectQuote(targetElement);
-    } else if (!targetElement && !document.getElementById('nfe-container')) {
+    } else if (!targetElement && !existingContainer) {
       injectOverlayQuote();
     }
   }
 
+  // Feed observer instance
+  let feedObserver = null;
+  let feedObserverTarget = null;
+  
+  // Debounce/throttle for eradicate calls
+  let eradicateTimeout = null;
+  let lastEradicateCall = 0;
+  const ERADICATE_DEBOUNCE_MS = 300; // Debounce rapid calls
+  const ERADICATE_MIN_INTERVAL_MS = 1000; // Minimum time between calls
+  
+  function scheduleEradicate() {
+    const now = Date.now();
+    const timeSinceLastCall = now - lastEradicateCall;
+    
+    // Clear existing timeout
+    if (eradicateTimeout) {
+      clearTimeout(eradicateTimeout);
+    }
+    
+    // If enough time has passed, run immediately
+    if (timeSinceLastCall >= ERADICATE_MIN_INTERVAL_MS) {
+      lastEradicateCall = now;
+      eradicate();
+    } else {
+      // Otherwise, schedule for later
+      const delay = ERADICATE_MIN_INTERVAL_MS - timeSinceLastCall;
+      eradicateTimeout = setTimeout(() => {
+        lastEradicateCall = Date.now();
+        eradicate();
+      }, Math.max(delay, ERADICATE_DEBOUNCE_MS));
+    }
+  }
+  
+  // Setup feed observer to watch for DOM changes
+  function setupFeedObserver() {
+    // Disconnect old observer if exists
+    if (feedObserver) {
+      feedObserver.disconnect();
+      feedObserver = null;
+      feedObserverTarget = null;
+    }
+    
+    const siteId = getCurrentSite();
+    if (!siteId || !isEnabledForSite(siteId)) return;
+    
+    const site = sites[siteId];
+    if (!site) return;
+    
+    // Find target element
+    let targetElement = null;
+    for (const selector of site.selectors) {
+      targetElement = document.querySelector(selector);
+      if (targetElement) break;
+    }
+    
+    if (targetElement) {
+      feedObserverTarget = targetElement;
+      
+      // Debounce for MutationObserver to avoid too many triggers during scroll
+      let mutationDebounceTimeout = null;
+      const MUTATION_DEBOUNCE_MS = 500;
+      
+      // Create new observer for this container
+      feedObserver = new MutationObserver((mutations) => {
+        // Clear existing timeout
+        if (mutationDebounceTimeout) {
+          clearTimeout(mutationDebounceTimeout);
+        }
+        
+        // Debounce mutations to avoid triggering too frequently during scroll
+        mutationDebounceTimeout = setTimeout(() => {
+          const existingContainer = document.getElementById('nfe-container');
+          
+          // Only react if:
+          // 1. There are actual changes
+          // 2. No quote banner exists OR quote banner is not in DOM (not just scrolled out)
+          if (mutations.length > 0) {
+            if (!existingContainer) {
+              // No container at all, try to inject
+              scheduleEradicate();
+            } else if (!document.contains(existingContainer)) {
+              // Container was removed from DOM, recreate
+              scheduleEradicate();
+            } else {
+              // Container exists and is in DOM
+              // Check if it's actually hidden by CSS (not just scrolled out)
+              const style = window.getComputedStyle(existingContainer);
+              if (style.display === 'none' || style.visibility === 'hidden' || parseFloat(style.opacity) === 0) {
+                // Container is hidden by CSS, recreate
+                scheduleEradicate();
+              }
+              // If container is just scrolled out of viewport, leave it alone
+            }
+          }
+        }, MUTATION_DEBOUNCE_MS);
+      });
+      
+      // Observe the feed container for changes
+      feedObserver.observe(targetElement, {
+        childList: true,
+        subtree: true,
+      });
+    }
+  }
+
   // Load settings from storage
+  let settingsLoaded = false;
+  
   function loadSettings() {
     chrome.runtime.sendMessage({ action: 'getSocialCleanerSettings' }, (response) => {
       if (response) {
         currentSettings = { ...currentSettings, ...response };
-        eradicate();
+        settingsLoaded = true;
+        // Re-setup observer when settings change
+        setupFeedObserver();
+        scheduleEradicate();
+      } else {
+        // If no response, mark as loaded anyway to prevent infinite waiting
+        settingsLoaded = true;
       }
     });
   }
@@ -548,7 +770,9 @@
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'settingsUpdated') {
       currentSettings = { ...currentSettings, ...request.settings };
-      eradicate();
+      // Re-setup observer when settings change
+      setupFeedObserver();
+      scheduleEradicate();
       sendResponse({ success: true });
     } else if (request.action === 'getLocalStorageSettings') {
       // Get settings from localStorage using the same key as Flutter LocalStorageManager
@@ -573,18 +797,59 @@
   function initialize() {
     loadSettings();
     
-    // Re-run eradication periodically to handle dynamic content
-    setInterval(eradicate, 1000);
-    
     // Handle navigation changes (for SPAs)
     let lastUrl = location.href;
-    new MutationObserver(() => {
+    let urlChangeTimeout = null;
+    const urlObserver = new MutationObserver(() => {
       const url = location.href;
       if (url !== lastUrl) {
         lastUrl = url;
-        setTimeout(eradicate, 500);
+        // Clear previous timeout to debounce rapid changes
+        if (urlChangeTimeout) clearTimeout(urlChangeTimeout);
+        urlChangeTimeout = setTimeout(() => {
+          scheduleEradicate();
+        }, 500);
       }
-    }).observe(document, { subtree: true, childList: true });
+    });
+    urlObserver.observe(document, { subtree: true, childList: true });
+    
+    // Initial setup - wait for settings to load first
+    // scheduleEradicate() will be called from loadSettings() callback
+    
+    // Setup feed observer after a short delay to ensure DOM is ready
+    setTimeout(() => {
+      setupFeedObserver();
+    }, 1000);
+    
+    // Re-setup feed observer periodically in case container changes or is removed
+    // Use longer interval as fallback safety check (only if quote banner doesn't exist)
+    setInterval(() => {
+      const existingContainer = document.getElementById('nfe-container');
+      if (!existingContainer || !isElementVisible(existingContainer)) {
+        // Check if target element still exists
+        const siteId = getCurrentSite();
+        if (siteId) {
+          const site = sites[siteId];
+          if (site) {
+            let targetElement = null;
+            for (const selector of site.selectors) {
+              targetElement = document.querySelector(selector);
+              if (targetElement) break;
+            }
+            
+            // If target changed or observer is not watching anything, re-setup
+            if (targetElement && targetElement !== feedObserverTarget) {
+              setupFeedObserver();
+            }
+            
+            // If no quote banner exists, try to inject
+            if (!existingContainer || !isElementVisible(existingContainer)) {
+              scheduleEradicate();
+            }
+          }
+        }
+      }
+    }, 10000); // Check every 10 seconds as fallback
   }
 
   // Start when DOM is ready

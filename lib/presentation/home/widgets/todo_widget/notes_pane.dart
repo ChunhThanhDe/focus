@@ -6,7 +6,7 @@
 
 import 'dart:async';
 
-// ignore: avoid_web_libraries_in_flutter
+// ignore: avoid_web_libraries_in_flutter, deprecated_member_use
 import 'dart:html' as html;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
@@ -61,8 +61,11 @@ class NotesPaneState extends State<NotesPane> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.black.withOpacity(0.06),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: borderBase.withOpacity(0.15)),
+        // borderRadius: BorderRadius.circular(18),
+        border: Border.all(
+          color: borderBase.withOpacity(0.15),
+          width: 2,
+        ),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
       child: Column(
@@ -74,19 +77,33 @@ class NotesPaneState extends State<NotesPane> {
               Expanded(
                 child: Text(
                   'todo.notes'.tr(),
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: widget.color, fontWeight: FontWeight.bold),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyLarge?.copyWith(color: widget.color, fontWeight: FontWeight.bold),
                 ),
               ),
               TextButton(
                 onPressed: () async {
                   await _saveNotes();
                 },
-                child: Text('todo.save'.tr(), style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: widget.color.withOpacity(0.9), fontWeight: FontWeight.bold)),
+                child: Text(
+                  'todo.save'.tr(),
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: widget.color.withOpacity(0.9),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
               const SizedBox(width: 8),
               TextButton(
                 onPressed: () => _handlePaste(),
-                child: Text('todo.paste'.tr(), style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: widget.color.withOpacity(0.9), fontWeight: FontWeight.bold)),
+                child: Text(
+                  'todo.paste'.tr(),
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: widget.color.withOpacity(0.9),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
               const SizedBox(width: 8),
               TextButton(
@@ -94,7 +111,13 @@ class NotesPaneState extends State<NotesPane> {
                   _noteController.clear();
                   setState(() {});
                 },
-                child: Text('todo.clear'.tr(), style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: widget.color.withOpacity(0.9), fontWeight: FontWeight.bold)),
+                child: Text(
+                  'todo.clear'.tr(),
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: widget.color.withOpacity(0.9),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
               SizedBox(width: 4),
             ],
@@ -110,7 +133,9 @@ class NotesPaneState extends State<NotesPane> {
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color),
               decoration: InputDecoration(
                 hintText: 'todo.writeOrPaste'.tr(),
-                hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color.withOpacity(0.5)),
+                hintStyle: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: widget.color.withOpacity(0.5)),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 filled: true,
                 fillColor: Colors.black.withOpacity(0.06),

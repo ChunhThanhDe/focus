@@ -22,7 +22,14 @@ class TodoRow extends StatefulWidget {
   final Color color;
   final bool startEditing;
 
-  const TodoRow({super.key, required this.id, required this.text, required this.completed, required this.color, this.startEditing = false});
+  const TodoRow({
+    super.key,
+    required this.id,
+    required this.text,
+    required this.completed,
+    required this.color,
+    this.startEditing = false,
+  });
 
   @override
   State<TodoRow> createState() => TodoRowState();
@@ -30,37 +37,73 @@ class TodoRow extends StatefulWidget {
 
 class TodoRowState extends State<TodoRow> {
   late bool editing = widget.startEditing;
-  late TextEditingController controller = TextEditingController(text: widget.text);
+  late TextEditingController controller = TextEditingController(
+    text: widget.text,
+  );
   final TextEditingController timeController = TextEditingController();
   bool _isAm = true;
 
   @override
   Widget build(BuildContext context) {
     final store = context.read<BackgroundStore>();
-    final task = store.todoTasks.firstWhereOrNull((e) => e.id == widget.id) ?? TodoItem(id: widget.id, text: widget.text, completed: widget.completed);
-    if ((task.remindTime ?? '').isNotEmpty && timeController.text != task.remindTime) {
+    final task =
+        store.todoTasks.firstWhereOrNull((e) => e.id == widget.id) ??
+        TodoItem(id: widget.id, text: widget.text, completed: widget.completed);
+    if ((task.remindTime ?? '').isNotEmpty &&
+        timeController.text != task.remindTime) {
       timeController.text = task.remindTime!;
     }
     Color? bg;
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    DateTime? remindDate;
+
+    if (task.remindDate != null) {
+      // Format expected: "yyyy-MM-dd"
+      remindDate = DateTime.tryParse(task.remindDate!);
+      if (remindDate != null) {
+        remindDate = DateTime(
+          remindDate.year,
+          remindDate.month,
+          remindDate.day,
+        );
+      }
+    }
+
+    final bool isToday =
+        remindDate == null ||
+        (remindDate.year == today.year &&
+            remindDate.month == today.month &&
+            remindDate.day == today.day);
+
     if (task.completed) {
       bg = Colors.green.withOpacity(0.5);
     } else {
-      final s = task.remindTime ?? '';
-      if (s.isNotEmpty) {
-        final parts = s.split(':');
-        final int? h = int.tryParse(parts[0]);
-        final int? m = int.tryParse(parts[1]);
-        if (h != null && m != null) {
-          final now = DateTime.now();
-          final todayTime = DateTime(now.year, now.month, now.day, h, m);
-          if (!todayTime.isAfter(now)) {
-            bg = Colors.red.withOpacity(0.5);
-          } else {
-            final minutes = todayTime.difference(now).inMinutes;
-            if (minutes < 10) {
+      // Nếu có remindDate và ở quá khứ -> quá hạn, luôn đỏ
+      if (remindDate != null && remindDate.isBefore(today)) {
+        bg = Colors.red.withOpacity(0.5);
+      }
+      // Nếu có remindDate ở tương lai (không phải hôm nay) -> màu nhạt, không khẩn cấp
+      else if (!isToday && remindDate.isAfter(today)) {
+        bg = widget.color.withOpacity(0.15);
+      } else {
+        // Hôm nay (hoặc không có remindDate) thì dùng logic theo giờ như cũ
+        final s = task.remindTime ?? '';
+        if (s.isNotEmpty) {
+          final parts = s.split(':');
+          final int? h = int.tryParse(parts[0]);
+          final int? m = int.tryParse(parts[1]);
+          if (h != null && m != null) {
+            final todayTime = DateTime(now.year, now.month, now.day, h, m);
+            if (!todayTime.isAfter(now)) {
               bg = Colors.red.withOpacity(0.5);
-            } else if (minutes < 60) {
-              bg = Colors.yellow.withOpacity(0.5);
+            } else {
+              final minutes = todayTime.difference(now).inMinutes;
+              if (minutes < 10) {
+                bg = Colors.red.withOpacity(0.5);
+              } else if (minutes < 60) {
+                bg = Colors.yellow.withOpacity(0.5);
+              }
             }
           }
         }
@@ -69,7 +112,13 @@ class TodoRowState extends State<TodoRow> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Container(
-        decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(6)),
+        decoration: BoxDecoration(
+          color: bg,
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(
+            color: bg ?? widget.color.withOpacity(0.15),
+          ),
+        ),
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
         child: Row(
           children: [
@@ -83,21 +132,32 @@ class TodoRowState extends State<TodoRow> {
                           store.updateTodoText(widget.id, v);
                           setState(() => editing = false);
                         },
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: widget.color),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodyLarge?.copyWith(color: widget.color),
                         decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 8,
+                          ),
                           filled: true,
                           fillColor: Colors.black.withOpacity(0.06),
                           border: OutlineInputBorder(
-                            borderSide: BorderSide(color: widget.color.withOpacity(0.15)),
+                            borderSide: BorderSide(
+                              color: widget.color.withOpacity(0.15),
+                            ),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: widget.color.withOpacity(0.15)),
+                            borderSide: BorderSide(
+                              color: widget.color.withOpacity(0.15),
+                            ),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: widget.color.withOpacity(0.4)),
+                            borderSide: BorderSide(
+                              color: widget.color.withOpacity(0.4),
+                            ),
                             borderRadius: BorderRadius.circular(4),
                           ),
                         ),
@@ -106,9 +166,14 @@ class TodoRowState extends State<TodoRow> {
                         onDoubleTap: () => setState(() => editing = true),
                         child: Text(
                           task.text,
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyLarge?.copyWith(
                             color: widget.color,
-                            decoration: task.completed ? TextDecoration.lineThrough : TextDecoration.none,
+                            decoration:
+                                task.completed
+                                    ? TextDecoration.lineThrough
+                                    : TextDecoration.none,
                           ),
                         ),
                       ),
@@ -121,7 +186,9 @@ class TodoRowState extends State<TodoRow> {
                 setState(() {});
               },
               side: BorderSide(color: widget.color.withOpacity(0.5)),
-              fillColor: MaterialStateProperty.resolveWith((states) => widget.color.withOpacity(0.2)),
+              fillColor: MaterialStateProperty.resolveWith(
+                (states) => widget.color.withOpacity(0.2),
+              ),
               checkColor: Colors.black,
             ),
             const SizedBox(width: 6),
@@ -136,12 +203,24 @@ class TodoRowState extends State<TodoRow> {
                     child: TextInput(
                       controller: timeController,
                       inputFormatters: [MaskedInputFormatter('00:00')],
-                      hintText: use24h ? 'todo.timeHint24'.tr() : 'todo.timeHint12'.tr(),
+                      hintText:
+                          use24h
+                              ? 'todo.timeHint24'.tr()
+                              : 'todo.timeHint12'.tr(),
                       textAlign: TextAlign.center,
                       showInitialBorder: false,
-                      fillColor: ((task.remindTime ?? '').isNotEmpty) ? widget.color.withOpacity(0.12) : null,
-                      textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color),
-                      hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color.withOpacity(0.6)),
+                      fillColor:
+                          ((task.remindTime ?? '').isNotEmpty)
+                              ? widget.color.withOpacity(0.12)
+                              : null,
+                      textStyle: Theme.of(
+                        context,
+                      ).textTheme.bodyMedium?.copyWith(color: widget.color),
+                      hintStyle: Theme.of(
+                        context,
+                      ).textTheme.bodyMedium?.copyWith(
+                        color: widget.color.withOpacity(0.6),
+                      ),
                       suffix:
                           !use24h
                               ? GestureDetector(
@@ -150,7 +229,11 @@ class TodoRowState extends State<TodoRow> {
                                   padding: const EdgeInsets.only(right: 6),
                                   child: Text(
                                     _isAm ? 'AM' : 'PM',
-                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: widget.color.withOpacity(0.8)),
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyMedium?.copyWith(
+                                      color: widget.color.withOpacity(0.8),
+                                    ),
                                   ),
                                 ),
                               )
@@ -158,17 +241,21 @@ class TodoRowState extends State<TodoRow> {
                       onSubmitted: (value) async {
                         final v = value.trim();
                         final parts = v.split(':');
-                        final int? h = parts.length == 2 ? int.tryParse(parts[0]) : null;
-                        final int? m = parts.length == 2 ? int.tryParse(parts[1]) : null;
+                        final int? h =
+                            parts.length == 2 ? int.tryParse(parts[0]) : null;
+                        final int? m =
+                            parts.length == 2 ? int.tryParse(parts[1]) : null;
                         if (h == null || m == null) return false;
                         String toStore;
                         if (use24h) {
-                          toStore = '${h.toString().padLeft(2, '0')}:${m.toString().padLeft(2, '0')}';
+                          toStore =
+                              '${h.toString().padLeft(2, '0')}:${m.toString().padLeft(2, '0')}';
                         } else {
                           if (h < 1 || h > 12) return false;
                           if (m < 0 || m > 59) return false;
                           final int h24 = (h % 12) + (_isAm ? 0 : 12);
-                          toStore = '${h24.toString().padLeft(2, '0')}:${m.toString().padLeft(2, '0')}';
+                          toStore =
+                              '${h24.toString().padLeft(2, '0')}:${m.toString().padLeft(2, '0')}';
                         }
                         store.setTodoRemindTime(widget.id, toStore);
                         store.scheduleTaskReminderFromTime(widget.id);
@@ -186,7 +273,10 @@ class TodoRowState extends State<TodoRow> {
                 store.removeTodo(widget.id);
                 setState(() {});
               },
-              child: Icon(Icons.delete_outline_rounded, color: widget.color.withOpacity(0.8)),
+              child: Icon(
+                Icons.delete_outline_rounded,
+                color: widget.color.withOpacity(0.8),
+              ),
             ),
             const SizedBox(width: 12),
           ],

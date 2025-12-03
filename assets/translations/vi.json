@@ -22,7 +22,8 @@
     "saveFile": "Lưu Tệp",
     "language": "Ngôn ngữ",
     "english": "Tiếng Anh",
-    "vietnamese": "Tiếng Việt"
+    "vietnamese": "Tiếng Việt",
+    "or": "hoặc"
   },
   "settings": {
     "panel": {
@@ -88,8 +89,7 @@
       "linkedin": "LinkedIn",
       "youtube": "YouTube",
       "github": "GitHub",
-      "shopee": "Shopee",
-        "hackernews": "Hacker News"
+      "shopee": "Shopee"
       },
       "reset": {
         "title": "Đặt lại",
@@ -244,10 +244,52 @@
     "timeHint24": "HH:MM",
     "timeHint12": "hh:mm",
     "guide": "Hướng dẫn",
+    "guideDescription": "Xem video hướng dẫn bên dưới để tìm hiểu cách sử dụng Focus và bật tính năng Social Cleaner.",
+    "guideInstruction": "Nhấp vào video để xem trên YouTube. Sau đó, chuyển sang tab \"Bật Trình làm sạch bảng tin\" để cấp quyền cho các trang web bạn muốn.",
     "legendRed": "Đỏ: còn < 10 phút và quá hạn",
     "legendYellow": "Vàng: còn < 60 phút",
     "legendGreen": "Xanh: đã hoàn thành",
     "ctrlSaveNotes": "Ctrl+S: lưu ghi chú",
     "notifyWhenTimeComes": "Sẽ thông báo khi đến giờ"
+  }
+  ,
+  "permission": {
+    "title": "Bật Trình làm sạch bảng tin",
+    "description": "Focus cần quyền truy cập trang để ẩn Social Feed và hiển thị câu trích dẫn. Quyền chỉ dùng cho thao tác giao diện (DOM), không thu thập dữ liệu cá nhân.",
+    "choose_sites": "Chọn trang để cấp quyền",
+    "button": {
+      "requesting": "Đang yêu cầu…",
+      "grant": "Cấp quyền",
+      "grant_selected": "Cấp quyền đã chọn"
+    },
+    "status": {
+      "on": "Bật",
+      "off": "Tắt"
+    },
+    "warning": {
+      "no_site_enabled": "Trình làm sạch bảng tin chưa được bật cho trang nào. Hãy chọn ít nhất một trang bên dưới để bắt đầu."
+    },
+    "result": {
+      "granted": "Đã cấp quyền",
+      "denied": "Từ chối quyền"
+    }
+  }
+  ,
+  "aboutDialog": {
+    "p1": "Focus ra đời từ nhu cầu hạn chế sự trì hoãn và thói quen sử dụng mạng xã hội vô thức. Đôi khi bạn nhận ra mình gõ \"facebook.com\" vào thanh địa chỉ một cách tự động. Với Focus, chúng tôi muốn giảm sức hút gây nghiện của Social Feed bằng cách ẩn nó đi và thay bằng những câu trích dẫn tích cực.",
+    "p2": "Những năm gần đây, Social Feed xuất hiện trong đủ loại ứng dụng nhờ khả năng giữ chân người dùng. Đã đến lúc chúng ta — những người dùng — giành lại quyền kiểm soát.",
+    "p3": "Focus luôn miễn phí, mã nguồn mở và không theo dõi bạn. Quyền truy cập trang chỉ dùng cho thao tác giao diện (DOM), không thu thập dữ liệu cá nhân.",
+    "support": "Hỗ trợ & Phản hồi",
+    "joinDiscord": "Tham gia Discord để Phản hồi",
+    "tellFriends": "Giới thiệu Focus cho bạn bè",
+    "leaveReviewOn": "Để lại đánh giá trên",
+    "chrome": "Chrome",
+    "edge": "Edge",
+    "firefox": "Firefox",
+    "store": " store",
+    "reportOn": "Báo lỗi hoặc đóng góp trên ",
+    "github": "GitHub",
+    "shareHowHelped": "Chia sẻ cho chúng tôi biết Focus đã giúp bạn như thế nào",
+    "buyCoffee": "Mua tôi một ly cà phê"
   }
 }

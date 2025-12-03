@@ -3,6 +3,61 @@
 
 console.log('Focus extension background script loaded');
 
+const OPTIONAL_ORIGINS = [
+  'https://www.facebook.com/*',
+  'https://web.facebook.com/*',
+  'https://www.instagram.com/*',
+  'https://www.threads.net/*',
+  'https://www.threads.com/*',
+  'https://www.tiktok.com/*',
+  'https://twitter.com/*',
+  'https://x.com/*',
+  'https://www.reddit.com/*',
+  'https://old.reddit.com/*',
+  'https://www.linkedin.com/*',
+  'https://www.youtube.com/*',
+  'https://github.com/*',
+  'https://shopee.vn/*',
+  'https://shopee.com/*',
+];
+
+function originsFromRequest(req) {
+  const arr = Array.isArray(req?.origins) ? req.origins : OPTIONAL_ORIGINS;
+  return arr;
+}
+
+function urlMatchesAnyOrigin(url, origins) {
+  if (!url) return false;
+  try {
+    const u = new URL(url);
+    const originStr = `${u.protocol}//${u.host}`;
+    return origins.some((o) => {
+      const base = o.replace('/*', '');
+      return originStr.startsWith(base);
+    });
+  } catch (_) {
+    return false;
+  }
+}
+
+async function registerSocialCleanerContentScript() {
+  try {
+    await chrome.scripting.unregisterContentScripts({ ids: ['focus-social-cleaner'] }).catch(() => {});
+    await chrome.scripting.registerContentScripts([
+      {
+        id: 'focus-social-cleaner',
+        js: ['social_cleaner/content_unified.js'],
+        matches: OPTIONAL_ORIGINS,
+        runAt: 'document_start',
+        allFrames: false,
+      },
+    ]);
+    console.log('Registered social cleaner content script');
+  } catch (e) {
+    console.warn('Failed to register content script', e);
+  }
+}
+
 // Default settings
 const defaultSettings = {
   enabled: true,
@@ -17,9 +72,8 @@ const defaultSettings = {
     threads: { enabled: true },
     reddit: { enabled: true },
     linkedin: { enabled: true },
-    youtube: { enabled: false },
-    github: { enabled: false },
-    hackernews: { enabled: true },
+    youtube: { enabled: true },
+    github: { enabled: true },
     shopee: { enabled: true }
   }
 };
@@ -55,7 +109,6 @@ function convertFlutterToBackgroundFormat(flutterSettings) {
       linkedin: { enabled: true },
       youtube: { enabled: false },
       github: { enabled: false },
-      hackernews: { enabled: true },
       shopee: { enabled: true }
     }
   };
@@ -144,9 +197,61 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     case 'todoScheduleReminder': {
       const minutes = Number(request.minutes || 0);
       const title = String(request.title || 'Todo Reminder');
-      chrome.storage.local.set({ todoReminderTitle: title }).then(() => {
-        chrome.alarms.create('todo:reminder', { delayInMinutes: Math.max(0.1, minutes) });
+      const taskId = String(request.taskId || '');
+      if (!taskId) {
+        sendResponse({ success: false, error: 'taskId is required' });
+        return true;
+      }
+      // Lưu thông tin thông báo cho task này
+      chrome.storage.local.set({ [`todoReminder:${taskId}`]: { title, taskId } }).then(() => {
+        // Xóa alarm cũ nếu có
+        chrome.alarms.clear(`todo:reminder:${taskId}`);
+        // Tạo alarm mới cho task này
+        chrome.alarms.create(`todo:reminder:${taskId}`, { delayInMinutes: Math.max(0.1, minutes) });
         sendResponse({ success: true });
+      });
+      return true;
+    }
+    case 'todoCancelReminder': {
+      const taskId = String(request.taskId || '');
+      if (!taskId) {
+        sendResponse({ success: false, error: 'taskId is required' });
+        return true;
+      }
+      // Xóa alarm và storage cho task này
+      chrome.alarms.clear(`todo:reminder:${taskId}`).then(() => {
+        chrome.storage.local.remove(`todoReminder:${taskId}`).then(() => {
+          sendResponse({ success: true });
+        });
+      });
+      return true;
+    }
+    case 'checkOptionalPermissions': {
+      const origins = originsFromRequest(request);
+      chrome.permissions.contains({ origins }).then((granted) => {
+        sendResponse({ granted: Boolean(granted) });
+      });
+      return true;
+    }
+    case 'requestOptionalPermissions': {
+      const origins = originsFromRequest(request);
+      chrome.permissions.request({ origins }).then((granted) => {
+        sendResponse({ granted: Boolean(granted) });
+        if (granted) {
+          registerSocialCleanerContentScript();
+          chrome.tabs.query({}).then((tabs) => {
+            tabs.forEach((tab) => {
+              if (urlMatchesAnyOrigin(tab.url, origins)) {
+                try {
+                  chrome.scripting.executeScript({
+                    target: { tabId: tab.id },
+                    files: ['social_cleaner/content_unified.js'],
+                  });
+                } catch (_) {}
+              }
+            });
+          });
+        }
       });
       return true;
     }
@@ -171,9 +276,11 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 });
 
 chrome.alarms.onAlarm.addListener((alarm) => {
-  if (!alarm || !alarm.name || alarm.name !== 'todo:reminder') return;
-  chrome.storage.local.get('todoReminderTitle').then((result) => {
-    const title = result.todoReminderTitle || 'Todo Reminder';
+  if (!alarm || !alarm.name || !alarm.name.startsWith('todo:reminder:')) return;
+  const taskId = alarm.name.replace('todo:reminder:', '');
+  chrome.storage.local.get(`todoReminder:${taskId}`).then((result) => {
+    const reminderData = result[`todoReminder:${taskId}`];
+    const title = reminderData?.title || 'Todo Reminder';
     try {
       chrome.notifications.create({
         type: 'basic',
@@ -181,9 +288,30 @@ chrome.alarms.onAlarm.addListener((alarm) => {
         title: title,
         message: 'It\'s time to do your task.'
       });
+      // Xóa thông tin thông báo sau khi đã hiển thị
+      chrome.storage.local.remove(`todoReminder:${taskId}`);
     } catch (error) {
       console.error('Failed to create notification', error);
     }
+  });
+});
+
+
+chrome.permissions.onAdded.addListener((perms) => {
+  const origins = perms?.origins || [];
+  if (!origins || origins.length === 0) return;
+  registerSocialCleanerContentScript();
+  chrome.tabs.query({}).then((tabs) => {
+    tabs.forEach((tab) => {
+      if (urlMatchesAnyOrigin(tab.url, origins)) {
+        try {
+          chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            files: ['social_cleaner/content_unified.js'],
+          });
+        } catch (_) {}
+      }
+    });
   });
 });
 
@@ -192,6 +320,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 // Initialize extension
 chrome.runtime.onInstalled.addListener(() => {
   console.log('Focus extension installed');
+  registerSocialCleanerContentScript();
   
   // Only set default settings if none exist
   chrome.storage.local.get('socialCleanerSettings').then(result => {
@@ -202,4 +331,8 @@ chrome.runtime.onInstalled.addListener(() => {
       console.log('Existing settings found, keeping them');
     }
   });
+});
+
+chrome.runtime.onStartup.addListener(() => {
+  registerSocialCleanerContentScript();
 });

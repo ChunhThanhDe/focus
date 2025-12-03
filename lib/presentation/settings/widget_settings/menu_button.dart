@@ -6,7 +6,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:focus/common/widgets/dialogs/advanced_settings_dialog.dart';
-import 'package:focus/common/widgets/dialogs/changelog_dialog.dart';
+import 'package:focus/common/widgets/dialogs/permission_request_dialog.dart';
 import 'package:focus/common/widgets/dialogs/liked_backgrounds_dialog.dart';
 import 'package:focus/common/widgets/dialogs/reset_dialog.dart';
 
@@ -167,7 +167,7 @@ class MenuButton extends StatelessWidget {
         showDialog(
           context: context,
           barrierDismissible: true,
-          builder: (context) => const ChangelogDialog(),
+          builder: (context) => const PermissionRequestDialog(),
         );
       case 'liked_backgrounds':
         showDialog(

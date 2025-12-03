@@ -11,6 +11,8 @@ import 'dart:math' hide log;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:focus/common/widgets/dialogs/permission_request_dialog.dart';
 import 'package:flutter_screwdriver/flutter_screwdriver.dart';
 import 'package:focus/main.dart';
 import 'package:focus/core/constants/colors.dart';
@@ -68,7 +70,21 @@ class _ChangelogDialogState extends State<ChangelogDialog> {
                   Material(
                     type: MaterialType.transparency,
                     child: IconButton(
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Future.delayed(const Duration(milliseconds: 100), () {
+                          showDialog(
+                            // ignore: use_build_context_synchronously
+                            context: context,
+                            barrierDismissible: true,
+                            builder:
+                                (ctx) => const Material(
+                                  type: MaterialType.transparency,
+                                  child: PermissionRequestDialog(),
+                                ),
+                          );
+                        });
+                      },
                       splashRadius: 16,
                       iconSize: 18,
                       icon: const Icon(Icons.close),
@@ -84,7 +100,7 @@ class _ChangelogDialogState extends State<ChangelogDialog> {
                 child: Center(child: Text(error!, style: Theme.of(context).textTheme.bodyLarge)),
               ),
             if (changelog != null) ...[
-              Expanded(
+              Flexible(
                 child: Container(
                   margin: const EdgeInsets.fromLTRB(16, 8, 16, 0),
                   clipBehavior: Clip.antiAlias,
@@ -94,6 +110,7 @@ class _ChangelogDialogState extends State<ChangelogDialog> {
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
                         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -116,7 +133,7 @@ class _ChangelogDialogState extends State<ChangelogDialog> {
                           ],
                         ),
                       ),
-                      Expanded(
+                      Flexible(
                         child: SingleChildScrollView(
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
@@ -161,6 +178,54 @@ class _ChangelogDialogState extends State<ChangelogDialog> {
                 ),
               ),
             ],
+            const SizedBox(height: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'aboutDialog.support'.tr(),
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 0.5,
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  GestureDetectorWithCursor(
+                    onTap: () => launchUrl(Uri.parse('https://discord.gg/kMrAKAZA2X')),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF5865F2),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.chat_bubble_outline,
+                            size: 20,
+                            color: Colors.white,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            'aboutDialog.joinDiscord'.tr(),
+                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             const SizedBox(height: 16),
           ],
         ),

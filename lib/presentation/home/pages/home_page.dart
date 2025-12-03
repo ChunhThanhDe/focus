@@ -11,7 +11,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:focus/common/widgets/dialogs/changelog_dialog.dart';
+import 'package:focus/common/widgets/dialogs/permission_request_dialog.dart';
 import 'package:focus/presentation/home/store/background_store.dart';
 import 'package:focus/presentation/home/store/home_store.dart';
 import 'package:focus/presentation/home/store/widget_store.dart';
@@ -88,6 +88,7 @@ class _HomeState extends State<Home> {
       startTimer();
     });
     _shouldShowChangelog();
+    _checkAndShowPermissionDialog();
   }
 
   void listenToEvents() {
@@ -262,17 +263,35 @@ class _HomeState extends State<Home> {
       StorageKeys.version,
     );
     if (storedVersion == null || storedVersion != packageInfo.version) {
-      log('Showing changelog dialog');
+      log('Updating stored version');
       await storageManager.setString(StorageKeys.version, packageInfo.version);
-      await Future.delayed(const Duration(seconds: 1));
+      // Removed: No longer show permission dialog on first load
+      // Permission dialog will be shown by _checkAndShowPermissionDialog() if needed
+    }
+  }
+
+  Future<void> _checkAndShowPermissionDialog() async {
+    // Wait a bit to ensure UI is ready and changelog dialog check is done
+    await Future.delayed(const Duration(seconds: 1));
+    if (!mounted) return;
+
+    // Check if any permissions are granted
+    final hasAnyPermissions = await PermissionRequestDialog.hasAnyPermissions();
+    if (!hasAnyPermissions) {
+      // Check if there's already a dialog showing by checking if Navigator can pop
+      // If changelog dialog was shown, it should have been dismissed or permission dialog shown
+      // So we check again after a delay
+      await Future.delayed(const Duration(milliseconds: 300));
       if (!mounted) return;
+
+      log('No permissions granted, showing permission dialog');
       showDialog(
         context: context,
         barrierDismissible: true,
         builder:
             (context) => const Material(
               type: MaterialType.transparency,
-              child: ChangelogDialog(),
+              child: PermissionRequestDialog(),
             ),
       );
     }

@@ -22,7 +22,8 @@
     "saveFile": "Save File",
     "language": "Language",
     "english": "English",
-    "vietnamese": "Vietnamese"
+    "vietnamese": "Vietnamese",
+    "or": "or"
   },
   "settings": {
     "panel": {
@@ -88,8 +89,7 @@
         "linkedin": "LinkedIn",
         "youtube": "YouTube",
         "github": "GitHub",
-        "shopee": "Shopee",
-        "hackernews": "Hacker News"
+        "shopee": "Shopee"
       },
       "reset": {
         "title": "Reset",
@@ -252,10 +252,51 @@
     "timeHint24": "HH:MM",
     "timeHint12": "hh:mm",
     "guide": "Guide",
+    "guideDescription": "Watch the guide video below to learn how to use Focus and enable the Social Cleaner feature.",
+    "guideInstruction": "Click on the video to watch on YouTube. Then, switch to the \"Enable Social Cleaner\" tab to grant permissions for the websites you want.",
     "legendRed": "Red: due in < 10 minutes and overdue",
     "legendYellow": "Yellow: due in < 60 minutes",
     "legendGreen": "Green: completed",
     "ctrlSaveNotes": "Ctrl+S: save notes",
     "notifyWhenTimeComes": "Notification pushes when time comes"
+  },
+  "permission": {
+    "title": "Enable Social Cleaner",
+    "description": "Focus needs site access to hide the Social Feed and show quotes. Access is used only for UI (DOM) changes; no personal data is collected.",
+    "choose_sites": "Choose sites to grant access",
+    "button": {
+      "requesting": "Requesting…",
+      "grant": "Grant",
+      "grant_selected": "Grant selected"
+    },
+    "status": {
+      "on": "On",
+      "off": "Off"
+    },
+    "warning": {
+      "no_site_enabled": "Social Cleaner isn't currently enabled for any sites. Choose at least one below to get started."
+    },
+    "result": {
+      "granted": "Permissions granted",
+      "denied": "Permissions denied"
+    }
+  }
+  ,
+  "aboutDialog": {
+    "p1": "Focus was born from the need to curb procrastination and mindless scrolling. Sometimes you catch yourself typing \"facebook.com\" into the address bar automatically. With Focus, we aim to reduce the addictive pull of the Social Feed by hiding it and replacing it with uplifting quotes.",
+    "p2": "In recent years, the Social Feed has spread across all kinds of apps because of its power to keep users engaged. It's time for us — the users — to take back control.",
+    "p3": "Focus is and will always be free and open‑source, and it will never track you. Site access is used only for UI (DOM) changes; no personal data is collected.",
+    "support": "Support & Feedback",
+    "joinDiscord": "Join Discord for Feedback",
+    "tellFriends": "Tell your friends about Focus",
+    "leaveReviewOn": "Leave a review on",
+    "chrome": "Chrome",
+    "edge": "Edge",
+    "firefox": "Firefox",
+    "store": " store",
+    "reportOn": "Report or fix bugs on ",
+    "github": "GitHub",
+    "shareHowHelped": "Share how Focus has helped you",
+    "buyCoffee": "Buy me a coffee"
   }
 }

@@ -58,10 +58,9 @@ abstract class _SocialCleanerStore with Store {
     'threads': true,
     'reddit': true,
     'linkedin': true,
-    'youtube': false,
-    'github': false,
-    'hackernews': true,
-    'shoppe': true,
+    'youtube': true,
+    'github': true,
+    'shopee': true,
   };
 
   @action
@@ -123,6 +122,9 @@ abstract class _SocialCleanerStore with Store {
   @action
   void updateSiteEnabled(String site, bool enabled) {
     update(() => siteSettings[site] = enabled);
+    if (enabled) {
+      _ensureSitePermission(site);
+    }
   }
 
   @action
@@ -209,7 +211,8 @@ abstract class _SocialCleanerStore with Store {
       }
       if (enStr != null && enStr.isNotEmpty) {
         final Map<String, dynamic> enJson = json.decode(enStr);
-        final List<dynamic>? arr = (enJson['quotes'] is Map) ? (enJson['quotes']['builtin'] as List?) : null;
+        final List<dynamic>? arr =
+            (enJson['quotes'] is Map) ? (enJson['quotes']['builtin'] as List?) : null;
         if (arr != null && arr.isNotEmpty) {
           builtinQuotesEn.clear();
           builtinQuotesEn.addAll(arr.cast<String>());
@@ -217,7 +220,8 @@ abstract class _SocialCleanerStore with Store {
       }
       if (viStr != null && viStr.isNotEmpty) {
         final Map<String, dynamic> viJson = json.decode(viStr);
-        final List<dynamic>? arr = (viJson['quotes'] is Map) ? (viJson['quotes']['builtin'] as List?) : null;
+        final List<dynamic>? arr =
+            (viJson['quotes'] is Map) ? (viJson['quotes']['builtin'] as List?) : null;
         if (arr != null && arr.isNotEmpty) {
           builtinQuotesVi.clear();
           builtinQuotesVi.addAll(arr.cast<String>());
@@ -305,6 +309,162 @@ abstract class _SocialCleanerStore with Store {
       };
       js_util.callMethod(runtime, 'sendMessage', [js_util.jsify(message)]);
     } catch (_) {}
+  }
+
+  Future<bool> _hasOptionalPermissions() async {
+    try {
+      if (!kIsWeb) return true;
+      final chrome = js_util.getProperty(js_util.globalThis, 'chrome');
+      final permissions = js_util.getProperty(chrome, 'permissions');
+      final origins = _optionalOrigins();
+      final granted = await js_util.promiseToFuture(
+        js_util.callMethod(permissions, 'contains', [
+          js_util.jsify({'origins': origins}),
+        ]),
+      );
+      return granted == true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<bool> _requestOptionalPermissions() async {
+    try {
+      if (!kIsWeb) return true;
+      final chrome = js_util.getProperty(js_util.globalThis, 'chrome');
+      final permissions = js_util.getProperty(chrome, 'permissions');
+      final origins = _optionalOrigins();
+      final granted = await js_util.promiseToFuture(
+        js_util.callMethod(permissions, 'request', [
+          js_util.jsify({'origins': origins}),
+        ]),
+      );
+      return granted == true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<void> _ensureOptionalPermissions() async {
+    final ok = await _hasOptionalPermissions();
+    if (!ok) {
+      await _requestOptionalPermissions();
+    }
+  }
+
+  Future<void> _ensureSitePermission(String siteId) async {
+    try {
+      if (!kIsWeb) return;
+      final origins = _originsForSite(siteId);
+      if (origins.isEmpty) return;
+      final chrome = js_util.getProperty(js_util.globalThis, 'chrome');
+      final runtime = js_util.getProperty(chrome, 'runtime');
+      await js_util.promiseToFuture(
+        js_util.callMethod(runtime, 'sendMessage', [
+          js_util.jsify({'action': 'requestOptionalPermissions', 'origins': origins}),
+        ]),
+      );
+    } catch (_) {}
+  }
+
+  @action
+  Future<bool> hasSitePermission(String siteId) async {
+    try {
+      if (!kIsWeb) return true;
+      final origins = _originsForSite(siteId);
+      if (origins.isEmpty) return true;
+      final chrome = js_util.getProperty(js_util.globalThis, 'chrome');
+      final permissions = js_util.getProperty(chrome, 'permissions');
+      final granted = await js_util.promiseToFuture(
+        js_util.callMethod(permissions, 'contains', [
+          js_util.jsify({'origins': origins}),
+        ]),
+      );
+      return granted == true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  @action
+  Future<bool> requestSitePermission(String siteId) async {
+    try {
+      if (!kIsWeb) return true;
+      final origins = _originsForSite(siteId);
+      if (origins.isEmpty) return true;
+      final chrome = js_util.getProperty(js_util.globalThis, 'chrome');
+      final runtime = js_util.getProperty(chrome, 'runtime');
+      final res = await js_util.promiseToFuture(
+        js_util.callMethod(runtime, 'sendMessage', [
+          js_util.jsify({'action': 'requestOptionalPermissions', 'origins': origins}),
+        ]),
+      );
+      return res is Map && res['granted'] == true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  List<String> _originsForSite(String siteId) {
+    switch (siteId) {
+      case 'facebook':
+        return const [
+          'https://www.facebook.com/*',
+          'http://www.facebook.com/*',
+          'https://web.facebook.com/*',
+          'http://web.facebook.com/*',
+        ];
+      case 'instagram':
+        return const ['https://www.instagram.com/*', 'http://www.instagram.com/*'];
+      case 'tiktok':
+        return const ['https://www.tiktok.com/*'];
+      case 'threads':
+        return const ['https://www.threads.net/*', 'https://www.threads.com/*'];
+      case 'twitter':
+        return const [
+          'https://twitter.com/*',
+          'http://twitter.com/*',
+          'https://x.com/*',
+          'http://x.com/*',
+        ];
+      case 'reddit':
+        return const [
+          'https://www.reddit.com/*',
+          'http://www.reddit.com/*',
+          'https://old.reddit.com/*',
+          'http://old.reddit.com/*',
+        ];
+      case 'linkedin':
+        return const ['https://www.linkedin.com/*', 'http://www.linkedin.com/*'];
+      case 'youtube':
+        return const ['https://www.youtube.com/*'];
+      case 'github':
+        return const ['https://github.com/*', 'https://www.github.com/*'];
+      case 'shopee':
+        return const ['https://shopee.vn/*', 'https://shopee.com/*'];
+      default:
+        return const [];
+    }
+  }
+
+  List<String> _optionalOrigins() {
+    return const [
+      'https://www.facebook.com/*',
+      'https://web.facebook.com/*',
+      'https://www.instagram.com/*',
+      'https://www.threads.net/*',
+      'https://www.threads.com/*',
+      'https://www.tiktok.com/*',
+      'https://twitter.com/*',
+      'https://x.com/*',
+      'https://www.reddit.com/*',
+      'https://old.reddit.com/*',
+      'https://www.linkedin.com/*',
+      'https://www.youtube.com/*',
+      'https://github.com/*',
+      'https://shopee.vn/*',
+      'https://shopee.com/*',
+    ];
   }
 
   Map<String, dynamic> getCurrentSettings() {
