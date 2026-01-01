@@ -58,7 +58,7 @@ dependencies:
   # File picker for selecting files from the device
   file_picker: ^10.1.9
   # Utility functions for Flutter and Dart development
-  screwdriver: ^5.10.0
+  screwdriver: ^5.11.0
   # Input formatters for currencies, phone numbers, credit cards, etc.
   flutter_multi_formatter: ^2.13.7
   # Launch URLs in a browser or other apps
