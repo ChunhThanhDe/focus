@@ -42,7 +42,7 @@ dependencies:
   # Value comparison for Dart objects, often used with Bloc or MobX
   equatable: ^2.0.7
   # Store simple key-value pairs locally (local storage)
-  shared_preferences: ^2.5.3
+  shared_preferences: ^2.5.4
   # State management using the Provider pattern
   provider: ^6.1.5
   # Dependency injection using the service locator pattern
