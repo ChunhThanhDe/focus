@@ -103,7 +103,7 @@ dev_dependencies:
   # Generates code for JSON serialization (works with json_annotation)
   json_serializable: ^6.9.5
   # ggenerate launcher icons for your Flutter app
-  flutter_launcher_icons: ^0.14.3
+  flutter_launcher_icons: ^0.14.4
   # Parse and work with YAML files
   yaml: ^3.1.3
   # Code generator for MobX (creates *.g.dart files)
