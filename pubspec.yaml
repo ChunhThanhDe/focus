@@ -56,7 +56,7 @@ dependencies:
   # Make HTTP requests (REST API calls)
   http: ^1.4.0
   # File picker for selecting files from the device
-  file_picker: ^10.1.9
+  file_picker: ^10.3.8
   # Utility functions for Flutter and Dart development
   screwdriver: ^5.10.0
   # Input formatters for currencies, phone numbers, credit cards, etc.
