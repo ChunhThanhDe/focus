@@ -335,10 +335,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_multi_formatter
-      sha256: "01e8ba4cfae4b52377d1c83e57293da24eb64696d7c2df064acc4ae97bb4a157"
+      sha256: "29d9b3d30a985f5a9c3dd52b4e25e64b9a20ebdcf4d9fed0c71e653406598604"
       url: "https://pub.dev"
     source: hosted
-    version: "2.13.7"
+    version: "2.13.10"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
